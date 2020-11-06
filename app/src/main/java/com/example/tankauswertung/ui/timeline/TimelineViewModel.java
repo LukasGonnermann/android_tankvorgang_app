@@ -1,16 +1,16 @@
-package com.example.tankauswertung.ui.notifications;
+package com.example.tankauswertung.ui.timeline;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class NotificationsViewModel extends ViewModel {
+public class TimelineViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public NotificationsViewModel() {
+    public TimelineViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        mText.setValue("This is timeline fragment");
     }
 
     public LiveData<String> getText() {

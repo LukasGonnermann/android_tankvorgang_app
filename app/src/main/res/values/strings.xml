@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Tankauswertung</string>
-    <string name="title_home">Home</string>
+    <string name="title_timeline">Timeline</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_test">Test</string>
+    <string name="title_forecast">Forecast</string>
+    <string name="title_stats">Stats</string>
 </resources>

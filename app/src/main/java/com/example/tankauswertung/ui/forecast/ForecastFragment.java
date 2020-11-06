@@ -1,4 +1,4 @@
-package com.example.tankauswertung.ui.test;
+package com.example.tankauswertung.ui.forecast;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.tankauswertung.R;
 
-public class TestFragment extends Fragment {
+public class ForecastFragment extends Fragment {
 
-    private TestViewModel testViewModel;
+    private ForecastViewModel forecastViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        testViewModel =
-                new ViewModelProvider(this).get(TestViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_notifications, container, false);
+        forecastViewModel =
+                new ViewModelProvider(this).get(ForecastViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_forecast, container, false);
         final TextView textView = root.findViewById(R.id.text_notifications);
-        testViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        forecastViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
