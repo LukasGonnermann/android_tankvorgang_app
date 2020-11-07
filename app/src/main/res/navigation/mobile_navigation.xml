@@ -11,6 +11,7 @@
         android:label="@string/title_timeline"
         tools:layout="@layout/fragment_timeline" />
 
+
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.tankauswertung.ui.dashboard.DashboardFragment"
