@@ -1,7 +1,8 @@
 package com.example.tankauswertung;
 
 /**
- * Klasse zur Verwaltung der Fahrzeuge
+ * Klasse Fahrzeuge
+ * Anlegen und Bearbeiten von Fahrzeugen
  */
 public class Fahrzeug {
     /**
