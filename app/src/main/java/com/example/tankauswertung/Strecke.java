@@ -27,8 +27,7 @@ public class Strecke {
         if (tankstand >= 0 && tankstand <= 100) {
             this.tankstand = tankstand;
             return true;
-        }
-        else
+        } else
             return false;
     }
 
@@ -40,8 +39,7 @@ public class Strecke {
         if (streckentyp >= 0 && streckentyp <= 2) {
             this.streckentyp = streckentyp;
             return true;
-        }
-        else
+        } else
             return false;
     }
 }
