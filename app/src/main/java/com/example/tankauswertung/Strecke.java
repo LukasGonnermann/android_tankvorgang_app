@@ -42,4 +42,10 @@ public class Strecke {
         } else
             return false;
     }
+
+    public void streckeBearbeiten(double pDistanz, int pStreckentyp, int pTankstand) {
+        this.setDistanz(pDistanz);
+        this.setStreckentyp(pStreckentyp);
+        this.setTankstand(pTankstand);
+    }
 }
