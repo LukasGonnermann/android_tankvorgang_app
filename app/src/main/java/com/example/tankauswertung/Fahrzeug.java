@@ -52,8 +52,8 @@ public class Fahrzeug {
                     double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) {
         this.name = pName;
         this.elektro = pElektro;
-        this.verbrauchInnerorts = pVerbrauchAusserorts;
-        this.verbrauchAusserorts = pVerbrauchInnerorts;
+        this.verbrauchInnerorts = pVerbrauchInnerorts;
+        this.verbrauchAusserorts = pVerbrauchAusserorts;
         this.verbrauchKombiniert = pVerbrauchKombiniert;
         this.kmStand = pKmStand;
         this.tankstand = pTankstand;

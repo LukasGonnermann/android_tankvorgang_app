@@ -43,6 +43,14 @@ public class Garage {
         this.fahrzeuge = new Hashtable<>(fahrzeugeAnz);
     }
 
+    public Fahrzeug getAusgewaehltesFahrzeug() {
+        return ausgewaehltesFahrzeug;
+    }
+
+    public void setAusgewaehltesFahrzeug(Fahrzeug ausgewaehltesFahrzeug) {
+        this.ausgewaehltesFahrzeug = ausgewaehltesFahrzeug;
+    }
+
     /**
      * Fügt ein bestehendes Fahrzeug zur Garage hinzu
      * @param neuAuto hinzuzufuegendes Fahrzeug
@@ -71,6 +79,22 @@ public class Garage {
                     pKmStand, pTankstand, pCo2Ausstoss);
             fahrzeuge.put(anzFahrzeuge, neuAuto); // TODO
         }
+    }
+
+    public void fahrzeugAuswaehlen(int key) {
+        setAusgewaehltesFahrzeug(fahrzeuge.get(key));
+    }
+
+    public void fahrzeugAendern(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
+                                double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) {
+        ausgewaehltesFahrzeug.setName(pName);
+        ausgewaehltesFahrzeug.setElektro(pElektro);
+        ausgewaehltesFahrzeug.setVerbrauchInnerorts(pVerbrauchInnerorts);
+        ausgewaehltesFahrzeug.setVerbrauchAusserorts(pVerbrauchAusserorts);
+        ausgewaehltesFahrzeug.setVerbrauchKombiniert(pVerbrauchKombiniert);
+        ausgewaehltesFahrzeug.setKmStand(pKmStand);
+        ausgewaehltesFahrzeug.setTankstand(pTankstand);
+        ausgewaehltesFahrzeug.setCo2Ausstoss(pCo2Ausstoss);
     }
 
 
