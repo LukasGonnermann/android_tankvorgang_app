@@ -22,5 +22,67 @@ public class Fahrzeug {
         this.co2Ausstoss = co2AusstossIn;
     }
 
+    public double getCo2Ausstoss() {
+        return co2Ausstoss;
+    }
 
+    public double getKmStand() {
+        return kmStand;
+    }
+
+    public double getVerbrauchAusserorts() {
+        return verbrauchAusserorts;
+    }
+
+    public double getVerbrauchInnerorts() {
+        return verbrauchInnerorts;
+    }
+
+    public double getVerbrauchKombiniert() {
+        return verbrauchKombiniert;
+    }
+
+    public int getTankstand() {
+        return tankstand;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setCo2Ausstoss(double co2Ausstoss) {
+        this.co2Ausstoss = co2Ausstoss;
+    }
+
+    public void setElektro(boolean elektro) {
+        this.elektro = elektro;
+    }
+
+    public void setKmStand(double kmStand) {
+        this.kmStand = kmStand;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setTankstand(int tankstand) {
+        this.tankstand = tankstand;
+    }
+
+    public void setVerbrauchAusserorts(double verbrauchAusserorts) {
+        this.verbrauchAusserorts = verbrauchAusserorts;
+    }
+
+    public void setVerbrauchInnerorts(double verbrauchInnerorts) {
+        this.verbrauchInnerorts = verbrauchInnerorts;
+    }
+
+    public void setVerbrauchKombiniert(double verbrauchKombiniert) {
+        this.verbrauchKombiniert = verbrauchKombiniert;
+    }
+
+    public boolean isElektro() {
+        return elektro;
+    }
 }
