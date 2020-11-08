@@ -22,67 +22,99 @@ public class Fahrzeug {
         this.co2Ausstoss = co2AusstossIn;
     }
 
-    public double getCo2Ausstoss() {
-        return co2Ausstoss;
+    public String getName() {
+        return name;
     }
 
-    public double getKmStand() {
-        return kmStand;
-    }
-
-    public double getVerbrauchAusserorts() {
-        return verbrauchAusserorts;
+    public boolean isElektro() {
+        return elektro;
     }
 
     public double getVerbrauchInnerorts() {
         return verbrauchInnerorts;
     }
 
+    public double getVerbrauchAusserorts() {
+        return verbrauchAusserorts;
+    }
+
     public double getVerbrauchKombiniert() {
         return verbrauchKombiniert;
+    }
+
+    public double getKmStand() {
+        return kmStand;
     }
 
     public int getTankstand() {
         return tankstand;
     }
 
-    public String getName() {
-        return name;
+    public double getCo2Ausstoss() {
+        return co2Ausstoss;
     }
 
-    public void setCo2Ausstoss(double co2Ausstoss) {
-        this.co2Ausstoss = co2Ausstoss;
-    }
 
-    public void setElektro(boolean elektro) {
-        this.elektro = elektro;
-    }
-
-    public void setKmStand(double kmStand) {
-        this.kmStand = kmStand;
-    }
-
-    public void setName(String name) {
+    public boolean setName(String name) {
+        if (name != null && !name.isEmpty()) {
+            return false;
+        }
         this.name = name;
+        return true;
     }
 
-    public void setTankstand(int tankstand) {
-        this.tankstand = tankstand;
+    public boolean setElektro(boolean elektro) {
+        this.elektro = elektro;
+        return true;
     }
 
-    public void setVerbrauchAusserorts(double verbrauchAusserorts) {
-        this.verbrauchAusserorts = verbrauchAusserorts;
-    }
-
-    public void setVerbrauchInnerorts(double verbrauchInnerorts) {
+    public boolean setVerbrauchInnerorts(double verbrauchInnerorts) {
+        if (verbrauchInnerorts < 0) {
+            return false;
+        }
         this.verbrauchInnerorts = verbrauchInnerorts;
+        return true;
     }
 
-    public void setVerbrauchKombiniert(double verbrauchKombiniert) {
+    public boolean setVerbrauchAusserorts(double verbrauchAusserorts) {
+        if (verbrauchAusserorts < 0) {
+            return false;
+        }
+        this.verbrauchAusserorts = verbrauchAusserorts;
+        return true;
+    }
+
+    public boolean setVerbrauchKombiniert(double verbrauchKombiniert) {
+        if (verbrauchKombiniert < 0) {
+            return false;
+        }
         this.verbrauchKombiniert = verbrauchKombiniert;
+        return true;
     }
 
-    public boolean isElektro() {
-        return elektro;
+    public boolean setKmStand(double kmStand) {
+        if (kmStand < 0) {
+            return false;
+        }
+        this.kmStand = kmStand;
+        return true;
     }
+
+    public boolean setTankstand(int tankstand) {
+        if (tankstand < 0 || tankstand > 100) {
+            return false;
+        }
+        this.tankstand = tankstand;
+        return true;
+    }
+
+    public boolean setCo2Ausstoss(double co2Ausstoss) {
+        if (co2Ausstoss < 0) {
+            return false;
+        }
+        this.co2Ausstoss = co2Ausstoss;
+        return true;
+    }
+
+
 }
