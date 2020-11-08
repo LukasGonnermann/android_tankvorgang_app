@@ -45,7 +45,9 @@ public class Fahrzeug {
      */
     private double co2Ausstoss;
 
-
+    /**
+     * Konstruktor fuer neues Fahrzeug, setzt alle Attribute auf Parameterwerte
+     */
     public Fahrzeug(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
                     double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) {
         this.name = pName;
