@@ -11,11 +11,16 @@ public class Fahrzeug {
     private double co2Ausstoss;
 
     public Fahrzeug(String nameIn, boolean elektroIn, double verbrauchAusserortIn, double verbrauchInnerortsIn,
-                    double verbrauchKombiniertIn, double kmStandIn, int tankstandIn, double co2AusstossIn)  {
-        name=nameIn; elektro=elektroIn; verbrauchInnerorts=verbrauchInnerortsIn; verbrauchAusserorts=verbrauchAusserortIn;
-        verbrauchKombiniert=verbrauchKombiniertIn; kmStand=kmStandIn; tankstand=tankstandIn; co2Ausstoss=co2AusstossIn;
+                    double verbrauchKombiniertIn, double kmStandIn, int tankstandIn, double co2AusstossIn) {
+        this.name = nameIn;
+        this.elektro = elektroIn;
+        this.verbrauchInnerorts = verbrauchInnerortsIn;
+        this.verbrauchAusserorts = verbrauchAusserortIn;
+        this.verbrauchKombiniert = verbrauchKombiniertIn;
+        this.kmStand = kmStandIn;
+        this.tankstand = tankstandIn;
+        this.co2Ausstoss = co2AusstossIn;
     }
-
 
 
 }
