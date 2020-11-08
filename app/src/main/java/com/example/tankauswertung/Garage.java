@@ -33,6 +33,10 @@ public class Garage {
 
     }
 
+    /**
+     * Erstellt ein neues Garage Objekt und legt die maximale Anzahl an Fahrzeugen in der Garage fest.
+     * @param fahrzeugeAnz maximale Anzahl an Fahrzeugen in der Garage
+     */
     public Garage(int fahrzeugeAnz) {
         this.maxAnzFahrzeuge = fahrzeugeAnz;
         this.anzFahrzeuge = 0;
@@ -47,12 +51,27 @@ public class Garage {
         this.ausgewaehltesFahrzeug = ausgewaehltesFahrzeug;
     }
 
+    /**
+     * Fügt ein bestehendes Fahrzeug zur Garage hinzu
+     * @param neuAuto hinzuzufuegendes Fahrzeug
+     */
     public void fahrzeugHinzufuegen(Fahrzeug neuAuto) {
         if (anzFahrzeuge <= maxAnzFahrzeuge) {
             fahrzeuge.put(anzFahrzeuge, neuAuto); // TODO
         }
     }
 
+    /**
+     * Erstellt ein Fahrzeug ueber Parameter und fuegt dieses hinzu
+     * @param pName Anzeigename des Fahrzeugs
+     * @param pElektro Ist ein Elektrofahrzeug?
+     * @param pVerbrauchAusserorts Ausserorts Verbrauch des Fahrzeugs
+     * @param pVerbrauchInnerorts Innerorts Verbrauch des Fahrzeugs
+     * @param pVerbrauchKombiniert Kombinierter Verbrauch des Fahrzeugs
+     * @param pKmStand Kilometerstand des Fahrzeugs
+     * @param pTankstand Tankstand des Fahrzeugs
+     * @param pCo2Ausstoss CO2 Ausstoss des Fahrzeugs
+     */
     public void fahrzeugHinzufuegen(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
                                    double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) {
         if (anzFahrzeuge <= maxAnzFahrzeuge) {
