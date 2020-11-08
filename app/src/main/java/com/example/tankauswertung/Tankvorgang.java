@@ -6,9 +6,9 @@ public class Tankvorgang {
     private String img;
 
     public Tankvorgang(double pGetankteMenge, double pPreis, String pImg) {
-        getankteMenge=pGetankteMenge;
-        preis=pPreis;
-        img=pImg;
+        getankteMenge = pGetankteMenge;
+        preis = pPreis;
+        img = pImg;
     }
 
     public void setGetankteMenge(double getankteMenge) {

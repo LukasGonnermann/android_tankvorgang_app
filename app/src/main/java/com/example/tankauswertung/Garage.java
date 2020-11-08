@@ -35,6 +35,7 @@ public class Garage {
 
     /**
      * Erstellt ein neues Garage Objekt und legt die maximale Anzahl an Fahrzeugen in der Garage fest.
+     *
      * @param fahrzeugeAnz maximale Anzahl an Fahrzeugen in der Garage
      */
     public Garage(int fahrzeugeAnz) {
@@ -53,6 +54,7 @@ public class Garage {
 
     /**
      * Fügt ein bestehendes Fahrzeug zur Garage hinzu
+     *
      * @param neuAuto hinzuzufuegendes Fahrzeug
      */
     public void fahrzeugHinzufuegen(Fahrzeug neuAuto) {
@@ -63,17 +65,18 @@ public class Garage {
 
     /**
      * Erstellt ein Fahrzeug ueber Parameter und fuegt dieses hinzu
-     * @param pName Anzeigename des Fahrzeugs
-     * @param pElektro Ist ein Elektrofahrzeug?
+     *
+     * @param pName                Anzeigename des Fahrzeugs
+     * @param pElektro             Ist ein Elektrofahrzeug?
      * @param pVerbrauchAusserorts Ausserorts Verbrauch des Fahrzeugs
-     * @param pVerbrauchInnerorts Innerorts Verbrauch des Fahrzeugs
+     * @param pVerbrauchInnerorts  Innerorts Verbrauch des Fahrzeugs
      * @param pVerbrauchKombiniert Kombinierter Verbrauch des Fahrzeugs
-     * @param pKmStand Kilometerstand des Fahrzeugs
-     * @param pTankstand Tankstand des Fahrzeugs
-     * @param pCo2Ausstoss CO2 Ausstoss des Fahrzeugs
+     * @param pKmStand             Kilometerstand des Fahrzeugs
+     * @param pTankstand           Tankstand des Fahrzeugs
+     * @param pCo2Ausstoss         CO2 Ausstoss des Fahrzeugs
      */
     public void fahrzeugHinzufuegen(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
-                                   double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) {
+                                    double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) {
         if (anzFahrzeuge <= maxAnzFahrzeuge) {
             Fahrzeug neuAuto = new Fahrzeug(pName, pElektro, pVerbrauchAusserorts, pVerbrauchInnerorts, pVerbrauchKombiniert,
                     pKmStand, pTankstand, pCo2Ausstoss);
