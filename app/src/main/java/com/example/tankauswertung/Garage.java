@@ -58,6 +58,7 @@ public class Garage {
     public void fahrzeugHinzufuegen(Fahrzeug neuAuto) {
         if (anzFahrzeuge <= maxAnzFahrzeuge) {
             fahrzeuge.put(anzFahrzeuge, neuAuto); // TODO
+            this.setAusgewaehltesFahrzeug(neuAuto);
         }
     }
 
@@ -96,6 +97,17 @@ public class Garage {
         ausgewaehltesFahrzeug.setTankstand(pTankstand);
         ausgewaehltesFahrzeug.setCo2Ausstoss(pCo2Ausstoss);
     }
+
+    /*
+
+    garage.load();
+    garage.save();
+    garage.isEmpty();
+
+    Get/Set Methode(-n) in Garage oder Fahrzeug?
+
+
+     */
 
 
 }
