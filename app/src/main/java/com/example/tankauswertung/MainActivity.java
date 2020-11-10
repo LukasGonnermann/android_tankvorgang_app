@@ -59,9 +59,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         addMenuItemInNavMenuDrawer();
         setNavigationViewListener();
     }
-
+    /**
+     * add items to navigation menu
+     */
     private void addMenuItemInNavMenuDrawer() {
-        // add items to navigation menu
+
         NavigationView navView = findViewById(R.id.nav_view);
 
         Menu menu = navView.getMenu();
@@ -81,8 +83,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         garageMenu.add("Super Item3");
     }
 
+    /**
+     * initialize item listener of navigation view
+     */
     private void setNavigationViewListener() {
-        // initialize item listener of navigation view
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -103,6 +108,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 || super.onSupportNavigateUp();
     }
 
+    /**
+     * closes drawer if back-button is pressed
+     */
     @Override
     public void onBackPressed() {
         // back button is pressed
@@ -113,6 +121,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /**
+     * Handles the selection of items from the drawer menu
+     *
+     * @param item from user selected item
+     *
+     * @return true indicates that the method was executed to the end
+     */
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
