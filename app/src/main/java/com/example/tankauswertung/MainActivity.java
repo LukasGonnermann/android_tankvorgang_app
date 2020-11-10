@@ -1,5 +1,6 @@
 package com.example.tankauswertung;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     BottomNavigationView botNavView;
     private AppBarConfiguration mAppBarConfiguration;
 
+    // "main function"
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .setDrawerLayout(drawer)
                 .build();
 
+        // our own initialization tasks
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -55,6 +59,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         addMenuItemInNavMenuDrawer();
         setNavigationViewListener();
     }
+
+    private void addMenuItemInNavMenuDrawer() {
+        // add items to navigation menu
+        NavigationView navView = findViewById(R.id.nav_view);
+
+        Menu menu = navView.getMenu();
+        Menu garageMenu = menu.addSubMenu(0, 0, 0, R.string.garage);
+
+        // add button to add a car
+        MenuItem itemAddCar = garageMenu.add(0, 1, 0, R.string.addCar);
+        itemAddCar.setIcon(R.drawable.ic_baseline_add_24);
+
+        // add settings button
+        MenuItem itemSettings = menu.add(0, R.id.action_settings, 0, R.string.settings);
+        itemSettings.setIcon(R.drawable.ic_baseline_settings_24);
+
+        // example: adding items
+        garageMenu.add(0, 2, 0, "Super Item1");
+        garageMenu.add("Super Item2");
+        garageMenu.add("Super Item3");
+    }
+
+    private void setNavigationViewListener() {
+        // initialize item listener of navigation view
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    // --- hooks
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -72,74 +105,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        //Back-Button is pressed
+        // back button is pressed
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            super.onBackPressed();  // else
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
+        // handle navigation view item clicks here
         int item_id = item.getItemId();
         switch (item_id) {
 
-            //add a car
+            // add a car
             case 1: {
                 Toast.makeText(getApplicationContext(), "Add Car", Toast.LENGTH_LONG).show();
 
                 break;
             }
-            //open settings
+            // open settings
             case R.id.action_settings: {
                 Toast.makeText(getApplicationContext(), "Settings", Toast.LENGTH_LONG).show();
                 break;
             }
         }
-        drawer.closeDrawer(GravityCompat.START); //close navigation drawer
+        drawer.closeDrawer(GravityCompat.START);  // close navigation drawer
 
         return true;
     }
-
-    private void addMenuItemInNavMenuDrawer() {
-        //add items zu navigation menu
-        NavigationView navView = findViewById(R.id.nav_view);
-
-        Menu menu = navView.getMenu();
-        Menu garageMenu = menu.addSubMenu(0, 0, 0, R.string.garage);
-
-        // add button to add a car
-        MenuItem itemAddCar = garageMenu.add(0, 1, 0, R.string.addCar);
-        itemAddCar.setIcon(R.drawable.ic_baseline_add_24);
-
-        // add settings button
-        MenuItem itemSettings = menu.add(0, R.id.action_settings, 0, R.string.settings);
-        itemSettings.setIcon(R.drawable.ic_baseline_settings_24);
-
-        //example adding of items
-        garageMenu.add(2, 1, NONE, "Super Item1");
-        garageMenu.add("Super Item2");
-        garageMenu.add("Super Item3");
-        garageMenu.add("Super Item2");
-        garageMenu.add("Super Item3");
-        garageMenu.add("Super Item2");
-        garageMenu.add("Super Item3");
-        garageMenu.add("Super Item2");
-        garageMenu.add("Super Item3");
-        garageMenu.add("Super Item2");
-        garageMenu.add("Super Item3");
-        garageMenu.add("Super Item2");
-        garageMenu.add("Super Item3");
-
-
-    }
-
-    private void setNavigationViewListener() {
-        //initialize item listener of navigation view
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
 }
-
