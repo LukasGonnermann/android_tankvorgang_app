@@ -5,10 +5,12 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -18,12 +20,14 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-public class MainActivity extends AppCompatActivity {
+import static android.view.Menu.NONE;
 
-    private AppBarConfiguration mAppBarConfiguration;
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
     DrawerLayout drawer;
     NavigationView navigationView;
     BottomNavigationView botNavView;
+    private AppBarConfiguration mAppBarConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
-        botNavView = findViewById(R.id.bot_nav_view);
+        navigationView = findViewById(R.id.nav_view); //Navigation View (Side Menu)
+        botNavView = findViewById(R.id.bot_nav_view); //bottom Menu (Tabs)
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -46,47 +50,11 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        NavigationUI.setupWithNavController(botNavView,navController);
+        NavigationUI.setupWithNavController(botNavView, navController);
 
-        loadAppData();
+        addMenuItemInNavMenuDrawer();
+        setNavigationViewListener();
     }
-
-
-    private void loadAppData() {
-        addGarageToNavigationDrawer();
-    }
-
-    private void addGarageToNavigationDrawer() {
-
-        Menu mainMenu = navigationView.getMenu();
-        Menu garageMenu = mainMenu.addSubMenu(0, 0, 0, R.string.garage);
-
-        // add cars
-        // itemID of itemFirstCar is 42 (i1)
-        MenuItem itemFirstCar = garageMenu.add(0, 42, 0, "Auto 1");
-        itemFirstCar.setIcon(R.drawable.ic_baseline_directions_car_24);
-        itemFirstCar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                drawer.closeDrawer(GravityCompat.START);
-                final TextView textView = findViewById(R.id.text_dashboard);
-                textView.setText("Clicked Auto 1");
-                return false;
-            }
-        });
-        // ...
-
-        // add button to add a car
-        MenuItem itemAddCar = garageMenu.add(0, 0, 0, R.string.addCar);
-        itemAddCar.setIcon(R.drawable.ic_baseline_add_24);
-
-        // add settings button
-        MenuItem itemSettings = mainMenu.add(0, R.id.action_settings, 0, R.string.settings);
-        itemSettings.setIcon(R.drawable.ic_baseline_settings_24);
-
-    }
-
-    // --------------------------------------------- hooks
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,10 +72,74 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        //Back-Button is pressed
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // Handle navigation view item clicks here.
+        int item_id = item.getItemId();
+        switch (item_id) {
+
+            //add a car
+            case 1: {
+                Toast.makeText(getApplicationContext(), "Add Car", Toast.LENGTH_LONG).show();
+
+                break;
+            }
+            //open settings
+            case R.id.action_settings: {
+                Toast.makeText(getApplicationContext(), "Settings", Toast.LENGTH_LONG).show();
+                break;
+            }
+        }
+        drawer.closeDrawer(GravityCompat.START); //close navigation drawer
+
+        return true;
+    }
+
+    private void addMenuItemInNavMenuDrawer() {
+        //add items zu navigation menu
+        NavigationView navView = findViewById(R.id.nav_view);
+
+        Menu menu = navView.getMenu();
+        Menu garageMenu = menu.addSubMenu(0, 0, 0, R.string.garage);
+
+        // add button to add a car
+        MenuItem itemAddCar = garageMenu.add(0, 1, 0, R.string.addCar);
+        itemAddCar.setIcon(R.drawable.ic_baseline_add_24);
+
+        // add settings button
+        MenuItem itemSettings = menu.add(0, R.id.action_settings, 0, R.string.settings);
+        itemSettings.setIcon(R.drawable.ic_baseline_settings_24);
+
+        //example adding of items
+        garageMenu.add(2, 1, NONE, "Super Item1");
+        garageMenu.add("Super Item2");
+        garageMenu.add("Super Item3");
+        garageMenu.add("Super Item2");
+        garageMenu.add("Super Item3");
+        garageMenu.add("Super Item2");
+        garageMenu.add("Super Item3");
+        garageMenu.add("Super Item2");
+        garageMenu.add("Super Item3");
+        garageMenu.add("Super Item2");
+        garageMenu.add("Super Item3");
+        garageMenu.add("Super Item2");
+        garageMenu.add("Super Item3");
+
+
+    }
+
+    private void setNavigationViewListener() {
+        //initialize item listener of navigation view
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
 }
+
