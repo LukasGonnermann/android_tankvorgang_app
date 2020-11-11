@@ -242,5 +242,17 @@ public class Fahrzeug {
         return true;
     }
 
+    public void fahrzeugAendern(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
+                                double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) {
+        this.setName(pName);
+        this.setElektro(pElektro);
+        this.setVerbrauchInnerorts(pVerbrauchInnerorts);
+        this.setVerbrauchAusserorts(pVerbrauchAusserorts);
+        this.setVerbrauchKombiniert(pVerbrauchKombiniert);
+        this.setKmStand(pKmStand);
+        this.setTankstand(pTankstand);
+        this.setCo2Ausstoss(pCo2Ausstoss);
+    }
+
 
 }

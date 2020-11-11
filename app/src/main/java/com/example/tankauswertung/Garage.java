@@ -17,7 +17,7 @@ public class Garage {
     /**
      * Hashtable zum speichern der Fahrzeuge in der Garage (geringster Suchaufwand)
      */
-    private Hashtable<Integer, Fahrzeug> fahrzeuge;
+    private Fahrzeug[] fahrzeuge; //Umgeschrieben in Array
     /**
      * Momentan ausgewaehltes Fahrzeug im UI
      */
@@ -29,8 +29,6 @@ public class Garage {
     public Garage() {
         this.maxAnzFahrzeuge = 25;
         this.anzFahrzeuge = 0;
-        this.fahrzeuge = new Hashtable<>(25);
-
     }
 
     /**
@@ -41,7 +39,7 @@ public class Garage {
     public Garage(int fahrzeugeAnz) {
         this.maxAnzFahrzeuge = fahrzeugeAnz;
         this.anzFahrzeuge = 0;
-        this.fahrzeuge = new Hashtable<>(fahrzeugeAnz);
+        //Initialisierung des Arrays?
     }
 
     public Fahrzeug getAusgewaehltesFahrzeug() {
@@ -59,8 +57,11 @@ public class Garage {
      */
     public void fahrzeugHinzufuegen(Fahrzeug neuAuto) {
         if (anzFahrzeuge <= maxAnzFahrzeuge) {
-            fahrzeuge.put(anzFahrzeuge, neuAuto); // TODO
+            fahrzeuge[anzFahrzeuge] = neuAuto;
             this.setAusgewaehltesFahrzeug(neuAuto);
+        }
+        else {
+            //Fehlermeldung?
         }
     }
 
@@ -81,14 +82,39 @@ public class Garage {
         if (anzFahrzeuge <= maxAnzFahrzeuge) {
             Fahrzeug neuAuto = new Fahrzeug(pName, pElektro, pVerbrauchAusserorts, pVerbrauchInnerorts, pVerbrauchKombiniert,
                     pKmStand, pTankstand, pCo2Ausstoss);
-            fahrzeuge.put(anzFahrzeuge, neuAuto); // TODO
+            fahrzeuge[anzFahrzeuge] = neuAuto;
+            anzFahrzeuge++;
+        }
+        else {
+            //Fehlermeldung?
+        }
+    }
+
+    public void fahrzeugLoeschen(int key) {  //Nochmal durchdenken
+        if(fahrzeuge[key]!=null) {
+            for (int i = key; i < maxAnzFahrzeuge; i++) {
+                fahrzeuge[i] = fahrzeuge[i + 1];
+                if (fahrzeuge[i + 1] == null) {
+                    break;
+                }
+            }
+            anzFahrzeuge--;
+        }
+        else {
+            //Fehlermeldung?
         }
     }
 
     public void fahrzeugAuswaehlen(int key) {
-        setAusgewaehltesFahrzeug(fahrzeuge.get(key));
+        setAusgewaehltesFahrzeug(fahrzeuge[key]);
     }
 
+    public boolean isEmpty() {
+        return anzFahrzeuge == 0;
+    }
+
+
+/* (In die Fahrzeugklasse geschoben, um keinen Fahrzeugkey mitgeben zu müssen)
     public void fahrzeugAendern(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
                                 double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) {
         ausgewaehltesFahrzeug.setName(pName);
@@ -100,11 +126,12 @@ public class Garage {
         ausgewaehltesFahrzeug.setTankstand(pTankstand);
         ausgewaehltesFahrzeug.setCo2Ausstoss(pCo2Ausstoss);
     }
+*/
 
     /*
 
     garage.load();
-    garage.save();
+    garage.save();   //Garagenobjekt speichern oder einzelne Fahrzeugobjekte speichern?
     garage.isEmpty();
 
     Get/Set Methode(-n) in Garage oder Fahrzeug?
