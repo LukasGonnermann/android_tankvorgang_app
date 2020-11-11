@@ -2,10 +2,11 @@ package com.example.tankauswertung;
 
 public class Strecke {
     private double distanz;
-    private int streckentyp; //0: Innerorts, 1: kombiniert, 2: ausserorts
+    enum Streckentyp {innerorts, kombiniert, ausserorts} //Umgeändert von int in enum
     private int tankstand; // 1-100[%]
+    Streckentyp streckentyp;
 
-    public Strecke(double pDistanz, int pStreckentyp, int pTankstand) {
+    public Strecke(double pDistanz, Streckentyp pStreckentyp, int pTankstand) {
         distanz = pDistanz;
         streckentyp = pStreckentyp;
         tankstand = pTankstand;
@@ -19,7 +20,7 @@ public class Strecke {
         return distanz;
     }
 
-    public int getStreckentyp() {
+    public Streckentyp getStreckentyp() {
         return streckentyp;
     }
 
@@ -35,15 +36,11 @@ public class Strecke {
         this.distanz = distanz;
     }
 
-    public boolean setStreckentyp(int streckentyp) {
-        if (streckentyp >= 0 && streckentyp <= 2) {
-            this.streckentyp = streckentyp;
-            return true;
-        } else
-            return false;
+    public void setStreckentyp(Streckentyp pStreckentyp) {
+        this.streckentyp = pStreckentyp;
     }
 
-    public void streckeBearbeiten(double pDistanz, int pStreckentyp, int pTankstand) {
+    public void streckeBearbeiten(double pDistanz, Streckentyp pStreckentyp, int pTankstand) {
         this.setDistanz(pDistanz);
         this.setStreckentyp(pStreckentyp);
         this.setTankstand(pTankstand);
