@@ -20,9 +20,9 @@ public class Garage {
      */
     private int anzFahrzeuge;
     /**
-     * Array zum speichern der Fahrzeuge
+     * ArrayList zum speichern der Fahrzeuge
      */
-    private ArrayList<Fahrzeug> fahrzeuge; //Umgeschrieben in ArrayList
+    private ArrayList<Fahrzeug> fahrzeuge;
     /**
      * Momentan ausgewaehltes Fahrzeug im UI
      */
@@ -72,9 +72,10 @@ public class Garage {
      * @param neuAuto hinzuzufuegendes Fahrzeug
      */
     public void fahrzeugHinzufuegen(Fahrzeug neuAuto)  throws GarageVollException {
-        if (anzFahrzeuge <= maxAnzFahrzeuge) {
+        if (anzFahrzeuge < maxAnzFahrzeuge) {
             fahrzeuge.add(neuAuto);
             this.setAusgewaehltesFahrzeug(neuAuto);
+            anzFahrzeuge++;
         } else {
             throw new GarageVollException();
         }
