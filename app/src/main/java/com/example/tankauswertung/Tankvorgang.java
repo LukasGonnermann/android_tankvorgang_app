@@ -1,5 +1,9 @@
 package com.example.tankauswertung;
 
+/**
+ * Klasse Tankvorgang
+ * Anlegen von Tankvorgängen
+ */
 public class Tankvorgang {
     private double getankteMenge;
     private double preis;

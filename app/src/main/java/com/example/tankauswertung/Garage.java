@@ -1,6 +1,7 @@
 package com.example.tankauswertung;
 
-import java.util.Hashtable;
+import java.util.ArrayList;
+
 
 /**
  * Garage Class verwaltet alle angelegten Fahrzeuge bzw. kann neue Autos hinzufuegen
@@ -17,7 +18,7 @@ public class Garage {
     /**
      * Array zum speichern der Fahrzeuge
      */
-    private Fahrzeug[] fahrzeuge; //Umgeschrieben in Array
+    private ArrayList<Fahrzeug> fahrzeuge; //Umgeschrieben in ArrayList
     /**
      * Momentan ausgewaehltes Fahrzeug im UI
      */
@@ -29,6 +30,7 @@ public class Garage {
     public Garage() {
         this.maxAnzFahrzeuge = 25;
         this.anzFahrzeuge = 0;
+        fahrzeuge = new ArrayList<>();
     }
 
     /**
@@ -39,11 +41,12 @@ public class Garage {
     public Garage(int fahrzeugeAnz) {
         this.maxAnzFahrzeuge = fahrzeugeAnz;
         this.anzFahrzeuge = 0;
-        //Initialisierung des Arrays?
+        fahrzeuge = new ArrayList<>();
     }
 
     /**
      * Gibt das momentan aktive ausgewaehltes Fahrzeug zurück
+     *
      * @return Fahrzeug Objekt
      */
     public Fahrzeug getAusgewaehltesFahrzeug() {
@@ -61,10 +64,9 @@ public class Garage {
      */
     public void fahrzeugHinzufuegen(Fahrzeug neuAuto) {
         if (anzFahrzeuge <= maxAnzFahrzeuge) {
-            fahrzeuge[anzFahrzeuge] = neuAuto;
+            fahrzeuge.add(neuAuto);
             this.setAusgewaehltesFahrzeug(neuAuto);
-        }
-        else {
+        } else {
             //Fehlermeldung?
         }
     }
@@ -83,62 +85,51 @@ public class Garage {
      */
     public void fahrzeugHinzufuegen(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
                                     double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) {
-        if (anzFahrzeuge <= maxAnzFahrzeuge) {
+        if (anzFahrzeuge < maxAnzFahrzeuge) {
             Fahrzeug neuAuto = new Fahrzeug(pName, pElektro, pVerbrauchAusserorts, pVerbrauchInnerorts, pVerbrauchKombiniert,
                     pKmStand, pTankstand, pCo2Ausstoss);
-            fahrzeuge[anzFahrzeuge] = neuAuto;
+            fahrzeuge.add(neuAuto);
             anzFahrzeuge++;
-        }
-        else {
+        } else {
             //Fehlermeldung?
         }
     }
 
-    public void fahrzeugLoeschen(int key) {  //Nochmal durchdenken
-        if(fahrzeuge[key]!=null) {
-            for (int i = key; i < maxAnzFahrzeuge; i++) {
-                fahrzeuge[i] = fahrzeuge[i + 1];
-                if (fahrzeuge[i + 1] == null) {
-                    break;
-                }
+    /**
+     *
+     * @param key Index des zu loeschenden Fahrzeugs in der ArrayList
+     */
+    public void fahrzeugLoeschen(int key) {
+        if (!fahrzeuge.isEmpty()) {
+            if (fahrzeuge.get(key) != null) {
+                fahrzeuge.remove(key);
+                anzFahrzeuge--;
+            } else {
+                //Fehlermeldung?
             }
-            anzFahrzeuge--;
-        }
-        else {
-            //Fehlermeldung?
         }
     }
 
+    /**
+     *
+     * @param key Index des Fahrzeugs in der ArrayList, welches an auswählen möchte
+     */
     public void fahrzeugAuswaehlen(int key) {
-        setAusgewaehltesFahrzeug(fahrzeuge[key]);
+        setAusgewaehltesFahrzeug(fahrzeuge.get(key));
     }
 
+    /**
+     *
+     * @return Gibt zurück, ob die Garage leer ist oder nicht
+     */
     public boolean isEmpty() {
         return anzFahrzeuge == 0;
     }
-
-
-/* (In die Fahrzeugklasse geschoben, um keinen Fahrzeugkey mitgeben zu müssen)
-    public void fahrzeugAendern(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
-                                double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) {
-        ausgewaehltesFahrzeug.setName(pName);
-        ausgewaehltesFahrzeug.setElektro(pElektro);
-        ausgewaehltesFahrzeug.setVerbrauchInnerorts(pVerbrauchInnerorts);
-        ausgewaehltesFahrzeug.setVerbrauchAusserorts(pVerbrauchAusserorts);
-        ausgewaehltesFahrzeug.setVerbrauchKombiniert(pVerbrauchKombiniert);
-        ausgewaehltesFahrzeug.setKmStand(pKmStand);
-        ausgewaehltesFahrzeug.setTankstand(pTankstand);
-        ausgewaehltesFahrzeug.setCo2Ausstoss(pCo2Ausstoss);
-    }
-*/
 
     /*
 
     garage.load();
     garage.save();   //Garagenobjekt speichern oder einzelne Fahrzeugobjekte speichern?
-    garage.isEmpty();
-
-    Get/Set Methode(-n) in Garage oder Fahrzeug?
 
 
      */
