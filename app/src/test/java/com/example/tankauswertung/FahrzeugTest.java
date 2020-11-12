@@ -12,7 +12,7 @@ public class FahrzeugTest {
      */
     @Test
     public void testFahrzeugKonstruktor() {
-        Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 70, 5,45);
+        Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 70, 5, 45);
         assertEquals("Testfahrzeug", f.getName());
         assertFalse(f.isElektro());
         assertEquals(6, f.getVerbrauchAusserorts(), 0);
@@ -21,7 +21,7 @@ public class FahrzeugTest {
         assertEquals(27728, f.getKmStand(), 0);
         assertEquals(70, f.getTankstand(), 0);
         assertEquals(5, f.getCo2Ausstoss(), 0);
-        assertEquals(45,f.getTankgroesse(),0);
+        assertEquals(45, f.getTankgroesse(), 0);
     }
 
     /**
@@ -30,7 +30,7 @@ public class FahrzeugTest {
      */
     @Test
     public void testFahrzeugSetter() {
-        Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 70, 5,45);
+        Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 70, 5, 45);
         assertFalse(f.setName(""));
         assertFalse(f.setName("       "));
         assertTrue(f.setElektro(true));

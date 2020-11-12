@@ -27,7 +27,7 @@ public class GarageTest {
             }
         }
 
-        Exception exception = assertThrows(GarageVollException.class,() -> G.fahrzeugHinzufuegen(f));
+        Exception exception = assertThrows(GarageVollException.class, () -> G.fahrzeugHinzufuegen(f));
         String expectedMessage = "Fahrzeug kann nicht hinzugefügt werden, Garage voll!";
         String actualMessage = exception.getMessage();
 
@@ -42,7 +42,7 @@ public class GarageTest {
     public void checkGarageLeerException() {
         Garage G = new Garage();
 
-        Exception exception = assertThrows(GarageLeerException.class,() -> G.fahrzeugLoeschen(0));
+        Exception exception = assertThrows(GarageLeerException.class, () -> G.fahrzeugLoeschen(0));
         String expectedMessage = "Fahrzeug kann nicht geloescht werden, Garage leer!";
         String actualMessage = exception.getMessage();
 
