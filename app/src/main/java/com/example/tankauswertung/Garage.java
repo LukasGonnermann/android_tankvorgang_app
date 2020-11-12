@@ -131,7 +131,7 @@ public class Garage {
         return anzFahrzeuge == 0;
     }
 
-    public void load() {
+    public void save() {
         FileOutputStream fs = null;
         ObjectOutputStream os = null;
         try {
@@ -146,6 +146,7 @@ public class Garage {
         }
         for (int i = 0 ; i < anzFahrzeuge; i++) {
             try {
+                assert os != null;
                 os.writeObject((Fahrzeug) fahrzeuge.get(i));
             } catch (IOException e) {
                 System.out.println("An IO Error Occured");
