@@ -6,6 +6,10 @@ import static org.junit.Assert.*;
 
 public class FahrzeugTest {
 
+    /**
+     * Test fuer den Fahrzeug-Konstruktor
+     * Erstelle Objekt Fahrzeug und pruefe alle Werte
+     */
     @Test
     public void testFahrzeugKonstruktor() {
         Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 70, 5);
@@ -19,6 +23,10 @@ public class FahrzeugTest {
         assertEquals(5, f.getCo2Ausstoss(), 0);
     }
 
+    /**
+     * Test fuer die Fahrzeug-Setter
+     * Rufe alle Setter auf (moeglichst mit ungueltigen Werten) und pruefe auf true oder false
+     */
     @Test
     public void testFahrzeugSetter() {
         Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 70, 5);
