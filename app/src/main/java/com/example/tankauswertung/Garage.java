@@ -95,7 +95,11 @@ public class Garage {
         }
     }
 
-    public void fahrzeugLoeschen(int key) {  //Nochmal durchdenken
+    /**
+     *
+     * @param key Index des zu loeschenden Fahrzeugs in der ArrayList
+     */
+    public void fahrzeugLoeschen(int key) {
         if (!fahrzeuge.isEmpty()) {
             if (fahrzeuge.get(key) != null) {
                 fahrzeuge.remove(key);
@@ -106,36 +110,26 @@ public class Garage {
         }
     }
 
+    /**
+     *
+     * @param key Index des Fahrzeugs in der ArrayList, welches an auswählen möchte
+     */
     public void fahrzeugAuswaehlen(int key) {
         setAusgewaehltesFahrzeug(fahrzeuge.get(key));
     }
 
+    /**
+     *
+     * @return Gibt zurück, ob die Garage leer ist oder nicht
+     */
     public boolean isEmpty() {
         return anzFahrzeuge == 0;
     }
-
-
-/* (In die Fahrzeugklasse geschoben, um keinen Fahrzeugkey mitgeben zu müssen)
-    public void fahrzeugAendern(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
-                                double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) {
-        ausgewaehltesFahrzeug.setName(pName);
-        ausgewaehltesFahrzeug.setElektro(pElektro);
-        ausgewaehltesFahrzeug.setVerbrauchInnerorts(pVerbrauchInnerorts);
-        ausgewaehltesFahrzeug.setVerbrauchAusserorts(pVerbrauchAusserorts);
-        ausgewaehltesFahrzeug.setVerbrauchKombiniert(pVerbrauchKombiniert);
-        ausgewaehltesFahrzeug.setKmStand(pKmStand);
-        ausgewaehltesFahrzeug.setTankstand(pTankstand);
-        ausgewaehltesFahrzeug.setCo2Ausstoss(pCo2Ausstoss);
-    }
-*/
 
     /*
 
     garage.load();
     garage.save();   //Garagenobjekt speichern oder einzelne Fahrzeugobjekte speichern?
-    garage.isEmpty();
-
-    Get/Set Methode(-n) in Garage oder Fahrzeug?
 
 
      */

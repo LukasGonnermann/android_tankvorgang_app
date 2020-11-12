@@ -39,7 +39,7 @@ public class Fahrzeug {
      * Aktueller Tankstand
      * Angabe in Prozent (0-100)
      */
-    private int tankstand;
+    private double tankstand;
 
     /**
      * Herstellerangabe zum CO2-Ausstoss
@@ -120,7 +120,7 @@ public class Fahrzeug {
      *
      * @return Gibt den aktuellen Tankstand als int zurueck
      */
-    public int getTankstand() {
+    public double getTankstand() {
         return tankstand;
     }
 
@@ -220,7 +220,7 @@ public class Fahrzeug {
      * @param tankstand Integer-Wert, der gesetzt werden soll (Prozentzahl)
      * @return Gibt true zurueck, wenn der Wert gesetzt wurde. False, wenn der Parameter kleiner null oder groesser 100 ist
      */
-    public boolean setTankstand(int tankstand) {
+    public boolean setTankstand(double tankstand) {
         if (tankstand < 0 || tankstand > 100) {
             return false;
         }
@@ -242,8 +242,19 @@ public class Fahrzeug {
         return true;
     }
 
+    /**
+     *
+     * @param pName String, Name des Autos, der gesetzt werden soll
+     * @param pElektro boolean, True, wenn es sich um ein Elektroauto handelt
+     * @param pVerbrauchAusserorts double, Verbrauch des Autos Ausserorts, der gesetzt werden soll
+     * @param pVerbrauchInnerorts double, Verbrauch des Autos Innerorts, der gesetzt werden soll
+     * @param pVerbrauchKombiniert double, kombinierter Verbrauch des Autos, der gesetzt werden soll
+     * @param pKmStand double, aktueller Kilometerstand des Autos, der gesetzt werden soll
+     * @param pTankstand double, aktueller Tankstand des Autos, der gesetzt werden soll
+     * @param pCo2Ausstoss doule, C02-Ausstoss des Autos, der gesetzt werden soll
+     */
     public void fahrzeugAendern(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
-                                double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) {
+                                double pVerbrauchKombiniert, double pKmStand, double pTankstand, double pCo2Ausstoss) {
         this.setName(pName);
         this.setElektro(pElektro);
         this.setVerbrauchInnerorts(pVerbrauchInnerorts);
