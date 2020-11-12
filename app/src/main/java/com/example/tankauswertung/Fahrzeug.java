@@ -162,7 +162,7 @@ public class Fahrzeug implements Serializable {
      * @return Gibt true zurueck, falls der Nae gesetzt werden konnte. False, wenn der Parameter leer ist
      */
     public boolean setName(String name) {
-        if (name != null && !name.isEmpty()) {
+        if (name != null && name.trim().length() == 0) {
             return false;
         }
         this.name = name;
@@ -283,16 +283,15 @@ public class Fahrzeug implements Serializable {
     }
 
     /**
-     *
-     * @param pName String, Name des Autos, der gesetzt werden soll
-     * @param pElektro boolean, True, wenn es sich um ein Elektroauto handelt
+     * @param pName                String, Name des Autos, der gesetzt werden soll
+     * @param pElektro             boolean, True, wenn es sich um ein Elektroauto handelt
      * @param pVerbrauchAusserorts double, Verbrauch des Autos Ausserorts, der gesetzt werden soll
-     * @param pVerbrauchInnerorts double, Verbrauch des Autos Innerorts, der gesetzt werden soll
+     * @param pVerbrauchInnerorts  double, Verbrauch des Autos Innerorts, der gesetzt werden soll
      * @param pVerbrauchKombiniert double, kombinierter Verbrauch des Autos, der gesetzt werden soll
-     * @param pKmStand double, aktueller Kilometerstand des Autos, der gesetzt werden soll
-     * @param pTankstand double, aktueller Tankstand des Autos, der gesetzt werden soll
-     * @param pCo2Ausstoss double, C02-Ausstoss des Autos, der gesetzt werden soll
-     * @param pTankgroesse double, Tankgroesse des Autos in Litern
+     * @param pKmStand             double, aktueller Kilometerstand des Autos, der gesetzt werden soll
+     * @param pTankstand           double, aktueller Tankstand des Autos, der gesetzt werden soll
+     * @param pCo2Ausstoss         double, C02-Ausstoss des Autos, der gesetzt werden soll
+     * @param pTankgroesse         double, Tankgroesse des Autos in Litern
      */
     public void fahrzeugAendern(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
                                 double pVerbrauchKombiniert, double pKmStand, double pTankstand, double pCo2Ausstoss, double pTankgroesse) {
@@ -307,5 +306,43 @@ public class Fahrzeug implements Serializable {
         this.setTankgroesse(pTankgroesse);
     }
 
+    /**
+     * Methode zum Hinzufuegen einer gefahrenen Strecke in die "Strecken"-ArrayList am Index 0 (Anfang der Liste)
+     *
+     * @param pDistanz double, Distanz in Kilometern
+     * @param pStreckentyp Enum Streckentyp, Streckentyp, welcher eingeben wird (Innerorts, Ausserorts, kombiniert)
+     * @param pTankstand double, Tankstand nach dem Fahren der Strecke
+     */
+    public void streckeHinzufuegen(double pDistanz, Strecke.Streckentyp pStreckentyp, double pTankstand) {
+        strecken.add(0, new Strecke(pDistanz, pStreckentyp, pTankstand));
+    }
 
+    /**
+     * Getter fuer das gesamte Strecken-Array
+     *
+     * @return ArrayList<Strecke>, Alle Strecken (Aktuellste Strecke auf Index 0)
+     */
+    public ArrayList<Strecke> getStrecken() {
+        return strecken;
+    }
+
+    /**
+     * Methode zum Hinzufuegen eines Tankvorgangs in die "tankvorgaenge"-ArrayList am Index 0 (Anfang der Liste)
+     *
+     * @param pGetankteMenge double, getankte Menge in Litern
+     * @param pPreis double, gezahlter Preis in Euro
+     * @param pImg String, Pfad zum Foto
+     */
+    public void tangvorgangHinzufuegen(double pGetankteMenge, double pPreis, String pImg) {
+        tankvorgaenge.add(0, new Tankvorgang(pGetankteMenge, pPreis, pImg));
+    }
+
+    /**
+     * Getter fuer das gesamte Tankvorgaenge-Array
+     *
+     * @return ArrayList<Tankvorgang>, Alle Tankvorgaenge (Aktuellster Tankvorgang auf Index 0)
+     */
+    public ArrayList<Tankvorgang> getTankvorgaenge() {
+        return tankvorgaenge;
+    }
 }
