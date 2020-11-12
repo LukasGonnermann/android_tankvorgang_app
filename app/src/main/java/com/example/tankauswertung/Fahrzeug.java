@@ -2,6 +2,7 @@ package com.example.tankauswertung;
 
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Klasse Fahrzeuge
@@ -55,6 +56,16 @@ public class Fahrzeug implements Serializable {
     private double tankgroesse;
 
     /**
+     * ArrayList zur Speicherung der Strecken fuer ein Fahrzeug
+     */
+    private ArrayList<Strecke> strecken;
+
+    /**
+     * ArrayList zur Speicherung der Tankvorgaenge fuer ein Fahrzeug
+     */
+    private ArrayList<Tankvorgang> tankvorgaenge;
+
+    /**
      * Konstruktor fuer neues Fahrzeug, setzt alle Attribute auf Parameterwerte
      */
     public Fahrzeug(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
@@ -68,6 +79,8 @@ public class Fahrzeug implements Serializable {
         this.tankstand = pTankstand;
         this.co2Ausstoss = pCo2Ausstoss;
         this.tankgroesse = pTankgroesse;
+        this.strecken = new ArrayList<>();
+        this.tankvorgaenge = new ArrayList<>();
     }
 
     /**

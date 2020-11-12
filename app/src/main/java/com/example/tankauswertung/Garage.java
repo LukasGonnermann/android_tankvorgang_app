@@ -20,9 +20,9 @@ public class Garage {
      */
     private int anzFahrzeuge;
     /**
-     * Array zum speichern der Fahrzeuge
+     * ArrayList zum speichern der Fahrzeuge
      */
-    private ArrayList<Fahrzeug> fahrzeuge; //Umgeschrieben in ArrayList
+    private ArrayList<Fahrzeug> fahrzeuge;
     /**
      * Momentan ausgewaehltes Fahrzeug im UI
      */
