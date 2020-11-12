@@ -162,7 +162,7 @@ public class Fahrzeug implements Serializable {
      * @return Gibt true zurueck, falls der Nae gesetzt werden konnte. False, wenn der Parameter leer ist
      */
     public boolean setName(String name) {
-        if (name != null && !name.isEmpty()) {
+        if (name != null && name.trim().length() == 0) {
             return false;
         }
         this.name = name;
