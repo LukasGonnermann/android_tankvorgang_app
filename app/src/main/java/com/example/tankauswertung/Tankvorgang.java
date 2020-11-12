@@ -85,4 +85,17 @@ public class Tankvorgang implements Serializable {
     public String getImg() {
         return img;
     }
+
+    /**
+     * Setter fuer alle Variablen eines Tankvorgangs
+     *
+     * @param pGetankteMenge double, getankte Menge in Litern
+     * @param pPreis double, Preis in Euro
+     * @param pImg String, Pfad zum Foto des Tankbelegs
+     */
+    public void tankvorgangBearbeiten(double pGetankteMenge, double pPreis, String pImg) {
+        this.setGetankteMenge(pGetankteMenge);
+        this.setPreis(pPreis);
+        this.setImg(pImg);
+    }
 }

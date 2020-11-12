@@ -326,4 +326,23 @@ public class Fahrzeug implements Serializable {
         return strecken;
     }
 
+    /**
+     * Methode zum Hinzufuegen eines Tankvorgangs in die "tankvorgaenge"-ArrayList am Index 0 (Anfang der Liste)
+     *
+     * @param pGetankteMenge double, getankte Menge in Litern
+     * @param pPreis double, gezahlter Preis in Euro
+     * @param pImg String, Pfad zum Foto
+     */
+    public void tangvorgangHinzufuegen(double pGetankteMenge, double pPreis, String pImg) {
+        tankvorgaenge.add(0, new Tankvorgang(pGetankteMenge, pPreis, pImg));
+    }
+
+    /**
+     * Getter fuer das gesamte Tankvorgaenge-Array
+     *
+     * @return ArrayList<Tankvorgang>, Alle Tankvorgaenge (Aktuellster Tankvorgang auf Index 0)
+     */
+    public ArrayList<Tankvorgang> getTankvorgaenge() {
+        return tankvorgaenge;
+    }
 }
