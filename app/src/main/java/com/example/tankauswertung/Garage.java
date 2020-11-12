@@ -27,6 +27,11 @@ public class Garage {
      * Momentan ausgewaehltes Fahrzeug im UI
      */
     private Fahrzeug ausgewaehltesFahrzeug;
+    /**
+     * Legt den Namen des Datei fest die beim Serialisierungsprozess benutzt wird (Methoden load, save)
+     */
+    private final String fileName = "Fahrzeuge.dat";
+
 
     /**
      * Default Konstruktor Standard
@@ -88,10 +93,10 @@ public class Garage {
      * @param pCo2Ausstoss         CO2 Ausstoss des Fahrzeugs
      */
     public void fahrzeugHinzufuegen(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
-                                    double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) throws GarageVollException {
+                                    double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss, double pTankgroesse) throws GarageVollException {
         if (anzFahrzeuge < maxAnzFahrzeuge) {
             Fahrzeug neuAuto = new Fahrzeug(pName, pElektro, pVerbrauchAusserorts, pVerbrauchInnerorts, pVerbrauchKombiniert,
-                    pKmStand, pTankstand, pCo2Ausstoss);
+                    pKmStand, pTankstand, pCo2Ausstoss, pTankgroesse);
             fahrzeuge.add(neuAuto);
             anzFahrzeuge++;
         }
@@ -134,25 +139,67 @@ public class Garage {
     public void save() {
         FileOutputStream fs = null;
         ObjectOutputStream os = null;
+
         try {
-            fs = new FileOutputStream("Fahrzeug.dat");
+            fs = new FileOutputStream(fileName);
         } catch (FileNotFoundException e) {
-            System.out.println("File kann nicht geoeffnet werden");
+            System.err.println("Can't Open File: " + fileName);
+            e.printStackTrace();
         }
         try {
             os = new ObjectOutputStream(fs);
         } catch (IOException e) {
-            System.out.println("An IO Error Occured");
+            System.err.println("An IO Error Occured");
+            e.printStackTrace();
         }
-        for (int i = 0 ; i < anzFahrzeuge; i++) {
-            try {
-                assert os != null;
-                os.writeObject((Fahrzeug) fahrzeuge.get(i));
-            } catch (IOException e) {
-                System.out.println("An IO Error Occured");
+        if (os != null && fs != null) { // TODO noetig?
+            for (int i = 0 ; i < anzFahrzeuge; i++) {
+                try {
+                    os.writeObject((Fahrzeug) fahrzeuge.get(i));
+                } catch (IOException e) {
+                    System.err.println("An IO Error Occured");
+                    e.printStackTrace();
+                }
             }
         }
+
         // Testing
+    }
+
+    public void load() {
+        FileInputStream fs = null;
+        ObjectInputStream os = null;
+        ArrayList<Fahrzeug> importedFahrzeuge = new ArrayList<>();
+
+        // Initialisiere Streams
+        try {
+            fs = new FileInputStream(fileName);
+        } catch (FileNotFoundException e) {
+            System.err.println("Can't Open File: " + fileName);
+            e.printStackTrace();
+        }
+        try {
+            os = new ObjectInputStream(fs);
+        } catch (IOException e) {
+            System.err.println("An IO Error Occured");
+            e.printStackTrace();
+        }
+
+
+        if (os != null && fs != null) { // TODO noetig?
+            // EOF Schleife
+            try {
+                Fahrzeug fileFahrzeug = (Fahrzeug) os.readObject();
+                importedFahrzeuge.add(fileFahrzeug);
+            } catch (ClassNotFoundException e) {
+                System.err.println("Class Not Found Exception");
+                e.printStackTrace();
+            } catch (IOException e) {
+                System.err.println("An IO Error Occured");
+                e.printStackTrace();
+            }
+        }
+        this.fahrzeuge = importedFahrzeuge;
     }
 
     /*
