@@ -141,83 +141,61 @@ public class Garage {
      * Speichert Fahrzeuglistenelemente in einer Datei (in Attributen von Garage angegeben)
      */
     public void save() {
-        FileOutputStream fs = null;
-        ObjectOutputStream os = null;
-
-        // Initialisiere Streams
         try {
-            fs = new FileOutputStream(fileName);
+            FileOutputStream fs = new FileOutputStream(fileName);
+
+            try {
+                ObjectOutputStream os = new ObjectOutputStream(fs);
+                // Jedes Fahrzeug als Objekt in die Datei schreiben
+                for (Fahrzeug f : fahrzeuge) {
+                    try {
+                        os.writeObject(f);
+                    } catch (IOException e) {
+                        System.err.println("An IO Error Occured");
+                        e.printStackTrace();
+                    }
+                }
+
+            } catch (IOException e) {
+                System.err.println("An IO Error Occured");
+                e.printStackTrace();
+            }
+
         } catch (FileNotFoundException e) {
             System.err.println("Can't Open File: " + fileName);
             e.printStackTrace();
         }
-        try {
-            os = new ObjectOutputStream(fs);
-        } catch (IOException e) {
-            System.err.println("An IO Error Occured");
-            e.printStackTrace();
-        }
-
-        // schreibe alle Fahrzeuge
-        if (os != null && fs != null) { // TODO noetig?
-            for (int i = 0 ; i < anzFahrzeuge; i++) {
-                try {
-                    os.writeObject((Fahrzeug) fahrzeuge.get(i));
-                } catch (IOException e) {
-                    System.err.println("An IO Error Occured");
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        // TODO Testing
     }
 
     /**
      * Laedt Fahrzeug Objekte aus einer Datein(in Attributen von Garage angegeben) und ersetzt aktuelle Fahrzeugliste mit geladener Fahrzeugliste
      */
     public void load() {
-        FileInputStream fs = null;
-        ObjectInputStream os = null;
         ArrayList<Fahrzeug> importedFahrzeuge = new ArrayList<>();
-
-        // Initialisiere Streams
+        boolean cont = true;
         try {
-            fs = new FileInputStream(fileName);
-        } catch (FileNotFoundException e) {
-            System.err.println("Can't Open File: " + fileName);
-            e.printStackTrace();
-        }
-        try {
-            os = new ObjectInputStream(fs);
-        } catch (IOException e) {
-            System.err.println("An IO Error Occured");
-            e.printStackTrace();
-        }
+            FileInputStream fs = new FileInputStream(fileName);
 
-        // Lesen der Fahrzeuge und speichern in importedFahrzeuge
-        if (os != null && fs != null) { // TODO noetig?
-            // TODO EOF Schleife
             try {
-                Fahrzeug fileFahrzeug = (Fahrzeug) os.readObject();
-                importedFahrzeuge.add(fileFahrzeug);
-            } catch (ClassNotFoundException e) {
-                System.err.println("Class Not Found Exception");
-                e.printStackTrace();
+                ObjectInputStream os = new ObjectInputStream(fs);
+                Object o = os.readObject();
+                if (o != null) {
+                    Fahrzeug f = (Fahrzeug) o;
+                    importedFahrzeuge.add(f);
+                }
+                else {
+                    cont = false;
+                }
+
             } catch (IOException e) {
-                System.err.println("An IO Error Occured");
-                e.printStackTrace();
+                System.err.println("An IO error occured");
+            } catch (ClassNotFoundException e) {
+                System.err.println("Object not found!");
             }
+
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found:" + fileName);
         }
-        // Alle Fahrzeuge überschreiben
         this.fahrzeuge = importedFahrzeuge;
     }
-
-    /*
-
-    garage.load();
-    garage.save();   // Garagenobjekt speichern oder einzelne Fahrzeugobjekte speichern?
-
-    
-     */
 }
