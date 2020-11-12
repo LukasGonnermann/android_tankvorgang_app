@@ -111,7 +111,7 @@ public class Garage {
      * @param key Index des zu loeschenden Fahrzeugs in der ArrayList
      */
     public void fahrzeugLoeschen(int key)  throws GarageLeerException {
-        if (!fahrzeuge.isEmpty()) {
+        if (anzFahrzeuge != 0) {
             if (fahrzeuge.get(key) != null) {
                 fahrzeuge.remove(key);
                 anzFahrzeuge--;
