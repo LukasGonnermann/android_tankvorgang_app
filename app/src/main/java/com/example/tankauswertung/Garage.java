@@ -71,7 +71,7 @@ public class Garage {
      *
      * @param neuAuto hinzuzufuegendes Fahrzeug
      */
-    public void fahrzeugHinzufuegen(Fahrzeug neuAuto)  throws GarageVollException {
+    public void fahrzeugHinzufuegen(Fahrzeug neuAuto) throws GarageVollException {
         if (anzFahrzeuge < maxAnzFahrzeuge) {
             fahrzeuge.add(neuAuto);
             this.setAusgewaehltesFahrzeug(neuAuto);
@@ -100,29 +100,26 @@ public class Garage {
                     pKmStand, pTankstand, pCo2Ausstoss, pTankgroesse);
             fahrzeuge.add(neuAuto);
             anzFahrzeuge++;
-        }
-        else {
+        } else {
             throw new GarageVollException();
         }
     }
 
     /**
-     *
      * @param key Index des zu loeschenden Fahrzeugs in der ArrayList
      */
-    public void fahrzeugLoeschen(int key)  throws GarageLeerException {
+    public void fahrzeugLoeschen(int key) throws GarageLeerException {
         if (anzFahrzeuge != 0) {
             if (fahrzeuge.get(key) != null) {
                 fahrzeuge.remove(key);
                 anzFahrzeuge--;
-            } else {
-                throw new GarageLeerException();
             }
+        } else {
+            throw new GarageLeerException();
         }
     }
 
     /**
-     *
      * @param key Index des Fahrzeugs in der ArrayList, welches an auswählen möchte
      */
     public void fahrzeugAuswaehlen(int key) {
@@ -130,7 +127,6 @@ public class Garage {
     }
 
     /**
-     *
      * @return Gibt zurück, ob die Garage leer ist oder nicht
      */
     public boolean isEmpty() {
@@ -160,7 +156,7 @@ public class Garage {
 
         // schreibe alle Fahrzeuge
         if (os != null && fs != null) { // TODO noetig?
-            for (int i = 0 ; i < anzFahrzeuge; i++) {
+            for (int i = 0; i < anzFahrzeuge; i++) {
                 try {
                     os.writeObject((Fahrzeug) fahrzeuge.get(i));
                 } catch (IOException e) {
