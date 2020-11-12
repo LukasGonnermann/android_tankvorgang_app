@@ -1,6 +1,7 @@
 package com.example.tankauswertung;
 
-import java.util.Hashtable;
+import com.example.tankauswertung.exceptions.GarageLeerException;
+import com.example.tankauswertung.exceptions.GarageVollException;
 
 /**
  * Garage Class verwaltet alle angelegten Fahrzeuge bzw. kann neue Autos hinzufuegen
@@ -59,13 +60,13 @@ public class Garage {
      *
      * @param neuAuto hinzuzufuegendes Fahrzeug
      */
-    public void fahrzeugHinzufuegen(Fahrzeug neuAuto) {
+    public void fahrzeugHinzufuegen(Fahrzeug neuAuto) throws GarageVollException {
         if (anzFahrzeuge <= maxAnzFahrzeuge) {
             fahrzeuge[anzFahrzeuge] = neuAuto;
             this.setAusgewaehltesFahrzeug(neuAuto);
         }
         else {
-            //Fehlermeldung?
+            throw new GarageVollException();
         }
     }
 
@@ -82,7 +83,7 @@ public class Garage {
      * @param pCo2Ausstoss         CO2 Ausstoss des Fahrzeugs
      */
     public void fahrzeugHinzufuegen(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
-                                    double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) {
+                                    double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) throws GarageVollException {
         if (anzFahrzeuge <= maxAnzFahrzeuge) {
             Fahrzeug neuAuto = new Fahrzeug(pName, pElektro, pVerbrauchAusserorts, pVerbrauchInnerorts, pVerbrauchKombiniert,
                     pKmStand, pTankstand, pCo2Ausstoss);
@@ -90,11 +91,11 @@ public class Garage {
             anzFahrzeuge++;
         }
         else {
-            //Fehlermeldung?
+            throw new GarageVollException();
         }
     }
 
-    public void fahrzeugLoeschen(int key) {  //Nochmal durchdenken
+    public void fahrzeugLoeschen(int key) throws GarageLeerException {  //Nochmal durchdenken
         if(fahrzeuge[key]!=null) {
             for (int i = key; i < maxAnzFahrzeuge; i++) {
                 fahrzeuge[i] = fahrzeuge[i + 1];
@@ -105,7 +106,7 @@ public class Garage {
             anzFahrzeuge--;
         }
         else {
-            //Fehlermeldung?
+            throw new GarageLeerException();
         }
     }
 
