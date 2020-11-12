@@ -72,9 +72,10 @@ public class Garage {
      * @param neuAuto hinzuzufuegendes Fahrzeug
      */
     public void fahrzeugHinzufuegen(Fahrzeug neuAuto)  throws GarageVollException {
-        if (anzFahrzeuge <= maxAnzFahrzeuge) {
+        if (anzFahrzeuge < maxAnzFahrzeuge) {
             fahrzeuge.add(neuAuto);
             this.setAusgewaehltesFahrzeug(neuAuto);
+            anzFahrzeuge++;
         } else {
             throw new GarageVollException();
         }
