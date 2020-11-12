@@ -136,10 +136,14 @@ public class Garage {
         return anzFahrzeuge == 0;
     }
 
+    /**
+     * Speichert Fahrzeuglistenelemente in einer Datei (in Attributen von Garage angegeben)
+     */
     public void save() {
         FileOutputStream fs = null;
         ObjectOutputStream os = null;
 
+        // Initialisiere Streams
         try {
             fs = new FileOutputStream(fileName);
         } catch (FileNotFoundException e) {
@@ -152,6 +156,8 @@ public class Garage {
             System.err.println("An IO Error Occured");
             e.printStackTrace();
         }
+
+        // schreibe alle Fahrzeuge
         if (os != null && fs != null) { // TODO noetig?
             for (int i = 0 ; i < anzFahrzeuge; i++) {
                 try {
@@ -163,9 +169,12 @@ public class Garage {
             }
         }
 
-        // Testing
+        // TODO Testing
     }
 
+    /**
+     * Laedt Fahrzeug Objekte aus einer Datein(in Attributen von Garage angegeben) und ersetzt aktuelle Fahrzeugliste mit geladener Fahrzeugliste
+     */
     public void load() {
         FileInputStream fs = null;
         ObjectInputStream os = null;
@@ -185,9 +194,9 @@ public class Garage {
             e.printStackTrace();
         }
 
-
+        // Lesen der Fahrzeuge und speichern in importedFahrzeuge
         if (os != null && fs != null) { // TODO noetig?
-            // EOF Schleife
+            // TODO EOF Schleife
             try {
                 Fahrzeug fileFahrzeug = (Fahrzeug) os.readObject();
                 importedFahrzeuge.add(fileFahrzeug);
@@ -199,6 +208,7 @@ public class Garage {
                 e.printStackTrace();
             }
         }
+        // Alle Fahrzeuge überschreiben
         this.fahrzeuge = importedFahrzeuge;
     }
 
