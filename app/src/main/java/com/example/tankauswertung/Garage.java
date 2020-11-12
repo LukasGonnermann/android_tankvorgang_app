@@ -93,10 +93,10 @@ public class Garage {
      * @param pCo2Ausstoss         CO2 Ausstoss des Fahrzeugs
      */
     public void fahrzeugHinzufuegen(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
-                                    double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) throws GarageVollException {
+                                    double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss, double pTankgroesse) throws GarageVollException {
         if (anzFahrzeuge < maxAnzFahrzeuge) {
             Fahrzeug neuAuto = new Fahrzeug(pName, pElektro, pVerbrauchAusserorts, pVerbrauchInnerorts, pVerbrauchKombiniert,
-                    pKmStand, pTankstand, pCo2Ausstoss);
+                    pKmStand, pTankstand, pCo2Ausstoss, pTankgroesse);
             fahrzeuge.add(neuAuto);
             anzFahrzeuge++;
         }
