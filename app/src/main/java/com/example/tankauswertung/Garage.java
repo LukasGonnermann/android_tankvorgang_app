@@ -15,7 +15,7 @@ public class Garage {
      */
     private int anzFahrzeuge;
     /**
-     * Hashtable zum speichern der Fahrzeuge in der Garage (geringster Suchaufwand)
+     * Array zum speichern der Fahrzeuge
      */
     private Fahrzeug[] fahrzeuge; //Umgeschrieben in Array
     /**
@@ -42,6 +42,10 @@ public class Garage {
         //Initialisierung des Arrays?
     }
 
+    /**
+     * Gibt das momentan aktive ausgewaehltes Fahrzeug zurück
+     * @return Fahrzeug Objekt
+     */
     public Fahrzeug getAusgewaehltesFahrzeug() {
         return ausgewaehltesFahrzeug;
     }
