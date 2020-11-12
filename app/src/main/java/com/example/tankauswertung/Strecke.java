@@ -31,7 +31,7 @@ public class Strecke {
      * Konstruktor fuer die Klasse Strecke
      * Setzt alle Variablen auf den Wert des Eingabeparameters
      */
-    public Strecke(double pDistanz, Streckentyp pStreckentyp, int pTankstand) {
+    public Strecke(double pDistanz, Streckentyp pStreckentyp, double pTankstand) {
         distanz = pDistanz;
         streckentyp = pStreckentyp;
         tankstand = pTankstand;

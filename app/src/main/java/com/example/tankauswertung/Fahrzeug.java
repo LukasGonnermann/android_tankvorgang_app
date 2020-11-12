@@ -307,5 +307,24 @@ public class Fahrzeug implements Serializable {
         this.setTankgroesse(pTankgroesse);
     }
 
+    /**
+     * Methode zum Hinzufuegen einer gefahrenen Strecke in die "Strecken"-ArrayList am Index 0 (Anfang der Liste)
+     *
+     * @param pDistanz double, Distanz in Kilometern
+     * @param pStreckentyp Enum Streckentyp, Streckentyp, welcher eingeben wird (Innerorts, Ausserorts, kombiniert)
+     * @param pTankstand double, Tankstand nach dem Fahren der Strecke
+     */
+    public void streckeHinzufuegen(double pDistanz, Strecke.Streckentyp pStreckentyp, double pTankstand) {
+        strecken.add(0, new Strecke(pDistanz, pStreckentyp, pTankstand));
+    }
+
+    /**
+     * Getter fuer das gesamte Strecken-Array
+     *
+     * @return ArrayList<Strecke>, Alle Strecken (Aktuellste Strecke auf Index 0)
+     */
+    public ArrayList<Strecke> getStrecken() {
+        return strecken;
+    }
 
 }
