@@ -1,5 +1,6 @@
 package com.example.tankauswertung;
 
+import com.example.tankauswertung.exceptions.GarageLeerException;
 import com.example.tankauswertung.exceptions.GarageVollException;
 
 import org.junit.Test;
@@ -28,6 +29,21 @@ public class GarageTest {
 
         Exception exception = assertThrows(GarageVollException.class,() -> G.fahrzeugHinzufuegen(f));
         String expectedMessage = "Fahrzeug kann nicht hinzugefügt werden, Garage voll!";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    /**
+     * Pruefen der GarageLeerException
+     * Fahrzeug aus leerer Garage loeschen
+     */
+    @Test
+    public void checkGarageLeerException() {
+        Garage G = new Garage();
+
+        Exception exception = assertThrows(GarageLeerException.class,() -> G.fahrzeugLoeschen(0));
+        String expectedMessage = "Fahrzeug kann nicht geloescht werden, Garage leer!";
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
