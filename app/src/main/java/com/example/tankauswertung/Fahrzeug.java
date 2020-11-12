@@ -50,10 +50,15 @@ public class Fahrzeug implements Serializable {
     private double co2Ausstoss;
 
     /**
+     * Tankgroesse des Fahrzeugs in Litern
+     */
+    private double tankgroesse;
+
+    /**
      * Konstruktor fuer neues Fahrzeug, setzt alle Attribute auf Parameterwerte
      */
     public Fahrzeug(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
-                    double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) {
+                    double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss, double pTankgroesse) {
         this.name = pName;
         this.elektro = pElektro;
         this.verbrauchInnerorts = pVerbrauchInnerorts;
@@ -62,6 +67,7 @@ public class Fahrzeug implements Serializable {
         this.kmStand = pKmStand;
         this.tankstand = pTankstand;
         this.co2Ausstoss = pCo2Ausstoss;
+        this.tankgroesse = pTankgroesse;
     }
 
     /**
@@ -246,6 +252,24 @@ public class Fahrzeug implements Serializable {
     }
 
     /**
+     * Setter fuer die Tankgroesse des Fahrzeugs
+     *
+     * @param tankgroesse double, Tangroesse in Litern
+     */
+    public void setTankgroesse(double tankgroesse) {
+        this.tankgroesse = tankgroesse;
+    }
+
+    /**
+     * Getter fuer die Tankgroesse des Fahrzeugs
+     *
+     * @return Tankgroesse in Litern
+     */
+    public double getTankgroesse() {
+        return tankgroesse;
+    }
+
+    /**
      *
      * @param pName String, Name des Autos, der gesetzt werden soll
      * @param pElektro boolean, True, wenn es sich um ein Elektroauto handelt
@@ -254,10 +278,11 @@ public class Fahrzeug implements Serializable {
      * @param pVerbrauchKombiniert double, kombinierter Verbrauch des Autos, der gesetzt werden soll
      * @param pKmStand double, aktueller Kilometerstand des Autos, der gesetzt werden soll
      * @param pTankstand double, aktueller Tankstand des Autos, der gesetzt werden soll
-     * @param pCo2Ausstoss doule, C02-Ausstoss des Autos, der gesetzt werden soll
+     * @param pCo2Ausstoss double, C02-Ausstoss des Autos, der gesetzt werden soll
+     * @param pTankgroesse double, Tankgroesse des Autos in Litern
      */
     public void fahrzeugAendern(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
-                                double pVerbrauchKombiniert, double pKmStand, double pTankstand, double pCo2Ausstoss) {
+                                double pVerbrauchKombiniert, double pKmStand, double pTankstand, double pCo2Ausstoss, double pTankgroesse) {
         this.setName(pName);
         this.setElektro(pElektro);
         this.setVerbrauchInnerorts(pVerbrauchInnerorts);
@@ -266,6 +291,7 @@ public class Fahrzeug implements Serializable {
         this.setKmStand(pKmStand);
         this.setTankstand(pTankstand);
         this.setCo2Ausstoss(pCo2Ausstoss);
+        this.setTankgroesse(pTankgroesse);
     }
 
 
