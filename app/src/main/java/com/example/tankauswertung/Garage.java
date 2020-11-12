@@ -85,7 +85,7 @@ public class Garage {
      */
     public void fahrzeugHinzufuegen(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
                                     double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) {
-        if (anzFahrzeuge <= maxAnzFahrzeuge) {
+        if (anzFahrzeuge < maxAnzFahrzeuge) {
             Fahrzeug neuAuto = new Fahrzeug(pName, pElektro, pVerbrauchAusserorts, pVerbrauchInnerorts, pVerbrauchKombiniert,
                     pKmStand, pTankstand, pCo2Ausstoss);
             fahrzeuge.add(neuAuto);
