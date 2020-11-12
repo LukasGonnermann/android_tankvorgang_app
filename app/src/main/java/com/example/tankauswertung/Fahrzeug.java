@@ -1,10 +1,13 @@
 package com.example.tankauswertung;
 
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 /**
  * Klasse Fahrzeuge
  * Anlegen und Bearbeiten von Fahrzeugen
  */
-public class Fahrzeug {
+public class Fahrzeug implements Serializable {
     /**
      * Bezeichnung der Fahrzeugs
      */
