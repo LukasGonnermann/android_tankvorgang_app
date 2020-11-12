@@ -3,7 +3,7 @@ package com.example.tankauswertung;
 public class Strecke {
     private double distanz;
     enum Streckentyp {innerorts, kombiniert, ausserorts} //Umgeändert von int in enum
-    private int tankstand; // 1-100[%]
+    private double tankstand; // 1-100[%]
     Streckentyp streckentyp;
 
     public Strecke(double pDistanz, Streckentyp pStreckentyp, int pTankstand) {
@@ -12,7 +12,7 @@ public class Strecke {
         tankstand = pTankstand;
     }
 
-    public int getTankstand() {
+    public double getTankstand() {
         return tankstand;
     }
 
@@ -24,7 +24,7 @@ public class Strecke {
         return streckentyp;
     }
 
-    public boolean setTankstand(int tankstand) {
+    public boolean setTankstand(double tankstand) {
         if (tankstand >= 0 && tankstand <= 100) {
             this.tankstand = tankstand;
             return true;
