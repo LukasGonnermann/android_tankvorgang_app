@@ -1,11 +1,13 @@
 package com.example.tankauswertung;
 
+import java.io.Serializable;
+
 /**
  * Klasse fuer die gefahrenen Strecken
  *
  * Anlegen und Bearbeiten von Strecken
  */
-public class Strecke {
+public class Strecke implements Serializable {
 
     /**
      * Distanz der Strecke in Kilometern

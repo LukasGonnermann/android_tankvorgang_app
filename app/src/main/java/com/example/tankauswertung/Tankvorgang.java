@@ -1,10 +1,12 @@
 package com.example.tankauswertung;
 
+import java.io.Serializable;
+
 /**
  * Klasse Tankvorgang
  * Anlegen von Tankvorgaengen und Aendern des letzten Tankvorgangs
  */
-public class Tankvorgang {
+public class Tankvorgang implements Serializable {
 
     /**
      * Die getankte Menge in Litern
