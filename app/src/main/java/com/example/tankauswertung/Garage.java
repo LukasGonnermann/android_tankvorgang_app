@@ -1,6 +1,10 @@
 package com.example.tankauswertung;
 
+import com.example.tankauswertung.exceptions.GarageLeerException;
+import com.example.tankauswertung.exceptions.GarageVollException;
+
 import java.util.ArrayList;
+import java.io.*;
 
 
 /**
@@ -62,12 +66,12 @@ public class Garage {
      *
      * @param neuAuto hinzuzufuegendes Fahrzeug
      */
-    public void fahrzeugHinzufuegen(Fahrzeug neuAuto) {
+    public void fahrzeugHinzufuegen(Fahrzeug neuAuto)  throws GarageVollException {
         if (anzFahrzeuge <= maxAnzFahrzeuge) {
             fahrzeuge.add(neuAuto);
             this.setAusgewaehltesFahrzeug(neuAuto);
         } else {
-            //Fehlermeldung?
+            throw new GarageVollException();
         }
     }
 
@@ -84,14 +88,15 @@ public class Garage {
      * @param pCo2Ausstoss         CO2 Ausstoss des Fahrzeugs
      */
     public void fahrzeugHinzufuegen(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
-                                    double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) {
+                                    double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss) throws GarageVollException {
         if (anzFahrzeuge < maxAnzFahrzeuge) {
             Fahrzeug neuAuto = new Fahrzeug(pName, pElektro, pVerbrauchAusserorts, pVerbrauchInnerorts, pVerbrauchKombiniert,
                     pKmStand, pTankstand, pCo2Ausstoss);
             fahrzeuge.add(neuAuto);
             anzFahrzeuge++;
-        } else {
-            //Fehlermeldung?
+        }
+        else {
+            throw new GarageVollException();
         }
     }
 
@@ -99,13 +104,13 @@ public class Garage {
      *
      * @param key Index des zu loeschenden Fahrzeugs in der ArrayList
      */
-    public void fahrzeugLoeschen(int key) {
+    public void fahrzeugLoeschen(int key)  throws GarageLeerException {
         if (!fahrzeuge.isEmpty()) {
             if (fahrzeuge.get(key) != null) {
                 fahrzeuge.remove(key);
                 anzFahrzeuge--;
             } else {
-                //Fehlermeldung?
+                throw new GarageLeerException();
             }
         }
     }
@@ -126,13 +131,35 @@ public class Garage {
         return anzFahrzeuge == 0;
     }
 
+    public void save() {
+        FileOutputStream fs = null;
+        ObjectOutputStream os = null;
+        try {
+            fs = new FileOutputStream("Fahrzeug.dat");
+        } catch (FileNotFoundException e) {
+            System.out.println("File kann nicht geoeffnet werden");
+        }
+        try {
+            os = new ObjectOutputStream(fs);
+        } catch (IOException e) {
+            System.out.println("An IO Error Occured");
+        }
+        for (int i = 0 ; i < anzFahrzeuge; i++) {
+            try {
+                assert os != null;
+                os.writeObject((Fahrzeug) fahrzeuge.get(i));
+            } catch (IOException e) {
+                System.out.println("An IO Error Occured");
+            }
+        }
+        // Testing
+    }
+
     /*
 
     garage.load();
-    garage.save();   //Garagenobjekt speichern oder einzelne Fahrzeugobjekte speichern?
+    garage.save();   // Garagenobjekt speichern oder einzelne Fahrzeugobjekte speichern?
 
-
+    
      */
-
-
 }
