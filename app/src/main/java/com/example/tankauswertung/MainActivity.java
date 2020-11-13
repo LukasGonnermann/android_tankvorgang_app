@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     BottomNavigationView botNavView;
     private AppBarConfiguration mAppBarConfiguration;
 
+    Garage garage;
+
     /**
      * ausgeführt, sobald die App gestartet wird
      * @param savedInstanceState —
@@ -54,32 +56,57 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationUI.setupWithNavController(navigationView, navController);
         NavigationUI.setupWithNavController(botNavView, navController);
 
-        addMenuItemInNavMenuDrawer();
+        ladeUi();
+    }
+
+    /**
+     * lädt Garage und entsprechende UI-Elemente
+     */
+    private void ladeUi() {
+
+        // lade Garage
+        garage = new Garage();
+        garage.load();
+
+        // erstelle NavigationDrawer-Elemente
+        erstelleSeitenmenue();
         setNavigationViewListener();
+
+        aktuellesFahrzeugGewechselt();
+    }
+
+    private void aktuellesFahrzeugGewechselt() {
+        // TODO: aktualisiere UI-Elemente, die Fahrzeugdaten darstellen
     }
 
     /**
      * fügt Elemente zum Seitenmenü hinzu
      */
-    private void addMenuItemInNavMenuDrawer() {
+    private void erstelleSeitenmenue() {
+
+        // Prototyp der Methode Menu.add:
+        // add(int groupId, int itemId, int order, CharSequence title)
 
         NavigationView navView = findViewById(R.id.nav_view);
-
         Menu menu = navView.getMenu();
         Menu garageMenu = menu.addSubMenu(0, 0, 0, R.string.garage);
 
+        // Garage ist nicht leer, also mit Fahrezugen füllen
+        if (!garage.isEmpty()) {
+            int anzahlFahrzeuge = garage.getAnzFahrzeuge();
+            for (int id = 0; id < anzahlFahrzeuge; id++) {
+                Fahrzeug aktuellesFahrzeug = garage.getFahrzeugById(id);
+                garageMenu.add(0, id, 0, aktuellesFahrzeug.getName());
+            }
+        }
+
         // fügt Button zum Hinzufügen eines Autos hinzu
-        MenuItem itemAddCar = garageMenu.add(0, 1, 0, R.string.add_car);
+        MenuItem itemAddCar = garageMenu.add(0, R.id.action_add_car, 0, R.string.add_car);
         itemAddCar.setIcon(R.drawable.ic_baseline_add_24);
 
         // fügt Button für Einstellungen hinzu
         MenuItem itemSettings = menu.add(0, R.id.action_settings, 0, R.string.settings);
         itemSettings.setIcon(R.drawable.ic_baseline_settings_24);
-
-        // beispielhaftes Hinzufügen von Elementen
-        garageMenu.add(0, 2, 0, "Super Item1");
-        garageMenu.add("Super Item2");
-        garageMenu.add("Super Item3");
     }
 
     /**
@@ -90,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    // --- ab hier nur noch onXYZ-Methoden (Listener)
+    // --- ab hier nur noch Listener (onXYZ-Methoden)
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -132,14 +159,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int item_id = item.getItemId();
         switch (item_id) {
 
-            // Beispiel-Toast zum Hinzufügen eines Autos
-            case 1: {
+            // Auto Hinzufügen wurde gedrückt
+            case R.id.action_add_car: {
                 Toast.makeText(getApplicationContext(), "Add Car", Toast.LENGTH_LONG).show();
+                // TODO: Aktivität zum Hinzufügen starten
                 break;
             }
-            // Beispiel-Toast zum Öffnen der Einstellungen
+
+            // Einstellungen wurde gedrückt
             case R.id.action_settings: {
                 Toast.makeText(getApplicationContext(), "Settings", Toast.LENGTH_LONG).show();
+                // TODO: Aktivität der Einstellungen starten
+                break;
+            }
+
+            default: {
+                // --- Testausgabe
+                String msg = "Auto " + item_id + " gedrückt";
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                // ---
+                garage.setAusgewaehltesFahrzeugById(item_id);
+                aktuellesFahrzeugGewechselt();
                 break;
             }
         }

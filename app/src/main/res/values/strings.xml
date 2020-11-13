@@ -12,4 +12,5 @@
     <string name="garage">Garage</string>
     <string name="add_car">Hinzufügen</string>
     <string name="settings">Einstellungen</string>
+    <string name="remove_car">Fahrzeug entfernen</string>
 </resources>
