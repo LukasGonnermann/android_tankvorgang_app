@@ -1,5 +1,7 @@
 package com.example.tankauswertung;
 
+import com.example.tankauswertung.exceptions.FahrzeugUngueltigerWertException;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -7,8 +9,8 @@ import static org.junit.Assert.*;
 public class FahrzeugTest {
 
     /**
-     * Test fuer den Fahrzeug-Konstruktor
-     * Erstelle Objekt Fahrzeug und pruefe alle Werte
+     * Test fuer den Fahrzeug-Konstruktor und Getter
+     * Erstelle Objekt Fahrzeug und pruefe alle Werte ueber Getter
      */
     @Test
     public void testFahrzeugKonstruktor() {
@@ -25,22 +27,74 @@ public class FahrzeugTest {
     }
 
     /**
-     * Test fuer die Fahrzeug-Setter
+     * Test fuer Setter der Fahrzeug-Attribute
      * Rufe alle Setter auf (moeglichst mit ungueltigen Werten) und pruefe auf true oder false
      */
     @Test
-    public void testFahrzeugSetter() {
+    public void testFahrzeugAendern() {
         Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 70, 5, 45);
-        assertFalse(f.setName(""));
-        assertFalse(f.setName("       "));
-        assertTrue(f.setElektro(true));
-        assertFalse(f.setVerbrauchAusserorts(-5));
-        assertFalse(f.setVerbrauchInnerorts(-5));
-        assertFalse(f.setVerbrauchKombiniert(-5));
-        assertFalse(f.setKmStand(-5));
-        assertFalse(f.setTankstand(120));
-        assertFalse(f.setTankstand(-5));
-        assertFalse(f.setCo2Ausstoss(-5));
+
+        // Name
+        Exception exception = assertThrows(FahrzeugUngueltigerWertException.class, () -> f.setName("      "));
+        String expectedMessage = "Name kann nicht gesetzt werden, da ein ungueltiger Wert eingegeben wurde.";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+
+        // Verbrauch Innerorts
+        exception = assertThrows(FahrzeugUngueltigerWertException.class, () -> f.setVerbrauchInnerorts(-5));
+        expectedMessage = "Verbrauch Innerorts konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.";
+        actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+
+        // Verbrauch Ausserorts
+        exception = assertThrows(FahrzeugUngueltigerWertException.class, () -> f.setVerbrauchAusserorts(-5));
+        expectedMessage = "Verbrauch Ausserorts konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.";
+        actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+
+        // Verbrauch Innerorts
+        exception = assertThrows(FahrzeugUngueltigerWertException.class, () -> f.setVerbrauchKombiniert(-5));
+        expectedMessage = "Verbrauch kombiniert konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.";
+        actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+
+        // Kilometerstand
+        exception = assertThrows(FahrzeugUngueltigerWertException.class, () -> f.setKmStand(-5));
+        expectedMessage = "Kilometerstand konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.";
+        actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+
+        // Tankstand I
+        exception = assertThrows(FahrzeugUngueltigerWertException.class, () -> f.setTankstand(-5));
+        expectedMessage = "Tankstand konnte nicht gesetzt werden, da kein Wert zwischen 0 und 100 eingegeben wurde.";
+        actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+
+        // Tankstand II
+        exception = assertThrows(FahrzeugUngueltigerWertException.class, () -> f.setTankstand(101));
+        expectedMessage = "Tankstand konnte nicht gesetzt werden, da kein Wert zwischen 0 und 100 eingegeben wurde.";
+        actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+
+        // CO2-Ausstoss I
+        exception = assertThrows(FahrzeugUngueltigerWertException.class, () -> f.setCo2Ausstoss(-5));
+        expectedMessage = "CO2-Ausstoss konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.";
+        actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+
+        // CO2-Ausstoss II
+        f.setElektro(true);
+        exception = assertThrows(FahrzeugUngueltigerWertException.class, () -> f.setCo2Ausstoss(5));
+        expectedMessage = "Bei einem Elektroauto kann kein CO2-Ausstoss groesser 0 eingegeben werden.";
+        actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+
+        // Tankgroesse
+        exception = assertThrows(FahrzeugUngueltigerWertException.class, () -> f.setTankgroesse(-5));
+        expectedMessage = "Tankgroesse konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.";
+        actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+
     }
 
 

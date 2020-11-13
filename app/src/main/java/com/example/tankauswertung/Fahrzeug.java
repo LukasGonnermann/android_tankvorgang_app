@@ -197,7 +197,7 @@ public class Fahrzeug implements Serializable {
      * @throws FahrzeugUngueltigerWertException Wenn der Parameter leer ist.
      */
     public boolean setName(String name) throws FahrzeugUngueltigerWertException {
-        if (name.trim().length() == 0) {
+        if (name != null && name.trim().length() == 0) {
             throw new FahrzeugUngueltigerWertException("Name kann nicht gesetzt werden, da ein ungueltiger Wert eingegeben wurde.");
         }
         this.name = name;
@@ -276,7 +276,7 @@ public class Fahrzeug implements Serializable {
     }
 
     /**
-     * Setter fuer den Kilometerstand
+     * Setter fuer den Tankstand
      *
      * @param tankstand Integer-Wert, der gesetzt werden soll (Prozentzahl)
      * @return Gibt true zurueck, wenn der Wert gesetzt wurde.
