@@ -2,10 +2,8 @@ package com.example.tankauswertung;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -21,8 +19,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import static android.view.Menu.NONE;
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawer;
@@ -30,7 +26,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     BottomNavigationView botNavView;
     private AppBarConfiguration mAppBarConfiguration;
 
-    // "main function"
+    /**
+     * ausgeführt, sobald die App gestartet wird
+     * @param savedInstanceState —
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +38,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view); //Navigation View (Side Menu)
-        botNavView = findViewById(R.id.bot_nav_view); //bottom Menu (Tabs)
+        navigationView = findViewById(R.id.nav_view);  // Seitenmenü
+        botNavView = findViewById(R.id.bot_nav_view);  // Tabmenü
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -49,8 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .setDrawerLayout(drawer)
                 .build();
 
-        // our own initialization tasks
-
+        // unsere eigenen Initialisierungsschritte
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -59,8 +57,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         addMenuItemInNavMenuDrawer();
         setNavigationViewListener();
     }
+
     /**
-     * add items to navigation menu
+     * fügt Elemente zum Seitenmenü hinzu
      */
     private void addMenuItemInNavMenuDrawer() {
 
@@ -69,30 +68,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Menu menu = navView.getMenu();
         Menu garageMenu = menu.addSubMenu(0, 0, 0, R.string.garage);
 
-        // add button to add a car
-        MenuItem itemAddCar = garageMenu.add(0, 1, 0, R.string.addCar);
+        // fügt Button zum Hinzufügen eines Autos hinzu
+        MenuItem itemAddCar = garageMenu.add(0, 1, 0, R.string.add_car);
         itemAddCar.setIcon(R.drawable.ic_baseline_add_24);
 
-        // add settings button
+        // fügt Button für Einstellungen hinzu
         MenuItem itemSettings = menu.add(0, R.id.action_settings, 0, R.string.settings);
         itemSettings.setIcon(R.drawable.ic_baseline_settings_24);
 
-        // example: adding items
+        // beispielhaftes Hinzufügen von Elementen
         garageMenu.add(0, 2, 0, "Super Item1");
         garageMenu.add("Super Item2");
         garageMenu.add("Super Item3");
     }
 
     /**
-     * initialize item listener of navigation view
+     * setzt einen Listener für das Seitenmenü
      */
     private void setNavigationViewListener() {
-
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    // --- hooks
+    // --- ab hier nur noch onXYZ-Methoden (Listener)
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -109,45 +107,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /**
-     * closes drawer if back-button is pressed
+     * schließt das Seitenmenü, wenn die Zurück-Taste gedrückt wird
      */
     @Override
     public void onBackPressed() {
-        // back button is pressed
+        // Zurück-Button wurde gedrückt
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();  // else
+            super.onBackPressed();  // ansonsten gib an ursprüngliche Funktion weiter
         }
     }
 
     /**
-     * Handles the selection of items from the drawer menu
+     * Behandelt das Drücken einzelner Elemente des Seitenmenüs
      *
-     * @param item from user selected item
-     *
-     * @return true indicates that the method was executed to the end
+     * @param item gedrücktes Element
+     * @return true besagt, dass die Methode bis zum Ende ausgeführt wurde
      */
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // handle navigation view item clicks here
+
         int item_id = item.getItemId();
         switch (item_id) {
 
-            // add a car
+            // Beispiel-Toast zum Hinzufügen eines Autos
             case 1: {
                 Toast.makeText(getApplicationContext(), "Add Car", Toast.LENGTH_LONG).show();
-
                 break;
             }
-            // open settings
+            // Beispiel-Toast zum Öffnen der Einstellungen
             case R.id.action_settings: {
                 Toast.makeText(getApplicationContext(), "Settings", Toast.LENGTH_LONG).show();
                 break;
             }
         }
-        drawer.closeDrawer(GravityCompat.START);  // close navigation drawer
+        drawer.closeDrawer(GravityCompat.START);  // Schließen des Seitenmenüs nach Ausführung
 
         return true;
     }

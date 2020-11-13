@@ -10,6 +10,6 @@
     <string name="nav_header_subtitle">Infos über aktuelles Auto</string>
     <string name="nav_header_desc">Navigationsheader</string>
     <string name="garage">Garage</string>
-    <string name="addCar">Hinzufügen</string>
+    <string name="add_car">Hinzufügen</string>
     <string name="settings">Einstellungen</string>
 </resources>
