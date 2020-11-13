@@ -55,6 +55,7 @@ public class Garage {
 
     /**
      * Gibt die aktuelle Anzahl an Fahrzeugen in der Garage zurueck
+     *
      * @return Anzahl Fahrzeuge als Integer
      */
     public int getAnzFahrzeuge() {
@@ -63,6 +64,7 @@ public class Garage {
 
     /**
      * Gebe das Fahrzeug an einer bestimmten Position in der Liste zurueck
+     *
      * @param id Position in der Liste
      * @return Fahrzeugobjekt an der gewuenschten Position
      */
@@ -101,7 +103,7 @@ public class Garage {
      *
      * @param neuAuto hinzuzufuegendes Fahrzeug
      */
-    public void fahrzeugHinzufuegen(Fahrzeug neuAuto)  throws GarageVollException {
+    public void fahrzeugHinzufuegen(Fahrzeug neuAuto) throws GarageVollException {
         if (anzFahrzeuge < maxAnzFahrzeuge) {
             fahrzeuge.add(neuAuto);
             this.setAusgewaehltesFahrzeug(neuAuto);
@@ -130,29 +132,26 @@ public class Garage {
                     pKmStand, pTankstand, pCo2Ausstoss, pTankgroesse);
             fahrzeuge.add(neuAuto);
             anzFahrzeuge++;
-        }
-        else {
+        } else {
             throw new GarageVollException();
         }
     }
 
     /**
-     *
      * @param key Index des zu loeschenden Fahrzeugs in der ArrayList
      */
-    public void fahrzeugLoeschen(int key)  throws GarageLeerException {
+    public void fahrzeugLoeschen(int key) throws GarageLeerException {
         if (!fahrzeuge.isEmpty()) {
             if (fahrzeuge.get(key) != null) {
                 fahrzeuge.remove(key);
                 anzFahrzeuge--;
-            } else {
-                throw new GarageLeerException();
             }
+        } else {
+            throw new GarageLeerException();
         }
     }
 
     /**
-     *
      * @param key Index des Fahrzeugs in der ArrayList, welches an auswählen möchte
      */
     public void fahrzeugAuswaehlen(int key) {
@@ -160,7 +159,6 @@ public class Garage {
     }
 
     /**
-     *
      * @return Gibt zurück, ob die Garage leer ist oder nicht
      */
     public boolean isEmpty() {
@@ -212,8 +210,7 @@ public class Garage {
                 if (o != null) {
                     Fahrzeug f = (Fahrzeug) o;
                     importedFahrzeuge.add(f);
-                }
-                else {
+                } else {
                     cont = false;
                 }
 
