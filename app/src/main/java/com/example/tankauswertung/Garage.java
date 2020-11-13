@@ -54,6 +54,28 @@ public class Garage {
     }
 
     /**
+     * Gibt die aktuelle Anzahl an Fahrzeugen in der Garage zurueck
+     * @return Anzahl Fahrzeuge als Integer
+     */
+    public int getAnzFahrzeuge() {
+        return anzFahrzeuge;
+    }
+
+    /**
+     * Gebe das Fahrzeug an einer bestimmten Position in der Liste zurueck
+     * @param id Position in der Liste
+     * @return Fahrzeugobjekt an der gewuenschten Position
+     */
+    public Fahrzeug getFahrzeugById(int id) {
+        if (id >= 0 && id < anzFahrzeuge) {
+            return fahrzeuge.get(id);
+        } else {
+            return null;
+            // exception hinzufuegen
+        }
+    }
+
+    /**
      * Gibt das momentan aktive ausgewaehltes Fahrzeug zurück
      *
      * @return Fahrzeug Objekt
