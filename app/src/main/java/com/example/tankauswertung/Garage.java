@@ -84,6 +84,14 @@ public class Garage {
         return ausgewaehltesFahrzeug;
     }
 
+    public void setAusgewaehltesFahrzeugById(int id) {
+        if (id >= 0 && id < anzFahrzeuge) {
+            this.ausgewaehltesFahrzeug = fahrzeuge.get(id);
+        } else {
+            // exception hinzufuegen
+        }
+    }
+
     public void setAusgewaehltesFahrzeug(Fahrzeug ausgewaehltesFahrzeug) {
         this.ausgewaehltesFahrzeug = ausgewaehltesFahrzeug;
     }
