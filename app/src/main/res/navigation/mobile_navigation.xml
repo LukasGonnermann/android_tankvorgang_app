@@ -29,10 +29,10 @@
         android:label="@string/title_forecast"
         tools:layout="@layout/fragment_forecast" />
     <fragment
-        android:id="@+id/navigation_newcar"
+        android:id="@+id/navigation_new_car"
         android:name="com.example.tankauswertung.ui.newcar.NewCarFragment"
-        android:label="@string/title_newcar"
-        tools:layout="@layout/fragment_newcar" />
+        android:label="@string/title_new_car"
+        tools:layout="@layout/fragment_new_car" />
     <fragment
         android:id="@+id/navigation_settings"
         android:name="com.example.tankauswertung.ui.settings.SettingsFragment"

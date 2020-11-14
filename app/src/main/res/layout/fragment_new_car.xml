@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="25dp"
+        >
+
+            <!-- Name -->
+
+            <TextView
+                android:id="@+id/labelName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="@string/anzeigename" />
+
+            <EditText
+                android:id="@+id/editTextName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+            <!-- Verbrauch innerorts -->
+
+            <TextView
+                android:id="@+id/labelVerbrauchInnerortsTitel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/verbrauch_innerorts_l_kwh_100km"
+             />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/labelVerbrauchInnerortsStand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="0"
+                />
+
+                <SeekBar
+                    android:id="@+id/seekBarVerbrauchInnerorts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="1dp"
+                    android:min="0"
+                    android:max="50"
+                />
+
+            </LinearLayout>
+
+            <!-- Verbrauch außerorts -->
+
+            <TextView
+                android:id="@+id/labelVerbrauchAusserortsTitel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/verbrauch_au_erorts_l_kwh_100km"
+            />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/labelVerbrauchAusserortsStand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="0"
+                    />
+
+                <SeekBar
+                    android:id="@+id/seekBarVerbrauchAusserorts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="1dp"
+                    android:min="0"
+                    android:max="50"
+                    />
+
+            </LinearLayout>
+
+            <!-- Verbrauch kombiniert -->
+
+            <TextView
+                android:id="@+id/labelVerbrauchKombiniertTitel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/verbrauch_kombiniert_l_kwh_100km"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/labelVerbrauchKombiniertStand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="0"
+                    />
+
+                <SeekBar
+                    android:id="@+id/seekBarVerbrauchKombiniert"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="1dp"
+                    android:min="0"
+                    android:max="50"
+                    />
+
+            </LinearLayout>
+
+            <!-- CO2-Ausstoß -->
+
+            <TextView
+                android:id="@+id/labelCO2Ausstoss"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="@string/co2_ausstoss_g_km"
+            />
+
+            <EditText
+                android:id="@+id/editTextCO2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+            />
+
+            <!-- Kilometerstand -->
+
+            <TextView
+                android:id="@+id/labelKilometerstand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/kilometerstand_km"
+            />
+
+            <EditText
+                android:id="@+id/editTextKilometerstand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+            />
+
+            <!-- Tankvolumen -->
+
+            <TextView
+                android:id="@+id/labelTankvolumen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/tankvolumen_l_kwh"
+            />
+
+            <EditText
+                android:id="@+id/editTextTankvolumen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+            />
+
+            <!-- Aktueller Tankstand -->
+
+            <TextView
+                android:id="@+id/labelAktuellerTankstandTitel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/tankstand"
+            />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/labelAktuellerTankstandStand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="0"
+                />
+
+                <SeekBar
+                    android:id="@+id/seekBarAktuellerTankstandKombiniert"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="1dp"
+                    android:min="0"
+                    android:max="50"
+                />
+
+            </LinearLayout>
+
+            <!-- Buttons -->
+
+            <Button
+                android:id="@+id/buttonFahzeugAnlegen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/button_fahzeuganlegen"
+            />
+
+            <Button
+                android:id="@+id/buttonAbbrechen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/abbrechen"
+            />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

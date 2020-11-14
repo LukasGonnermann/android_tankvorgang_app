@@ -10,7 +10,7 @@
     <string name="nav_header_subtitle">Infos über aktuelles Auto</string>
     <string name="nav_header_desc">Navigationsheader</string>
     <string name="garage">Garage</string>
-    <string name="title_newcar">Hinzufügen</string>
+    <string name="title_new_car">Hinzufügen</string>
     <string name="title_settings">Einstellungen</string>
     <string name="remove_car">Fahrzeug entfernen</string>
     <!-- Preference Titles -->
@@ -29,12 +29,12 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="button_fahzeuganlegen">Fahrzeug anlegen</string>
     <string name="abbrechen">Abbrechen</string>
-    <string name="anzeigename">Anzeigename</string>
+    <string name="anzeigename">Name</string>
     <string name="verbrauch_innerorts_l_kwh_100km">Verbrauch innerorts [l/(kWh) / 100km]</string>
     <string name="verbrauch_au_erorts_l_kwh_100km">Verbrauch außerorts [l/(kWh) / 100km]</string>
     <string name="verbrauch_kombiniert_l_kwh_100km">Verbrauch kombiniert [l/(kWh) / 100km]</string>
     <string name="kilometerstand_km">Kilometerstand [km]</string>
-    <string name="tankstand">Tankstand [%]</string>
+    <string name="tankstand">Aktueller Tankstand [%]</string>
     <string name="tankvolumen_l_kwh">Tankvolumen [l(kWh)]</string>
-    <string name="co2_ausstoss_kg_100km">CO2-Ausstoß [kg/100km]</string>
+    <string name="co2_ausstoss_g_km">CO2-Ausstoß [g/km]</string>
 </resources>

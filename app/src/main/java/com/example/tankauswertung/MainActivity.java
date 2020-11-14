@@ -1,6 +1,7 @@
 package com.example.tankauswertung;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +28,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     BottomNavigationView botNavView;
     static Garage garage;
     private AppBarConfiguration mAppBarConfiguration;
+
+    /**
+     * ausgeführt, sobald die App gestartet wird
+     *
+     * @param savedInstanceState —
+     */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawer = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);  // Seitenmenü
+        botNavView = findViewById(R.id.bot_nav_view);  // Tabmenü
+
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.navigation_dashboard, R.id.navigation_timeline, R.id.navigation_forecast, R.id.navigation_stats)
+                .setDrawerLayout(drawer)
+                .build();
+
+        // unsere eigenen Initialisierungsschritte
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
+        NavigationUI.setupWithNavController(botNavView, navController);
+
+        ladeUi();
+
+    }
+
+    // --- static Methoden
 
     /**
      * Gibt die aktuelle Garage zurück
@@ -64,38 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    /**
-     * ausgeführt, sobald die App gestartet wird
-     *
-     * @param savedInstanceState —
-     */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        drawer = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);  // Seitenmenü
-        botNavView = findViewById(R.id.bot_nav_view);  // Tabmenü
-
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_dashboard, R.id.navigation_timeline, R.id.navigation_forecast, R.id.navigation_stats)
-                .setDrawerLayout(drawer)
-                .build();
-
-        // unsere eigenen Initialisierungsschritte
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
-        NavigationUI.setupWithNavController(botNavView, navController);
-
-        ladeUi();
-
-    }
+    // --- non-static Methoden
 
     /**
      * lädt Garage und entsprechende UI-Elemente
@@ -107,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // erstelle NavigationDrawer-Elemente
         erstelleSeitenmenue();
-        //  setNavigationViewListener();
+        // setNavigationViewListener();
 
         aktuellesFahrzeugGewechselt();
     }
@@ -136,32 +141,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 menu.add(0, id, 0, aktuellesFahrzeug.getName());
             }
         }
-        // fügt Button für ein Item hinzu um ein neues Auto anzulegen
-        MenuItem neuesAuto = garageMenu.add(0, R.id.navigation_newcar, 0, R.string.title_newcar);
-        neuesAuto.setIcon(R.drawable.ic_baseline_add_24);
 
-        // fügt Button für ein Beispoel-Auto hinzu
-        MenuItem itemTestCar = menu.add(0, R.id.action_add_car, 0, "Auto1");
-        itemTestCar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        // fügt Button für ein Item hinzu um ein neues Auto anzulegen
+        MenuItem neuesAuto = garageMenu.add(0, R.id.navigation_new_car, 0, R.string.title_new_car);
+        neuesAuto.setIcon(R.drawable.ic_baseline_add_24);
+        neuesAuto.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 DrawerLayout drawer = findViewById(R.id.drawer_layout);
-                Toast.makeText(getApplicationContext(), "msg msg", Toast.LENGTH_SHORT).show();
-                ladeFragment();
-                drawer.closeDrawer(GravityCompat.START);  // Schließen des
-                // Seitenmenüs nach Ausführung
+                ladeActivity();
+                drawer.closeDrawer(GravityCompat.START);  // Schließen des Seitenmenüs nach Ausführung
                 return true;
             }
         });
+
+        MenuItem einstellungen = garageMenu.add(0, R.id.navigation_settings, 0, R.string.title_settings);
+        einstellungen.setIcon(R.drawable.ic_baseline_settings_24);
 
     }
 
     /**
      * Ersetzt das aktuelle Fragment durch fragment_newcar
      */
-    public void ladeFragment() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        navController.navigate(R.id.navigation_newcar);
+    public void ladeActivity() {
+        Intent intent = new Intent(this, AddCarActivity.class);
+        startActivity(intent);
+        // NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        // navController.navigate(R.id.navigation_newcar);
     }
 
     // TODO: Methode löschen, da statisch gelöst
@@ -169,6 +175,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
     // --- ab hier nur noch Listener (onXYZ-Methoden)
 
     @Override
@@ -211,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         int item_id = item.getItemId();
+
         switch (item_id) {
 
             // Auto Hinzufügen wurde gedrückt
