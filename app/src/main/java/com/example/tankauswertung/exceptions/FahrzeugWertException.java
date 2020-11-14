@@ -3,7 +3,7 @@ package com.example.tankauswertung.exceptions;
 /**
  * Exception, wenn im Setter fuer ein Fahrzeug-Attribut ein ungueltiger Wert gesetzt wird
  */
-public class FahrzeugUngueltigerWertException extends Exception {
+public class FahrzeugWertException extends Exception {
     /**
      * Exception Message
      */
@@ -12,7 +12,7 @@ public class FahrzeugUngueltigerWertException extends Exception {
     /**
      * Default Exception Konstruktor, ruft Konstruktor von Exception auf und übergibt eine standard Exception Message
      */
-    public FahrzeugUngueltigerWertException() {
+    public FahrzeugWertException() {
         super("Der eingegebene Wert ist ungueltig.");
         this.exceptionMessage = "Der eingegebene Wert ist ungueltig.";
     }
@@ -23,7 +23,7 @@ public class FahrzeugUngueltigerWertException extends Exception {
      *
      * @param exceptionMessage Übergebene custom Message
      */
-    public FahrzeugUngueltigerWertException(String exceptionMessage) {
+    public FahrzeugWertException(String exceptionMessage) {
         super(exceptionMessage);
         this.exceptionMessage = exceptionMessage;
     }

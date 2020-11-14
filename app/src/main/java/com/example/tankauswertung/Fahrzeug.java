@@ -1,8 +1,7 @@
 package com.example.tankauswertung;
 
-import com.example.tankauswertung.exceptions.FahrzeugUngueltigerWertException;
+import com.example.tankauswertung.exceptions.FahrzeugWertException;
 
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -82,7 +81,7 @@ public class Fahrzeug implements Serializable {
             this.setTankstand(pTankstand);
             this.setCo2Ausstoss(pCo2Ausstoss);
             this.setTankgroesse(pTankgroesse);
-        } catch (FahrzeugUngueltigerWertException e) {
+        } catch (FahrzeugWertException e) {
             e.printStackTrace();
             System.err.println("Fahrzeug konnte nicht angelegt werden, da ungueltige Werte eingegeben wurden.");
         }
@@ -194,11 +193,11 @@ public class Fahrzeug implements Serializable {
      *
      * @param name Name der gesetzt werden soll
      * @return Gibt true zurueck, falls der Name gesetzt werden konnte.
-     * @throws FahrzeugUngueltigerWertException Wenn der Parameter leer ist.
+     * @throws FahrzeugWertException Wenn der Parameter leer ist.
      */
-    public boolean setName(String name) throws FahrzeugUngueltigerWertException {
+    public boolean setName(String name) throws FahrzeugWertException {
         if (name != null && name.trim().length() == 0) {
-            throw new FahrzeugUngueltigerWertException("Name kann nicht gesetzt werden, da ein ungueltiger Wert eingegeben wurde.");
+            throw new FahrzeugWertException("Name kann nicht gesetzt werden, da ein ungueltiger Wert eingegeben wurde.");
         }
         this.name = name;
         return true;
@@ -220,11 +219,11 @@ public class Fahrzeug implements Serializable {
      *
      * @param verbrauchInnerorts double-Wert, der gesetzt werden soll
      * @return Gibt true zurueck, wenn der Wert gesetzt wurde.
-     * @throws FahrzeugUngueltigerWertException Wenn der Parameter kleiner null ist
+     * @throws FahrzeugWertException Wenn der Parameter kleiner null ist
      */
-    public boolean setVerbrauchInnerorts(double verbrauchInnerorts) throws FahrzeugUngueltigerWertException {
+    public boolean setVerbrauchInnerorts(double verbrauchInnerorts) throws FahrzeugWertException {
         if (verbrauchInnerorts < 0) {
-            throw new FahrzeugUngueltigerWertException("Verbrauch Innerorts konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.");
+            throw new FahrzeugWertException("Verbrauch Innerorts konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.");
         }
         this.verbrauchInnerorts = verbrauchInnerorts;
         return true;
@@ -235,11 +234,11 @@ public class Fahrzeug implements Serializable {
      *
      * @param verbrauchAusserorts double-Wert, der gesetzt werden soll
      * @return Gibt true zurueck, wenn der Wert gesetzt wurde.
-     * @throws FahrzeugUngueltigerWertException Wenn der Parameter kleiner null ist
+     * @throws FahrzeugWertException Wenn der Parameter kleiner null ist
      */
-    public boolean setVerbrauchAusserorts(double verbrauchAusserorts) throws FahrzeugUngueltigerWertException {
+    public boolean setVerbrauchAusserorts(double verbrauchAusserorts) throws FahrzeugWertException {
         if (verbrauchAusserorts < 0) {
-            throw new FahrzeugUngueltigerWertException("Verbrauch Ausserorts konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.");
+            throw new FahrzeugWertException("Verbrauch Ausserorts konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.");
         }
         this.verbrauchAusserorts = verbrauchAusserorts;
         return true;
@@ -250,11 +249,11 @@ public class Fahrzeug implements Serializable {
      *
      * @param verbrauchKombiniert double-Wert, der gesetzt werden soll
      * @return Gibt true zurueck, wenn der Wert gesetzt wurde.
-     * @throws FahrzeugUngueltigerWertException Wenn der Parameter kleiner null ist
+     * @throws FahrzeugWertException Wenn der Parameter kleiner null ist
      */
-    public boolean setVerbrauchKombiniert(double verbrauchKombiniert) throws FahrzeugUngueltigerWertException {
+    public boolean setVerbrauchKombiniert(double verbrauchKombiniert) throws FahrzeugWertException {
         if (verbrauchKombiniert < 0) {
-            throw new FahrzeugUngueltigerWertException("Verbrauch kombiniert konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.");
+            throw new FahrzeugWertException("Verbrauch kombiniert konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.");
         }
         this.verbrauchKombiniert = verbrauchKombiniert;
         return true;
@@ -265,11 +264,11 @@ public class Fahrzeug implements Serializable {
      *
      * @param kmStand double-Wert, der gesetzt werden soll
      * @return Gibt true zurueck, wenn der Wert gesetzt wurde.
-     * @throws FahrzeugUngueltigerWertException Wenn der Parameter kleiner null ist
+     * @throws FahrzeugWertException Wenn der Parameter kleiner null ist
      */
-    public boolean setKmStand(double kmStand) throws FahrzeugUngueltigerWertException {
+    public boolean setKmStand(double kmStand) throws FahrzeugWertException {
         if (kmStand < 0) {
-            throw new FahrzeugUngueltigerWertException("Kilometerstand konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.");
+            throw new FahrzeugWertException("Kilometerstand konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.");
         }
         this.kmStand = kmStand;
         return true;
@@ -280,11 +279,11 @@ public class Fahrzeug implements Serializable {
      *
      * @param tankstand Integer-Wert, der gesetzt werden soll (Prozentzahl)
      * @return Gibt true zurueck, wenn der Wert gesetzt wurde.
-     * @throws FahrzeugUngueltigerWertException Wenn der Parameter kleiner null oder groesser 100 ist
+     * @throws FahrzeugWertException Wenn der Parameter kleiner null oder groesser 100 ist
      */
-    public boolean setTankstand(double tankstand) throws FahrzeugUngueltigerWertException {
+    public boolean setTankstand(double tankstand) throws FahrzeugWertException {
         if (tankstand < 0 || tankstand > 100) {
-            throw new FahrzeugUngueltigerWertException("Tankstand konnte nicht gesetzt werden, da kein Wert zwischen 0 und 100 eingegeben wurde.");
+            throw new FahrzeugWertException("Tankstand konnte nicht gesetzt werden, da kein Wert zwischen 0 und 100 eingegeben wurde.");
         }
         this.tankstand = tankstand;
         return true;
@@ -295,14 +294,14 @@ public class Fahrzeug implements Serializable {
      *
      * @param co2Ausstoss double-Wert, der gesetzt werden soll
      * @return Gibt true zurueck, wenn der Wert gesetzt wurde.
-     * @throws FahrzeugUngueltigerWertException Wenn der Parameter kleiner null ist
+     * @throws FahrzeugWertException Wenn der Parameter kleiner null ist
      */
-    public boolean setCo2Ausstoss(double co2Ausstoss) throws FahrzeugUngueltigerWertException {
+    public boolean setCo2Ausstoss(double co2Ausstoss) throws FahrzeugWertException {
         if (co2Ausstoss < 0) {
-            throw new FahrzeugUngueltigerWertException("CO2-Ausstoss konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.");
+            throw new FahrzeugWertException("CO2-Ausstoss konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.");
         }
         if (this.elektro == true && co2Ausstoss != 0) {
-            throw new FahrzeugUngueltigerWertException("Bei einem Elektroauto kann kein CO2-Ausstoss groesser 0 eingegeben werden.");
+            throw new FahrzeugWertException("Bei einem Elektroauto kann kein CO2-Ausstoss groesser 0 eingegeben werden.");
         }
         this.co2Ausstoss = co2Ausstoss;
         return true;
@@ -313,11 +312,11 @@ public class Fahrzeug implements Serializable {
      *
      * @param tankgroesse double, Tangroesse in Litern
      * @return Gibt true zurueck, wenn der Wert gesetzt wurde.
-     * @throws FahrzeugUngueltigerWertException Wenn der Parameter kleiner null ist
+     * @throws FahrzeugWertException Wenn der Parameter kleiner null ist
      */
-    public boolean setTankgroesse(double tankgroesse) throws FahrzeugUngueltigerWertException {
+    public boolean setTankgroesse(double tankgroesse) throws FahrzeugWertException {
         if (tankgroesse < 0) {
-            throw new FahrzeugUngueltigerWertException("Tankgroesse konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.");
+            throw new FahrzeugWertException("Tankgroesse konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.");
         }
         this.tankgroesse = tankgroesse;
         return true;
@@ -347,7 +346,7 @@ public class Fahrzeug implements Serializable {
             this.setTankstand(pTankstand);
             this.setCo2Ausstoss(pCo2Ausstoss);
             this.setTankgroesse(pTankgroesse);
-        } catch (FahrzeugUngueltigerWertException e) {
+        } catch (FahrzeugWertException e) {
             e.printStackTrace();
             System.err.println("Fahrzeug konnte nicht geaendert werden, ungueltige Werte wurden eingegeben.");
         }
