@@ -28,4 +28,14 @@
         android:name="com.example.tankauswertung.ui.forecast.ForecastFragment"
         android:label="@string/title_forecast"
         tools:layout="@layout/fragment_forecast" />
+    <fragment
+        android:id="@+id/navigation_newcar"
+        android:name="com.example.tankauswertung.ui.newcar.NewCarFragment"
+        android:label="@string/title_newcar"
+        tools:layout="@layout/fragment_newcar" />
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.example.tankauswertung.ui.settings.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

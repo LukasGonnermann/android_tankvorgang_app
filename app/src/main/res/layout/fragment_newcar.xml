@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.newcar.NewCarFragment">
+
+
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/anzeigename"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@id/editTextVerbrauchInnerorts"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.100000024" />
+
+    <EditText
+        android:id="@+id/editTextVerbrauchInnerorts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/verbrauch_innerorts_l_kwh_100km"
+        android:inputType="numberDecimal"
+        app:layout_constraintBottom_toBottomOf="@id/editTextVerbrauchAusserorts"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/editTextName" />
+
+    <EditText
+        android:id="@+id/editTextVerbrauchAusserorts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/verbrauch_au_erorts_l_kwh_100km"
+        android:inputType="numberDecimal"
+        app:layout_constraintBottom_toBottomOf="@id/editTextVerbrauchKombi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/editTextVerbrauchInnerorts" />
+
+    <EditText
+        android:id="@+id/editTextVerbrauchKombi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/verbrauch_kombiniert_l_kwh_100km"
+        android:inputType="numberDecimal"
+        app:layout_constraintBottom_toBottomOf="@id/editTextKilometerstand"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/editTextVerbrauchAusserorts" />
+
+    <EditText
+        android:id="@+id/editTextKilometerstand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/kilometerstand_km"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@id/editTextTankstand"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/editTextVerbrauchKombi" />
+
+    <EditText
+        android:id="@+id/editTextTankstand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/tankstand"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/editTextTankvolumen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextKilometerstand" />
+
+    <EditText
+        android:id="@+id/editTextTankvolumen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/tankvolumen_l_kwh"
+        android:inputType="numberDecimal"
+        app:layout_constraintBottom_toBottomOf="@id/editTextCO2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/editTextTankstand" />
+
+    <EditText
+        android:id="@+id/editTextCO2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/co2_ausstoss_kg_100km"
+        android:inputType="numberDecimal"
+        app:layout_constraintBottom_toBottomOf="@id/buttonFahzeugAnlegen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/editTextTankvolumen" />
+
+    <Button
+        android:id="@+id/buttonFahzeugAnlegen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:text="@string/button_fahzeuganlegen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextCO2" />
+
+    <Button
+        android:id="@+id/buttonAbbrechen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/abbrechen"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonFahzeugAnlegen"
+        app:layout_constraintEnd_toStartOf="@+id/buttonFahzeugAnlegen"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/buttonFahzeugAnlegen" />
+</androidx.constraintlayout.widget.ConstraintLayout>

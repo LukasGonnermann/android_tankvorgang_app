@@ -6,30 +6,34 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import com.example.tankauswertung.ui.newcar.NewCarFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawer;
     NavigationView navigationView;
     BottomNavigationView botNavView;
-    private AppBarConfiguration mAppBarConfiguration;
-
     Garage garage;
+    private AppBarConfiguration mAppBarConfiguration;
 
     /**
      * ausgeführt, sobald die App gestartet wird
+     *
      * @param savedInstanceState —
      */
     @Override
@@ -57,20 +61,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationUI.setupWithNavController(botNavView, navController);
 
         ladeUi();
+
     }
 
     /**
      * lädt Garage und entsprechende UI-Elemente
      */
     private void ladeUi() {
-
         // lade Garage
         garage = new Garage();
         garage.load();
 
         // erstelle NavigationDrawer-Elemente
         erstelleSeitenmenue();
-        setNavigationViewListener();
+        //  setNavigationViewListener();
 
         aktuellesFahrzeugGewechselt();
     }
@@ -96,27 +100,73 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             int anzahlFahrzeuge = garage.getAnzFahrzeuge();
             for (int id = 0; id < anzahlFahrzeuge; id++) {
                 Fahrzeug aktuellesFahrzeug = garage.getFahrzeugById(id);
-                garageMenu.add(0, id, 0, aktuellesFahrzeug.getName());
+                menu.add(0, id, 0, aktuellesFahrzeug.getName());
             }
         }
+        // fügt Button für ein Item hinzu um ein neues Auto anzulegen
+        MenuItem neuesAuto = garageMenu.add(0, R.id.navigation_newcar, 0, R.string.title_newcar);
+        neuesAuto.setIcon(R.drawable.ic_baseline_add_24);
 
-        // fügt Button zum Hinzufügen eines Autos hinzu
-        MenuItem itemAddCar = garageMenu.add(0, R.id.action_add_car, 0, R.string.add_car);
-        itemAddCar.setIcon(R.drawable.ic_baseline_add_24);
+        // fügt Button für ein Beispoel-Auto hinzu
+        MenuItem itemTestCar = menu.add(0, R.id.action_add_car, 0, "Auto1");
+        itemTestCar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                DrawerLayout drawer = findViewById(R.id.drawer_layout);
+                Toast.makeText(getApplicationContext(), "msg msg", Toast.LENGTH_SHORT).show();
+                ladeFragment(new NewCarFragment());
+                drawer.closeDrawer(GravityCompat.START);  // Schließen des
+                // Seitenmenüs nach Ausführung
+                return true;
+            }
+        });
 
-        // fügt Button für Einstellungen hinzu
-        MenuItem itemSettings = menu.add(0, R.id.action_settings, 0, R.string.settings);
-        itemSettings.setIcon(R.drawable.ic_baseline_settings_24);
     }
+    //TODO: funktioniert nicht richtig, lädt fragment über aktuelles fragment
 
     /**
-     * setzt einen Listener für das Seitenmenü
+     * Ersetzt das aktuelle Fragment durch das Übergebene
+     *
+     * @param fragment Fragment durch das das aktuelle ersetzt wird
      */
+    public void ladeFragment(Fragment fragment) {
+        FragmentTransaction transaktion = getSupportFragmentManager().beginTransaction();
+        transaktion.replace(R.id.nav_host_fragment, fragment); //keine Ahnung was genau ersetzt werden muss
+        transaktion.commit();
+    }
+
+    // TODO: Methode löschen, da statisch gelöst
     private void setNavigationViewListener() {
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    /**
+     * Steuert das Nachtdesign
+     *
+     * @param aktivieren übergibt den ausgwählten Designmodus
+     */
+    public static void steuereNachtDesign(int aktivieren) {
+        switch (aktivieren) {
+            //Tagdesign
+            case 0: {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            }
+            //Nachtdesign
+            case 1: {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            }
+            //System-Design erstmal nicht im Design implementiert, da switch verwendet (siehe fragment_settings)
+            case 2: {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            }
+
+        }
+
+    }
     // --- ab hier nur noch Listener (onXYZ-Methoden)
 
     @Override
@@ -145,6 +195,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();  // ansonsten gib an ursprüngliche Funktion weiter
         }
     }
+
+    //TODO: default muss in die individuellen OnClickListener übertragen werden (zeile 110) und anschließend gelöscht inkl. implements
 
     /**
      * Behandelt das Drücken einzelner Elemente des Seitenmenüs
