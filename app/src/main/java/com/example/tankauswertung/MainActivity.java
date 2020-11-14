@@ -12,14 +12,11 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.tankauswertung.ui.newcar.NewCarFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -30,6 +27,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     BottomNavigationView botNavView;
     Garage garage;
     private AppBarConfiguration mAppBarConfiguration;
+
+    /**
+     * Steuert das Nachtdesign
+     *
+     * @param aktivieren übergibt den ausgwählten Designmodus
+     */
+    public static void steuereNachtDesign(int aktivieren) {
+        switch (aktivieren) {
+            //Tagdesign
+            case 0: {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            }
+            //Nachtdesign
+            case 1: {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            }
+            //System-Design erstmal nicht im Design implementiert, da switch verwendet (siehe fragment_settings)
+            case 2: {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            }
+
+        }
+
+    }
 
     /**
      * ausgeführt, sobald die App gestartet wird
@@ -114,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public boolean onMenuItemClick(MenuItem item) {
                 DrawerLayout drawer = findViewById(R.id.drawer_layout);
                 Toast.makeText(getApplicationContext(), "msg msg", Toast.LENGTH_SHORT).show();
-                ladeFragment(new NewCarFragment());
+                ladeFragment();
                 drawer.closeDrawer(GravityCompat.START);  // Schließen des
                 // Seitenmenüs nach Ausführung
                 return true;
@@ -122,50 +146,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
     }
-    //TODO: funktioniert nicht richtig, lädt fragment über aktuelles fragment
 
     /**
-     * Ersetzt das aktuelle Fragment durch das Übergebene
-     *
-     * @param fragment Fragment durch das das aktuelle ersetzt wird
+     * Ersetzt das aktuelle Fragment durch fragment_newcar
      */
-    public void ladeFragment(Fragment fragment) {
-        FragmentTransaction transaktion = getSupportFragmentManager().beginTransaction();
-        transaktion.replace(R.id.nav_host_fragment, fragment); //keine Ahnung was genau ersetzt werden muss
-        transaktion.commit();
+    public void ladeFragment() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navController.navigate(R.id.navigation_newcar);
     }
 
     // TODO: Methode löschen, da statisch gelöst
     private void setNavigationViewListener() {
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    /**
-     * Steuert das Nachtdesign
-     *
-     * @param aktivieren übergibt den ausgwählten Designmodus
-     */
-    public static void steuereNachtDesign(int aktivieren) {
-        switch (aktivieren) {
-            //Tagdesign
-            case 0: {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                break;
-            }
-            //Nachtdesign
-            case 1: {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                break;
-            }
-            //System-Design erstmal nicht im Design implementiert, da switch verwendet (siehe fragment_settings)
-            case 2: {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-                break;
-            }
-
-        }
-
     }
     // --- ab hier nur noch Listener (onXYZ-Methoden)
 
