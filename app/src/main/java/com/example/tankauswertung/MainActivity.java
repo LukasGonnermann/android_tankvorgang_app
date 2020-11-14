@@ -25,8 +25,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawer;
     NavigationView navigationView;
     BottomNavigationView botNavView;
-    Garage garage;
+    static Garage garage;
     private AppBarConfiguration mAppBarConfiguration;
+
+    /**
+     * Gibt die aktuelle Garage zurück
+     *
+     * @return aktuelle Garage
+     */
+    public static Garage getGarage() {
+        return garage;
+    }
 
     /**
      * Steuert das Nachtdesign
