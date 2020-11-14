@@ -1,6 +1,7 @@
 package com.example.tankauswertung;
 
-import java.io.ObjectOutputStream;
+import com.example.tankauswertung.exceptions.FahrzeugWertException;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -70,15 +71,20 @@ public class Fahrzeug implements Serializable {
      */
     public Fahrzeug(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
                     double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss, double pTankgroesse) {
-        this.name = pName;
-        this.elektro = pElektro;
-        this.verbrauchInnerorts = pVerbrauchInnerorts;
-        this.verbrauchAusserorts = pVerbrauchAusserorts;
-        this.verbrauchKombiniert = pVerbrauchKombiniert;
-        this.kmStand = pKmStand;
-        this.tankstand = pTankstand;
-        this.co2Ausstoss = pCo2Ausstoss;
-        this.tankgroesse = pTankgroesse;
+        try {
+            this.setName(pName);
+            this.setElektro(pElektro);
+            this.setVerbrauchAusserorts(pVerbrauchAusserorts);
+            this.setVerbrauchInnerorts(pVerbrauchInnerorts);
+            this.setVerbrauchKombiniert(pVerbrauchKombiniert);
+            this.setKmStand(pKmStand);
+            this.setTankstand(pTankstand);
+            this.setCo2Ausstoss(pCo2Ausstoss);
+            this.setTankgroesse(pTankgroesse);
+        } catch (FahrzeugWertException e) {
+            e.printStackTrace();
+            System.err.println("Fahrzeug konnte nicht angelegt werden, da ungueltige Werte eingegeben wurden.");
+        }
         this.strecken = new ArrayList<>();
         this.tankvorgaenge = new ArrayList<>();
     }
@@ -156,14 +162,42 @@ public class Fahrzeug implements Serializable {
     }
 
     /**
+     * Getter fuer die Tankgroesse des Fahrzeugs
+     *
+     * @return Tankgroesse in Litern
+     */
+    public double getTankgroesse() {
+        return tankgroesse;
+    }
+
+    /**
+     * Getter fuer das gesamte Strecken-Array
+     *
+     * @return ArrayList<Strecke>, Alle Strecken (Aktuellste Strecke auf Index 0)
+     */
+    public ArrayList<Strecke> getStrecken() {
+        return strecken;
+    }
+
+    /**
+     * Getter fuer das gesamte Tankvorgaenge-Array
+     *
+     * @return ArrayList<Tankvorgang>, Alle Tankvorgaenge (Aktuellster Tankvorgang auf Index 0)
+     */
+    public ArrayList<Tankvorgang> getTankvorgaenge() {
+        return tankvorgaenge;
+    }
+
+    /**
      * Setter fuer den Namen
      *
      * @param name Name der gesetzt werden soll
-     * @return Gibt true zurueck, falls der Nae gesetzt werden konnte. False, wenn der Parameter leer ist
+     * @return Gibt true zurueck, falls der Name gesetzt werden konnte.
+     * @throws FahrzeugWertException Wenn der Parameter leer ist.
      */
-    public boolean setName(String name) {
+    public boolean setName(String name) throws FahrzeugWertException {
         if (name != null && name.trim().length() == 0) {
-            return false;
+            throw new FahrzeugWertException("Name kann nicht gesetzt werden, da ein ungueltiger Wert eingegeben wurde.");
         }
         this.name = name;
         return true;
@@ -184,11 +218,12 @@ public class Fahrzeug implements Serializable {
      * Setter fuer Verbrauch innerorts
      *
      * @param verbrauchInnerorts double-Wert, der gesetzt werden soll
-     * @return Gibt true zurueck, wenn der Wert gesetzt wurde. False, wenn der Parameter kleiner null ist
+     * @return Gibt true zurueck, wenn der Wert gesetzt wurde.
+     * @throws FahrzeugWertException Wenn der Parameter kleiner null ist
      */
-    public boolean setVerbrauchInnerorts(double verbrauchInnerorts) {
+    public boolean setVerbrauchInnerorts(double verbrauchInnerorts) throws FahrzeugWertException {
         if (verbrauchInnerorts < 0) {
-            return false;
+            throw new FahrzeugWertException("Verbrauch Innerorts konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.");
         }
         this.verbrauchInnerorts = verbrauchInnerorts;
         return true;
@@ -198,11 +233,12 @@ public class Fahrzeug implements Serializable {
      * Setter fuer Verbrauch ausserorts
      *
      * @param verbrauchAusserorts double-Wert, der gesetzt werden soll
-     * @return Gibt true zurueck, wenn der Wert gesetzt wurde. False, wenn der Parameter kleiner null ist
+     * @return Gibt true zurueck, wenn der Wert gesetzt wurde.
+     * @throws FahrzeugWertException Wenn der Parameter kleiner null ist
      */
-    public boolean setVerbrauchAusserorts(double verbrauchAusserorts) {
+    public boolean setVerbrauchAusserorts(double verbrauchAusserorts) throws FahrzeugWertException {
         if (verbrauchAusserorts < 0) {
-            return false;
+            throw new FahrzeugWertException("Verbrauch Ausserorts konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.");
         }
         this.verbrauchAusserorts = verbrauchAusserorts;
         return true;
@@ -212,11 +248,12 @@ public class Fahrzeug implements Serializable {
      * Setter fuer Verbrauch kombiniert
      *
      * @param verbrauchKombiniert double-Wert, der gesetzt werden soll
-     * @return Gibt true zurueck, wenn der Wert gesetzt wurde. False, wenn der Parameter kleiner null ist
+     * @return Gibt true zurueck, wenn der Wert gesetzt wurde.
+     * @throws FahrzeugWertException Wenn der Parameter kleiner null ist
      */
-    public boolean setVerbrauchKombiniert(double verbrauchKombiniert) {
+    public boolean setVerbrauchKombiniert(double verbrauchKombiniert) throws FahrzeugWertException {
         if (verbrauchKombiniert < 0) {
-            return false;
+            throw new FahrzeugWertException("Verbrauch kombiniert konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.");
         }
         this.verbrauchKombiniert = verbrauchKombiniert;
         return true;
@@ -226,25 +263,27 @@ public class Fahrzeug implements Serializable {
      * Setter fuer Kilometerstand
      *
      * @param kmStand double-Wert, der gesetzt werden soll
-     * @return Gibt true zurueck, wenn der Wert gesetzt wurde. False, wenn der Parameter kleiner null ist
+     * @return Gibt true zurueck, wenn der Wert gesetzt wurde.
+     * @throws FahrzeugWertException Wenn der Parameter kleiner null ist
      */
-    public boolean setKmStand(double kmStand) {
+    public boolean setKmStand(double kmStand) throws FahrzeugWertException {
         if (kmStand < 0) {
-            return false;
+            throw new FahrzeugWertException("Kilometerstand konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.");
         }
         this.kmStand = kmStand;
         return true;
     }
 
     /**
-     * Setter fuer den Kilometerstand
+     * Setter fuer den Tankstand
      *
      * @param tankstand Integer-Wert, der gesetzt werden soll (Prozentzahl)
-     * @return Gibt true zurueck, wenn der Wert gesetzt wurde. False, wenn der Parameter kleiner null oder groesser 100 ist
+     * @return Gibt true zurueck, wenn der Wert gesetzt wurde.
+     * @throws FahrzeugWertException Wenn der Parameter kleiner null oder groesser 100 ist
      */
-    public boolean setTankstand(double tankstand) {
+    public boolean setTankstand(double tankstand) throws FahrzeugWertException {
         if (tankstand < 0 || tankstand > 100) {
-            return false;
+            throw new FahrzeugWertException("Tankstand konnte nicht gesetzt werden, da kein Wert zwischen 0 und 100 eingegeben wurde.");
         }
         this.tankstand = tankstand;
         return true;
@@ -254,11 +293,15 @@ public class Fahrzeug implements Serializable {
      * Setter fuer den CO2-Ausstoss
      *
      * @param co2Ausstoss double-Wert, der gesetzt werden soll
-     * @return Gibt true zurueck, wenn der Wert gesetzt wurde. False, wenn der Parameter kleiner null ist
+     * @return Gibt true zurueck, wenn der Wert gesetzt wurde.
+     * @throws FahrzeugWertException Wenn der Parameter kleiner null ist
      */
-    public boolean setCo2Ausstoss(double co2Ausstoss) {
+    public boolean setCo2Ausstoss(double co2Ausstoss) throws FahrzeugWertException {
         if (co2Ausstoss < 0) {
-            return false;
+            throw new FahrzeugWertException("CO2-Ausstoss konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.");
+        }
+        if (this.elektro == true && co2Ausstoss != 0) {
+            throw new FahrzeugWertException("Bei einem Elektroauto kann kein CO2-Ausstoss groesser 0 eingegeben werden.");
         }
         this.co2Ausstoss = co2Ausstoss;
         return true;
@@ -268,19 +311,17 @@ public class Fahrzeug implements Serializable {
      * Setter fuer die Tankgroesse des Fahrzeugs
      *
      * @param tankgroesse double, Tangroesse in Litern
+     * @return Gibt true zurueck, wenn der Wert gesetzt wurde.
+     * @throws FahrzeugWertException Wenn der Parameter kleiner null ist
      */
-    public void setTankgroesse(double tankgroesse) {
+    public boolean setTankgroesse(double tankgroesse) throws FahrzeugWertException {
+        if (tankgroesse < 0) {
+            throw new FahrzeugWertException("Tankgroesse konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.");
+        }
         this.tankgroesse = tankgroesse;
+        return true;
     }
 
-    /**
-     * Getter fuer die Tankgroesse des Fahrzeugs
-     *
-     * @return Tankgroesse in Litern
-     */
-    public double getTankgroesse() {
-        return tankgroesse;
-    }
 
     /**
      * @param pName                String, Name des Autos, der gesetzt werden soll
@@ -295,54 +336,44 @@ public class Fahrzeug implements Serializable {
      */
     public void fahrzeugAendern(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
                                 double pVerbrauchKombiniert, double pKmStand, double pTankstand, double pCo2Ausstoss, double pTankgroesse) {
-        this.setName(pName);
-        this.setElektro(pElektro);
-        this.setVerbrauchInnerorts(pVerbrauchInnerorts);
-        this.setVerbrauchAusserorts(pVerbrauchAusserorts);
-        this.setVerbrauchKombiniert(pVerbrauchKombiniert);
-        this.setKmStand(pKmStand);
-        this.setTankstand(pTankstand);
-        this.setCo2Ausstoss(pCo2Ausstoss);
-        this.setTankgroesse(pTankgroesse);
+        try {
+            this.setName(pName);
+            this.setElektro(pElektro);
+            this.setVerbrauchInnerorts(pVerbrauchInnerorts);
+            this.setVerbrauchAusserorts(pVerbrauchAusserorts);
+            this.setVerbrauchKombiniert(pVerbrauchKombiniert);
+            this.setKmStand(pKmStand);
+            this.setTankstand(pTankstand);
+            this.setCo2Ausstoss(pCo2Ausstoss);
+            this.setTankgroesse(pTankgroesse);
+        } catch (FahrzeugWertException e) {
+            e.printStackTrace();
+            System.err.println("Fahrzeug konnte nicht geaendert werden, ungueltige Werte wurden eingegeben.");
+        }
     }
 
     /**
      * Methode zum Hinzufuegen einer gefahrenen Strecke in die "Strecken"-ArrayList am Index 0 (Anfang der Liste)
      *
-     * @param pDistanz double, Distanz in Kilometern
+     * @param pDistanz     double, Distanz in Kilometern
      * @param pStreckentyp Enum Streckentyp, Streckentyp, welcher eingeben wird (Innerorts, Ausserorts, kombiniert)
-     * @param pTankstand double, Tankstand nach dem Fahren der Strecke
+     * @param pTankstand   double, Tankstand nach dem Fahren der Strecke
      */
     public void streckeHinzufuegen(double pDistanz, Strecke.Streckentyp pStreckentyp, double pTankstand) {
         strecken.add(0, new Strecke(pDistanz, pStreckentyp, pTankstand));
     }
 
-    /**
-     * Getter fuer das gesamte Strecken-Array
-     *
-     * @return ArrayList<Strecke>, Alle Strecken (Aktuellste Strecke auf Index 0)
-     */
-    public ArrayList<Strecke> getStrecken() {
-        return strecken;
-    }
 
     /**
      * Methode zum Hinzufuegen eines Tankvorgangs in die "tankvorgaenge"-ArrayList am Index 0 (Anfang der Liste)
      *
      * @param pGetankteMenge double, getankte Menge in Litern
-     * @param pPreis double, gezahlter Preis in Euro
-     * @param pImg String, Pfad zum Foto
+     * @param pPreis         double, gezahlter Preis in Euro
+     * @param pImg           String, Pfad zum Foto
      */
     public void tangvorgangHinzufuegen(double pGetankteMenge, double pPreis, String pImg) {
         tankvorgaenge.add(0, new Tankvorgang(pGetankteMenge, pPreis, pImg));
     }
 
-    /**
-     * Getter fuer das gesamte Tankvorgaenge-Array
-     *
-     * @return ArrayList<Tankvorgang>, Alle Tankvorgaenge (Aktuellster Tankvorgang auf Index 0)
-     */
-    public ArrayList<Tankvorgang> getTankvorgaenge() {
-        return tankvorgaenge;
-    }
+
 }
