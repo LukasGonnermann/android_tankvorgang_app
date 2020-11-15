@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item_id) {
 
             // Auto Hinzufügen wurde gedrückt
-            case R.id.action_add_car: {
+            case R.id.action_new_car: {
                 Toast.makeText(getApplicationContext(), "Add Car", Toast.LENGTH_LONG).show();
                 // TODO: Aktivität zum Hinzufügen starten
                 break;

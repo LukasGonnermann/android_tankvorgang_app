@@ -234,8 +234,9 @@
 
             </LinearLayout>
 
-            <!-- Buttons -->
+            <!-- Buttons (nicht mehr notwendig) -->
 
+            <!--
             <Button
                 android:id="@+id/buttonFahzeugAnlegen"
                 android:layout_width="wrap_content"
@@ -250,6 +251,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/abbrechen"
             />
+            -->
 
         </LinearLayout>
 

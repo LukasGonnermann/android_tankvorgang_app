@@ -24,6 +24,9 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // zeigt den Zurück-Button an
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         final Switch switchDarkMode = findViewById(R.id.switchDarkMode);
 
         switchDarkMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -38,9 +41,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+//        --- dunno wofür das ist, deswegen auskommentiert
 //        SettingsViewModel settingsViewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
-// --- idfk what this was for
-
 //        settingsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
 //            @Override
 //            public void onChanged(@Nullable String s) {
@@ -48,5 +50,15 @@ public class SettingsActivity extends AppCompatActivity {
 //            }
 //        });
 
+    }
+
+    /**
+     * lässt den Zurück-Button funktionieren
+     * @return -
+     */
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

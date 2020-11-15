@@ -38,4 +38,5 @@
     <string name="tankvolumen_l_kwh">Tankvolumen [l(kWh)]</string>
     <string name="co2_ausstoss_g_km">CO2-Ausstoß [g/km]</string>
     <string name="dark_mode">Nachtmodus</string>
+    <string name="done">Fertig</string>
 </resources>
