@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class Fahrzeug implements Serializable {
     /**
-     * Bezeichnung der Fahrzeugs
+     * Bezeichnung des Fahrzeugs
      */
     private String name;
 
@@ -300,7 +300,7 @@ public class Fahrzeug implements Serializable {
         if (co2Ausstoss < 0) {
             throw new FahrzeugWertException("CO2-Ausstoss konnte nicht gesetzt werden, da ein negativer Wert eingegeben wurde.");
         }
-        if (this.elektro == true && co2Ausstoss != 0) {
+        if (this.elektro && co2Ausstoss != 0) {
             throw new FahrzeugWertException("Bei einem Elektroauto kann kein CO2-Ausstoss groesser 0 eingegeben werden.");
         }
         this.co2Ausstoss = co2Ausstoss;
