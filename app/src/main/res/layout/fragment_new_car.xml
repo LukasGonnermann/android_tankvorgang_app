@@ -17,23 +17,17 @@
             android:orientation="vertical"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
+            android:layout_marginTop="25dp"
             android:layout_marginBottom="25dp"
         >
-
-            <!-- Name -->
-
-            <TextView
-                android:id="@+id/labelName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:text="@string/anzeigename" />
 
             <EditText
                 android:id="@+id/editTextName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="text"
+                android:hint="@string/anzeigename"
+                android:textSize="24sp" />
 
             <!-- Verbrauch innerorts -->
 
@@ -54,17 +48,16 @@
 
                 <TextView
                     android:id="@+id/labelVerbrauchInnerortsStand"
-                    android:layout_width="wrap_content"
+                    android:layout_width="24dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="0"
+                    android:text="@string/zero_number"
                 />
 
                 <SeekBar
                     android:id="@+id/seekBarVerbrauchInnerorts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
                     android:layout_marginTop="1dp"
                     android:min="0"
                     android:max="50"
@@ -91,17 +84,16 @@
 
                 <TextView
                     android:id="@+id/labelVerbrauchAusserortsStand"
-                    android:layout_width="wrap_content"
+                    android:layout_width="24dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="0"
+                    android:text="@string/zero_number"
                     />
 
                 <SeekBar
                     android:id="@+id/seekBarVerbrauchAusserorts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
                     android:layout_marginTop="1dp"
                     android:min="0"
                     android:max="50"
@@ -128,17 +120,16 @@
 
                 <TextView
                     android:id="@+id/labelVerbrauchKombiniertStand"
-                    android:layout_width="wrap_content"
+                    android:layout_width="24dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="0"
+                    android:text="@string/zero_number"
                     />
 
                 <SeekBar
                     android:id="@+id/seekBarVerbrauchKombiniert"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
                     android:layout_marginTop="1dp"
                     android:min="0"
                     android:max="50"
@@ -149,7 +140,7 @@
             <!-- CO2-Ausstoß -->
 
             <TextView
-                android:id="@+id/labelCO2Ausstoss"
+                android:id="@+id/labelCo2Ausstoss"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
@@ -157,10 +148,11 @@
             />
 
             <EditText
-                android:id="@+id/editTextCO2"
+                android:id="@+id/editTextCo2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="numberDecimal"
+                android:text="@string/zero_number"
             />
 
             <!-- Kilometerstand -->
@@ -178,6 +170,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
+                android:text="@string/zero_number"
             />
 
             <!-- Tankvolumen -->
@@ -195,6 +188,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
+                android:text="@string/zero_number"
             />
 
             <!-- Aktueller Tankstand -->
@@ -212,46 +206,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="50dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/labelAktuellerTankstandStand"
-                    android:layout_width="wrap_content"
+                    android:layout_width="24dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="0"
+                    android:text="@string/zero_number"
                 />
 
                 <SeekBar
-                    android:id="@+id/seekBarAktuellerTankstandKombiniert"
+                    android:id="@+id/seekBarAktuellerTankstand"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
                     android:layout_marginTop="1dp"
                     android:min="0"
-                    android:max="50"
+                    android:max="100"
                 />
 
             </LinearLayout>
-
-            <!-- Buttons (nicht mehr notwendig) -->
-
-            <!--
-            <Button
-                android:id="@+id/buttonFahzeugAnlegen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/button_fahzeuganlegen"
-            />
-
-            <Button
-                android:id="@+id/buttonAbbrechen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/abbrechen"
-            />
-            -->
 
         </LinearLayout>
 

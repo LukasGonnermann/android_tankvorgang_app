@@ -1,10 +1,12 @@
 package com.example.tankauswertung;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,6 +30,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     BottomNavigationView botNavView;
     static Garage garage;
     private AppBarConfiguration mAppBarConfiguration;
+
+    // Konstanten
+    final int LAUNCH_NEW_CAR = 2;
+    final int LAUNCH_SETTINGS = 3;
 
     /**
      * ausgeführt, sobald die App gestartet wird
@@ -110,19 +116,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         garage = new Garage();
         garage.load();
 
-        // erstelle NavigationDrawer-Elemente
-        erstelleSeitenmenue();
-        // setNavigationViewListener();
 
+        erstelleSeitenmenue();
+        aktualisiereGarageInSeitenmenue();
         aktuellesFahrzeugGewechselt();
     }
 
     private void aktuellesFahrzeugGewechselt() {
-        // TODO: aktualisiere UI-Elemente, die Fahrzeugdaten darstellen
+        // TODO: aktualisiere UI-Elemente, die Fahrzeugdaten darstellen, da Auto im Seitenmenü angeklickt wurde
     }
 
     /**
-     * fügt Elemente zum Seitenmenü hinzu
+     * erstellt Grundstruktur des Seitenmenüs
      */
     private void erstelleSeitenmenue() {
 
@@ -131,46 +136,74 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navView = findViewById(R.id.nav_view);
         Menu menu = navView.getMenu();
-        Menu garageMenu = menu.addSubMenu(0, 0, 0, R.string.garage);
-
-        // --- Autos
-        // Garage ist nicht leer, also mit Fahrezugen füllen
-        if (!garage.isEmpty()) {
-            int anzahlFahrzeuge = garage.getAnzFahrzeuge();
-            for (int id = 0; id < anzahlFahrzeuge; id++) {
-                Fahrzeug aktuellesFahrzeug = garage.getFahrzeugById(id);
-                menu.add(0, id, 0, aktuellesFahrzeug.getName());
-            }
-        }
-
-        // --- Auto Hinzufügen
-        // fügt Button für ein Item hinzu um ein neues Auto anzulegen
-        MenuItem neuesAuto = garageMenu.add(0, R.id.navigation_new_car, 0, R.string.title_new_car);
-        neuesAuto.setIcon(R.drawable.ic_baseline_add_24);
-        neuesAuto.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(getApplicationContext(), AddCarActivity.class);
-                startActivity(intent);
-                DrawerLayout drawer = findViewById(R.id.drawer_layout);
-                drawer.closeDrawer(GravityCompat.START);  // Schließen des Seitenmenüs nach Öffnen der Aktivität
-                return true;
-            }
-        });
+        SubMenu garageMenu = menu.addSubMenu(0, 0, 0, R.string.garage);
 
         // --- Einstellungen
-        MenuItem einstellungen = garageMenu.add(0, R.id.navigation_settings, 0, R.string.title_settings);
-        einstellungen.setIcon(R.drawable.ic_baseline_settings_24);
-        einstellungen.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        MenuItem einstellungenButton = menu.add(0, R.id.navigation_settings, 1, R.string.title_settings);
+        einstellungenButton.setIcon(R.drawable.ic_baseline_settings_24);
+        einstellungenButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, LAUNCH_SETTINGS);
                 DrawerLayout drawer = findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);  // Schließen des Seitenmenüs nach Öffnen der Aktivität
                 return true;
             }
         });
+    }
+
+    /**
+     * setzt die MenuItems mit den Autonamen neu
+     */
+    private void aktualisiereGarageInSeitenmenue() {
+
+        NavigationView navView = findViewById(R.id.nav_view);
+        Menu menu = navView.getMenu();
+
+        MenuItem garageMenuItem = menu.getItem(0);
+        SubMenu garageMenu = garageMenuItem.getSubMenu();
+        garageMenu.clear();  // erst einmal alle bereits vorhandenen Autos entfernen
+
+        // --- Auto Hinzufügen
+        // fügt Button für ein Item hinzu um ein neues Auto anzulegen
+        MenuItem autoHinzufuegenButton = garageMenu.add(0, R.id.navigation_new_car, 99, R.string.title_new_car);
+        autoHinzufuegenButton.setIcon(R.drawable.ic_baseline_add_24);
+        autoHinzufuegenButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplicationContext(), NewCarActivity.class);
+                startActivityForResult(intent, LAUNCH_NEW_CAR);
+                DrawerLayout drawer = findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);  // Schließen des Seitenmenüs nach Öffnen der Aktivität
+                return true;
+            }
+        });
+
+        // --- Autos
+        // falls Garage nicht leer, mit Fahrzeugen füllen
+        if (!garage.isEmpty()) {
+
+            int anzahlFahrzeuge = garage.getAnzFahrzeuge();
+            for (int id = 0; id < anzahlFahrzeuge; id++) {
+
+                Fahrzeug aktuellesFahrzeug = garage.getFahrzeugById(id);
+                MenuItem neuesAuto = garageMenu.add(0, id, 0, aktuellesFahrzeug.getName());
+                neuesAuto.setIcon(R.drawable.ic_baseline_directions_car_24);
+
+                int autoId = id;  // explizit gesetzt, da ansonsten aus innerer Klasse kein Zugriff
+
+                neuesAuto.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        // TODO: Auto wurde angeklickt -> in Dashboard laden
+                        garage.setAusgewaehltesFahrzeugById(autoId);
+                        aktuellesFahrzeugGewechselt();
+                        return false;
+                    }
+                });
+            }
+        }
     }
 
     // --- ab hier nur noch Listener (onXYZ-Methoden)
@@ -202,8 +235,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /**
+     * hier bekommen wir unsere Ergebnisse, nachdem eine Aktivität geschlossen wurde
+     * @param requestCode Code, mit dem die Aktivität aufgerufen wurde (z. B. LAUNCH_NEW_CAR)
+     *                    (siehe auch https://stackoverflow.com/a/10407371)
+     * @param resultCode Ergebniscode
+     * @param data zurückgegebener Intent
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == LAUNCH_NEW_CAR) {
+            if (resultCode == Activity.RESULT_OK) {
+                aktualisiereGarageInSeitenmenue();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
-    // --- OLD
+    // TODO: alte Funktion, nicht mehr noc
     // TODO: default muss in die individuellen OnClickListener übertragen werden (zeile 110) und anschließend gelöscht inkl. implements
 
     /**
@@ -220,27 +270,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (item_id) {
 
-            // Auto Hinzufügen wurde gedrückt
-            case R.id.action_new_car: {
-                Toast.makeText(getApplicationContext(), "Add Car", Toast.LENGTH_LONG).show();
-                // TODO: Aktivität zum Hinzufügen starten
-                break;
-            }
-
-            // Einstellungen wurde gedrückt
-            case R.id.action_settings: {
-                Toast.makeText(getApplicationContext(), "Settings", Toast.LENGTH_LONG).show();
-                // TODO: Aktivität der Einstellungen starten
-                break;
-            }
-
             default: {
                 // --- Testausgabe
                 String msg = "Auto " + item_id + " gedrückt";
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                 // ---
-                garage.setAusgewaehltesFahrzeugById(item_id);
-                aktuellesFahrzeugGewechselt();
+
                 break;
             }
         }

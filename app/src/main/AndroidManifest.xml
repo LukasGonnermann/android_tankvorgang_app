@@ -20,7 +20,7 @@
         </activity>
 
         <activity
-            android:name=".AddCarActivity"
+            android:name=".NewCarActivity"
             android:label="Fahrzeug hinzufügen">
         </activity>
 
