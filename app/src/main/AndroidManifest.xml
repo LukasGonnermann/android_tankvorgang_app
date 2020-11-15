@@ -21,7 +21,12 @@
 
         <activity
             android:name=".AddCarActivity"
-            android:label="Auto hinzufügen">
+            android:label="Fahrzeug hinzufügen">
+        </activity>
+
+        <activity
+            android:name=".SettingsActivity"
+            android:label="Einstellungen">
         </activity>
 
     </application>

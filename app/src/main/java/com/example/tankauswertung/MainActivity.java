@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -80,22 +81,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     public static void steuereNachtDesign(int aktivieren) {
         switch (aktivieren) {
-            //Tagdesign
+            // Tagdesign
             case 0: {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 break;
             }
-            //Nachtdesign
+            // Nachtdesign
             case 1: {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 break;
             }
-            //System-Design erstmal nicht im Design implementiert, da switch verwendet (siehe fragment_settings)
+            // System-Design erstmal nicht im Design implementiert, da switch verwendet (siehe fragment_settings)
             case 2: {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
                 break;
             }
-
         }
 
     }
@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Menu menu = navView.getMenu();
         Menu garageMenu = menu.addSubMenu(0, 0, 0, R.string.garage);
 
+        // --- Autos
         // Garage ist nicht leer, also mit Fahrezugen füllen
         if (!garage.isEmpty()) {
             int anzahlFahrzeuge = garage.getAnzFahrzeuge();
@@ -142,38 +143,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
+        // --- Auto Hinzufügen
         // fügt Button für ein Item hinzu um ein neues Auto anzulegen
         MenuItem neuesAuto = garageMenu.add(0, R.id.navigation_new_car, 0, R.string.title_new_car);
         neuesAuto.setIcon(R.drawable.ic_baseline_add_24);
         neuesAuto.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplicationContext(), AddCarActivity.class);
+                startActivity(intent);
                 DrawerLayout drawer = findViewById(R.id.drawer_layout);
-                ladeActivity();
-                drawer.closeDrawer(GravityCompat.START);  // Schließen des Seitenmenüs nach Ausführung
+                drawer.closeDrawer(GravityCompat.START);  // Schließen des Seitenmenüs nach Öffnen der Aktivität
                 return true;
             }
         });
 
+        // --- Einstellungen
         MenuItem einstellungen = garageMenu.add(0, R.id.navigation_settings, 0, R.string.title_settings);
         einstellungen.setIcon(R.drawable.ic_baseline_settings_24);
-
-    }
-
-    /**
-     * Ersetzt das aktuelle Fragment durch fragment_newcar
-     */
-    public void ladeActivity() {
-        Intent intent = new Intent(this, AddCarActivity.class);
-        startActivity(intent);
-        // NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        // navController.navigate(R.id.navigation_newcar);
-    }
-
-    // TODO: Methode löschen, da statisch gelöst
-    private void setNavigationViewListener() {
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        einstellungen.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+                DrawerLayout drawer = findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);  // Schließen des Seitenmenüs nach Öffnen der Aktivität
+                return true;
+            }
+        });
     }
 
     // --- ab hier nur noch Listener (onXYZ-Methoden)
@@ -205,7 +202,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    //TODO: default muss in die individuellen OnClickListener übertragen werden (zeile 110) und anschließend gelöscht inkl. implements
+
+    // --- OLD
+    // TODO: default muss in die individuellen OnClickListener übertragen werden (zeile 110) und anschließend gelöscht inkl. implements
 
     /**
      * Behandelt das Drücken einzelner Elemente des Seitenmenüs
