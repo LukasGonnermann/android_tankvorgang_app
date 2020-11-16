@@ -7,6 +7,7 @@ import com.example.tankauswertung.exceptions.GarageVollException;
 
 import java.util.ArrayList;
 import java.io.*;
+import java.util.Arrays;
 
 
 /**
@@ -162,7 +163,6 @@ public class Garage {
         if (index != -1) {
             fahrzeugLoeschen(index);
         }
-
     }
 
     /**
@@ -220,6 +220,8 @@ public class Garage {
         } catch (FileNotFoundException e) {
             System.err.println("File not found:" + fileName);
         }
+
+        anzFahrzeuge = fahrzeuge.size();
     }
 
     public boolean contains(Fahrzeug fahrzeug) {

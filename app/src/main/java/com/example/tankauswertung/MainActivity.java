@@ -23,6 +23,10 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.Arrays;
+
+// TODO: Fahrzeug auswählen, Fahrzeug entfernen, Fahrzeug ändern
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawer;
@@ -114,8 +118,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void ladeUi() {
         // lade Garage
         garage = new Garage();
-        garage.load();
-
+        garage.load(getApplicationContext());
 
         erstelleSeitenmenue();
         aktualisiereGarageInSeitenmenue();

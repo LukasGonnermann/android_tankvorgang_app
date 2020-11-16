@@ -242,7 +242,7 @@ public class NewCarActivity extends AppCompatActivity {
         // result setzen
 
         if (korrekteEingabe && fahrzeugErstellt) {
-            garage.save();
+            garage.save(getApplicationContext());
             setResult(Activity.RESULT_OK, returnIntent);
         } else {
             setResult(Activity.RESULT_CANCELED, returnIntent);
@@ -256,7 +256,6 @@ public class NewCarActivity extends AppCompatActivity {
      * @param menu Menü
      * @return -
      */
-
     public boolean onPrepareOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_new_car, menu);
