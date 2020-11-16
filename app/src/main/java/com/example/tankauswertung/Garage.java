@@ -1,5 +1,7 @@
 package com.example.tankauswertung;
 
+import android.content.Context;
+
 import com.example.tankauswertung.exceptions.GarageLeerException;
 import com.example.tankauswertung.exceptions.GarageVollException;
 
@@ -30,7 +32,7 @@ public class Garage {
     /**
      * Legt den Namen des Datei fest die beim Serialisierungsprozess benutzt wird (Methoden load, save)
      */
-    private final String fileName = "Fahrzeuge.dat";
+    private final String fileName = "fahrzeuge.dat";
 
 
     /**
@@ -152,6 +154,18 @@ public class Garage {
     }
 
     /**
+     * Loescht ein Objekt anhand des Objekt selbst ohne den Key zu kennen.
+     * @param delFahrzeug zu loeschendes Fahrzeug
+     */
+    public void fahrzeugLoeschen(Fahrzeug delFahrzeug) throws GarageLeerException {
+        int index = this.fahrzeuge.indexOf(delFahrzeug);
+        if (index != -1) {
+            fahrzeugLoeschen(index);
+        }
+
+    }
+
+    /**
      * @param key Index des Fahrzeugs in der ArrayList, welches an auswählen möchte
      */
     public void fahrzeugAuswaehlen(int key) {
@@ -166,53 +180,36 @@ public class Garage {
     }
 
     /**
-     * Speichert Fahrzeuglistenelemente in einer Datei (in Attributen von Garage angegeben)
+     * Serialisiert ArrayList<Fahrzeuge> in File filename
      */
-    public void save() {
+    public void save(Context context) {
         try {
-            FileOutputStream fs = new FileOutputStream(fileName);
-
+            FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
             try {
-                ObjectOutputStream os = new ObjectOutputStream(fs);
-                // Jedes Fahrzeug als Objekt in die Datei schreiben
-                for (Fahrzeug f : fahrzeuge) {
-                    try {
-                        os.writeObject(f);
-                    } catch (IOException e) {
-                        System.err.println("An IO Error Occured");
-                        e.printStackTrace();
-                    }
-                }
-
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                oos.writeObject(this.fahrzeuge);
             } catch (IOException e) {
-                System.err.println("An IO Error Occured");
+                System.out.println("An IO Error has occured");
                 e.printStackTrace();
             }
 
-        } catch (FileNotFoundException e) {
-            System.err.println("Can't Open File: " + fileName);
+        } catch (FileNotFoundException e ) {
+            System.out.println("Datei " + fileName + " konnte nicht geoeffnet werden!");
             e.printStackTrace();
         }
     }
 
     /**
-     * Laedt Fahrzeug Objekte aus einer Datein(in Attributen von Garage angegeben) und ersetzt aktuelle Fahrzeugliste mit geladener Fahrzeugliste
+     * Laedt Fahrzeuge als ArrayList aus Fahrzeugen
+     * Context uebergeben durch z.B. getApplicationContext(), getContext(), getBaseContext or this
      */
-    public void load() {
-        ArrayList<Fahrzeug> importedFahrzeuge = new ArrayList<>();
-        boolean cont = true;
+    public void load(Context context) {
         try {
-            FileInputStream fs = new FileInputStream(fileName);
-
+            FileInputStream fis = context.openFileInput(fileName);
             try {
-                ObjectInputStream os = new ObjectInputStream(fs);
-                Object o = os.readObject();
-                if (o != null) {
-                    Fahrzeug f = (Fahrzeug) o;
-                    importedFahrzeuge.add(f);
-                } else {
-                    cont = false;
-                }
+                ObjectInputStream os = new ObjectInputStream(fis);
+                ArrayList<Fahrzeug> importedFahrzeuge = (ArrayList<Fahrzeug>) os.readObject();
+                this.fahrzeuge = importedFahrzeuge;
 
             } catch (IOException e) {
                 System.err.println("An IO error occured");
@@ -223,6 +220,11 @@ public class Garage {
         } catch (FileNotFoundException e) {
             System.err.println("File not found:" + fileName);
         }
-        this.fahrzeuge = importedFahrzeuge;
     }
+
+    public boolean contains(Fahrzeug fahrzeug) {
+        return this.fahrzeuge.contains(fahrzeug);
+    }
+
 }
+
