@@ -1,5 +1,6 @@
 package com.example.tankauswertung;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,16 +12,19 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.ActionMenuItem;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.tankauswertung.exceptions.FahrzeugWertException;
 import com.example.tankauswertung.exceptions.GarageVollException;
 
 import java.util.HashMap;
 import java.util.Map;
+
+// Aktivität zum Hinzufügen und zum Ändern (anderer Action-Code)
+
+// TODO: Differenzierung zwischen Elektroauto und Verbrenner
 
 public class NewCarActivity extends AppCompatActivity {
 
@@ -42,13 +46,17 @@ public class NewCarActivity extends AppCompatActivity {
     SeekBar seekBarVerbrauchKombiniert;
     SeekBar seekBarAktuellerTankstand;
 
-    Intent returnIntent = new Intent();
+    Intent intent;
+
+    Garage garage;
 
     /**
      * ausgeführt, sobald die Aktivität gestartet wird
      *
+     *
      * @param savedInstanceState —
      */
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -57,6 +65,9 @@ public class NewCarActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         supportInvalidateOptionsMenu();
+
+        intent = getIntent();  // erhalte Intent vom Aufruf
+        garage = MainActivity.getGarage();  // erhalte Garagenobjekt
 
         editTextName = findViewById(R.id.editTextName);
         editTextCo2 = findViewById(R.id.editTextCo2);
@@ -81,7 +92,6 @@ public class NewCarActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(editTextName.getText())) {
                     editTextName.setError("Bitte geben Sie einen Fahrzeugnamen an");
                     korrekteEinzeleingaben.put("name", false);
-                    updateKorrekteEingabe();
                 } else {
                     korrekteEinzeleingaben.put("name", true);
                 }
@@ -137,9 +147,6 @@ public class NewCarActivity extends AppCompatActivity {
             }
         });
 
-        editTextName.setText("");  // so wird der Listener zu Beginn ausgelöst
-        editTextName.setError(null);  // so wird zwar der Haken ausgegraut, aber zu Beginn kein Fehler angezeigt (bessere UX!)
-
         // --- SeekBar Listener
 
         seekBarVerbrauchInnerorts.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -186,11 +193,38 @@ public class NewCarActivity extends AppCompatActivity {
             }
         });
 
+        // --- Default-Werte setzen
+
+        if (intent.getAction().equals(MainActivity.ACTION_NEW_CAR)) {
+
+            editTextName.setText("");  // so wird der Listener (Überprüfung) zu Beginn ausgelöst
+            editTextName.setError(null);  // so wird zwar der Haken ausgegraut, aber zu Beginn kein Fehler angezeigt (bessere UX!)
+
+        } else if (intent.getAction().equals(MainActivity.ACTION_EDIT_CAR)) {
+
+            setTitle(R.string.edit_car);  // Titel "Fahrzeug bearbeiten" setzen
+
+            Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
+
+            editTextName.setText(aktuellesFahrzeug.getName());
+            editTextCo2.setText(Double.toString(aktuellesFahrzeug.getCo2Ausstoss()));
+            editTextKilometerstand.setText(Double.toString(aktuellesFahrzeug.getKmStand()));
+            editTextTankvolumen.setText(Double.toString(aktuellesFahrzeug.getTankgroesse()));
+
+            // TODO: Casts vermeiden, aber Slider (seekBars) beibehalten
+            // Verbrauch dann zumindest auf 1/5-tel-Liter-Genauigkeit angeben können
+            // dafür gerne auch max-Werte anpassen (50 Liter pro 100 km doch recht unrealistisch)
+            seekBarVerbrauchInnerorts.setProgress((int) aktuellesFahrzeug.getVerbrauchInnerorts());
+            seekBarVerbrauchAusserorts.setProgress((int) aktuellesFahrzeug.getVerbrauchAusserorts());
+            seekBarVerbrauchKombiniert.setProgress((int) aktuellesFahrzeug.getVerbrauchKombiniert());
+            seekBarAktuellerTankstand.setProgress((int) aktuellesFahrzeug.getTankstand());
+        }
+
         editTextName.requestFocus();  // zu Beginn Fokus auf Namensfeld
     }
 
     /**
-     * updated die Variable korrekte Eingabe auf Basis der Korrektheit der Einzeleingaben
+     * aktualisiert die Variable korrekteEingabe auf Basis der Korrektheit der Einzeleingaben
      */
     private void updateKorrekteEingabe() {
         korrekteEingabe = true;  // alles gültig
@@ -204,12 +238,11 @@ public class NewCarActivity extends AppCompatActivity {
     }
 
     /**
-     * Backend, um Fahrzeug hinzuzufügen
+     * Backend, um Daten abzufangen und Fahrzeug zu ändern oder zu Garage hinzuzufügen
      */
-    private boolean fahrzeugHinzufuegen() {
+    private boolean fertigButtonGedrueckt() {
 
-        boolean fahrzeugErstellt = false;  // Fahrzeugerstellung fehlerhaft oder nicht
-        Garage garage = MainActivity.getGarage();
+        boolean datenEingepflegt = false;  // Fahrzeugerstellung fehlerhaft oder nicht
 
         if (korrekteEingabe) {  // korrekte Eingaben getätigt
 
@@ -223,31 +256,43 @@ public class NewCarActivity extends AppCompatActivity {
             int verbrauchKombiniert = seekBarVerbrauchKombiniert.getProgress();
             int aktuellerTankstand = seekBarAktuellerTankstand.getProgress();
 
-            Fahrzeug neuesFahrzeug = new Fahrzeug(
-                    name, false, verbrauchAusserorts, verbrauchInnerorts, verbrauchKombiniert,
-                    kilometerstand, aktuellerTankstand, co2, tankvolumen
-            );
+            if (intent.getAction().equals(MainActivity.ACTION_NEW_CAR)) {  // neues Auto hinzufügen
 
-            try {
-                garage.fahrzeugHinzufuegen(neuesFahrzeug);
-                Toast.makeText(this, "Fahrzeug wurde erfolgreich erstellt", Toast.LENGTH_LONG).show();
-                fahrzeugErstellt = true;
-            } catch (GarageVollException e) {
-                Toast.makeText(this, "Fahrzeug konnte nicht erstellt werden, Garage ist voll!", Toast.LENGTH_LONG).show();
-                e.printStackTrace();
-                fahrzeugErstellt = false;
+                Fahrzeug neuesFahrzeug = new Fahrzeug(
+                        name, false,
+                        verbrauchAusserorts, verbrauchInnerorts, verbrauchKombiniert,
+                        kilometerstand, aktuellerTankstand, co2, tankvolumen
+                );
+
+                try {
+                    garage.fahrzeugHinzufuegen(neuesFahrzeug);
+                    datenEingepflegt = true;
+                } catch (GarageVollException e) {
+                    e.printStackTrace();
+                    datenEingepflegt = false;
+                }
+
+            } else if (intent.getAction().equals(MainActivity.ACTION_EDIT_CAR)) {  // Auto bearbeiten
+
+                Fahrzeug zuAenderndesFahrzeug = garage.getAusgewaehltesFahrzeug();
+
+                zuAenderndesFahrzeug.fahrzeugAendern(
+                        name, false,
+                        verbrauchAusserorts, verbrauchInnerorts, verbrauchKombiniert,
+                        kilometerstand, aktuellerTankstand, co2, tankvolumen);
+
+                datenEingepflegt = true;
+
             }
         }
 
         // result setzen
 
-        if (korrekteEingabe && fahrzeugErstellt) {
-            garage.save(getApplicationContext());
-            setResult(Activity.RESULT_OK, returnIntent);
+        if (korrekteEingabe && datenEingepflegt) {
+            setResult(Activity.RESULT_OK, intent);
         } else {
-            setResult(Activity.RESULT_CANCELED, returnIntent);
+            setResult(Activity.RESULT_CANCELED, intent);
         }
-
         return true;
     }
 
@@ -272,14 +317,14 @@ public class NewCarActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_new_car_done) {
-            boolean hatFunktioniert = fahrzeugHinzufuegen();
+            boolean hatFunktioniert = fertigButtonGedrueckt();
             if (hatFunktioniert) {
-                setResult(Activity.RESULT_OK, returnIntent);
+                setResult(Activity.RESULT_OK, intent);
                 finish();
                 return true;
             }
         }
-        setResult(Activity.RESULT_CANCELED, returnIntent);
+        setResult(Activity.RESULT_CANCELED, intent);
         return false;
     }
 
@@ -289,7 +334,7 @@ public class NewCarActivity extends AppCompatActivity {
      */
     @Override
     public boolean onSupportNavigateUp() {
-        setResult(Activity.RESULT_CANCELED, returnIntent);
+        setResult(Activity.RESULT_CANCELED, intent);
         onBackPressed();
         return true;
     }

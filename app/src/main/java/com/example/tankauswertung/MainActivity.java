@@ -37,15 +37,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     static Garage garage;
 
     // Activity request codes ("Which activity should be invoked?")
-    final int LAUNCH_NEW_CAR = 2;
+    final int LAUNCH_NEW_CAR_EDIT_CAR = 2;
     final int LAUNCH_SETTINGS = 3;
 
     // Activity action codes ("What should be done in the activity?")
     // Wir nutzen die gleiche Aktivität zum Hinzufügen und Bearbeiten eines Autos, deshalb müssen
     // wir mit intent.setAction(...) dazwischen differenzieren.
     // (Request-Codes kann man leider in einer Aktivität nicht gut abfragen.)
-    final String ACTION_NEW_CAR = "new_car";
-    final String ACTION_EDIT_CAR = "edit_car";
+    final static String ACTION_NEW_CAR = "new_car";
+    final static String ACTION_EDIT_CAR = "edit_car";
 
     // eine Liste an Möglichkeiten, wer die Methode "garageGeaendert()" aufgerufen hat
     private enum GarageGeaendertCaller {
@@ -153,7 +153,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void garageGeaendert(GarageGeaendertCaller caller) {
 
         garage.save(getApplicationContext());
-        garage.load(getApplicationContext());  // only for test purposes
 
         if (garage.isEmpty()) {
             botNavView.setVisibility(View.INVISIBLE);
@@ -184,6 +183,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         // zum Tab "Dashboard" navigieren
+        // TODO: scheint nicht zu funktionieren nach Hinzufügen und Ändern
         navController.navigate(R.id.navigation_dashboard);
 
         aktualisiereSeitenmenue();
@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public boolean onMenuItemClick(MenuItem item) {
                 Intent intent = new Intent(getApplicationContext(), NewCarActivity.class);
                 intent.setAction(ACTION_NEW_CAR);
-                startActivityForResult(intent, LAUNCH_NEW_CAR);
+                startActivityForResult(intent, LAUNCH_NEW_CAR_EDIT_CAR);
                 DrawerLayout drawer = findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);  // Schließen des Seitenmenüs nach Öffnen der Aktivität
                 return true;
@@ -320,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public boolean onMenuItemClick(MenuItem menuItem) {
                 Intent intent = new Intent(getApplicationContext(), NewCarActivity.class);
                 intent.setAction(ACTION_EDIT_CAR);
-                startActivityForResult(intent, LAUNCH_NEW_CAR);
+                startActivityForResult(intent, LAUNCH_NEW_CAR_EDIT_CAR);
                 DrawerLayout drawer = findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);  // Schließen des Seitenmenüs nach Öffnen der Aktivität
                 return true;
@@ -346,17 +346,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     e.printStackTrace();
                                 }
 
-                                if (!garage.isEmpty()) {
-                                    try {
-                                        garage.setAusgewaehltesFahrzeugById(0);
-                                    } catch (GarageNullPointerException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                dialogInterface.dismiss();
-
                                 garageGeaendert(GarageGeaendertCaller.FAHRZEUG_GELOESCHT);
+                                dialogInterface.dismiss();
 
                             }
                         })
@@ -404,22 +395,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * @param requestCode Code, mit dem die Aktivität aufgerufen wurde (z. B. LAUNCH_NEW_CAR)
      *                    (siehe auch https://stackoverflow.com/a/10407371)
      * @param resultCode Ergebniscode
-     * @param data zurückgegebener Intent
+     * @param intent zurückgegebener Intent
      */
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == LAUNCH_NEW_CAR) {
-            if (resultCode == Activity.RESULT_OK) {
-                // neues Auto = letztes Auto
-                try {
-                    garage.setAusgewaehltesFahrzeugById(garage.getAnzFahrzeuge() - 1);
-                } catch (GarageNullPointerException e) {
-                    e.printStackTrace();
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+        // Auto hinzugefügt oder geändert
+        if (requestCode == LAUNCH_NEW_CAR_EDIT_CAR) {
+
+            if (intent.getAction().equals(ACTION_NEW_CAR)) {  // Auto hinzugefügt
+                if (resultCode == Activity.RESULT_OK) {
+                    garageGeaendert(GarageGeaendertCaller.FAHRZEUG_HINZUGEFUEGT);
                 }
-                garageGeaendert(GarageGeaendertCaller.FAHRZEUG_HINZUGEFUEGT);
+            } else if (intent.getAction().equals(ACTION_EDIT_CAR)) {  // Auto geändert
+                if (resultCode == Activity.RESULT_OK) {
+                    garageGeaendert(GarageGeaendertCaller.FAHRZEUG_GEAENDERT);
+                }
             }
+
         } else {
-            super.onActivityResult(requestCode, resultCode, data);
+            super.onActivityResult(requestCode, resultCode, intent);
         }
     }
 
