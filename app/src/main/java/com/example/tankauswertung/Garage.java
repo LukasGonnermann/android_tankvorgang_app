@@ -3,6 +3,7 @@ package com.example.tankauswertung;
 import android.content.Context;
 
 import com.example.tankauswertung.exceptions.GarageLeerException;
+import com.example.tankauswertung.exceptions.GarageNullPointerException;
 import com.example.tankauswertung.exceptions.GarageVollException;
 
 import java.util.ArrayList;
@@ -70,18 +71,18 @@ public class Garage {
      *
      * @param id Position in der Liste
      * @return Fahrzeugobjekt an der gewuenschten Position
+     * @throws GarageNullPointerException wenn eine ungueltige ID uebergeben wird
      */
-    public Fahrzeug getFahrzeugById(int id) {
+    public Fahrzeug getFahrzeugById(int id) throws GarageNullPointerException {
         if (id >= 0 && id < anzFahrzeuge) {
             return fahrzeuge.get(id);
         } else {
-            return null;
-            // exception hinzufuegen
+            throw new GarageNullPointerException("An der angeforderten Position befindet sich kein Fahrzeug in der Garage!");
         }
     }
 
     /**
-     * Gibt das momentan aktive ausgewaehltes Fahrzeug zurück
+     * Gibt das momentan aktive ausgewaehlte Fahrzeug zurück
      *
      * @return Fahrzeug Objekt
      */
@@ -89,11 +90,16 @@ public class Garage {
         return ausgewaehltesFahrzeug;
     }
 
-    public void setAusgewaehltesFahrzeugById(int id) {
+    /**
+     * Setze ausgewaehltes Fahrzeug auf bestimmtes Fahrzeug in Liste
+     * @param id Position in der Liste
+     * @throws GarageNullPointerException wenn eine ungueltige ID uebergeben wird
+     */
+    public void setAusgewaehltesFahrzeugById(int id) throws GarageNullPointerException {
         if (id >= 0 && id < anzFahrzeuge) {
             this.ausgewaehltesFahrzeug = fahrzeuge.get(id);
         } else {
-            // exception hinzufuegen
+            throw new GarageNullPointerException("An der angeforderten Position befindet sich kein Fahrzeug in der Garage!");
         }
     }
 
@@ -156,6 +162,7 @@ public class Garage {
 
     /**
      * Loescht ein Objekt anhand des Objekt selbst ohne den Key zu kennen.
+     *
      * @param delFahrzeug zu loeschendes Fahrzeug
      */
     public void fahrzeugLoeschen(Fahrzeug delFahrzeug) throws GarageLeerException {
@@ -193,7 +200,7 @@ public class Garage {
                 e.printStackTrace();
             }
 
-        } catch (FileNotFoundException e ) {
+        } catch (FileNotFoundException e) {
             System.out.println("Datei " + fileName + " konnte nicht geoeffnet werden!");
             e.printStackTrace();
         }
