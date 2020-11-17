@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +16,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -27,8 +25,6 @@ import com.example.tankauswertung.exceptions.GarageNullPointerException;
 import com.example.tankauswertung.exceptions.GarageLeerException;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-
-// TODO: Fahrzeug ändern
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -166,9 +162,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             if (caller == GarageGeaendertCaller.APP_START
              || caller == GarageGeaendertCaller.FAHRZEUG_GELOESCHT) {  // bei Start der App und nach Löschen immer erstes Fahrzeug nehmen
-                garage.setAusgewaehltesFahrzeugById(0);
+
+                try {
+                    garage.setAusgewaehltesFahrzeugById(0);
+                } catch (GarageNullPointerException e) {
+                    e.printStackTrace();
+                }
+
             } else if (caller == GarageGeaendertCaller.FAHRZEUG_HINZUGEFUEGT) {  // nach Hinzufügen immer das neueste/letzte Fahrzeug nehmen
-                garage.setAusgewaehltesFahrzeugById(garage.getAnzFahrzeuge() - 1);
+
+                try {
+                    garage.setAusgewaehltesFahrzeugById(garage.getAnzFahrzeuge() - 1);
+                } catch (GarageNullPointerException e) {
+                    e.printStackTrace();
+                }
+
             }
             // keine Änderung, falls nur Fahrzeugdaten geändert
 
@@ -234,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 neuesAuto.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
-                        // TODO: Auto wurde angeklickt -> in Dashboard laden
+
                         try {
                             garage.setAusgewaehltesFahrzeugById(autoId);
                         } catch (GarageNullPointerException e) {
@@ -339,7 +347,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 }
 
                                 if (!garage.isEmpty()) {
-                                    garage.setAusgewaehltesFahrzeugById(0);
+                                    try {
+                                        garage.setAusgewaehltesFahrzeugById(0);
+                                    } catch (GarageNullPointerException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
 
                                 dialogInterface.dismiss();
@@ -399,7 +411,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (requestCode == LAUNCH_NEW_CAR) {
             if (resultCode == Activity.RESULT_OK) {
                 // neues Auto = letztes Auto
-                garage.setAusgewaehltesFahrzeugById(garage.getAnzFahrzeuge() - 1);
+                try {
+                    garage.setAusgewaehltesFahrzeugById(garage.getAnzFahrzeuge() - 1);
+                } catch (GarageNullPointerException e) {
+                    e.printStackTrace();
+                }
                 garageGeaendert(GarageGeaendertCaller.FAHRZEUG_HINZUGEFUEGT);
             }
         } else {

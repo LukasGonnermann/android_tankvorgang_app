@@ -29,6 +29,9 @@ public class DashboardFragment extends Fragment {
         return root;
     }
 
+    /**
+     * immer ausgeführt, bevor das Fragment (der Tab) bedienbar ist (nach jedem Wechseln etc. etc.)
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -51,7 +54,6 @@ public class DashboardFragment extends Fragment {
                     + ausgewaehltesFahrzeug.getTankstand() + "\n";
             textView.setText(msg);  // nur ein Test
             // TODO: restliche UI updaten für ausgewähltes Fahreug
-            // TODO: Auto wurde angeklickt -> in Dashboard etc. laden
         }
 
     }

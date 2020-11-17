@@ -18,7 +18,7 @@ public class Garage {
     /**
      * Legt die maximale Anzahl an Fahrzeugen
      */
-    private int maxAnzFahrzeuge;
+    private final int maxAnzFahrzeuge;
     /**
      * Aktuelle Anzahl an Fahrzeugen in der Garage
      */
