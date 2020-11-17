@@ -34,7 +34,11 @@ public class GarageTest {
         assertFalse(G.isEmpty());
 
         // Fahrzeug f2 auswaehlen und pruefen
-        G.fahrzeugAuswaehlen(1);
+        try {
+            G.setAusgewaehltesFahrzeugById(1);
+        } catch (GarageNullPointerException e) {
+            e.printStackTrace();
+        }
         assertEquals(f2, G.getAusgewaehltesFahrzeug());
         assertEquals("Testfahrzeug2", G.getAusgewaehltesFahrzeug().getName());
 
