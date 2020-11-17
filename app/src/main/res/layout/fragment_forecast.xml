@@ -7,7 +7,7 @@
     tools:context=".ui.forecast.ForecastFragment">
 
     <TextView
-        android:id="@+id/text_notifications"
+        android:id="@+id/text_forecast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

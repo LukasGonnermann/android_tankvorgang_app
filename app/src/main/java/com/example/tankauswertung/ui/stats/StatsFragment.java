@@ -16,20 +16,11 @@ import com.example.tankauswertung.R;
 
 public class StatsFragment extends Fragment {
 
-    private StatsViewModel statsViewModel;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        statsViewModel =
-                new ViewModelProvider(this).get(StatsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_stats, container, false);
         final TextView textView = root.findViewById(R.id.text_test);
-        statsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        textView.setText("Stats");
         return root;
     }
 }

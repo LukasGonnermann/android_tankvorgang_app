@@ -256,6 +256,7 @@ public class NewCarActivity extends AppCompatActivity {
      * @param menu Menü
      * @return -
      */
+    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_new_car, menu);
