@@ -1,6 +1,7 @@
 package com.example.tankauswertung;
 
 import com.example.tankauswertung.exceptions.GarageLeerException;
+import com.example.tankauswertung.exceptions.GarageNullPointerException;
 import com.example.tankauswertung.exceptions.GarageVollException;
 
 import org.junit.Test;
@@ -33,7 +34,11 @@ public class GarageTest {
         assertFalse(G.isEmpty());
 
         // Fahrzeug f2 auswaehlen und pruefen
-        G.fahrzeugAuswaehlen(1);
+        try {
+            G.setAusgewaehltesFahrzeugById(1);
+        } catch (GarageNullPointerException e) {
+            e.printStackTrace();
+        }
         assertEquals(f2, G.getAusgewaehltesFahrzeug());
         assertEquals("Testfahrzeug2", G.getAusgewaehltesFahrzeug().getName());
 
@@ -44,11 +49,16 @@ public class GarageTest {
             e.printStackTrace();
         }
         assertEquals(2, G.getAnzFahrzeuge(), 0);
-        /* !!! */
+
+        // TODO: Ausgewaehltes Fahrzeug nach Loeschen auf null oder anderes Objekt setzen
         assertNotEquals(f2, G.getAusgewaehltesFahrzeug());
 
         // Fahrzeug nach ID auswaehlen
-        assertEquals(f3, G.getFahrzeugById(1));
+        try {
+            assertEquals(f3, G.getFahrzeugById(1));
+        } catch (GarageNullPointerException e) {
+            e.printStackTrace();
+        }
         assertEquals(2, G.getAnzFahrzeuge(), 0);
 
         // alle Fahrzeuge wieder loeschen und pruefen
@@ -104,4 +114,38 @@ public class GarageTest {
 
         assertTrue(actualMessage.contains(expectedMessage));
     }
+
+    /**
+     * Pruefen der GarageNullPointerException
+     * Gueltige und ungueltige IDs aus der Garage anfordern
+     */
+    @Test
+    public void checkGarageNullPointerException() {
+        // Garage und Fahrzeug anlegen
+        Garage G = new Garage();
+        Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 70, 5, 45);
+
+        // Fahrzeug in Garage
+        try {
+            G.fahrzeugHinzufuegen(f);
+        } catch (GarageVollException e) {
+            e.printStackTrace();
+        }
+
+        // gueltiges Fahrzeug auswaehlen
+        try {
+            Fahrzeug f2 = G.getFahrzeugById(0);
+            assertEquals(f, f2);
+        } catch (GarageNullPointerException e) {
+            e.printStackTrace();
+        }
+
+        // ungeltiges Fahrzeug auswaehlen
+        Exception exception = assertThrows(GarageNullPointerException.class, () -> G.getFahrzeugById(1));
+        String expectedMessage = "An der angeforderten Position befindet sich kein Fahrzeug in der Garage!";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
 }

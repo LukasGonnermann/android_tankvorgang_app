@@ -3,6 +3,7 @@ package com.example.tankauswertung;
 import android.content.Context;
 
 import com.example.tankauswertung.exceptions.GarageLeerException;
+import com.example.tankauswertung.exceptions.GarageNullPointerException;
 import com.example.tankauswertung.exceptions.GarageVollException;
 
 import java.util.ArrayList;
@@ -70,18 +71,18 @@ public class Garage {
      *
      * @param id Position in der Liste
      * @return Fahrzeugobjekt an der gewuenschten Position
+     * @throws GarageNullPointerException wenn eine ungueltige ID uebergeben wird
      */
-    public Fahrzeug getFahrzeugById(int id) {
+    public Fahrzeug getFahrzeugById(int id) throws GarageNullPointerException {
         if (id >= 0 && id < anzFahrzeuge) {
             return fahrzeuge.get(id);
         } else {
-            return null;
-            // exception hinzufuegen
+            throw new GarageNullPointerException("An der angeforderten Position befindet sich kein Fahrzeug in der Garage!");
         }
     }
 
     /**
-     * Gibt das momentan aktive ausgewaehltes Fahrzeug zurück
+     * Gibt das momentan aktive ausgewaehlte Fahrzeug zurück
      *
      * @return Fahrzeug Objekt
      */
@@ -89,22 +90,34 @@ public class Garage {
         return ausgewaehltesFahrzeug;
     }
 
-    public void setAusgewaehltesFahrzeugById(int id) {
+    /**
+     * Setze ausgewaehltes Fahrzeug auf bestimmtes Fahrzeug in Liste
+     *
+     * @param id Position in der Liste
+     * @throws GarageNullPointerException wenn eine ungueltige ID uebergeben wird
+     */
+    public void setAusgewaehltesFahrzeugById(int id) throws GarageNullPointerException {
         if (id >= 0 && id < anzFahrzeuge) {
             this.ausgewaehltesFahrzeug = fahrzeuge.get(id);
         } else {
-            // exception hinzufuegen
+            throw new GarageNullPointerException("An der angeforderten Position befindet sich kein Fahrzeug in der Garage!");
         }
     }
 
+    /**
+     * Setze ausgewaehltes Fahrzeug auf das Parameterobjekt
+     *
+     * @param ausgewaehltesFahrzeug Fahrzeugobjekt, welches als ausgewaehltes Fahrzeug gesetzt wird
+     */
     public void setAusgewaehltesFahrzeug(Fahrzeug ausgewaehltesFahrzeug) {
         this.ausgewaehltesFahrzeug = ausgewaehltesFahrzeug;
     }
 
     /**
-     * Fügt ein bestehendes Fahrzeug zur Garage hinzu
+     * Fügt ein bestehendes Fahrzeug zur Garage hinzu und erhoehe den Counter
      *
      * @param neuAuto hinzuzufuegendes Fahrzeug
+     * @throws GarageVollException Wenn die maximale Anzahl an Fahrzeugen erreicht ist
      */
     public void fahrzeugHinzufuegen(Fahrzeug neuAuto) throws GarageVollException {
         if (anzFahrzeuge < maxAnzFahrzeuge) {
@@ -127,6 +140,7 @@ public class Garage {
      * @param pKmStand             Kilometerstand des Fahrzeugs
      * @param pTankstand           Tankstand des Fahrzeugs
      * @param pCo2Ausstoss         CO2 Ausstoss des Fahrzeugs
+     * @throws GarageVollException Wenn die maximale Anzahl an Fahrzeugen erreicht ist
      */
     public void fahrzeugHinzufuegen(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
                                     double pVerbrauchKombiniert, double pKmStand, int pTankstand, double pCo2Ausstoss, double pTankgroesse) throws GarageVollException {
@@ -141,7 +155,10 @@ public class Garage {
     }
 
     /**
+     * Loesche Fahrzeug in der Liste mittels Key
+     *
      * @param key Index des zu loeschenden Fahrzeugs in der ArrayList
+     * @throws GarageLeerException wenn kein zu loeschendes Fahrzeug vorhanden ist
      */
     public void fahrzeugLoeschen(int key) throws GarageLeerException {
         if (!fahrzeuge.isEmpty()) {
@@ -156,6 +173,7 @@ public class Garage {
 
     /**
      * Loescht ein Objekt anhand des Objekt selbst ohne den Key zu kennen.
+     *
      * @param delFahrzeug zu loeschendes Fahrzeug
      */
     public void fahrzeugLoeschen(Fahrzeug delFahrzeug) throws GarageLeerException {
@@ -165,14 +183,16 @@ public class Garage {
         }
     }
 
+    /* Auskommentiert, da Duplikat zu setAusgewaehltesFahrzeugById(int id) (MB)
     /**
      * @param key Index des Fahrzeugs in der ArrayList, welches an auswählen möchte
-     */
-    public void fahrzeugAuswaehlen(int key) {
-        setAusgewaehltesFahrzeug(fahrzeuge.get(key));
-    }
+
+    public void fahrzeugAuswaehlen(int key) { setAusgewaehltesFahrzeug(fahrzeuge.get(key)); }
+    */
 
     /**
+     * Pruefen, ob die Garage leer ist
+     *
      * @return Gibt zurück, ob die Garage leer ist oder nicht
      */
     public boolean isEmpty() {
@@ -193,7 +213,7 @@ public class Garage {
                 e.printStackTrace();
             }
 
-        } catch (FileNotFoundException e ) {
+        } catch (FileNotFoundException e) {
             System.out.println("Datei " + fileName + " konnte nicht geoeffnet werden!");
             e.printStackTrace();
         }
@@ -224,6 +244,12 @@ public class Garage {
         anzFahrzeuge = fahrzeuge.size();
     }
 
+    /**
+     * Prueft, ob das Parameterobjekt in der Garage vorhanden ist
+     *
+     * @param fahrzeug Fahrzeugobjekt, welches geprueft werden soll
+     * @return Boolean, ob vorhanden oder nicht
+     */
     public boolean contains(Fahrzeug fahrzeug) {
         return this.fahrzeuge.contains(fahrzeug);
     }

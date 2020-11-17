@@ -23,6 +23,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.tankauswertung.exceptions.GarageNullPointerException;
 import com.example.tankauswertung.exceptions.GarageLeerException;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -219,7 +220,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             int anzahlFahrzeuge = garage.getAnzFahrzeuge();
             for (int id = 0; id < anzahlFahrzeuge; id++) {
 
-                Fahrzeug aktuellesFahrzeug = garage.getFahrzeugById(id);
+                Fahrzeug aktuellesFahrzeug = null;
+                try {
+                    aktuellesFahrzeug = garage.getFahrzeugById(id);
+                } catch (GarageNullPointerException e) {
+                    e.printStackTrace();
+                }
                 MenuItem neuesAuto = garageMenu.add(0, id, 0, aktuellesFahrzeug.getName());
                 neuesAuto.setIcon(R.drawable.ic_baseline_directions_car_24);
 
@@ -228,8 +234,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 neuesAuto.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
+                        // TODO: Auto wurde angeklickt -> in Dashboard laden
+                        try {
+                            garage.setAusgewaehltesFahrzeugById(autoId);
+                        } catch (GarageNullPointerException e) {
+                            e.printStackTrace();
+                        }
 
-                        garage.setAusgewaehltesFahrzeugById(autoId);
                         // zum Tab "Dashboard" navigieren
                         navController.navigate(R.id.navigation_dashboard);
                         DrawerLayout drawer = findViewById(R.id.drawer_layout);

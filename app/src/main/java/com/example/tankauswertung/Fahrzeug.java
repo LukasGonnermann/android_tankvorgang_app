@@ -324,6 +324,9 @@ public class Fahrzeug implements Serializable {
 
 
     /**
+     * Aendern eines bestehenden Fahrzeugs
+     * Ruft alle Setter mit den Parameterwerten auf
+     *
      * @param pName                String, Name des Autos, der gesetzt werden soll
      * @param pElektro             boolean, True, wenn es sich um ein Elektroauto handelt
      * @param pVerbrauchAusserorts double, Verbrauch des Autos Ausserorts, der gesetzt werden soll
