@@ -24,8 +24,6 @@ import java.util.Map;
 
 // Aktivität zum Hinzufügen und zum Ändern (anderer Action-Code)
 
-// TODO: Differenzierung zwischen Elektroauto und Verbrenner
-
 public class NewCarActivity extends AppCompatActivity {
 
     boolean korrekteEingabe = false;
@@ -211,7 +209,6 @@ public class NewCarActivity extends AppCompatActivity {
             editTextKilometerstand.setText(Double.toString(aktuellesFahrzeug.getKmStand()));
             editTextTankvolumen.setText(Double.toString(aktuellesFahrzeug.getTankgroesse()));
 
-            // TODO: Casts vermeiden, aber Slider (seekBars) beibehalten
             // Verbrauch dann zumindest auf 1/5-tel-Liter-Genauigkeit angeben können
             // dafür gerne auch max-Werte anpassen (50 Liter pro 100 km doch recht unrealistisch)
             seekBarVerbrauchInnerorts.setProgress((int) aktuellesFahrzeug.getVerbrauchInnerorts());

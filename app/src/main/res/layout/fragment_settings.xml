@@ -19,7 +19,6 @@
             android:layout_marginRight="30dp"
         >
 
-            <!-- TODO: dropdown -->
             <Switch
                 android:id="@+id/switchDarkMode"
                 android:layout_width="match_parent"

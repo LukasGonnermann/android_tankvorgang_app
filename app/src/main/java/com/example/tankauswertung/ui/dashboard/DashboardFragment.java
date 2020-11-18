@@ -40,7 +40,6 @@ public class DashboardFragment extends Fragment {
 
         if (garage.isEmpty()) {
             textView.setText(R.string.no_cars_in_garage);
-            // TODO: Anzeige, wenn gar kein Fahrzeug vorhanden ist
         } else {
 
             Fahrzeug ausgewaehltesFahrzeug = garage.getAusgewaehltesFahrzeug();
@@ -53,7 +52,6 @@ public class DashboardFragment extends Fragment {
                     + ausgewaehltesFahrzeug.getTankgroesse() + "\n"
                     + ausgewaehltesFahrzeug.getTankstand() + "\n";
             textView.setText(msg);  // nur ein Test
-            // TODO: restliche UI updaten für ausgewähltes Fahreug
         }
 
     }
