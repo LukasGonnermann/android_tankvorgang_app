@@ -50,9 +50,6 @@ public class GarageTest {
         }
         assertEquals(2, G.getAnzFahrzeuge(), 0);
 
-        // TODO: Ausgewaehltes Fahrzeug nach Loeschen auf null oder anderes Objekt setzen
-        assertNotEquals(f2, G.getAusgewaehltesFahrzeug());
-
         // Fahrzeug nach ID auswaehlen
         try {
             assertEquals(f3, G.getFahrzeugById(1));
