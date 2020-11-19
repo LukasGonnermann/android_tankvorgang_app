@@ -1,6 +1,8 @@
 package com.example.tankauswertung;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 /**
  * Klasse fuer die gefahrenen Strecken
@@ -30,6 +32,16 @@ public class Strecke implements Serializable {
     Streckentyp streckentyp;
 
     /**
+     * Variable, welche das Format der Zeitangabe festlegt.
+     */
+    SimpleDateFormat formatter;
+
+    /**
+     * Variabe, welche die aktuelle Systemzeit zum Zeitpunkt der Eingabe einer Strecke speichert.
+     */
+    Date zeitstempel;
+
+    /**
      * Konstruktor fuer die Klasse Strecke
      * Setzt alle Variablen auf den Wert des Eingabeparameters
      */
@@ -37,6 +49,8 @@ public class Strecke implements Serializable {
         distanz = pDistanz;
         streckentyp = pStreckentyp;
         tankstand = pTankstand;
+        formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        zeitstempel = new Date();
     }
 
     /**
@@ -64,6 +78,24 @@ public class Strecke implements Serializable {
      */
     public Streckentyp getStreckentyp() {
         return streckentyp;
+    }
+
+    /**
+     * Getter fuer den Zeitstempel
+     *
+     * @return Date zeitstempel, Der Zeitpunkt der Abspeicherung.
+     */
+    public Date getZeitstempel() {
+        return zeitstempel;
+    }
+
+    /**
+     * Methode zum erlangen des Zeitstempels als String
+     *
+     * @return String format(this.zeitstempel), Ein zum String konvertiertes Date-Objekt.
+     */
+    public String getZeitstempelAsString() {
+        return formatter.format(this.zeitstempel);
     }
 
     /**

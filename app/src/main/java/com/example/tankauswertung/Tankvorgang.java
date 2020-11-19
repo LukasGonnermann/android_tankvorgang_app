@@ -1,6 +1,8 @@
 package com.example.tankauswertung;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Klasse Tankvorgang
@@ -24,12 +26,24 @@ public class Tankvorgang implements Serializable {
     private String img;
 
     /**
+     * Variable, welche das Format der Zeitangabe festlegt.
+     */
+    SimpleDateFormat formatter;
+
+    /**
+     * Variabe, welche die aktuelle Systemzeit zum Zeitpunkt der Eingabe einer Strecke speichert.
+     */
+    Date zeitstempel;
+
+    /**
      * Konstruktor des Tankvorgangs, Setzt alle Attribute auf die Eingabewerte.
      */
     public Tankvorgang(double pGetankteMenge, double pPreis, String pImg) {
         getankteMenge = pGetankteMenge;
         preis = pPreis;
         img = pImg;
+        formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        zeitstempel = new Date();
     }
 
     /**
@@ -84,6 +98,24 @@ public class Tankvorgang implements Serializable {
      */
     public String getImg() {
         return img;
+    }
+
+    /**
+     * Getter fuer den Zeitstempel
+     *
+     * @return Date zeitstempel, Der Zeitpunkt der Abspeicherung.
+     */
+    public Date getZeitstempel() {
+        return zeitstempel;
+    }
+
+    /**
+     * Methode zum erlangen des Zeitstempels als String
+     *
+     * @return String format(this.zeitstempel), Ein zum String konvertiertes Date-Objekt.
+     */
+    public String getZeitstempelAsString() {
+        return formatter.format(this.zeitstempel);
     }
 
     /**
