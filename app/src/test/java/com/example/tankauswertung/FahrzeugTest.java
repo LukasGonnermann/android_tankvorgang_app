@@ -4,6 +4,8 @@ import com.example.tankauswertung.exceptions.FahrzeugWertException;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class FahrzeugTest {
@@ -97,5 +99,90 @@ public class FahrzeugTest {
 
     }
 
+    /**
+     * Test der gespeicherten Strecken zu einem Fahrzeugobjekt
+     * Strecken hinzufuegen, korrekte Werte und Reihenfolge pruefen
+     */
+    @Test
+    public void testFahrzeugStrecken() {
+        // Fahrzeug und Strecken anlegen
+        Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 70, 5, 45);
+        Strecke s1 = new Strecke(24.37, Strecke.Streckentyp.kombiniert, 34);
+        Strecke s2 = new Strecke(0.85, Strecke.Streckentyp.innerorts, 12);
+        Strecke s3 = new Strecke(85.4, Strecke.Streckentyp.ausserorts, 97);
 
+        // Strecken hinzufuegen
+        f.streckeHinzufuegen(s1.getDistanz(), s1.getStreckentyp(), s1.getTankstand());
+        f.streckeHinzufuegen(s2.getDistanz(), s2.getStreckentyp(), s2.getTankstand());
+        f.streckeHinzufuegen(s3.getDistanz(), s3.getStreckentyp(), s3.getTankstand());
+
+        // Strecken in ArrayList pruefen
+        ArrayList<Strecke> fahrzeugstrecken = f.getStrecken();
+
+        // Strecke S3 an Index 0 der Liste
+        assertEquals(fahrzeugstrecken.get(0).getDistanz(), s3.getDistanz(), 0);
+        assertEquals(fahrzeugstrecken.get(0).getStreckentyp(), s3.getStreckentyp());
+        assertEquals(fahrzeugstrecken.get(0).getTankstand(), s3.getTankstand(), 0);
+
+        // Strecke S2 an Index 1 der Liste
+        assertEquals(fahrzeugstrecken.get(1).getDistanz(), s2.getDistanz(), 0);
+        assertEquals(fahrzeugstrecken.get(1).getStreckentyp(), s2.getStreckentyp());
+        assertEquals(fahrzeugstrecken.get(1).getTankstand(), s2.getTankstand(), 0);
+
+        // Strecke S1 an Index 2 der Liste
+        assertEquals(fahrzeugstrecken.get(2).getDistanz(), s1.getDistanz(), 0);
+        assertEquals(fahrzeugstrecken.get(2).getStreckentyp(), s1.getStreckentyp());
+        assertEquals(fahrzeugstrecken.get(2).getTankstand(), s1.getTankstand(), 0);
+    }
+
+    /**
+     * Test der gespeicherten Tankvorgaenge zu einem Fahrzeugobjekt
+     * Tankvorgaenge hinzufuegen, korrekte Werte und Reihenfolge pruefen
+     * Fehlerhaften Tankvorgang hinzufuegen (getankte Menge > Tankgroesse) und Exception pruefen
+     */
+    @Test
+    public void testFahrzeugTankvorgaenge() {
+        // Fahrzeug und Tankvorgaenge anlegen
+        Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 70, 5, 45);
+        Tankvorgang t1 = new Tankvorgang(32.78, 55.24, "/DCIM/Camera/meinFoto1.jpg");
+        Tankvorgang t2 = new Tankvorgang(12.4, 27.74, "/DCIM/Camera/meinFoto2.jpg");
+        Tankvorgang t3 = new Tankvorgang(45.0, 85.30, "/DCIM/Camera/meinFoto3.jpg");
+
+        // Tankvorgaenge hinzufuegen
+        try {
+            f.tangvorgangHinzufuegen(t1.getGetankteMenge(), t1.getPreis(), t1.getImg());
+            f.tangvorgangHinzufuegen(t2.getGetankteMenge(), t2.getPreis(), t2.getImg());
+            f.tangvorgangHinzufuegen(t3.getGetankteMenge(), t3.getPreis(), t3.getImg());
+        } catch (FahrzeugWertException e) {
+            e.printStackTrace();
+        }
+
+        // Tankvorgaenge in ArrayList pruefen
+        ArrayList<Tankvorgang> tankvorgaenge = f.getTankvorgaenge();
+
+        // Tankvorgang t3 an Index 0 der Liste
+        assertEquals(tankvorgaenge.get(0).getGetankteMenge(), t3.getGetankteMenge(), 0);
+        assertEquals(tankvorgaenge.get(0).getPreis(), t3.getPreis(), 0);
+        assertEquals(tankvorgaenge.get(0).getImg(), t3.getImg());
+
+        // Tankvorgang t2 an Index 1 der Liste
+        assertEquals(tankvorgaenge.get(1).getGetankteMenge(), t2.getGetankteMenge(), 0);
+        assertEquals(tankvorgaenge.get(1).getPreis(), t2.getPreis(), 0);
+        assertEquals(tankvorgaenge.get(1).getImg(), t2.getImg());
+
+        // Tankvorgang t1 an Index 1 der Liste
+        assertEquals(tankvorgaenge.get(2).getGetankteMenge(), t1.getGetankteMenge(), 0);
+        assertEquals(tankvorgaenge.get(2).getPreis(), t1.getPreis(), 0);
+        assertEquals(tankvorgaenge.get(2).getImg(), t1.getImg());
+
+        // Fehlerhaften Tankvorgang anlegen (getankte Menge > Tankgroesse)
+        Tankvorgang t4 = new Tankvorgang(45.01, 86.10, "/DCIM/Camera/meinFoto4.jpg");
+
+        // Tankvorgang t4 hinzufuegen und Exception pruefen
+        Exception exception = assertThrows(FahrzeugWertException.class, () -> f.tangvorgangHinzufuegen(t4.getGetankteMenge(), t4.getPreis(), t4.getImg()));
+        String expectedMessage = "Die getankte Menge kann nicht groesser als die Tankgroesse des Fahrzeugs sein.";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
 }
