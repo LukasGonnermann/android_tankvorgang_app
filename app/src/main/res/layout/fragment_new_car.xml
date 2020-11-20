@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="69dp">
+        tools:layout_editor_absoluteY="79dp">
 
 
         <LinearLayout
@@ -49,7 +49,6 @@
             <!-- Verbrauch innerorts -->
 
             <TextView
-                android:textColor="@color/dunkel"
                 android:id="@+id/labelVerbrauchInnerortsTitel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,7 +56,8 @@
                 android:background="@color/grey_light"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
-                android:text="@string/verbrauch_innerorts_l_kwh_100km" />
+                android:text="@string/verbrauch_innerorts_l_kwh_100km"
+                android:textColor="@color/dunkel" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -81,15 +81,13 @@
                     android:layout_marginTop="1dp"
                     android:max="50"
                     android:min="0"
-                    android:thumbTint="@color/lila"
-                   />
+                    android:thumbTint="@color/lila" />
 
             </LinearLayout>
 
             <!-- Verbrauch außerorts -->
 
             <TextView
-                android:textColor="@color/dunkel"
                 android:id="@+id/labelVerbrauchAusserortsTitel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,7 +95,8 @@
                 android:background="@color/grey_light"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
-                android:text="@string/verbrauch_au_erorts_l_kwh_100km" />
+                android:text="@string/verbrauch_au_erorts_l_kwh_100km"
+                android:textColor="@color/dunkel" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -121,14 +120,13 @@
                     android:layout_marginTop="1dp"
                     android:max="50"
                     android:min="0"
-                    android:thumbTint="@color/lila"/>
+                    android:thumbTint="@color/lila" />
 
             </LinearLayout>
 
             <!-- Verbrauch kombiniert -->
 
             <TextView
-                android:textColor="@color/dunkel"
                 android:id="@+id/labelVerbrauchKombiniertTitel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -136,7 +134,8 @@
                 android:background="@color/grey_light"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
-                android:text="@string/verbrauch_kombiniert_l_kwh_100km" />
+                android:text="@string/verbrauch_kombiniert_l_kwh_100km"
+                android:textColor="@color/dunkel" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -160,20 +159,20 @@
                     android:layout_marginTop="1dp"
                     android:max="50"
                     android:min="0"
-                    android:thumbTint="@color/lila"/>
+                    android:thumbTint="@color/lila" />
 
             </LinearLayout>
 
             <!-- CO2-Ausstoß -->
 
             <TextView
-                android:textColor="@color/dunkel"
                 android:id="@+id/labelCo2Ausstoss"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:paddingLeft="10dp"
-                android:text="@string/co2_ausstoss_g_km" />
+                android:text="@string/co2_ausstoss_g_km"
+                android:textColor="@color/dunkel" />
 
             <EditText
                 android:id="@+id/editTextCo2"
@@ -186,13 +185,13 @@
             <!-- Kilometerstand -->
 
             <TextView
-                android:textColor="@color/dunkel"
                 android:id="@+id/labelKilometerstand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:paddingLeft="10dp"
-                android:text="@string/kilometerstand_km" />
+                android:text="@string/kilometerstand_km"
+                android:textColor="@color/dunkel" />
 
             <EditText
                 android:id="@+id/editTextKilometerstand"
@@ -205,13 +204,13 @@
             <!-- Tankvolumen -->
 
             <TextView
-                android:textColor="@color/dunkel"
                 android:id="@+id/labelTankvolumen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:paddingLeft="10dp"
-                android:text="@string/tankvolumen_l_kwh" />
+                android:text="@string/tankvolumen_l_kwh"
+                android:textColor="@color/dunkel" />
 
             <EditText
                 android:id="@+id/editTextTankvolumen"
@@ -224,7 +223,6 @@
             <!-- Aktueller Tankstand -->
 
             <TextView
-                android:textColor="@color/dunkel"
                 android:id="@+id/labelAktuellerTankstandTitel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -232,12 +230,13 @@
                 android:background="@color/grey_light"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
-                android:text="@string/tankstand" />
+                android:text="@string/tankstand"
+                android:textColor="@color/dunkel" />
 
             <LinearLayout
-                android:background="@color/grey_light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/grey_light"
                 android:orientation="horizontal"
                 android:padding="15dp"
                 android:paddingLeft="10dp">
@@ -256,7 +255,7 @@
                     android:layout_marginTop="1dp"
                     android:max="100"
                     android:min="0"
-                    android:thumbTint="@color/lila"/>
+                    android:thumbTint="@color/lila" />
 
             </LinearLayout>
 

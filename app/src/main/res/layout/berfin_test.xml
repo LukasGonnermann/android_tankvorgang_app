@@ -41,6 +41,7 @@
             <!-- Kilometerstand -->
 
             <TextView
+                android:textColor="@color/dunkel"
                 android:background="@color/grey_light"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
@@ -66,6 +67,7 @@
                     android:text="@string/zero_number" />
 
                 <SeekBar
+                    android:thumbTint="@color/lila"
                     android:id="@+id/seekBarVerbrauchInnerorts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -78,6 +80,7 @@
 
             <!-- Tankstand -->
             <TextView
+                android:textColor="@color/dunkel"
                 android:background="@color/grey_light"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
@@ -103,6 +106,7 @@
                     android:text="@string/zero_number" />
 
                 <SeekBar
+                    android:thumbTint="@color/lila"
                     android:id="@+id/seekBarVerbrauchAusserorts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
