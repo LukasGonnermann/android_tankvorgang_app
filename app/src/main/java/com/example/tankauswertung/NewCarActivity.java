@@ -9,6 +9,8 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -43,6 +45,7 @@ public class NewCarActivity extends AppCompatActivity {
     SeekBar seekBarVerbrauchAusserorts;
     SeekBar seekBarVerbrauchKombiniert;
     SeekBar seekBarAktuellerTankstand;
+    CheckBox checkBoxElektro;
 
     Intent intent;
 
@@ -75,9 +78,19 @@ public class NewCarActivity extends AppCompatActivity {
         seekBarVerbrauchAusserorts = findViewById(R.id.seekBarVerbrauchAusserorts);
         seekBarVerbrauchKombiniert = findViewById(R.id.seekBarVerbrauchKombiniert);
         seekBarAktuellerTankstand = findViewById(R.id.seekBarAktuellerTankstand);
+        checkBoxElektro = findViewById(R.id.checkBoxElektro);
 
         // zeigt den Zurück-Button an
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // --- CheckBox Listener
+
+        checkBoxElektro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                // TODO
+            }
+        });
 
         // --- EditText Listener (inkl. Fehlerüberprüfung)
 
