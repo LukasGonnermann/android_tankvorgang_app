@@ -42,4 +42,5 @@
     <string name="zero_number">0</string>
     <string name="edit_car">Fahrzeug bearbeiten</string>
     <string name="no_cars_in_garage">Kein Fahrzeug vorhanden</string>
+    <string name="elektro">Elektrofahrzeug</string>
 </resources>
