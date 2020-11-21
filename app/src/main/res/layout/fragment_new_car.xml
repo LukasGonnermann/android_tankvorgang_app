@@ -15,11 +15,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="18dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:layout_marginTop="35dp"
-            android:layout_marginRight="18dp"
             android:layout_marginBottom="35dp"
-            android:background="@color/cardview_light_background"
             android:orientation="vertical">
 
 
@@ -29,7 +28,6 @@
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:hint="@string/anzeigename"
-                android:paddingTop="15dp"
                 android:textSize="24sp" />
 
             <LinearLayout
@@ -44,10 +42,7 @@
                 android:id="@+id/checkBoxElektro"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:padding="10dp"
-                android:text="@string/elektro"
-                android:textSize="18dp" />
-
+                android:text="@string/elektro" />
 
             <!-- Verbrauch innerorts -->
 
@@ -67,19 +62,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@color/grey_light"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:textColor="@color/dunkel"
                 android:text="@string/verbrauch_innerorts_l_100km" />
 
             <LinearLayout
+                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/grey_light"
-                android:orientation="horizontal"
-                android:padding="15dp"
-                android:paddingLeft="10dp">
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/editTextVerbrauchInnerortsStand"
@@ -93,8 +82,7 @@
                     android:id="@+id/seekBarVerbrauchInnerorts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
-                    android:thumbTint="@color/lila"
+                    android:layout_marginTop="10dp"
                     android:indeterminate="false"
                     android:max="30"
                     android:min="0" />
@@ -108,20 +96,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:background="@color/grey_light"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:textColor="@color/dunkel"
                 android:text="@string/verbrauch_au_erorts_l_100km"
             />
 
             <LinearLayout
+                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/grey_light"
-                android:orientation="horizontal"
-                android:padding="15dp"
-                android:paddingLeft="10dp">
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/editTextVerbrauchAusserortsStand"
@@ -135,8 +117,7 @@
                     android:id="@+id/seekBarVerbrauchAusserorts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
-                    android:thumbTint="@color/lila"
+                    android:layout_marginTop="10dp"
                     android:max="30"
                     android:min="0" />
 
@@ -149,20 +130,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:background="@color/grey_light"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:textColor="@color/dunkel"
                 android:text="@string/verbrauch_kombiniert_l_100km"
                 />
 
             <LinearLayout
+                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/grey_light"
-                android:orientation="horizontal"
-                android:padding="15dp"
-                android:paddingLeft="10dp">
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/editTextVerbrauchKombiniertStand"
@@ -176,8 +151,7 @@
                     android:id="@+id/seekBarVerbrauchKombiniert"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
-                    android:thumbTint="@color/lila"
+                    android:layout_marginTop="10dp"
                     android:max="30"
                     android:min="0" />
 
@@ -190,9 +164,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:paddingLeft="10dp"
-                android:text="@string/co2_ausstoss_g_km"
-                android:textColor="@color/dunkel" />
+                android:text="@string/co2_ausstoss_g_km"/>
 
             <EditText
                 android:id="@+id/editTextCo2"
@@ -209,9 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:paddingLeft="10dp"
-                android:text="@string/kilometerstand_km"
-                android:textColor="@color/dunkel" />
+                android:text="@string/kilometerstand_km" />
 
             <EditText
                 android:id="@+id/editTextKilometerstand"
@@ -228,8 +198,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:paddingLeft="10dp"
-                android:textColor="@color/dunkel"
                 android:text="@string/tankvolumen_l"
             />
 
@@ -248,19 +216,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:background="@color/grey_light"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:textColor="@color/dunkel"
                 android:text="@string/tankstand_l" />
 
             <LinearLayout
+                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/grey_light"
-                android:orientation="horizontal"
-                android:padding="15dp"
-                android:paddingLeft="10dp">
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/labelAktuellerTankstandStand"
@@ -275,8 +237,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
                     android:max="100"
-                    android:min="0"
-                    android:thumbTint="@color/lila" />
+                    android:min="0" />
 
             </LinearLayout>
 

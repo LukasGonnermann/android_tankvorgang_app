@@ -19,10 +19,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="30dp"
-            android:background="@color/cardview_light_background"
-            android:orientation="vertical"
-            android:paddingLeft="13dp"
-            android:paddingRight="15dp">
+            android:orientation="vertical">
 
             <shape>
 
@@ -41,10 +38,6 @@
             <!-- Kilometerstand -->
 
             <TextView
-                android:textColor="@color/dunkel"
-                android:background="@color/grey_light"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
                 android:id="@+id/labelVerbrauchInnerortsTitel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -52,9 +45,7 @@
                 android:text="Kilometerstand [km]" />
 
             <LinearLayout
-                android:background="@color/grey_light"
-                android:padding="15dp"
-                android:paddingLeft="10dp"
+                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -67,7 +58,6 @@
                     android:text="@string/zero_number" />
 
                 <SeekBar
-                    android:thumbTint="@color/lila"
                     android:id="@+id/seekBarVerbrauchInnerorts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -80,10 +70,6 @@
 
             <!-- Tankstand -->
             <TextView
-                android:textColor="@color/dunkel"
-                android:background="@color/grey_light"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
                 android:id="@+id/labelVerbrauchAusserortsTitel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -91,9 +77,7 @@
                 android:text="Tankstand [%]" />
 
             <LinearLayout
-                android:background="@color/grey_light"
-                android:padding="15dp"
-                android:paddingLeft="10dp"
+                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -106,7 +90,6 @@
                     android:text="@string/zero_number" />
 
                 <SeekBar
-                    android:thumbTint="@color/lila"
                     android:id="@+id/seekBarVerbrauchAusserorts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -126,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="20dp"
                     android:layout_weight="1"
                     android:text=" innerorts"
                     android:textSize="18dp" />
