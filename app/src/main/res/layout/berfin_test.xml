@@ -23,7 +23,7 @@
 
             <shape>
 
-                <corners android:bottomLeftRadius="5Odp" />
+            <!--    <corners android:bottomLeftRadius="5Odp" />  verhindert build-->
             </shape>
 
             <EditText

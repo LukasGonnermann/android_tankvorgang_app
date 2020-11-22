@@ -469,8 +469,8 @@ public class NewCarActivity extends AppCompatActivity {
             int verbrauchAusserorts = seekBarVerbrauchAusserorts.getProgress();
             int verbrauchKombiniert = seekBarVerbrauchKombiniert.getProgress();
             */
-            double verbrauchInnerorts = Double.parseDouble(editTextVerbrauchAusserortsStand.getText().toString());
-            double verbrauchAusserorts = Double.parseDouble(editTextVerbrauchInnerortsStand.getText().toString());
+            double verbrauchInnerorts = Double.parseDouble(editTextVerbrauchInnerortsStand.getText().toString());
+            double verbrauchAusserorts = Double.parseDouble(editTextVerbrauchAusserortsStand.getText().toString());
             double verbrauchKombiniert = Double.parseDouble(editTextVerbrauchKombiniertStand.getText().toString());
 
             int aktuellerTankstand = seekBarAktuellerTankstand.getProgress();
