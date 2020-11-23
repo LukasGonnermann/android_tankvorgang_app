@@ -7,7 +7,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <ScrollView
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
     >
@@ -17,9 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="35dp"
-            android:layout_marginBottom="35dp"
-            android:orientation="vertical">
+            android:layout_marginTop="20dp"
+            android:orientation="vertical" >
 
 
             <EditText
@@ -36,45 +34,46 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
+
                 <!-- CheckBox Elektrofahrzeug -->
 
-            <CheckBox
-                android:id="@+id/checkBoxElektro"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/elektro" />
-
-            <!-- Verbrauch innerorts -->
+                <CheckBox
+                    android:id="@+id/checkBoxElektro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/elektro" />
 
                 <ImageButton
                     android:id="@+id/imageButtonElektro_info"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="10dp"
                     android:background="#00FFFFFF"
                     android:visibility="invisible"
-                    app:srcCompat="@drawable/ic_baseline_info_24" />
+                    app:srcCompat="@drawable/ic_outline_info_24" />
+
             </LinearLayout>
+
+            <!-- Verbrauch innerorts -->
 
             <TextView
                 android:id="@+id/labelVerbrauchInnerortsTitel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:text="@string/verbrauch_innerorts_l_100km" />
 
             <LinearLayout
-                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/editTextVerbrauchInnerortsStand"
+                    android:gravity="center"
                     android:layout_width="45dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
                     android:inputType="numberDecimal"
                     android:text="@string/zero_number" />
 
@@ -82,10 +81,10 @@
                     android:id="@+id/seekBarVerbrauchInnerorts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="14dp"
                     android:indeterminate="false"
-                    android:max="30"
-                    android:min="0" />
+                    android:min="0"
+                    android:max="30" />
 
             </LinearLayout>
 
@@ -100,16 +99,16 @@
             />
 
             <LinearLayout
-                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/editTextVerbrauchAusserortsStand"
+                    android:gravity="center"
                     android:layout_width="45dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
                     android:inputType="numberDecimal"
                     android:text="@string/zero_number" />
 
@@ -117,9 +116,9 @@
                     android:id="@+id/seekBarVerbrauchAusserorts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:max="30"
-                    android:min="0" />
+                    android:layout_marginTop="14dp"
+                    android:min="0"
+                    android:max="30" />
 
             </LinearLayout>
 
@@ -134,16 +133,16 @@
                 />
 
             <LinearLayout
-                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginStart="5dp"
+                android:orientation="horizontal" >
 
                 <EditText
                     android:id="@+id/editTextVerbrauchKombiniertStand"
+                    android:gravity="center"
                     android:layout_width="45dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
                     android:inputType="numberDecimal"
                     android:text="@string/zero_number" />
 
@@ -151,9 +150,9 @@
                     android:id="@+id/seekBarVerbrauchKombiniert"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:max="30"
-                    android:min="0" />
+                    android:layout_marginTop="14dp"
+                    android:min="0"
+                    android:max="30" />
 
             </LinearLayout>
 
@@ -163,15 +162,16 @@
                 android:id="@+id/labelCo2Ausstoss"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:text="@string/co2_ausstoss_g_km"/>
 
             <EditText
                 android:id="@+id/editTextCo2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:inputType="numberDecimal"
-                android:paddingLeft="10dp"
                 android:text="@string/zero_number" />
 
             <!-- Kilometerstand -->
@@ -187,8 +187,9 @@
                 android:id="@+id/editTextKilometerstand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:inputType="numberDecimal"
-                android:paddingLeft="10dp"
                 android:text="@string/zero_number" />
 
             <!-- Tankvolumen -->
@@ -205,8 +206,9 @@
                 android:id="@+id/editTextTankvolumen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:inputType="numberDecimal"
-                android:paddingLeft="10dp"
                 android:text="@string/zero_number" />
 
             <!-- Aktueller Tankstand -->
@@ -219,9 +221,11 @@
                 android:text="@string/tankstand_l" />
 
             <LinearLayout
-                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="50dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -236,8 +240,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:max="100"
-                    android:min="0" />
+                    android:min="0"
+                    android:max="100" />
 
             </LinearLayout>
 

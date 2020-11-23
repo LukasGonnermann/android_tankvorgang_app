@@ -113,11 +113,14 @@ public class NewCarActivity extends AppCompatActivity {
                 //ist Elektro
                 if (b) {
                     AlertDialog dialogElektroInfoBestaetigung = new AlertDialog.Builder(NewCarActivity.this)
-                            .setTitle("Hinweis zur CO2-Emission von Elektro-Autos")
-                            .setMessage("In dieser App werden Elektro-Autos mit 0 g/km Emissonen erfasst. Dennoch werden auch bei Stromerzeugung CO2-Emissionen verursacht.")
-                            .setIcon(R.drawable.ic_baseline_info_24)
+                            .setTitle("Hinweis")
+                            .setMessage("In dieser App werden Elektrofahrzeuge mit 0 g/km " +
+                                    "CO2-Emissonen erfasst. Bitte beachten Sie, dass bei der " +
+                                    "notwendigen Stromerzeugung dennoch CO2-Emissionen verursacht" +
+                                    "werden.")
+                            .setIcon(R.drawable.ic_outline_info_24)
 
-                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int whichButton) {
                                     dialogInterface.dismiss();

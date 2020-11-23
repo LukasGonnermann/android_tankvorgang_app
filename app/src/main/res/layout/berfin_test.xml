@@ -9,8 +9,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="112dp">
+    >
 
 
         <LinearLayout
@@ -20,11 +19,6 @@
             android:layout_marginTop="30dp"
             android:layout_marginRight="30dp"
             android:orientation="vertical">
-
-            <shape>
-
-            <!--    <corners android:bottomLeftRadius="5Odp" />  verhindert build-->
-            </shape>
 
             <EditText
                 android:id="@+id/editTextName"
