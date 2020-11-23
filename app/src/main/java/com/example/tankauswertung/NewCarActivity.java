@@ -56,7 +56,7 @@ public class NewCarActivity extends AppCompatActivity {
     SeekBar seekBarVerbrauchKombiniert;
     SeekBar seekBarAktuellerTankstand;
     CheckBox checkBoxElektro;
-    ImageButton imageButtonElektro_info;
+    ImageButton imageButtonElektroInfo;
 
     Intent intent;
 
@@ -93,12 +93,31 @@ public class NewCarActivity extends AppCompatActivity {
         seekBarVerbrauchKombiniert = findViewById(R.id.seekBarVerbrauchKombiniert);
         seekBarAktuellerTankstand = findViewById(R.id.seekBarAktuellerTankstand);
         checkBoxElektro = findViewById(R.id.checkBoxElektro);
-        imageButtonElektro_info = findViewById(R.id.imageButtonElektro_info);
+        imageButtonElektroInfo = findViewById(R.id.imageButtonElektro_info);
 
         // zeigt den Zurück-Button an
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // --- CheckBox Listener, ob Elektroauto
+
+
+        // Dialog vorbauen (2 Benutzungen)
+        AlertDialog dialogElektroInfoBestaetigung = new AlertDialog.Builder(NewCarActivity.this)
+                .setTitle("Hinweis")
+                .setMessage("In dieser App werden Elektrofahrzeuge mit 0 g/km " +
+                        "CO2-Emissonen erfasst. Bitte beachten Sie, dass bei der " +
+                        "notwendigen Stromerzeugung dennoch CO2-Emissionen verursacht" +
+                        "werden.")
+                .setIcon(R.drawable.ic_outline_info_24)
+
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int whichButton) {
+                        dialogInterface.dismiss();
+                    }
+                })
+
+                .create();
 
         checkBoxElektro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -114,27 +133,9 @@ public class NewCarActivity extends AppCompatActivity {
                 if (b) {
                     //Hinweis-Dialog nur anzeigen, wenn Auto hinzugefügt wird und er nicht schon einmal angezeigt wurde
                     if (intent.getAction().equals(MainActivity.ACTION_NEW_CAR) && !hinweis_angezeigt) {
-                        AlertDialog dialogElektroInfoBestaetigung = new AlertDialog.Builder(NewCarActivity.this)
-                                .setTitle("Hinweis")
-                                .setMessage("In dieser App werden Elektrofahrzeuge mit 0 g/km " +
-                                        "CO2-Emissonen erfasst. Bitte beachten Sie, dass bei der " +
-                                        "notwendigen Stromerzeugung dennoch CO2-Emissionen verursacht" +
-                                        "werden.")
-                                .setIcon(R.drawable.ic_outline_info_24)
-
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int whichButton) {
-                                        dialogInterface.dismiss();
-                                    }
-                                })
-
-                                .create();
-
                         dialogElektroInfoBestaetigung.show();
                     }
                     hinweis_angezeigt = true;
-                    imageButtonElektro_info.setVisibility(View.VISIBLE);
                     labelVerbrauchInnerortsTitel.setText(R.string.verbrauch_innerorts_kwh_100km);
                     labelVerbrauchAusserortsTitel.setText(R.string.verbrauch_au_erorts_kwh_100km);
                     labelVerbrauchKombiniertTitel.setText(R.string.verbrauch_kombiniert_kwh_100km);
@@ -142,7 +143,6 @@ public class NewCarActivity extends AppCompatActivity {
                     labelAktuellerTankstandTitel.setText(R.string.tankstand_kwh);
                     //ist Verbrenner
                 } else {
-                    imageButtonElektro_info.setVisibility(View.INVISIBLE);
                     labelVerbrauchInnerortsTitel.setText(R.string.verbrauch_innerorts_l_100km);
                     labelVerbrauchAusserortsTitel.setText(R.string.verbrauch_au_erorts_l_100km);
                     labelVerbrauchKombiniertTitel.setText(R.string.verbrauch_kombiniert_l_100km);
@@ -390,25 +390,11 @@ public class NewCarActivity extends AppCompatActivity {
         });
 
         //----Button Listener
-        imageButtonElektro_info.setOnClickListener(new View.OnClickListener() {
+        imageButtonElektroInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog dialogElektroInfoBestaetigung = new AlertDialog.Builder(NewCarActivity.this)
-                        .setTitle("Hinweis zur CO2-Emission von Elektro-Autos")
-                        .setMessage("In dieser App werden Elektro-Autos mit 0 g/km Emissonen erfasst. Dennoch werden auch bei Stromerzeugung CO2-Emissionen verursacht.")
-                        .setIcon(R.drawable.ic_baseline_info_24)
-
-                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int whichButton) {
-                                dialogInterface.dismiss();
-                            }
-                        })
-
-                        .create();
-
                 dialogElektroInfoBestaetigung.show();
-
+                hinweis_angezeigt = true;
             }
         });
         // --- Default-Werte setzen
@@ -443,7 +429,9 @@ public class NewCarActivity extends AppCompatActivity {
             seekBarAktuellerTankstand.setProgress((int) aktuellesFahrzeug.getTankstand());
         }
 
-        editTextName.requestFocus();  // zu Beginn Fokus auf Namensfeld
+        if (intent.getAction().equals(MainActivity.ACTION_NEW_CAR)) {
+            editTextName.requestFocus();  // zu Beginn Fokus auf Namensfeld
+        }
     }
 
     /**
