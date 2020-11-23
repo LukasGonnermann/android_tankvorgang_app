@@ -62,7 +62,7 @@ public class NewCarActivity extends AppCompatActivity {
 
     Garage garage;
     boolean aendern = false;// gibt an, ob bei Fahrzeug ändern, die Default Werte geladen werden sollen
-
+    boolean hinweis_angezeigt = false; // gibt an, ob der Hinweis zum E-Auto schon einmal angezeigt wurde
     /**
      * ausgeführt, sobald die Aktivität gestartet wird
      *
@@ -112,24 +112,28 @@ public class NewCarActivity extends AppCompatActivity {
 
                 //ist Elektro
                 if (b) {
-                    AlertDialog dialogElektroInfoBestaetigung = new AlertDialog.Builder(NewCarActivity.this)
-                            .setTitle("Hinweis")
-                            .setMessage("In dieser App werden Elektrofahrzeuge mit 0 g/km " +
-                                    "CO2-Emissonen erfasst. Bitte beachten Sie, dass bei der " +
-                                    "notwendigen Stromerzeugung dennoch CO2-Emissionen verursacht" +
-                                    "werden.")
-                            .setIcon(R.drawable.ic_outline_info_24)
+                    //Hinweis-Dialog nur anzeigen, wenn Auto hinzugefügt wird und er nicht schon einmal angezeigt wurde
+                    if (intent.getAction().equals(MainActivity.ACTION_NEW_CAR) && !hinweis_angezeigt) {
+                        AlertDialog dialogElektroInfoBestaetigung = new AlertDialog.Builder(NewCarActivity.this)
+                                .setTitle("Hinweis")
+                                .setMessage("In dieser App werden Elektrofahrzeuge mit 0 g/km " +
+                                        "CO2-Emissonen erfasst. Bitte beachten Sie, dass bei der " +
+                                        "notwendigen Stromerzeugung dennoch CO2-Emissionen verursacht" +
+                                        "werden.")
+                                .setIcon(R.drawable.ic_outline_info_24)
 
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int whichButton) {
-                                    dialogInterface.dismiss();
-                                }
-                            })
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int whichButton) {
+                                        dialogInterface.dismiss();
+                                    }
+                                })
 
-                            .create();
+                                .create();
 
-                    dialogElektroInfoBestaetigung.show();
+                        dialogElektroInfoBestaetigung.show();
+                    }
+                    hinweis_angezeigt = true;
                     imageButtonElektro_info.setVisibility(View.VISIBLE);
                     labelVerbrauchInnerortsTitel.setText(R.string.verbrauch_innerorts_kwh_100km);
                     labelVerbrauchAusserortsTitel.setText(R.string.verbrauch_au_erorts_kwh_100km);
@@ -251,6 +255,7 @@ public class NewCarActivity extends AppCompatActivity {
                     editTextVerbrauchInnerortsStand.setError("Bitte geben Sie das Tankvolumen Ihres Fahrzeugs an");
                     korrekteEinzeleingaben.put("tankvolumen", false);
                 } else {
+                    editTextVerbrauchInnerortsStand.setSelection(editTextVerbrauchInnerortsStand.getText().length());
                     seekBarVerbrauchInnerorts.setProgress((int) Double.parseDouble(editTextVerbrauchInnerortsStand.getText().toString()));
                     korrekteEinzeleingaben.put("tankvolumen", true);
                 }
@@ -276,6 +281,7 @@ public class NewCarActivity extends AppCompatActivity {
                     editTextVerbrauchAusserortsStand.setError("Bitte geben Sie das Tankvolumen Ihres Fahrzeugs an");
                     korrekteEinzeleingaben.put("tankvolumen", false);
                 } else {
+                    editTextVerbrauchAusserortsStand.setSelection(editTextVerbrauchAusserortsStand.getText().length());
                     seekBarVerbrauchAusserorts.setProgress((int) Double.parseDouble(editTextVerbrauchAusserortsStand.getText().toString()));
                     korrekteEinzeleingaben.put("tankvolumen", true);
                 }
@@ -301,6 +307,7 @@ public class NewCarActivity extends AppCompatActivity {
                     editTextVerbrauchKombiniertStand.setError("Bitte geben Sie das Tankvolumen Ihres Fahrzeugs an");
                     korrekteEinzeleingaben.put("tankvolumen", false);
                 } else {
+                    editTextVerbrauchKombiniertStand.setSelection(editTextVerbrauchKombiniertStand.getText().length());
                     seekBarVerbrauchKombiniert.setProgress((int) Double.parseDouble(editTextVerbrauchKombiniertStand.getText().toString()));
                     korrekteEinzeleingaben.put("tankvolumen", true);
                 }
