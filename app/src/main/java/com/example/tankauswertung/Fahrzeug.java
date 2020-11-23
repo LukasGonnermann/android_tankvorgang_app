@@ -364,6 +364,7 @@ public class Fahrzeug implements Serializable {
      */
     public void streckeHinzufuegen(double pDistanz, Strecke.Streckentyp pStreckentyp, double pTankstand) {
         strecken.add(0, new Strecke(pDistanz, pStreckentyp, pTankstand));
+        // TODO: Wenn Tankstand nach der Strecke hoeher als Vorher: Meldung, dass ein Tankvorgang hinzugefuegt werden soll ?
     }
 
 
@@ -373,9 +374,14 @@ public class Fahrzeug implements Serializable {
      * @param pGetankteMenge double, getankte Menge in Litern
      * @param pPreis         double, gezahlter Preis in Euro
      * @param pImg           String, Pfad zum Foto
+     * @throws FahrzeugWertException wenn die getankte Menge groesser als die Tankgroesse des Fahrzeugs ist
      */
-    public void tangvorgangHinzufuegen(double pGetankteMenge, double pPreis, String pImg) {
-        tankvorgaenge.add(0, new Tankvorgang(pGetankteMenge, pPreis, pImg));
+    public void tangvorgangHinzufuegen(double pGetankteMenge, double pPreis, String pImg) throws FahrzeugWertException {
+        if (pGetankteMenge <= this.tankgroesse) {
+            tankvorgaenge.add(0, new Tankvorgang(pGetankteMenge, pPreis, pImg));
+        } else {
+            throw new FahrzeugWertException("Die getankte Menge kann nicht groesser als die Tankgroesse des Fahrzeugs sein.");
+        }
     }
 
 
