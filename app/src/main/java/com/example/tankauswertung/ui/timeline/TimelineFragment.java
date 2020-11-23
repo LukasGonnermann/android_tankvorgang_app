@@ -12,16 +12,35 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.tankauswertung.Garage;
+import com.example.tankauswertung.MainActivity;
 import com.example.tankauswertung.R;
 
 public class TimelineFragment extends Fragment {
+
+    Garage garage;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_timeline, container, false);
-        final TextView textView = root.findViewById(R.id.text_timeline);
-        textView.setText("Timeline");
         return root;
+    }
+
+    /**
+     * immer ausgeführt, bevor das Fragment (der Tab) bedienbar ist (nach jedem Wechseln etc. etc.)
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        garage = MainActivity.getGarage();
+
+        if (garage.isEmpty()) {
+            // TODO: error handling?
+            return;
+        }
+
+
     }
 }

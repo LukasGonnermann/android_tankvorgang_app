@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="30dp" >
+
+    <com.github.vipulasri.timelineview.TimelineView
+        android:id="@+id/timeline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:marker="@drawable/ic_baseline_navigation_24"
+        app:markerSize="50dp"
+        app:markerInCenter="true"
+        app:lineWidth="2dp"
+        app:startLineColor="?android:colorPrimary"
+        app:endLineColor="?android:colorPrimary"
+        app:linePadding="5dp" />
+
+    <!-- Card-Prototyp -->
+    <!-- Strecke: Datum, Beschreibung (Distanz, Streckentyp) -->
+    <!-- Tankvorgang: Datum, Beschreibung (getankte Menge, Preis) -->
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="5dp"
+        android:layout_gravity="center_vertical"
+        app:contentPadding="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewTimelineDatum"
+                android:textSize="12sp"
+                tools:text="Testdatum"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:id="@+id/textViewTimelineBeschreibung"
+                android:textColor="@android:color/black"
+                tools:text="Testbeschreibung"/>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

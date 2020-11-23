@@ -555,8 +555,13 @@ public class NewCarActivity extends AppCompatActivity {
      */
     @Override
     public boolean onSupportNavigateUp() {
-        setResult(Activity.RESULT_CANCELED, intent);
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(Activity.RESULT_CANCELED, intent);
+        super.onBackPressed();
     }
 }
