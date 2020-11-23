@@ -8,6 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey_light">#f1f2f6</color>
-    <color name="lila">#778beb</color>
-    <color name="dunkel">#474787</color>
+    <color name="branding_purple">#778beb</color>
+    <color name="branding_dark_purple">#474787</color>
 </resources>
