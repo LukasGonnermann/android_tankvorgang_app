@@ -63,6 +63,8 @@ public class NewCarActivity extends AppCompatActivity {
     Garage garage;
     boolean aendern = false;// gibt an, ob bei Fahrzeug ändern, die Default Werte geladen werden sollen
     boolean hinweis_angezeigt = false; // gibt an, ob der Hinweis zum E-Auto schon einmal angezeigt wurde
+
+
     /**
      * ausgeführt, sobald die Aktivität gestartet wird
      *

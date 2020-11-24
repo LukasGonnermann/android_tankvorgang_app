@@ -20,18 +20,18 @@ public class StreckeTest {
         String aktuelleZeitString = formatter.format(aktuelleZeit);
 
         // Strecke anlegen
-        Strecke S = new Strecke(24.37, Strecke.Streckentyp.innerorts, 34);
+        Strecke S = new Strecke(24.37, Strecke.Streckentyp.INNERORTS, 34);
         // Werte mit Gettern pruefen
         assertEquals(24.37,S.getDistanz(),0);
-        assertEquals(Strecke.Streckentyp.innerorts,S.getStreckentyp());
+        assertEquals(Strecke.Streckentyp.INNERORTS,S.getStreckentyp());
         assertEquals(34,S.getTankstand(),0);
         assertEquals(aktuelleZeitString,S.getZeitstempelAsString());
 
         // Strecke bearbeiten
-        S.streckeBearbeiten(20.57, Strecke.Streckentyp.kombiniert,20.5);
+        S.streckeBearbeiten(20.57, Strecke.Streckentyp.KOMBINIERT,20.5);
         // Werte mit Gettern pruefen
         assertEquals(20.57,S.getDistanz(),0);
-        assertEquals(Strecke.Streckentyp.kombiniert,S.getStreckentyp());
+        assertEquals(Strecke.Streckentyp.KOMBINIERT,S.getStreckentyp());
         assertEquals(20.5,S.getTankstand(),0);
         assertEquals(aktuelleZeitString,S.getZeitstempelAsString());
 

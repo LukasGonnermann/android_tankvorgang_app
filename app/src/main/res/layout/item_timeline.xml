@@ -5,15 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="30dp" >
+    android:layout_margin="30dp"
+    android:orientation="horizontal" >
 
     <com.github.vipulasri.timelineview.TimelineView
         android:id="@+id/timeline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:marker="@drawable/ic_baseline_navigation_24"
         app:markerSize="50dp"
         app:markerInCenter="true"
+        app:lineOrientation="vertical"
         app:lineWidth="2dp"
         app:startLineColor="?android:colorPrimary"
         app:endLineColor="?android:colorPrimary"
@@ -24,6 +25,7 @@
     <!-- Tankvorgang: Datum, Beschreibung (getankte Menge, Preis) -->
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardViewTimeline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -40,19 +42,18 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewTimelineDatum"
                 android:textSize="12sp"
                 tools:text="Testdatum"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:id="@+id/textViewTimelineBeschreibung"
-                android:textColor="@android:color/black"
                 tools:text="Testbeschreibung"/>
 
         </LinearLayout>

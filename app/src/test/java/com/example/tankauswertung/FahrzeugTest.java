@@ -107,9 +107,9 @@ public class FahrzeugTest {
     public void testFahrzeugStrecken() {
         // Fahrzeug und Strecken anlegen
         Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 70, 5, 45);
-        Strecke s1 = new Strecke(24.37, Strecke.Streckentyp.kombiniert, 34);
-        Strecke s2 = new Strecke(0.85, Strecke.Streckentyp.innerorts, 12);
-        Strecke s3 = new Strecke(85.4, Strecke.Streckentyp.ausserorts, 97);
+        Strecke s1 = new Strecke(24.37, Strecke.Streckentyp.KOMBINIERT, 34);
+        Strecke s2 = new Strecke(0.85, Strecke.Streckentyp.INNERORTS, 12);
+        Strecke s3 = new Strecke(85.4, Strecke.Streckentyp.AUSSERORTS, 97);
 
         // Strecken hinzufuegen
         f.streckeHinzufuegen(s1.getDistanz(), s1.getStreckentyp(), s1.getTankstand());

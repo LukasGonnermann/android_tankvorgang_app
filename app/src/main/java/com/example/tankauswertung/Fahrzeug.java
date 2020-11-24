@@ -4,6 +4,7 @@ import com.example.tankauswertung.exceptions.FahrzeugWertException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Klasse Fahrzeuge
@@ -186,6 +187,73 @@ public class Fahrzeug implements Serializable {
      */
     public ArrayList<Tankvorgang> getTankvorgaenge() {
         return tankvorgaenge;
+    }
+
+    /**
+     * Getter für die gesamte Liste an Strecken und Tankvorgängen bzw. Timeline-Elementen der
+     * Wrapperklasse Ereignis
+     * @return ArrayList<Ereignis>, Alle Ereignisse, sortiert nach Datum
+     */
+    public ArrayList<Ereignis> getEreignisse() {
+
+        ArrayList<Ereignis> ereignisse = new ArrayList<>();
+        int i = 0, j = 0;
+        Strecke aktuelleStrecke;
+        Tankvorgang aktuellerTankvorgang;
+        boolean keineStreckeMehr = i >= strecken.size();
+        boolean keinTankvorgangMehr = j >= tankvorgaenge.size();
+
+        if (!keineStreckeMehr) {
+            aktuelleStrecke = strecken.get(0);
+        } else {
+            aktuelleStrecke = null;
+        }
+
+        if (!keinTankvorgangMehr) {
+            aktuellerTankvorgang = tankvorgaenge.get(0);
+        } else {
+            aktuellerTankvorgang = null;
+        }
+
+        // Merge-Operation
+        // solange nicht noch mindestens eine Strecke oder ein Tankvorgang vorhanden
+        while (!(keineStreckeMehr && keinTankvorgangMehr)) {
+
+            if (keinTankvorgangMehr || aktuelleStrecke.getZeitstempel()
+                    .compareTo(aktuellerTankvorgang.getZeitstempel()) > 0) {
+
+                // aktuelles Streckenelement ist aktueller
+                // oder kein Tankvorgangelement mehr vorhanden
+                Date datum = aktuelleStrecke.getZeitstempel();
+                String beschreibung = Double.toString(aktuelleStrecke.getDistanz())
+                        + ", " + aktuelleStrecke.getStreckentyp().toString();
+                ereignisse.add(new Ereignis(Ereignis.EreignisTyp.STRECKE, i, datum, beschreibung));
+
+            } else {
+                // keineStreckeMehr || aktuelleStrecke.getZeitstempel().compareTo(aktuellerTankvorgang.getZeitstempel()) <= 0
+                Date datum = aktuellerTankvorgang.getZeitstempel();
+                String beschreibung = Double.toString(aktuellerTankvorgang.getGetankteMenge())
+                        + ", " + Double.toString(aktuellerTankvorgang.getPreis());
+                ereignisse.add(new Ereignis(Ereignis.EreignisTyp.STRECKE, i, datum, beschreibung));
+
+            }
+
+            if (i + 1 >= strecken.size()) {
+                keineStreckeMehr = true;
+                // Flag wird gesetzt, Index i bleibt aber trotzdem gleich, damit noch accessible
+            } else {
+                i++;
+                aktuelleStrecke = strecken.get(i);
+            }
+
+            if (j + 1 >= tankvorgaenge.size()) {
+                keinTankvorgangMehr = true;
+            } else {
+                j++;
+                aktuellerTankvorgang = tankvorgaenge.get(i);
+            }
+        }
+        return ereignisse;
     }
 
     /**
