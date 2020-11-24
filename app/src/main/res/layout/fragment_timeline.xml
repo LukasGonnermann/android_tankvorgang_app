@@ -22,18 +22,13 @@
         app:layout_constraintTop_toTopOf="parent" />
     -->
 
-    <ScrollView
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/item_timeline"
-        />
-
-    </ScrollView>
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_timeline"
+    />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

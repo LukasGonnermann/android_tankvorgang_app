@@ -5,20 +5,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="30dp"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:layout_marginLeft="50dp"
+    android:layout_marginRight="50dp" >
 
     <com.github.vipulasri.timelineview.TimelineView
         android:id="@+id/timeline"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:markerSize="50dp"
+        android:layout_height="match_parent"
+        app:markerSize="40dp"
         app:markerInCenter="true"
-        app:lineOrientation="vertical"
-        app:lineWidth="2dp"
-        app:startLineColor="?android:colorPrimary"
-        app:endLineColor="?android:colorPrimary"
-        app:linePadding="5dp" />
+        app:lineWidth="3dp"
+        app:lineStyle="normal"/>
 
     <!-- Card-Prototyp -->
     <!-- Strecke: Datum, Beschreibung (Distanz, Streckentyp) -->
@@ -30,17 +28,20 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:layout_gravity="center_vertical"
-        app:contentPadding="15dp">
+        android:clickable="true"
+        app:cardBackgroundColor="@color/grey_light"
+        app:contentPadding="15dp"
+        app:cardElevation="1dp" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
             <TextView
                 android:layout_width="match_parent"

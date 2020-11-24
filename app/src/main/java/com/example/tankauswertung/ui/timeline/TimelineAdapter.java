@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -40,8 +41,8 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        View view = View.inflate(context, R.layout.item_timeline, null);
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.item_timeline, parent, false);
         return new TimelineViewHolder(view, viewType);
     }
 
@@ -89,8 +90,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      */
     public static class TimelineViewHolder extends RecyclerView.ViewHolder {
 
-        // TODO: Klasse Ereignis hier integrieren --> vereinfacht VIELES
-        // in der Klasse Fahrzeug könnte dann die getEreignisse entsprechend umgeschrieben werden
+        // TODO: Klasse Ereignis hier integrieren?
 
         TimelineView timelineView;
         CardView cardView;
@@ -103,6 +103,15 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             textViewTimelineDatum = itemView.findViewById(R.id.textViewTimelineDatum);
             textViewTimelineBeschreibung = itemView.findViewById(R.id.textViewTimelineBeschreibung);
             timelineView.initLine(viewType);
+
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // TODO
+                    Toast toast = Toast.makeText(itemView.getContext(), "blah", 1);
+                    toast.show();
+                }
+            });
         }
 
         public TimelineView getTimelineView() {

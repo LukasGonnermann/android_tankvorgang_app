@@ -108,7 +108,7 @@ public class NewCarActivity extends AppCompatActivity {
                 .setTitle("Hinweis")
                 .setMessage("In dieser App werden Elektrofahrzeuge mit 0 g/km " +
                         "CO2-Emissonen erfasst. Bitte beachten Sie, dass bei der " +
-                        "notwendigen Stromerzeugung dennoch CO2-Emissionen verursacht" +
+                        "notwendigen Stromerzeugung dennoch CO2-Emissionen verursacht " +
                         "werden.")
                 .setIcon(R.drawable.ic_outline_info_24)
 
