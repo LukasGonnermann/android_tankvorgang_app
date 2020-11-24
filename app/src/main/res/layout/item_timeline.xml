@@ -38,24 +38,44 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical" >
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
 
-            <TextView
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textViewTimelineDatum"
-                android:textSize="12sp"
-                tools:text="Testdatum"/>
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="1" >
 
-            <TextView
-                android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewTimelineDatum"
+                    android:textSize="12sp"
+                    tools:text="Testdatum"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/textViewTimelineBeschreibung"
+                    tools:text="Testbeschreibung"/>
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/imageButtonEreignisBearbeiten"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:id="@+id/textViewTimelineBeschreibung"
-                tools:text="Testbeschreibung"/>
+                android:layout_gravity="center_vertical"
+                android:gravity="end"
+                android:visibility="invisible"
+                android:contentDescription="@string/tankvorgang_bearbeiten"
+                android:background="#00FFFFFF"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_baseline_edit_24" />
 
         </LinearLayout>
 

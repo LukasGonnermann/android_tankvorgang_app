@@ -6,6 +6,7 @@ import android.graphics.drawable.VectorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,8 +56,8 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
 
         Ereignis ereignis = ereignisse.get(position);
-
         TimelineViewHolder timelineViewHolder = (TimelineViewHolder) holder;
+
         timelineViewHolder.textViewTimelineDatum.setText(ereignis.getDatumAsString());
         timelineViewHolder.textViewTimelineBeschreibung.setText(ereignis.getBeschreibung());
 
@@ -64,6 +65,11 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             setMarker(timelineViewHolder, R.drawable.ic_baseline_navigation_24);
         } else {
             setMarker(timelineViewHolder, R.drawable.ic_baseline_local_gas_station_24);
+        }
+
+        // nur aktuellstes Ereignis soll bearbeitet werden können
+        if (position == 0) {
+            timelineViewHolder.imageButtonEreignisBearbeiten.setVisibility(View.VISIBLE);
         }
     }
 
@@ -90,11 +96,10 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      */
     public static class TimelineViewHolder extends RecyclerView.ViewHolder {
 
-        // TODO: Klasse Ereignis hier integrieren?
-
         TimelineView timelineView;
         CardView cardView;
         TextView textViewTimelineDatum, textViewTimelineBeschreibung;
+        ImageButton imageButtonEreignisBearbeiten;
 
         public TimelineViewHolder(View itemView, int viewType) {
             super(itemView);
@@ -102,14 +107,13 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             cardView = itemView.findViewById(R.id.cardViewTimeline);
             textViewTimelineDatum = itemView.findViewById(R.id.textViewTimelineDatum);
             textViewTimelineBeschreibung = itemView.findViewById(R.id.textViewTimelineBeschreibung);
+            imageButtonEreignisBearbeiten = itemView.findViewById(R.id.imageButtonEreignisBearbeiten);
             timelineView.initLine(viewType);
 
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     // TODO
-                    Toast toast = Toast.makeText(itemView.getContext(), "blah", 1);
-                    toast.show();
                 }
             });
         }

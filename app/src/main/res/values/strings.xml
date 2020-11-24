@@ -47,4 +47,9 @@
     <string name="edit_car">Fahrzeug bearbeiten</string>
     <string name="no_cars_in_garage">Kein Fahrzeug vorhanden</string>
     <string name="elektrofahrzeug">Elektrofahrzeug</string>
+    <string name="ereignisseLeer">Noch keine Strecken oder Tankvorgänge vorhanden</string>
+    <string name="tankvorgang_bearbeiten">Tankvorgang bearbeiten</string>
+    <string name="ereignis_hinzufuegen">Ereignis hinzufügen</string>
+    <string name="tankvorgang_hinzufügen">Tankvorgang hinzufügen</string>
+    <string name="strecke_hinzufügen">Strecke hinzufügen</string>
 </resources>

@@ -95,7 +95,7 @@ public class NewCarActivity extends AppCompatActivity {
         seekBarVerbrauchKombiniert = findViewById(R.id.seekBarVerbrauchKombiniert);
         seekBarAktuellerTankstand = findViewById(R.id.seekBarAktuellerTankstand);
         checkBoxElektro = findViewById(R.id.checkBoxElektro);
-        imageButtonElektroInfo = findViewById(R.id.imageButtonElektro_info);
+        imageButtonElektroInfo = findViewById(R.id.imageButtonElektroInfo);
 
         // zeigt den Zurück-Button an
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
