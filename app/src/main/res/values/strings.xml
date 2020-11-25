@@ -52,4 +52,5 @@
     <string name="ereignis_hinzufuegen">Ereignis hinzufügen</string>
     <string name="tankvorgang_hinzufügen">Tankvorgang hinzufügen</string>
     <string name="strecke_hinzufügen">Strecke hinzufügen</string>
+    <string name="info_button_elektroauto">Info-Button Elektroauto</string>
 </resources>
