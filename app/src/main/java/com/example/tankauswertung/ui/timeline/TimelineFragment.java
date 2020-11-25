@@ -17,7 +17,7 @@ import com.example.tankauswertung.MainActivity;
 import com.example.tankauswertung.R;
 import com.example.tankauswertung.Strecke;
 import com.example.tankauswertung.exceptions.FahrzeugWertException;
-import com.github.vipulasri.timelineview.TimelineView;
+//import com.github.vipulasri.timelineview.TimelineView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
