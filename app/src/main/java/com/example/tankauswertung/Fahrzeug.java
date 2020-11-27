@@ -425,15 +425,67 @@ public class Fahrzeug implements Serializable {
     }
 
     /**
+     * Aktualisiert den tatsächlichen Verbrauch des Autos nach dem eintragen eier Strecke
+     *
+     * @param verbrauchteLiter double, Auf der Strecke verbrauchte Liter
+     * @param streckendistanz double, Distanz der Strecke
+     * @param pStreckentyp enum Strecke.Streckentyp, Typ der Strecke
+     */
+    public void verbrauchAktualisieren(double verbrauchteLiter, double streckendistanz, Strecke.Streckentyp pStreckentyp) {
+        //Berechnung:
+        double verbrauchDerStrecke = verbrauchteLiter/streckendistanz*100;
+        switch(pStreckentyp){
+            case INNERORTS:
+                try {
+                    setVerbrauchInnerorts((strecken.size()*getVerbrauchInnerorts()+verbrauchDerStrecke)/strecken.size()+1);
+                } catch (FahrzeugWertException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case AUSSERORTS:
+                try {
+                    setVerbrauchAusserorts((strecken.size()*getVerbrauchAusserorts()+verbrauchDerStrecke)/strecken.size()+1);
+                } catch (FahrzeugWertException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case KOMBINIERT:
+                try {
+                    setVerbrauchKombiniert((strecken.size()*getVerbrauchKombiniert()+verbrauchDerStrecke)/strecken.size()+1);
+                } catch (FahrzeugWertException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
+
+    /**
      * Methode zum Hinzufuegen einer gefahrenen Strecke in die "Strecken"-ArrayList am Index 0 (Anfang der Liste)
      *
-     * @param pDistanz     double, Distanz in Kilometern
+     * @param pKmStand     double, Neuer Kilometerstand des Autos
      * @param pStreckentyp Enum Streckentyp, Streckentyp, welcher eingeben wird (Innerorts, Ausserorts, kombiniert)
-     * @param pTankstand   double, Tankstand nach dem Fahren der Strecke
+     * @param pTankstand   double, Tankstand nach dem Fahren der Strecke in Prozent
      */
-    public void streckeHinzufuegen(double pDistanz, Strecke.Streckentyp pStreckentyp, double pTankstand) {
-        strecken.add(0, new Strecke(pDistanz, pStreckentyp, pTankstand));
-        // TODO: Wenn Tankstand nach der Strecke hoeher als Vorher: Meldung, dass ein Tankvorgang hinzugefuegt werden soll ?
+    public void streckeHinzufuegen(double pKmStand, Strecke.Streckentyp pStreckentyp, double pTankstand) {
+        //Distanz der Strecke, neuer Tankstand und neuer Kilometerstand:
+        double distanz = pKmStand - this.getKmStand();
+        double verbrauchteLiter = (this.getTankstand()-pTankstand)/100;
+        verbrauchAktualisieren(verbrauchteLiter, distanz, pStreckentyp);
+        try {
+            this.setKmStand(pKmStand);
+        } catch (FahrzeugWertException e) {
+            e.printStackTrace();
+        }
+        try {
+            this.setTankstand(pTankstand);
+        } catch (FahrzeugWertException e) {
+            e.printStackTrace();
+        }
+
+        //CO2-Ausstoss der Strecke berechnen:
+        double co2AusstossDerStrecke = distanz*this.getCo2Ausstoss();
+        strecken.add(0, new Strecke(distanz, pStreckentyp, pTankstand, co2AusstossDerStrecke));
+
     }
 
 

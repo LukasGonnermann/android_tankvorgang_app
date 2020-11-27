@@ -42,16 +42,36 @@ public class Strecke implements Serializable {
     Date zeitstempel;
 
     /**
+     * Variable die den CO2-Aussstoss der Strecke abspeichert.
+     */
+    double co2Ausstoss;
+
+    /**
      * Konstruktor fuer die Klasse Strecke
      * Setzt alle Variablen auf den Wert des Eingabeparameters
      */
-    public Strecke(double pDistanz, Streckentyp pStreckentyp, double pTankstand) {
+    public Strecke(double pDistanz, Streckentyp pStreckentyp, double pTankstand, double pCo2Ausstoss) {
         distanz = pDistanz;
         streckentyp = pStreckentyp;
         tankstand = pTankstand;
         formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         zeitstempel = new Date();
+        co2Ausstoss = pCo2Ausstoss;
     }
+
+    /**
+     * Getter fuer den CO2-Ausstoss
+     *
+     * @return double, CO2-Ausstoss des Fahrzeugs bei der gefahrenen Strecke
+     */
+    public double getCo2Aussstoss() { return co2Ausstoss; }
+
+    /**
+     * Setter fuer den CO2-Ausstoss
+     *
+     * @param co2Ausstoss, double CO2-Ausstoss-Input
+     */
+    public void setCo2Ausstoss(double co2Ausstoss) { this.co2Ausstoss = co2Ausstoss; }
 
     /**
      * Getter fuer den Tankstand
