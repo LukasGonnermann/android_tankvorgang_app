@@ -469,7 +469,7 @@ public class Fahrzeug implements Serializable {
     public void streckeHinzufuegen(double pKmStand, Strecke.Streckentyp pStreckentyp, double pTankstand) {
         //Distanz der Strecke, neuer Tankstand und neuer Kilometerstand:
         double distanz = pKmStand - this.getKmStand();
-        double verbrauchteLiter = (this.getTankstand()-pTankstand)/100;
+        double verbrauchteLiter = (this.getTankstand()-pTankstand)/100*this.getTankgroesse();
         verbrauchAktualisieren(verbrauchteLiter, distanz, pStreckentyp);
         try {
             this.setKmStand(pKmStand);
