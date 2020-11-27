@@ -505,17 +505,19 @@ public class Fahrzeug implements Serializable {
     /**
      * Methode zum Abfragen der gefahrenen Strecken in der letzten Woche (Statistik)
      *
+     * @param verschiebung int, "-1" wuerde die Statistik eine Woche in die Vergangenheit bringen
      * @return double[], Array mit den einzelnen Tagen als Index
      */
-    public double[] getWocheStreckenStatistik() {
+    public double[] getWocheStreckenStatistik(int verschiebung) {
         double[] rueckgabe = new double[7];
-        Date vorEinerWoche = new Date();
-        vorEinerWoche.setTime(vorEinerWoche.getTime()-604800000);
         Date heute = new Date();
+        heute.setTime(heute.getTime()+verschiebung*604800000);
+        Date vorEinerWoche = new Date();
+        vorEinerWoche.setTime(heute.getTime()-604800000);
         SimpleDateFormat formatter = new SimpleDateFormat("dd");
         int i=0;
         int n=0;
-        while(heute.after(vorEinerWoche)) {
+        while(heute.after(vorEinerWoche) && i<strecken.size()) {
             if(formatter.format(strecken.get(i).getZeitstempel()) == formatter.format(heute)) {
                 rueckgabe[n]+=strecken.get(i).getDistanz();
             }
@@ -531,17 +533,19 @@ public class Fahrzeug implements Serializable {
     /**
      * Methode zum Abfragen des verfahrenen Treibstoffs in der letzten Woche (Statistik)
      *
+     * @param verschiebung int, "-1" wuerde die Statistik eine Woche in die Vergangenheit bringen
      * @return double[], Array mit den einzelnen Tagen als Index
      */
-    public double[] getWocheTreibstoffStatistik() {
+    public double[] getWocheTreibstoffStatistik(int verschiebung) {
         double[] rueckgabe = new double[7];
-        Date vorEinerWoche = new Date();
-        vorEinerWoche.setTime(vorEinerWoche.getTime()-604800000);
         Date heute = new Date();
+        heute.setTime(heute.getTime()+verschiebung*604800000);
+        Date vorEinerWoche = new Date();
+        vorEinerWoche.setTime(heute.getTime()-604800000);
         SimpleDateFormat formatter = new SimpleDateFormat("dd");
         int i=0;
         int n=0;
-        while(heute.after(vorEinerWoche)) {
+        while(heute.after(vorEinerWoche) && i<strecken.size()) {
             if(formatter.format(strecken.get(i).getZeitstempel()) == formatter.format(heute)) {
                 rueckgabe[n]+=strecken.get(i).getVerbrauchterTreibstoff();
             }
@@ -551,6 +555,78 @@ public class Fahrzeug implements Serializable {
             }
             i++;
         }
+        return rueckgabe;
+    }
+
+    /**
+     * Methode zum Abfragen der Tankkosten in der letzten Woche (Statistik)
+     *
+     * @param verschiebung int, "-1" wuerde die Statistik eine Woche in die Vergangenheit bringen
+     * @return double[], Array mit den einzelnen Tagen als Index
+     */
+    public double[] getWocheTankkostenStatistik(int verschiebung) {
+        double[] rueckgabe = new double[7];
+        Date heute = new Date();
+        heute.setTime(heute.getTime()+verschiebung*604800000);
+        Date vorEinerWoche = new Date();
+        vorEinerWoche.setTime(heute.getTime()-604800000);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd");
+        int i=0;
+        int n=0;
+        while(heute.after(vorEinerWoche) && i<strecken.size()) {
+            if(formatter.format(tankvorgaenge.get(i).getZeitstempel()) == formatter.format(heute)) {
+                rueckgabe[n]+=tankvorgaenge.get(i).getPreis();
+            }
+            else {
+                n++;
+                heute.setTime(heute.getTime()-86400000);
+            }
+            i++;
+        }
+        return rueckgabe;
+    }
+
+    /**
+     * Methode zum Abfragen des CO2-Ausstosses der letzten Woche (Statistik)
+     *
+     * @param verschiebung int, "-1" wuerde die Statistik eine Woche in die Vergangenheit bringen
+     * @return double[], Array mit den einzelnen Tagen als Index
+     */
+    public double[] getWocheCO2Statistik(int verschiebung) {
+        double[] rueckgabe = new double[7];
+        Date heute = new Date();
+        heute.setTime(heute.getTime()+verschiebung*604800000);
+        Date vorEinerWoche = new Date();
+        vorEinerWoche.setTime(heute.getTime()-604800000);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd");
+        int i=0;
+        int n=0;
+        while(heute.after(vorEinerWoche) && i<strecken.size()) {
+            if(formatter.format(strecken.get(i).getZeitstempel()) == formatter.format(heute)) {
+                rueckgabe[n]+=strecken.get(i).getCo2Ausstoss();
+            }
+            else {
+                n++;
+                heute.setTime(heute.getTime()-86400000);
+            }
+            i++;
+        }
+        return rueckgabe;
+    }
+
+    /**
+     * Methode zum Abfragen des verfahrenen Treibstoffs des letzten Monats (Statistik)
+     *
+     * @return double[], Array mit den einzelnen Tagen als Index
+     */
+    public double[] getMonatTreibstoffStatistik(int verschiebung) {
+        double[] rueckgabe = new double[7];
+        Date heute = new Date();
+        heute.setTime(heute.getTime()+verschiebung * Long.parseLong("2628000000"));
+        Date vorEinemMonat = new Date();
+        vorEinemMonat.setTime(heute.getTime()-Long.parseLong("2628000000"));
+        SimpleDateFormat formatter = new SimpleDateFormat("dd");
+
         return rueckgabe;
     }
 
