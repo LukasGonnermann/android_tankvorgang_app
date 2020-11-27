@@ -192,6 +192,7 @@ public class Fahrzeug implements Serializable {
     /**
      * Getter für die gesamte Liste an Strecken und Tankvorgängen bzw. Timeline-Elementen der
      * Wrapperklasse Ereignis
+     *
      * @return ArrayList<Ereignis>, Alle Ereignisse, sortiert nach Datum
      */
     public ArrayList<Ereignis> getEreignisse() {
@@ -442,14 +443,11 @@ public class Fahrzeug implements Serializable {
      * @param pGetankteMenge double, getankte Menge in Litern
      * @param pPreis         double, gezahlter Preis in Euro
      * @param pImg           String, Pfad zum Foto
-     * @throws FahrzeugWertException wenn die getankte Menge groesser als die Tankgroesse des Fahrzeugs ist
+     * @throws FahrzeugWertException via setTankstand, wenn der neue Tankstand groesser als die Tankgroesse ist
      */
     public void tangvorgangHinzufuegen(double pGetankteMenge, double pPreis, String pImg) throws FahrzeugWertException {
-        if (pGetankteMenge <= this.tankgroesse) {
-            tankvorgaenge.add(0, new Tankvorgang(pGetankteMenge, pPreis, pImg));
-        } else {
-            throw new FahrzeugWertException("Die getankte Menge kann nicht groesser als die Tankgroesse des Fahrzeugs sein.");
-        }
+        tankvorgaenge.add(0, new Tankvorgang(pGetankteMenge, pPreis, pImg));
+        this.setTankstand(this.getTankstand() + (pGetankteMenge * 100 / this.getTankgroesse()));
     }
 
 
