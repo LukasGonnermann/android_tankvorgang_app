@@ -27,6 +27,10 @@ public class Strecke implements Serializable {
     private double tankstand;
 
     /**
+     * Verbrauchte Menge an Treibstoff der auf der Srecke in Litern
+     */
+    private double verbrauchterTreibstoff;
+    /**
      * Variable um den Streckentyp abzuspeichern
      */
     Streckentyp streckentyp;
@@ -50,13 +54,14 @@ public class Strecke implements Serializable {
      * Konstruktor fuer die Klasse Strecke
      * Setzt alle Variablen auf den Wert des Eingabeparameters
      */
-    public Strecke(double pDistanz, Streckentyp pStreckentyp, double pTankstand, double pCo2Ausstoss) {
+    public Strecke(double pDistanz, Streckentyp pStreckentyp, double pTankstand, double pCo2Ausstoss, double pVerbrauchterTreibstoff) {
         distanz = pDistanz;
         streckentyp = pStreckentyp;
         tankstand = pTankstand;
         formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         zeitstempel = new Date();
         co2Ausstoss = pCo2Ausstoss;
+        verbrauchterTreibstoff = pVerbrauchterTreibstoff;
     }
 
     /**
@@ -64,7 +69,7 @@ public class Strecke implements Serializable {
      *
      * @return double, CO2-Ausstoss des Fahrzeugs bei der gefahrenen Strecke
      */
-    public double getCo2Aussstoss() { return co2Ausstoss; }
+    public double getCo2Ausstoss() { return co2Ausstoss; }
 
     /**
      * Setter fuer den CO2-Ausstoss
@@ -144,6 +149,20 @@ public class Strecke implements Serializable {
     public void setStreckentyp(Streckentyp pStreckentyp) {
         this.streckentyp = pStreckentyp;
     }
+
+    /**
+     * Getter fuer den verbrauchten Treibstoff auf der Strecke
+     *
+     * @return double, Treibstoff, welcher verbraucht worden ist in Litern
+     */
+    public double getVerbrauchterTreibstoff() { return verbrauchterTreibstoff; }
+
+    /**
+     * Setter fuer den Treibstoffverbrauch auf der Strecke in Litern
+     *
+     * @param verbrauchterTreibstoff double, Treibstoff in Litern
+     */
+    public void setVerbrauchterTreibstoff(double verbrauchterTreibstoff) { this.verbrauchterTreibstoff = verbrauchterTreibstoff; }
 
     /**
      * Setter fuer alle Variablen einer Strecke

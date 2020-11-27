@@ -3,6 +3,7 @@ package com.example.tankauswertung;
 import com.example.tankauswertung.exceptions.FahrzeugWertException;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -484,8 +485,7 @@ public class Fahrzeug implements Serializable {
 
         //CO2-Ausstoss der Strecke berechnen:
         double co2AusstossDerStrecke = distanz*this.getCo2Ausstoss();
-        strecken.add(0, new Strecke(distanz, pStreckentyp, pTankstand, co2AusstossDerStrecke));
-
+        strecken.add(0, new Strecke(distanz, pStreckentyp, pTankstand, co2AusstossDerStrecke, verbrauchteLiter));
     }
 
 
@@ -502,5 +502,56 @@ public class Fahrzeug implements Serializable {
         this.setTankstand(this.getTankstand() + (pGetankteMenge * 100 / this.getTankgroesse()));
     }
 
+    /**
+     * Methode zum Abfragen der gefahrenen Strecken in der letzten Woche (Statistik)
+     *
+     * @return double[], Array mit den einzelnen Tagen als Index
+     */
+    public double[] getWocheStreckenStatistik() {
+        double[] rueckgabe = new double[7];
+        Date vorEinerWoche = new Date();
+        vorEinerWoche.setTime(vorEinerWoche.getTime()-604800000);
+        Date heute = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd");
+        int i=0;
+        int n=0;
+        while(heute.after(vorEinerWoche)) {
+            if(formatter.format(strecken.get(i).getZeitstempel()) == formatter.format(heute)) {
+                rueckgabe[n]+=strecken.get(i).getDistanz();
+            }
+            else {
+                n++;
+                heute.setTime(heute.getTime()-86400000);
+            }
+            i++;
+        }
+        return rueckgabe;
+    }
+
+    /**
+     * Methode zum Abfragen des verfahrenen Treibstoffs in der letzten Woche (Statistik)
+     *
+     * @return double[], Array mit den einzelnen Tagen als Index
+     */
+    public double[] getWocheTreibstoffStatistik() {
+        double[] rueckgabe = new double[7];
+        Date vorEinerWoche = new Date();
+        vorEinerWoche.setTime(vorEinerWoche.getTime()-604800000);
+        Date heute = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd");
+        int i=0;
+        int n=0;
+        while(heute.after(vorEinerWoche)) {
+            if(formatter.format(strecken.get(i).getZeitstempel()) == formatter.format(heute)) {
+                rueckgabe[n]+=strecken.get(i).getVerbrauchterTreibstoff();
+            }
+            else {
+                n++;
+                heute.setTime(heute.getTime()-86400000);
+            }
+            i++;
+        }
+        return rueckgabe;
+    }
 
 }
