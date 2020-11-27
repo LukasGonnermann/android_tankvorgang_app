@@ -546,7 +546,7 @@ public class Fahrzeug implements Serializable {
         int i=0;
         int n=0;
         while(heute.after(vorEinerWoche) && i<strecken.size()) {
-            if(formatter.format(strecken.get(i).getZeitstempel()) == formatter.format(heute)) {
+            if(formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
                 rueckgabe[n]+=strecken.get(i).getVerbrauchterTreibstoff();
             }
             else {
@@ -574,7 +574,7 @@ public class Fahrzeug implements Serializable {
         int i=0;
         int n=0;
         while(heute.after(vorEinerWoche) && i<strecken.size()) {
-            if(formatter.format(tankvorgaenge.get(i).getZeitstempel()) == formatter.format(heute)) {
+            if(formatter.format(tankvorgaenge.get(i).getZeitstempel()).equals(formatter.format(heute))) {
                 rueckgabe[n]+=tankvorgaenge.get(i).getPreis();
             }
             else {
@@ -602,7 +602,7 @@ public class Fahrzeug implements Serializable {
         int i=0;
         int n=0;
         while(heute.after(vorEinerWoche) && i<strecken.size()) {
-            if(formatter.format(strecken.get(i).getZeitstempel()) == formatter.format(heute)) {
+            if(formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
                 rueckgabe[n]+=strecken.get(i).getCo2Ausstoss();
             }
             else {
@@ -615,18 +615,66 @@ public class Fahrzeug implements Serializable {
     }
 
     /**
-     * Methode zum Abfragen des verfahrenen Treibstoffs des letzten Monats (Statistik)
+     * Methode zum Abfragen des verfahrenen Treibstoffs (Statistik)
      *
      * @return double[], Array mit den einzelnen Tagen als Index
      */
     public double[] getMonatTreibstoffStatistik(int verschiebung) {
-        double[] rueckgabe = new double[7];
-        Date heute = new Date();
-        heute.setTime(heute.getTime()+verschiebung * Long.parseLong("2628000000"));
-        Date vorEinemMonat = new Date();
-        vorEinemMonat.setTime(heute.getTime()-Long.parseLong("2628000000"));
-        SimpleDateFormat formatter = new SimpleDateFormat("dd");
+        double[] rueckgabe = new double[4];
+        for(int i=0; i<4; i++) {
+            double[] eineWoche = getWocheTreibstoffStatistik(-i+(verschiebung*4));
+            for(int j=0; j<eineWoche.length; j++) {
+                rueckgabe[i]+=eineWoche[j];
+            }
+        }
+        return rueckgabe;
+    }
 
+    /**
+     * Methode zum Abfragen der zurueckgelegten Strecken (Statistik)
+     *
+     * @return double[], Array mit den einzelnen Tagen als Index
+     */
+    public double[] getMonatStreckenStatistik(int verschiebung) {
+        double[] rueckgabe = new double[4];
+        for(int i=0; i<4; i++) {
+            double[] eineWoche = getWocheStreckenStatistik(-i+(verschiebung*4));
+            for(int j=0; j<eineWoche.length; j++) {
+                rueckgabe[i]+=eineWoche[j];
+            }
+        }
+        return rueckgabe;
+    }
+
+    /**
+     * Methode zum Abfragen der Tankkosten (Statistik)
+     *
+     * @return double[], Array mit den einzelnen Tagen als Index
+     */
+    public double[] getMonatTankkostenStatistik(int verschiebung) {
+        double[] rueckgabe = new double[4];
+        for(int i=0; i<4; i++) {
+            double[] eineWoche = getWocheTankkostenStatistik(-i+(verschiebung*4));
+            for(int j=0; j<eineWoche.length; j++) {
+                rueckgabe[i]+=eineWoche[j];
+            }
+        }
+        return rueckgabe;
+    }
+
+    /**
+     * Methode zum Abfragen des CO2-Ausstosses (Statistik)
+     *
+     * @return double[], Array mit den einzelnen Tagen als Index
+     */
+    public double[] getMonatCO2Statistik(int verschiebung) {
+        double[] rueckgabe = new double[4];
+        for(int i=0; i<4; i++) {
+            double[] eineWoche = getWocheCO2Statistik(-i+(verschiebung*4));
+            for(int j=0; j<eineWoche.length; j++) {
+                rueckgabe[i]+=eineWoche[j];
+            }
+        }
         return rueckgabe;
     }
 
