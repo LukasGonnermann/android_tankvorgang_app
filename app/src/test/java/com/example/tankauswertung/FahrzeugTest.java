@@ -105,34 +105,30 @@ public class FahrzeugTest {
      */
     @Test
     public void testFahrzeugStrecken() {
+        // TODO: hier treten noch Fehler auf, muessen gefixt werden
         // Fahrzeug und Strecken anlegen
         Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 70, 5, 45);
-        Strecke s1 = new Strecke(24.37, Strecke.Streckentyp.KOMBINIERT, 34);
-        Strecke s2 = new Strecke(0.85, Strecke.Streckentyp.INNERORTS, 12);
-        Strecke s3 = new Strecke(85.4, Strecke.Streckentyp.AUSSERORTS, 97);
-
-        // Strecken hinzufuegen
-        f.streckeHinzufuegen(s1.getDistanz(), s1.getStreckentyp(), s1.getTankstand());
-        f.streckeHinzufuegen(s2.getDistanz(), s2.getStreckentyp(), s2.getTankstand());
-        f.streckeHinzufuegen(s3.getDistanz(), s3.getStreckentyp(), s3.getTankstand());
+        f.streckeHinzufuegen(27758, Strecke.Streckentyp.KOMBINIERT, 34);
+        f.streckeHinzufuegen(27794, Strecke.Streckentyp.INNERORTS, 12);
+        f.streckeHinzufuegen(27810, Strecke.Streckentyp.AUSSERORTS, 97);
 
         // Strecken in ArrayList pruefen
         ArrayList<Strecke> fahrzeugstrecken = f.getStrecken();
 
         // Strecke S3 an Index 0 der Liste
-        assertEquals(fahrzeugstrecken.get(0).getDistanz(), s3.getDistanz(), 0);
-        assertEquals(fahrzeugstrecken.get(0).getStreckentyp(), s3.getStreckentyp());
-        assertEquals(fahrzeugstrecken.get(0).getTankstand(), s3.getTankstand(), 0);
+        assertEquals(fahrzeugstrecken.get(0).getDistanz(), 85.4, 0);
+        assertEquals(fahrzeugstrecken.get(0).getStreckentyp(), Strecke.Streckentyp.AUSSERORTS);
+        assertEquals(fahrzeugstrecken.get(0).getTankstand(), 97, 0);
 
         // Strecke S2 an Index 1 der Liste
-        assertEquals(fahrzeugstrecken.get(1).getDistanz(), s2.getDistanz(), 0);
-        assertEquals(fahrzeugstrecken.get(1).getStreckentyp(), s2.getStreckentyp());
-        assertEquals(fahrzeugstrecken.get(1).getTankstand(), s2.getTankstand(), 0);
+        assertEquals(fahrzeugstrecken.get(1).getDistanz(), 0.85, 0);
+        assertEquals(fahrzeugstrecken.get(1).getStreckentyp(), Strecke.Streckentyp.INNERORTS);
+        assertEquals(fahrzeugstrecken.get(1).getTankstand(), 12, 0);
 
         // Strecke S1 an Index 2 der Liste
-        assertEquals(fahrzeugstrecken.get(2).getDistanz(), s1.getDistanz(), 0);
-        assertEquals(fahrzeugstrecken.get(2).getStreckentyp(), s1.getStreckentyp());
-        assertEquals(fahrzeugstrecken.get(2).getTankstand(), s1.getTankstand(), 0);
+        assertEquals(fahrzeugstrecken.get(2).getDistanz(), 24.37, 0);
+        assertEquals(fahrzeugstrecken.get(2).getStreckentyp(), Strecke.Streckentyp.KOMBINIERT);
+        assertEquals(fahrzeugstrecken.get(2).getTankstand(), 34, 0);
     }
 
     /**
@@ -143,10 +139,10 @@ public class FahrzeugTest {
     @Test
     public void testFahrzeugTankvorgaenge() {
         // Fahrzeug und Tankvorgaenge anlegen
-        Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 70, 5, 45);
-        Tankvorgang t1 = new Tankvorgang(32.78, 55.24, "/DCIM/Camera/meinFoto1.jpg");
-        Tankvorgang t2 = new Tankvorgang(12.4, 27.74, "/DCIM/Camera/meinFoto2.jpg");
-        Tankvorgang t3 = new Tankvorgang(45.0, 85.30, "/DCIM/Camera/meinFoto3.jpg");
+        Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 0, 5, 45);
+        Tankvorgang t1 = new Tankvorgang(12.78, 55.24, "/DCIM/Camera/meinFoto1.jpg");
+        Tankvorgang t2 = new Tankvorgang(2.4, 27.74, "/DCIM/Camera/meinFoto2.jpg");
+        Tankvorgang t3 = new Tankvorgang(25.0, 85.30, "/DCIM/Camera/meinFoto3.jpg");
 
         // Tankvorgaenge hinzufuegen
         try {
@@ -180,7 +176,7 @@ public class FahrzeugTest {
 
         // Tankvorgang t4 hinzufuegen und Exception pruefen
         Exception exception = assertThrows(FahrzeugWertException.class, () -> f.tangvorgangHinzufuegen(t4.getGetankteMenge(), t4.getPreis(), t4.getImg()));
-        String expectedMessage = "Die getankte Menge kann nicht groesser als die Tankgroesse des Fahrzeugs sein.";
+        String expectedMessage = "Tankstand konnte nicht gesetzt werden, da kein Wert zwischen 0 und 100 eingegeben wurde.";
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
