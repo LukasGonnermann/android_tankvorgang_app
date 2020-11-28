@@ -571,7 +571,7 @@ public class Fahrzeug implements Serializable {
         SimpleDateFormat formatter = new SimpleDateFormat("dd");
         int i = 0;
         int n = 0;
-        while (heute.after(vorEinerWoche) && i < strecken.size()) {
+        while (heute.after(vorEinerWoche) && i < tankvorgaenge.size()) {
             if (formatter.format(tankvorgaenge.get(i).getZeitstempel()).equals(formatter.format(heute))) {
                 rueckgabe[n] += tankvorgaenge.get(i).getPreis();
             } else {
