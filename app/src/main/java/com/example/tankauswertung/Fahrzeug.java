@@ -429,30 +429,30 @@ public class Fahrzeug implements Serializable {
      * Aktualisiert den tatsächlichen Verbrauch des Autos nach dem eintragen eier Strecke
      *
      * @param verbrauchteLiter double, Auf der Strecke verbrauchte Liter
-     * @param streckendistanz double, Distanz der Strecke
-     * @param pStreckentyp enum Strecke.Streckentyp, Typ der Strecke
+     * @param streckendistanz  double, Distanz der Strecke
+     * @param pStreckentyp     enum Strecke.Streckentyp, Typ der Strecke
      */
     public void verbrauchAktualisieren(double verbrauchteLiter, double streckendistanz, Strecke.Streckentyp pStreckentyp) {
         //Berechnung:
-        double verbrauchDerStrecke = verbrauchteLiter/streckendistanz*100;
-        switch(pStreckentyp){
+        double verbrauchDerStrecke = verbrauchteLiter / streckendistanz * 100;
+        switch (pStreckentyp) {
             case INNERORTS:
                 try {
-                    setVerbrauchInnerorts((strecken.size()*getVerbrauchInnerorts()+verbrauchDerStrecke)/strecken.size()+1);
+                    setVerbrauchInnerorts((strecken.size() * getVerbrauchInnerorts() + verbrauchDerStrecke) / strecken.size() + 1);
                 } catch (FahrzeugWertException e) {
                     e.printStackTrace();
                 }
                 break;
             case AUSSERORTS:
                 try {
-                    setVerbrauchAusserorts((strecken.size()*getVerbrauchAusserorts()+verbrauchDerStrecke)/strecken.size()+1);
+                    setVerbrauchAusserorts((strecken.size() * getVerbrauchAusserorts() + verbrauchDerStrecke) / strecken.size() + 1);
                 } catch (FahrzeugWertException e) {
                     e.printStackTrace();
                 }
                 break;
             case KOMBINIERT:
                 try {
-                    setVerbrauchKombiniert((strecken.size()*getVerbrauchKombiniert()+verbrauchDerStrecke)/strecken.size()+1);
+                    setVerbrauchKombiniert((strecken.size() * getVerbrauchKombiniert() + verbrauchDerStrecke) / strecken.size() + 1);
                 } catch (FahrzeugWertException e) {
                     e.printStackTrace();
                 }
@@ -470,7 +470,7 @@ public class Fahrzeug implements Serializable {
     public void streckeHinzufuegen(double pKmStand, Strecke.Streckentyp pStreckentyp, double pTankstand) {
         //Distanz der Strecke, neuer Tankstand und neuer Kilometerstand:
         double distanz = pKmStand - this.getKmStand();
-        double verbrauchteLiter = (this.getTankstand()-pTankstand)/100*this.getTankgroesse();
+        double verbrauchteLiter = (this.getTankstand() - pTankstand) / 100 * this.getTankgroesse();
         verbrauchAktualisieren(verbrauchteLiter, distanz, pStreckentyp);
         try {
             this.setKmStand(pKmStand);
@@ -484,7 +484,7 @@ public class Fahrzeug implements Serializable {
         }
 
         //CO2-Ausstoss der Strecke berechnen:
-        double co2AusstossDerStrecke = distanz*this.getCo2Ausstoss();
+        double co2AusstossDerStrecke = distanz * this.getCo2Ausstoss();
         strecken.add(0, new Strecke(distanz, pStreckentyp, pTankstand, co2AusstossDerStrecke, verbrauchteLiter));
     }
 
@@ -511,19 +511,18 @@ public class Fahrzeug implements Serializable {
     public double[] getWocheStreckenStatistik(int verschiebung) {
         double[] rueckgabe = new double[7];
         Date heute = new Date();
-        heute.setTime(heute.getTime()+verschiebung*604800000);
+        heute.setTime(heute.getTime() + verschiebung * 604800000);
         Date vorEinerWoche = new Date();
-        vorEinerWoche.setTime(heute.getTime()-604800000);
+        vorEinerWoche.setTime(heute.getTime() - 604800000);
         SimpleDateFormat formatter = new SimpleDateFormat("dd");
-        int i=0;
-        int n=0;
-        while(heute.after(vorEinerWoche) && i<strecken.size()) {
-            if(formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
-                rueckgabe[n]+=strecken.get(i).getDistanz();
-            }
-            else {
+        int i = 0;
+        int n = 0;
+        while (heute.after(vorEinerWoche) && i < strecken.size()) {
+            if (formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
+                rueckgabe[n] += strecken.get(i).getDistanz();
+            } else {
                 n++;
-                heute.setTime(heute.getTime()-86400000);
+                heute.setTime(heute.getTime() - 86400000);
             }
             i++;
         }
@@ -539,19 +538,18 @@ public class Fahrzeug implements Serializable {
     public double[] getWocheTreibstoffStatistik(int verschiebung) {
         double[] rueckgabe = new double[7];
         Date heute = new Date();
-        heute.setTime(heute.getTime()+verschiebung*604800000);
+        heute.setTime(heute.getTime() + verschiebung * 604800000);
         Date vorEinerWoche = new Date();
-        vorEinerWoche.setTime(heute.getTime()-604800000);
+        vorEinerWoche.setTime(heute.getTime() - 604800000);
         SimpleDateFormat formatter = new SimpleDateFormat("dd");
-        int i=0;
-        int n=0;
-        while(heute.after(vorEinerWoche) && i<strecken.size()) {
-            if(formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
-                rueckgabe[n]+=strecken.get(i).getVerbrauchterTreibstoff();
-            }
-            else {
+        int i = 0;
+        int n = 0;
+        while (heute.after(vorEinerWoche) && i < strecken.size()) {
+            if (formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
+                rueckgabe[n] += strecken.get(i).getVerbrauchterTreibstoff();
+            } else {
                 n++;
-                heute.setTime(heute.getTime()-86400000);
+                heute.setTime(heute.getTime() - 86400000);
             }
             i++;
         }
@@ -567,19 +565,18 @@ public class Fahrzeug implements Serializable {
     public double[] getWocheTankkostenStatistik(int verschiebung) {
         double[] rueckgabe = new double[7];
         Date heute = new Date();
-        heute.setTime(heute.getTime()+verschiebung*604800000);
+        heute.setTime(heute.getTime() + verschiebung * 604800000);
         Date vorEinerWoche = new Date();
-        vorEinerWoche.setTime(heute.getTime()-604800000);
+        vorEinerWoche.setTime(heute.getTime() - 604800000);
         SimpleDateFormat formatter = new SimpleDateFormat("dd");
-        int i=0;
-        int n=0;
-        while(heute.after(vorEinerWoche) && i<strecken.size()) {
-            if(formatter.format(tankvorgaenge.get(i).getZeitstempel()).equals(formatter.format(heute))) {
-                rueckgabe[n]+=tankvorgaenge.get(i).getPreis();
-            }
-            else {
+        int i = 0;
+        int n = 0;
+        while (heute.after(vorEinerWoche) && i < strecken.size()) {
+            if (formatter.format(tankvorgaenge.get(i).getZeitstempel()).equals(formatter.format(heute))) {
+                rueckgabe[n] += tankvorgaenge.get(i).getPreis();
+            } else {
                 n++;
-                heute.setTime(heute.getTime()-86400000);
+                heute.setTime(heute.getTime() - 86400000);
             }
             i++;
         }
@@ -595,19 +592,18 @@ public class Fahrzeug implements Serializable {
     public double[] getWocheCO2Statistik(int verschiebung) {
         double[] rueckgabe = new double[7];
         Date heute = new Date();
-        heute.setTime(heute.getTime()+verschiebung*604800000);
+        heute.setTime(heute.getTime() + verschiebung * 604800000);
         Date vorEinerWoche = new Date();
-        vorEinerWoche.setTime(heute.getTime()-604800000);
+        vorEinerWoche.setTime(heute.getTime() - 604800000);
         SimpleDateFormat formatter = new SimpleDateFormat("dd");
-        int i=0;
-        int n=0;
-        while(heute.after(vorEinerWoche) && i<strecken.size()) {
-            if(formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
-                rueckgabe[n]+=strecken.get(i).getCo2Ausstoss();
-            }
-            else {
+        int i = 0;
+        int n = 0;
+        while (heute.after(vorEinerWoche) && i < strecken.size()) {
+            if (formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
+                rueckgabe[n] += strecken.get(i).getCo2Ausstoss();
+            } else {
                 n++;
-                heute.setTime(heute.getTime()-86400000);
+                heute.setTime(heute.getTime() - 86400000);
             }
             i++;
         }
@@ -621,10 +617,10 @@ public class Fahrzeug implements Serializable {
      */
     public double[] getMonatTreibstoffStatistik(int verschiebung) {
         double[] rueckgabe = new double[4];
-        for(int i=0; i<4; i++) {
-            double[] eineWoche = getWocheTreibstoffStatistik(-i+(verschiebung*4));
-            for(int j=0; j<eineWoche.length; j++) {
-                rueckgabe[i]+=eineWoche[j];
+        for (int i = 0; i < 4; i++) {
+            double[] eineWoche = getWocheTreibstoffStatistik(-i + (verschiebung * 4));
+            for (int j = 0; j < eineWoche.length; j++) {
+                rueckgabe[i] += eineWoche[j];
             }
         }
         return rueckgabe;
@@ -637,10 +633,10 @@ public class Fahrzeug implements Serializable {
      */
     public double[] getMonatStreckenStatistik(int verschiebung) {
         double[] rueckgabe = new double[4];
-        for(int i=0; i<4; i++) {
-            double[] eineWoche = getWocheStreckenStatistik(-i+(verschiebung*4));
-            for(int j=0; j<eineWoche.length; j++) {
-                rueckgabe[i]+=eineWoche[j];
+        for (int i = 0; i < 4; i++) {
+            double[] eineWoche = getWocheStreckenStatistik(-i + (verschiebung * 4));
+            for (int j = 0; j < eineWoche.length; j++) {
+                rueckgabe[i] += eineWoche[j];
             }
         }
         return rueckgabe;
@@ -653,10 +649,10 @@ public class Fahrzeug implements Serializable {
      */
     public double[] getMonatTankkostenStatistik(int verschiebung) {
         double[] rueckgabe = new double[4];
-        for(int i=0; i<4; i++) {
-            double[] eineWoche = getWocheTankkostenStatistik(-i+(verschiebung*4));
-            for(int j=0; j<eineWoche.length; j++) {
-                rueckgabe[i]+=eineWoche[j];
+        for (int i = 0; i < 4; i++) {
+            double[] eineWoche = getWocheTankkostenStatistik(-i + (verschiebung * 4));
+            for (int j = 0; j < eineWoche.length; j++) {
+                rueckgabe[i] += eineWoche[j];
             }
         }
         return rueckgabe;
@@ -669,10 +665,10 @@ public class Fahrzeug implements Serializable {
      */
     public double[] getMonatCO2Statistik(int verschiebung) {
         double[] rueckgabe = new double[4];
-        for(int i=0; i<4; i++) {
-            double[] eineWoche = getWocheCO2Statistik(-i+(verschiebung*4));
-            for(int j=0; j<eineWoche.length; j++) {
-                rueckgabe[i]+=eineWoche[j];
+        for (int i = 0; i < 4; i++) {
+            double[] eineWoche = getWocheCO2Statistik(-i + (verschiebung * 4));
+            for (int j = 0; j < eineWoche.length; j++) {
+                rueckgabe[i] += eineWoche[j];
             }
         }
         return rueckgabe;
