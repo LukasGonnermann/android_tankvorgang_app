@@ -518,7 +518,7 @@ public class Fahrzeug implements Serializable {
         int i=0;
         int n=0;
         while(heute.after(vorEinerWoche) && i<strecken.size()) {
-            if(formatter.format(strecken.get(i).getZeitstempel()) == formatter.format(heute)) {
+            if(formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
                 rueckgabe[n]+=strecken.get(i).getDistanz();
             }
             else {
