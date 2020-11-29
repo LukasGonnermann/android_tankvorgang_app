@@ -53,4 +53,7 @@
     <string name="tankvorgang_hinzufügen">Tankvorgang hinzufügen</string>
     <string name="strecke_hinzufügen">Strecke hinzufügen</string>
     <string name="info_button_elektroauto">Info-Button Elektroauto</string>
+    <string name="innerorts">innerorts</string>
+    <string name="kombiniert">kombiniert</string>
+    <string name="ausserorts">außerorts</string>
 </resources>
