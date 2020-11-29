@@ -79,17 +79,19 @@
                 android:layout_marginTop="15dp"
                 android:text="@string/bild_des_tankbelegs" />
 
+            <ImageView
+                android:id="@+id/imageViewTankvorgangThumbnail"
+                android:layout_width="200dp"
+                android:layout_height="150dp"
+                tools:srcCompat="@tools:sample/backgrounds/scenic"
+                android:visibility="gone"/> <!-- TODO IMG File source -->
+
+
             <Button
                 android:id="@+id/buttonTankvorgangBildAufnehmen"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:text="@string/tankvorgang_bild_aufnehmen" />
-
-            <ImageView
-                android:id="@+id/imageViewTankvorgangThumbnail"
-                android:layout_width="200dp"
-                android:layout_height="150dp"
-                tools:srcCompat="@tools:sample/backgrounds/scenic" /> <!-- TODO IMG File source, Position? -->
 
         </LinearLayout>
 
