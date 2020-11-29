@@ -56,4 +56,8 @@
     <string name="innerorts">innerorts</string>
     <string name="kombiniert">kombiniert</string>
     <string name="ausserorts">außerorts</string>
+    <string name="getankte_menge">Getankte Menge</string>
+    <string name="preis">Preis [€]</string>
+    <string name="bild_des_tankbelegs">Bild des Tankbelegs</string>
+    <string name="tankvorgang_bild_aufnehmen">Bild aufnehmen</string>
 </resources>
