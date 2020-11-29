@@ -613,7 +613,8 @@ public class Fahrzeug implements Serializable {
     /**
      * Methode zum Abfragen des verfahrenen Treibstoffs (Statistik)
      *
-     * @return double[], Array mit den einzelnen Tagen als Index
+     * @param verschiebung int, Verschiebung des ausgewählten Zeitfensters um den Zeitrahmen (verschiebung=-1 ==> Ein Monat vorher)
+     * @return double[], Array mit den einzelnen Monaten als Index
      */
     public double[] getMonatTreibstoffStatistik(int verschiebung) {
         double[] rueckgabe = new double[4];
@@ -629,7 +630,8 @@ public class Fahrzeug implements Serializable {
     /**
      * Methode zum Abfragen der zurueckgelegten Strecken (Statistik)
      *
-     * @return double[], Array mit den einzelnen Tagen als Index
+     * @param verschiebung int, Verschiebung des ausgewählten Zeitfensters um den Zeitrahmen (verschiebung=-1 ==> Ein Monat vorher)
+     * @return double[], Array mit den einzelnen Monaten als Index
      */
     public double[] getMonatStreckenStatistik(int verschiebung) {
         double[] rueckgabe = new double[4];
@@ -645,7 +647,8 @@ public class Fahrzeug implements Serializable {
     /**
      * Methode zum Abfragen der Tankkosten (Statistik)
      *
-     * @return double[], Array mit den einzelnen Tagen als Index
+     * @param verschiebung int, Verschiebung des ausgewählten Zeitfensters um den Zeitrahmen (verschiebung=-1 ==> Ein Monat vorher)
+     * @return double[], Array mit den einzelnen Monaten als Index
      */
     public double[] getMonatTankkostenStatistik(int verschiebung) {
         double[] rueckgabe = new double[4];
@@ -661,7 +664,8 @@ public class Fahrzeug implements Serializable {
     /**
      * Methode zum Abfragen des CO2-Ausstosses (Statistik)
      *
-     * @return double[], Array mit den einzelnen Tagen als Index
+     * @param verschiebung int, Verschiebung des ausgewählten Zeitfensters um den Zeitrahmen (verschiebung=-1 ==> Ein Monat vorher)
+     * @return double[], Array mit den einzelnen Monaten als Index
      */
     public double[] getMonatCO2Statistik(int verschiebung) {
         double[] rueckgabe = new double[4];
@@ -674,4 +678,20 @@ public class Fahrzeug implements Serializable {
         return rueckgabe;
     }
 
+    /**
+     * Methode zum Abfragen des CO2-Ausstosses (Statistik)
+     *
+     * @param verschiebung int, Verschiebung des ausgewählten Zeitfensters um den Zeitrahmen (verschiebung=-1 ==> Ein Jahr vorher)
+     * @return double[], Array mit den einzelnen Jahren als Index
+     */
+    public double[] getJahrCO2Statistik(int verschiebung) {
+        double[] rueckgabe = new double[12];
+        for (int i = 0; i < 12; i++) {
+            double[] einMonat = getMonatCO2Statistik(-i + (verschiebung * 12));
+            for (int j = 0; j < einMonat.length; j++) {
+                rueckgabe[i] += einMonat[j];
+            }
+        }
+        return rueckgabe;
+    }
 }
