@@ -106,7 +106,7 @@ public class FahrzeugStatistikTest {
         }
 
         // Woche
-        // Verbrauch in Wochenstatistik pruefen
+        // CO2 in Wochenstatistik pruefen
         double[] ergebnisWoche = f.getWocheCO2Statistik(0);
         assertEquals(ergebnisWoche[0], ausstoss, 0);
         for (int i = 1; i < ergebnisWoche.length; i++) {
@@ -114,7 +114,7 @@ public class FahrzeugStatistikTest {
         }
 
         // Monat
-        // Verbrauch in Monatsstatistik pruefen
+        // CO2 in Monatsstatistik pruefen
         double[] ergebnisMonat = f.getMonatCO2Statistik(0);
         assertEquals(ergebnisMonat[0], ausstoss, 0);
         for (int i = 1; i < ergebnisMonat.length; i++) {
@@ -122,7 +122,13 @@ public class FahrzeugStatistikTest {
         }
 
         // Jahr
-        // Methode noch nicht vorhanden
+        // CO2 in Jahresstatistik pruefen
+        double[] ergebnisJahr = f.getJahrCO2Statistik(0);
+        assertEquals(ergebnisJahr[0], ausstoss, 0);
+        for (int i = 1; i < ergebnisJahr.length; i++) {
+            assertEquals(ergebnisJahr[i], 0, 0);
+            System.out.println(i + ": " + ergebnisJahr[i] + "\n");
+        }
 
     }
 
@@ -150,18 +156,15 @@ public class FahrzeugStatistikTest {
         }
 
         // Woche
-        // Verbrauch in Wochenstatistik pruefen
+        // Tankkosten in Wochenstatistik pruefen
         double[] ergebnisWoche = f.getWocheTankkostenStatistik(0);
-        for (int i = 0; i < ergebnisWoche.length; i++) {
-            System.out.println(i + ": " + ergebnisWoche[i] + "\n");
-        }
         assertEquals(ergebnisWoche[0], kosten, 0);
         for (int i = 1; i < ergebnisWoche.length; i++) {
             assertEquals(ergebnisWoche[i], 0, 0);
         }
 
         // Monat
-        // Verbrauch in Monatsstatistik pruefen
+        // Tankkosten in Monatsstatistik pruefen
         double[] ergebnisMonat = f.getMonatTankkostenStatistik(0);
         assertEquals(ergebnisMonat[0], kosten, 0);
         for (int i = 1; i < ergebnisMonat.length; i++) {
