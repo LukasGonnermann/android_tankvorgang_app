@@ -61,8 +61,7 @@ public class NewCarActivity extends AppCompatActivity {
     Intent intent;
 
     Garage garage;
-    boolean aendern = false;// gibt an, ob bei Fahrzeug ändern, die Default Werte geladen werden sollen
-    boolean hinweis_angezeigt = false; // gibt an, ob der Hinweis zum E-Auto schon einmal angezeigt wurde
+    boolean hinweis_angezeigt = false;  // gibt an, ob der Hinweis zum E-Auto schon einmal angezeigt wurde
 
 
     /**
@@ -317,6 +316,7 @@ public class NewCarActivity extends AppCompatActivity {
 
             }
         });
+
         // --- SeekBar Listener
 
         seekBarVerbrauchInnerorts.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -331,9 +331,8 @@ public class NewCarActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 EditText progressLabel = findViewById(R.id.editTextVerbrauchInnerortsStand);
-                if (aendern) {
-                    progressLabel.setText(String.valueOf(i));
-                }
+                progressLabel.setText(String.valueOf(i));
+                progressLabel.setError(null);
             }
         });
 
@@ -349,9 +348,8 @@ public class NewCarActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 EditText progressLabel = findViewById(R.id.editTextVerbrauchAusserortsStand);
-                if (aendern) {
-                    progressLabel.setText(String.valueOf(i));
-                }
+                progressLabel.setText(String.valueOf(i));
+                progressLabel.setError(null);
             }
         });
 
@@ -367,11 +365,8 @@ public class NewCarActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 EditText progressLabel = findViewById(R.id.editTextVerbrauchKombiniertStand);
-                if (aendern) {
-                    progressLabel.setText(String.valueOf(i));
-                } else {
-                    aendern = true;
-                } // damit editTexts sich wieder der seekBar anpassen
+                progressLabel.setText(String.valueOf(i));
+                progressLabel.setError(null);
             }
         });
 
@@ -391,7 +386,7 @@ public class NewCarActivity extends AppCompatActivity {
             }
         });
 
-        //----Button Listener
+        // --- Button Listener
         imageButtonElektroInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -402,12 +397,12 @@ public class NewCarActivity extends AppCompatActivity {
         // --- Default-Werte setzen
 
         if (intent.getAction().equals(MainActivity.ACTION_NEW_CAR)) {
-            aendern = true;
+
             editTextName.setText("");  // so wird der Listener (Überprüfung) zu Beginn ausgelöst
             editTextName.setError(null);  // so wird zwar der Haken ausgegraut, aber zu Beginn kein Fehler angezeigt (bessere UX!)
 
         } else if (intent.getAction().equals(MainActivity.ACTION_EDIT_CAR)) {
-            aendern = false;
+
             setTitle(R.string.edit_car);  // Titel "Fahrzeug bearbeiten" setzen
 
             Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();

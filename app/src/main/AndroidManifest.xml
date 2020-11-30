@@ -34,6 +34,11 @@
             android:name=".SettingsActivity"
             android:label="Einstellungen">
         </activity>
+
+        <activity
+            android:name=".NewStreckeActivity"
+            android:label="Strecke hinzufügen">
+        </activity>
     </application>
 
 </manifest>

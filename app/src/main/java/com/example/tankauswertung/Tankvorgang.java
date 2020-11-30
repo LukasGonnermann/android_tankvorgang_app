@@ -28,7 +28,7 @@ public class Tankvorgang implements Serializable {
     /**
      * Variable, welche das Format der Zeitangabe festlegt.
      */
-    SimpleDateFormat formatter;
+    transient SimpleDateFormat formatter;
 
     /**
      * Variabe, welche die aktuelle Systemzeit zum Zeitpunkt der Eingabe einer Strecke speichert.
