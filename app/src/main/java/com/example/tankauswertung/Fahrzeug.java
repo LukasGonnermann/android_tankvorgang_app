@@ -510,21 +510,22 @@ public class Fahrzeug implements Serializable {
      */
     public double[] getWocheStreckenStatistik(int verschiebung) {
         double[] rueckgabe = new double[7];
+        long delta = Math.multiplyExact((long) verschiebung, 604800000);
         Date heute = new Date();
-        heute.setTime(heute.getTime() + verschiebung * 604800000);
+        heute.setTime(heute.getTime() + delta);
         Date vorEinerWoche = new Date();
         vorEinerWoche.setTime(heute.getTime() - 604800000);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         int i = 0;
         int n = 0;
         while (heute.after(vorEinerWoche) && i < strecken.size()) {
             if (formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
                 rueckgabe[n] += strecken.get(i).getDistanz();
+                i++;
             } else {
                 n++;
                 heute.setTime(heute.getTime() - 86400000);
             }
-            i++;
         }
         return rueckgabe;
     }
@@ -537,21 +538,22 @@ public class Fahrzeug implements Serializable {
      */
     public double[] getWocheTreibstoffStatistik(int verschiebung) {
         double[] rueckgabe = new double[7];
+        long delta = Math.multiplyExact((long) verschiebung, 604800000);
         Date heute = new Date();
-        heute.setTime(heute.getTime() + verschiebung * 604800000);
+        heute.setTime(heute.getTime() + delta);
         Date vorEinerWoche = new Date();
         vorEinerWoche.setTime(heute.getTime() - 604800000);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         int i = 0;
         int n = 0;
         while (heute.after(vorEinerWoche) && i < strecken.size()) {
             if (formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
                 rueckgabe[n] += strecken.get(i).getVerbrauchterTreibstoff();
+                i++;
             } else {
                 n++;
                 heute.setTime(heute.getTime() - 86400000);
             }
-            i++;
         }
         return rueckgabe;
     }
@@ -564,21 +566,22 @@ public class Fahrzeug implements Serializable {
      */
     public double[] getWocheTankkostenStatistik(int verschiebung) {
         double[] rueckgabe = new double[7];
+        long delta = Math.multiplyExact((long) verschiebung, 604800000);
         Date heute = new Date();
-        heute.setTime(heute.getTime() + verschiebung * 604800000);
+        heute.setTime(heute.getTime() + delta);
         Date vorEinerWoche = new Date();
         vorEinerWoche.setTime(heute.getTime() - 604800000);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         int i = 0;
         int n = 0;
         while (heute.after(vorEinerWoche) && i < tankvorgaenge.size()) {
             if (formatter.format(tankvorgaenge.get(i).getZeitstempel()).equals(formatter.format(heute))) {
                 rueckgabe[n] += tankvorgaenge.get(i).getPreis();
+                i++;
             } else {
                 n++;
                 heute.setTime(heute.getTime() - 86400000);
             }
-            i++;
         }
         return rueckgabe;
     }
@@ -591,21 +594,22 @@ public class Fahrzeug implements Serializable {
      */
     public double[] getWocheCO2Statistik(int verschiebung) {
         double[] rueckgabe = new double[7];
+        long delta = Math.multiplyExact((long) verschiebung, 604800000);
         Date heute = new Date();
-        heute.setTime(heute.getTime() + verschiebung * 604800000);
+        heute.setTime(heute.getTime() + delta);
         Date vorEinerWoche = new Date();
         vorEinerWoche.setTime(heute.getTime() - 604800000);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         int i = 0;
         int n = 0;
         while (heute.after(vorEinerWoche) && i < strecken.size()) {
             if (formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
                 rueckgabe[n] += strecken.get(i).getCo2Ausstoss();
+                i++;
             } else {
                 n++;
                 heute.setTime(heute.getTime() - 86400000);
             }
-            i++;
         }
         return rueckgabe;
     }
