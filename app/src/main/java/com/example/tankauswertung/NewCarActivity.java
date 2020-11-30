@@ -61,6 +61,13 @@ public class NewCarActivity extends AppCompatActivity {
     Intent intent;
 
     Garage garage;
+    /*
+    Die Werte werden wenn man auf Fertig drückt aus EditTexts gelesen,
+    da die Seekbar geändert wird wenn editText geändert wird und anders herum,
+    überschreiben die sich immer, bzw. wenn Seekbar geändert wird,
+    fügt die dann im EditText Int ein, da sie nur das kann
+     */
+    boolean aendern = false;
     boolean hinweis_angezeigt = false;  // gibt an, ob der Hinweis zum E-Auto schon einmal angezeigt wurde
 
 
@@ -252,14 +259,29 @@ public class NewCarActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (TextUtils.isEmpty(editTextVerbrauchInnerortsStand.getText())) {
-                    editTextVerbrauchInnerortsStand.setError("Bitte geben Sie das Tankvolumen Ihres Fahrzeugs an");
-                    korrekteEinzeleingaben.put("tankvolumen", false);
-                } else {
-                    editTextVerbrauchInnerortsStand.setSelection(editTextVerbrauchInnerortsStand.getText().length());
-                    seekBarVerbrauchInnerorts.setProgress((int) Double.parseDouble(editTextVerbrauchInnerortsStand.getText().toString()));
-                    korrekteEinzeleingaben.put("tankvolumen", true);
+                Editable verbrauchInnerortsStand = editTextVerbrauchInnerortsStand.getText();
+                int verbrauchInnerortsStand_int = 0;
+                try {
+                    verbrauchInnerortsStand_int = (int) Double.parseDouble(verbrauchInnerortsStand.toString());
+
+                    if (TextUtils.isEmpty(verbrauchInnerortsStand)) {
+                        //editTextVerbrauchInnerortsStand.setError("Eingabe darf nicht leer sein");
+                        korrekteEinzeleingaben.put("verbrauch_innerorts", false);
+
+                    } else if (verbrauchInnerortsStand_int < seekBarVerbrauchInnerorts.getMin() || verbrauchInnerortsStand_int > seekBarVerbrauchInnerorts.getMax()) {
+                        editTextVerbrauchInnerortsStand.setError("Eingabe ist außerhalb des zulässigen Bereichs");
+                        korrekteEinzeleingaben.put("verbrauch_innerorts", false);
+                    } else {
+                        editTextVerbrauchInnerortsStand.setSelection(verbrauchInnerortsStand.length());
+                        seekBarVerbrauchInnerorts.setProgress((int) Double.parseDouble(verbrauchInnerortsStand.toString()));
+                        korrekteEinzeleingaben.put("verbrauch_innerorts", true);
+                    }
+                } catch (NumberFormatException e) {
+                    editTextVerbrauchInnerortsStand.setError("Bitte geben Sie einen gültigen Wert ein");
+                    e.printStackTrace();
                 }
+
+
                 updateKorrekteEingabe();
 
             }
@@ -278,14 +300,27 @@ public class NewCarActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (TextUtils.isEmpty(editTextVerbrauchAusserortsStand.getText())) {
-                    editTextVerbrauchAusserortsStand.setError("Bitte geben Sie das Tankvolumen Ihres Fahrzeugs an");
-                    korrekteEinzeleingaben.put("tankvolumen", false);
-                } else {
-                    editTextVerbrauchAusserortsStand.setSelection(editTextVerbrauchAusserortsStand.getText().length());
-                    seekBarVerbrauchAusserorts.setProgress((int) Double.parseDouble(editTextVerbrauchAusserortsStand.getText().toString()));
-                    korrekteEinzeleingaben.put("tankvolumen", true);
+                Editable verbrauchAusserortsStand = editTextVerbrauchAusserortsStand.getText();
+                int verbrauchAusserortsStand_int = 0;
+                try {
+                    verbrauchAusserortsStand_int = (int) Double.parseDouble(verbrauchAusserortsStand.toString());
+
+                    if (TextUtils.isEmpty(verbrauchAusserortsStand)) {
+                        //editTextVerbrauchAusserortsStand.setError("Eingabe darf nicht leer sein");
+                        korrekteEinzeleingaben.put("verbrauch_au_erorts", false);
+                    } else if (verbrauchAusserortsStand_int < seekBarVerbrauchAusserorts.getMin() || verbrauchAusserortsStand_int > seekBarVerbrauchAusserorts.getMax()) {
+                        editTextVerbrauchAusserortsStand.setError("Eingabe ist außerhalb des zulässigen Bereichs");
+                        korrekteEinzeleingaben.put("verbrauch_au_erorts", false);
+                    } else {
+                        editTextVerbrauchAusserortsStand.setSelection(verbrauchAusserortsStand.length());
+                        seekBarVerbrauchAusserorts.setProgress((int) Double.parseDouble(verbrauchAusserortsStand.toString()));
+                        korrekteEinzeleingaben.put("verbrauch_au_erorts", true);
+                    }
+                } catch (NumberFormatException e) {
+                    editTextVerbrauchAusserortsStand.setError("Bitte geben Sie einen gültigen Wert ein");
+                    e.printStackTrace();
                 }
+
                 updateKorrekteEingabe();
 
             }
@@ -304,14 +339,32 @@ public class NewCarActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (TextUtils.isEmpty(editTextVerbrauchKombiniertStand.getText())) {
-                    editTextVerbrauchKombiniertStand.setError("Bitte geben Sie das Tankvolumen Ihres Fahrzeugs an");
-                    korrekteEinzeleingaben.put("tankvolumen", false);
-                } else {
-                    editTextVerbrauchKombiniertStand.setSelection(editTextVerbrauchKombiniertStand.getText().length());
-                    seekBarVerbrauchKombiniert.setProgress((int) Double.parseDouble(editTextVerbrauchKombiniertStand.getText().toString()));
-                    korrekteEinzeleingaben.put("tankvolumen", true);
+                Editable verbrauchKombiniertStand = editTextVerbrauchKombiniertStand.getText();
+                int verbrauchKombiniertStand_int = 0;
+                try {
+                    verbrauchKombiniertStand_int = (int) Double.parseDouble(verbrauchKombiniertStand.toString());
+
+                    if (TextUtils.isEmpty(verbrauchKombiniertStand)) {
+                        // editTextVerbrauchKombiniertStand.setError("Eingabe darf nicht leer sein");
+                        korrekteEinzeleingaben.put("verbrauch_kombiniert", false);
+                    } else if (verbrauchKombiniertStand_int < seekBarVerbrauchKombiniert.getMin() || verbrauchKombiniertStand_int > seekBarVerbrauchKombiniert.getMax()) {
+                        editTextVerbrauchKombiniertStand.setError("Eingabe ist außerhalb des zulässigen Bereichs");
+                        korrekteEinzeleingaben.put("verbrauch_kombiniert", false);
+                    } else {
+                        editTextVerbrauchKombiniertStand.setSelection(verbrauchKombiniertStand.length());
+                        seekBarVerbrauchKombiniert.setProgress((int) Double.parseDouble(verbrauchKombiniertStand.toString()));
+                        korrekteEinzeleingaben.put("verbrauch_kombiniert", true);
+                    }
+                } catch (NumberFormatException e) {
+                    editTextVerbrauchKombiniertStand.setError("Bitte geben Sie einen gültigen Wert ein");
+                    e.printStackTrace();
                 }
+
+                if (aendern) {
+                } else {
+                    aendern = true;
+                } // damit editTexts sich wieder der seekBar anpassen
+
                 updateKorrekteEingabe();
 
             }
@@ -331,7 +384,10 @@ public class NewCarActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 EditText progressLabel = findViewById(R.id.editTextVerbrauchInnerortsStand);
-                progressLabel.setText(String.valueOf(i));
+                if (aendern) {
+                    progressLabel.setText(String.valueOf(i));
+                }
+
                 progressLabel.setError(null);
             }
         });
@@ -348,7 +404,10 @@ public class NewCarActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 EditText progressLabel = findViewById(R.id.editTextVerbrauchAusserortsStand);
-                progressLabel.setText(String.valueOf(i));
+                if (aendern) {
+                    progressLabel.setText(String.valueOf(i));
+                }
+
                 progressLabel.setError(null);
             }
         });
@@ -365,7 +424,9 @@ public class NewCarActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 EditText progressLabel = findViewById(R.id.editTextVerbrauchKombiniertStand);
-                progressLabel.setText(String.valueOf(i));
+                if (aendern) {
+                    progressLabel.setText(String.valueOf(i));
+                }
                 progressLabel.setError(null);
             }
         });
@@ -397,12 +458,12 @@ public class NewCarActivity extends AppCompatActivity {
         // --- Default-Werte setzen
 
         if (intent.getAction().equals(MainActivity.ACTION_NEW_CAR)) {
-
+            aendern = true;
             editTextName.setText("");  // so wird der Listener (Überprüfung) zu Beginn ausgelöst
             editTextName.setError(null);  // so wird zwar der Haken ausgegraut, aber zu Beginn kein Fehler angezeigt (bessere UX!)
 
         } else if (intent.getAction().equals(MainActivity.ACTION_EDIT_CAR)) {
-
+            aendern = false;
             setTitle(R.string.edit_car);  // Titel "Fahrzeug bearbeiten" setzen
 
             Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
