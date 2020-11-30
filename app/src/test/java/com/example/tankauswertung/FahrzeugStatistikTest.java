@@ -127,7 +127,6 @@ public class FahrzeugStatistikTest {
         assertEquals(ergebnisJahr[0], ausstoss, 0);
         for (int i = 1; i < ergebnisJahr.length; i++) {
             assertEquals(ergebnisJahr[i], 0, 0);
-            System.out.println(i + ": " + ergebnisJahr[i] + "\n");
         }
 
     }
