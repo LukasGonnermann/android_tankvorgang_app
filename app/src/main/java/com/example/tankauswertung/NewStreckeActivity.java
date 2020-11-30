@@ -2,26 +2,10 @@ package com.example.tankauswertung;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.SeekBar;
-import android.widget.TextView;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
-
-import com.example.tankauswertung.exceptions.GarageVollException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +39,9 @@ public class NewStreckeActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_car);
+        /*    Temporär Auskommentiert, da sonst kein Build möglich
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
         supportInvalidateOptionsMenu();
 
@@ -404,10 +390,12 @@ public class NewStreckeActivity extends Activity {
             seekBarVerbrauchAusserorts.setProgress((int) aktuellesFahrzeug.getVerbrauchAusserorts());
             seekBarVerbrauchKombiniert.setProgress((int) aktuellesFahrzeug.getVerbrauchKombiniert());
              */
+        /*
             editTextVerbrauchInnerortsStand.setText(aktuellesFahrzeug.getVerbrauchInnerorts() + "");
             editTextVerbrauchAusserortsStand.setText(aktuellesFahrzeug.getVerbrauchAusserorts() + "");
             editTextVerbrauchKombiniertStand.setText(aktuellesFahrzeug.getVerbrauchKombiniert() + "");
             seekBarAktuellerTankstand.setProgress((int) aktuellesFahrzeug.getTankstand());
+
         }
 
         if (intent.getAction().equals(MainActivity.ACTION_NEW_CAR)) {
@@ -418,6 +406,7 @@ public class NewStreckeActivity extends Activity {
     /**
      * aktualisiert die Variable korrekteEingabe auf Basis der Korrektheit der Einzeleingaben
      */
+        /*
     private void updateKorrekteEingabe() {
         korrekteEingabe = true;  // alles gültig
         for (Map.Entry<String, Boolean> einzeleingabe : korrekteEinzeleingaben.entrySet()) {
@@ -432,6 +421,7 @@ public class NewStreckeActivity extends Activity {
     /**
      * Backend, um Daten abzufangen und Fahrzeug zu ändern oder zu Garage hinzuzufügen
      */
+        /*
     private boolean fertigButtonGedrueckt() {
 
         boolean datenEingepflegt = false;  // Fahrzeugerstellung fehlerhaft oder nicht
@@ -448,6 +438,7 @@ public class NewStreckeActivity extends Activity {
             int verbrauchAusserorts = seekBarVerbrauchAusserorts.getProgress();
             int verbrauchKombiniert = seekBarVerbrauchKombiniert.getProgress();
             */
+        /*
             double verbrauchInnerorts = Double.parseDouble(editTextVerbrauchInnerortsStand.getText().toString());
             double verbrauchAusserorts = Double.parseDouble(editTextVerbrauchAusserortsStand.getText().toString());
             double verbrauchKombiniert = Double.parseDouble(editTextVerbrauchKombiniertStand.getText().toString());
@@ -501,6 +492,7 @@ public class NewStreckeActivity extends Activity {
      * @param menu Menü
      * @return -
      */
+        /*
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -515,6 +507,7 @@ public class NewStreckeActivity extends Activity {
      * @param item geklicktes MenuItem
      * @return -
      */
+        /*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_new_car_done) {
@@ -533,7 +526,9 @@ public class NewStreckeActivity extends Activity {
      * lässt den Zurück-Button funktionieren
      *
      * @return -
-     */
+     *
+         */
+        /*
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -544,5 +539,7 @@ public class NewStreckeActivity extends Activity {
     public void onBackPressed() {
         setResult(Activity.RESULT_CANCELED, intent);
         super.onBackPressed();
+    }
+        */
     }
 }
