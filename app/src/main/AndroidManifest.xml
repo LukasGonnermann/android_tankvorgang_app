@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tankauswertung">
-    <!-- Kamerazugriff gewaehren, TODO Kamera muss nicht vorhanden sein? -->
-    <uses-feature android:name="android.hardware.camera"
-        android:required="false" />
+
+    <!-- Kamerazugriff -->
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+
     <!-- Lesen und schreiben von Fotos in den External Storage -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

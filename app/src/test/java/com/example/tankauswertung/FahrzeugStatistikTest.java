@@ -21,7 +21,7 @@ public class FahrzeugStatistikTest {
     @Test
     public void testGetStreckenStatistik() {
         // Fahrzeug anlegen und Strecken hinzufuegen
-        Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 70, 5, 45);
+        Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 80, 5, 45);
         f.streckeHinzufuegen(27748, Strecke.Streckentyp.KOMBINIERT, 75);
         f.streckeHinzufuegen(27768, Strecke.Streckentyp.AUSSERORTS, 68);
         f.streckeHinzufuegen(27773, Strecke.Streckentyp.INNERORTS, 52);
@@ -127,7 +127,6 @@ public class FahrzeugStatistikTest {
         assertEquals(ergebnisJahr[0], ausstoss, 0);
         for (int i = 1; i < ergebnisJahr.length; i++) {
             assertEquals(ergebnisJahr[i], 0, 0);
-            System.out.println(i + ": " + ergebnisJahr[i] + "\n");
         }
 
     }
@@ -139,11 +138,11 @@ public class FahrzeugStatistikTest {
     @Test
     public void testGetTankkostenStatistik() {
         // Fahrzeug anlegen und Tankvorgaenge hinzufuegen
-        Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 80, 5, 45);
+        Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 10, 5, 45);
         try {
             f.tangvorgangHinzufuegen(4, 8.45, "/DCIM/Camera/meinFoto1.jpg");
-            f.tangvorgangHinzufuegen(27, 32.91, "/DCIM/Camera/meinFoto2.jpg");
-            f.tangvorgangHinzufuegen(44, 78.45, "/DCIM/Camera/meinFoto3.jpg");
+            f.tangvorgangHinzufuegen(22, 32.91, "/DCIM/Camera/meinFoto2.jpg");
+            f.tangvorgangHinzufuegen(11, 24.45, "/DCIM/Camera/meinFoto3.jpg");
         } catch (FahrzeugWertException e) {
             e.printStackTrace();
         }
