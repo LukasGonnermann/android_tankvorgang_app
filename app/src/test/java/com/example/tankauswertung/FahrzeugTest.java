@@ -110,23 +110,23 @@ public class FahrzeugTest {
         Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 70, 5, 45);
         f.streckeHinzufuegen(27758, Strecke.Streckentyp.KOMBINIERT, 34);
         f.streckeHinzufuegen(27794, Strecke.Streckentyp.INNERORTS, 12);
-        f.streckeHinzufuegen(27810, Strecke.Streckentyp.AUSSERORTS, 97);
+        f.streckeHinzufuegen(27810, Strecke.Streckentyp.AUSSERORTS, 10);
 
         // Strecken in ArrayList pruefen
         ArrayList<Strecke> fahrzeugstrecken = f.getStrecken();
 
         // Strecke S3 an Index 0 der Liste
-        assertEquals(fahrzeugstrecken.get(0).getDistanz(), 85.4, 0);
+        assertEquals(fahrzeugstrecken.get(0).getDistanz(), 27810 - 27794, 0);
         assertEquals(fahrzeugstrecken.get(0).getStreckentyp(), Strecke.Streckentyp.AUSSERORTS);
-        assertEquals(fahrzeugstrecken.get(0).getTankstand(), 97, 0);
+        assertEquals(fahrzeugstrecken.get(0).getTankstand(), 10, 0);
 
         // Strecke S2 an Index 1 der Liste
-        assertEquals(fahrzeugstrecken.get(1).getDistanz(), 0.85, 0);
+        assertEquals(fahrzeugstrecken.get(1).getDistanz(), 27794 - 27758, 0);
         assertEquals(fahrzeugstrecken.get(1).getStreckentyp(), Strecke.Streckentyp.INNERORTS);
         assertEquals(fahrzeugstrecken.get(1).getTankstand(), 12, 0);
 
         // Strecke S1 an Index 2 der Liste
-        assertEquals(fahrzeugstrecken.get(2).getDistanz(), 24.37, 0);
+        assertEquals(fahrzeugstrecken.get(2).getDistanz(), 27758 - 27728, 0);
         assertEquals(fahrzeugstrecken.get(2).getStreckentyp(), Strecke.Streckentyp.KOMBINIERT);
         assertEquals(fahrzeugstrecken.get(2).getTankstand(), 34, 0);
     }
