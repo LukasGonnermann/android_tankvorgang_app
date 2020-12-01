@@ -701,4 +701,55 @@ public class Fahrzeug implements Serializable {
         }
         return rueckgabe;
     }
+
+    /**
+     * Methode zum Abfragen der Tankkosten (Statistik)
+     *
+     * @param verschiebung int, Verschiebung des ausgewählten Zeitfensters um den Zeitrahmen (verschiebung=-1 ==> Ein Jahr vorher)
+     * @return double[], Array mit den einzelnen Jahren als Index
+     */
+    public double[] getJahrTankkostenStatistik(int verschiebung) {
+        double[] rueckgabe = new double[12];
+        for (int i = 0; i < 12; i++) {
+            double[] einMonat = getMonatTankkostenStatistik(-i + (verschiebung * 12));
+            for (int j = 0; j < einMonat.length; j++) {
+                rueckgabe[i] += einMonat[j];
+            }
+        }
+        return rueckgabe;
+    }
+
+    /**
+     * Methode zum Abfragen des Treibstoffsverbrauchs (Statistik)
+     *
+     * @param verschiebung int, Verschiebung des ausgewählten Zeitfensters um den Zeitrahmen (verschiebung=-1 ==> Ein Jahr vorher)
+     * @return double[], Array mit den einzelnen Jahren als Index
+     */
+    public double[] getJahrTreibstoffStatistik(int verschiebung) {
+        double[] rueckgabe = new double[12];
+        for (int i = 0; i < 12; i++) {
+            double[] einMonat = getMonatTreibstoffStatistik(-i + (verschiebung * 12));
+            for (int j = 0; j < einMonat.length; j++) {
+                rueckgabe[i] += einMonat[j];
+            }
+        }
+        return rueckgabe;
+    }
+
+    /**
+     * Methode zum Abfragen der Strecken innerhalb eines Jahres (Statistik)
+     *
+     * @param verschiebung int, Verschiebung des ausgewählten Zeitfensters um den Zeitrahmen (verschiebung=-1 ==> Ein Jahr vorher)
+     * @return double[], Array mit den einzelnen Jahren als Index
+     */
+    public double[] getJahrStreckenStatistik(int verschiebung) {
+        double[] rueckgabe = new double[12];
+        for (int i = 0; i < 12; i++) {
+            double[] einMonat = getMonatStreckenStatistik(-i + (verschiebung * 12));
+            for (int j = 0; j < einMonat.length; j++) {
+                rueckgabe[i] += einMonat[j];
+            }
+        }
+        return rueckgabe;
+    }
 }
