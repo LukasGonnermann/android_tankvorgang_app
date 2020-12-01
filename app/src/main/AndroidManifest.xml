@@ -3,7 +3,8 @@
     package="com.example.tankauswertung">
 
     <!-- Kamerazugriff -->
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
 
     <!-- Lesen und schreiben von Fotos in den External Storage -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -16,6 +17,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tankauswertung">
+
+        <!-- File Provider -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.android.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" ></meta-data>
+        </provider>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">

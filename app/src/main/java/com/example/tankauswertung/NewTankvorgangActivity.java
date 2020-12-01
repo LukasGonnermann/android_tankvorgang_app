@@ -3,8 +3,12 @@ package com.example.tankauswertung;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -24,12 +28,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
 
 import com.example.tankauswertung.exceptions.FahrzeugWertException;
 import com.example.tankauswertung.ui.timeline.TimelineFragment;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -55,9 +61,10 @@ public class NewTankvorgangActivity extends AppCompatActivity {
     Garage garage;
 
     private static final int MY_CAMERA_PERMISSION_CODE = 69;
-    private static final int CAMERA_REQUEST = 1889;
+    private static final int READ_WRITE_PERMISSION_CODE = 200;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     private Bitmap tankvorgang_bild = null;
-    private String tankvorgang_bild_path;
+    private String tankvorgang_bild_path = null;
 
     /**
      * ausgeführt, sobald die Aktivität gestartet wird
@@ -165,15 +172,67 @@ public class NewTankvorgangActivity extends AppCompatActivity {
         }
 
         // --- OnClickListener für Bild-aufnehmen-Button
-        buttonTankvorgangBildAufnehmen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO geht auch ohne Permissions? Nachschauen!
-                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);
-            }
-        });
+        buttonTankvorgangBildAufnehmen.setOnClickListener(v -> dispatchTakePictureIntent());
     }
+
+    private void dispatchTakePictureIntent() {
+        // check permissions
+        if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED ||
+                checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException e) {
+                    Toast.makeText(this, "Create Photo File Failed", Toast.LENGTH_LONG).show();
+                }
+                if (photoFile != null) {
+                    Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.fileprovider", photoFile);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }
+            }
+            else {
+                Toast.makeText(this, "Activity couldnt be resolved", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            // Dialog welcher Permissions beschreibt (wird nicht immer ausgeführt)
+            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                Toast.makeText(this, "Permissions needed to Save/Read Pictures!", Toast.LENGTH_LONG).show();
+            }
+            // Get RW permissions
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, READ_WRITE_PERMISSION_CODE);
+        }
+    }
+
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        tankvorgang_bild_path = image.getAbsolutePath();
+        return image;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Uri imageURI = Uri.fromFile(new File(tankvorgang_bild_path));
+            imageViewTankvorgangBeleg.setImageURI(imageURI);
+            imageViewTankvorgangBeleg.setVisibility(View.VISIBLE);
+        }
+    }
+
 
     /**
      * aktualisiert die Variable korrekteEingabe auf Basis der Korrektheit der Einzeleingaben
@@ -242,95 +301,6 @@ public class NewTankvorgangActivity extends AppCompatActivity {
             setResult(Activity.RESULT_CANCELED, intent);
         }
         return true;
-    }
-
-    // --- Bild aufnehmen
-
-    /**
-     * Ueberprueft ob notwendigen permissions gegeben wurden um Bilder zu machen
-     * !Debug if necessary!
-     * @param requestCode  requestCode welcher von der methode uebergeben wurde die permissions angefragt hat
-     * @param permissions  die angefragen permissions
-     * @param grantResults enthaelt infos ob die permissions erteilt wurden
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MY_CAMERA_PERMISSION_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Kleines Popup das Permissions erteilt wurden
-                Toast.makeText(this, "Camera permission granted!", Toast.LENGTH_LONG).show();
-                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);
-            } else {
-                // Kleines Popup das Permissions nicht erteilt wurden
-                Toast.makeText(this, "Camera permission denied", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    /**
-     * Ergebnis des Camera aufrufs um ein Bild aufzunehmen
-     *
-     * @param requestCode Code der aufgerufenen Activity(Camera-> Bildaufnehmen)
-     * @param resultCode  wie lief die activity
-     * @param data        daten zu Bitmap convertierbar
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            // Kamera Bild anzeigen und speichern
-            Bitmap pic = (Bitmap) data.getExtras().get("data");
-            // Bitmap image anzeigen
-            imageViewTankvorgangBeleg.setImageBitmap(pic);
-            tankvorgang_bild = pic;
-            imageViewTankvorgangBeleg.setImageBitmap(pic);
-            imageViewTankvorgangBeleg.setVisibility(View.VISIBLE);
-        }
-    }
-
-    /**
-     * Erstellt eine File um ein Bild in hoher Auflösung zu speichern
-     * @return File
-     */
-    private File createImageFile() throws IOException {
-        // Create image filename (Collisionfree)
-        @SuppressLint("SimpleDateFormat")
-        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String fileName = "JPEG_" + timestamp + "_";
-        File storageDir = getFilesDir();
-        File image;
-        try {
-            image = File.createTempFile(
-                    fileName,
-                    ".jpg",
-                    storageDir
-            );
-        } catch (IOException e) {
-            Toast.makeText(this ,"IO Exception has occured",Toast.LENGTH_LONG).show();
-            throw new IOException();
-        }
-        tankvorgang_bild_path = image.getAbsolutePath();
-        return image;
-    }
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                // TODO wird in Button onClick geschrieben
-            }
-        }
     }
 
     /**
