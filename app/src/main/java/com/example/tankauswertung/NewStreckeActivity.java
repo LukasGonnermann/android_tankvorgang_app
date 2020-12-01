@@ -142,7 +142,7 @@ public class NewStreckeActivity extends AppCompatActivity {
 
         Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
 
-        // alten Tankstand in Prozent berechnen, um danach Maximum setzen zu können
+        // Maximum setzen: dafür alten Tankstand in Prozent berechnen
         double alterTankstandProzent;
 
         if (intent.getAction().equals(TimelineFragment.ACTION_NEW_STRECKE)) {
@@ -236,6 +236,9 @@ public class NewStreckeActivity extends AppCompatActivity {
 
                 // da man nur eine Distanz setzen kann
                 double alterKilometerstand = aktuellesFahrzeug.getKmStand() - neuesteStrecke.getDistanz();
+
+                double aktuellerTankstand = aktuellerTankstandProzent / 100.0 * aktuellesFahrzeug.getTankgroesse();
+                double alterTankstand = neuesteStrecke.getTankstand() + neuesteStrecke.getVerbrauchterTreibstoff();
                 double distanz = kilometerstand - alterKilometerstand;
 
                 try {
@@ -246,9 +249,11 @@ public class NewStreckeActivity extends AppCompatActivity {
                 }
 
                 neuesteStrecke.streckeBearbeiten(
-                        distanz, streckentyp,
-                        aktuellerTankstandProzent / 100.0 * aktuellesFahrzeug.getTankgroesse()
+                        distanz, streckentyp, aktuellerTankstand
+
                 );
+
+                neuesteStrecke.setVerbrauchterTreibstoff(alterTankstand - aktuellerTankstand);
 
             }
         }
