@@ -63,4 +63,6 @@
     <string name="frueher">&lt;</string>
     <string name="spaeter">&gt;</string>
     <string name="edit_strecke">Strecke bearbeiten</string>
+    <string name="streckentyp">Streckentyp</string>
+    <string name="ereignis_bearbeiten">Ereignis bearbeiten</string>
 </resources>

@@ -73,7 +73,15 @@
 
             <!-- Art der Strecke -->
 
+            <TextView
+                android:id="@+id/labelStreckeHinzufuegenStreckentypTitel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/streckentyp" />
+
             <RadioGroup
+                android:id="@+id/radioGroupStreckentyp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
@@ -89,13 +97,13 @@
                     android:id="@+id/radioButtonAusserorts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/kombiniert" />
+                    android:text="@string/ausserorts" />
 
                 <RadioButton
                     android:id="@+id/radioButtonKombiniert"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ausserorts" />
+                    android:text="@string/kombiniert" />
             </RadioGroup>
 
 

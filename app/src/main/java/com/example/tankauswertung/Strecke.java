@@ -19,7 +19,7 @@ public class Strecke implements Serializable {
     /**
      * Auswahlmöglichkeiten fuer den Streckentyp
      */
-    public enum Streckentyp {INNERORTS, KOMBINIERT, AUSSERORTS} //Umgeändert von int in enum
+    public enum Streckentyp {INNERORTS, AUSSERORTS, KOMBINIERT}  // umgeändert von int in enum
 
     /**
      * Tankstand, welcher nach der gefahrenen Strecke übrig ist

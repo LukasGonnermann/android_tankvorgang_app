@@ -1,6 +1,8 @@
 package com.example.tankauswertung.ui.timeline;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
 import android.view.LayoutInflater;
@@ -19,24 +21,28 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tankauswertung.Ereignis;
 import com.example.tankauswertung.Garage;
 import com.example.tankauswertung.MainActivity;
+import com.example.tankauswertung.NewStreckeActivity;
 import com.example.tankauswertung.R;
 import com.github.vipulasri.timelineview.TimelineView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.Time;
 import java.util.ArrayList;
 
 public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final ArrayList<Ereignis> ereignisse;
+    private Context context;
 
     /**
      * zur Übergabe der Ereignisliste
      * @param ereignisse Ereignisliste
      */
-    public TimelineAdapter(ArrayList<Ereignis> ereignisse) {
+    public TimelineAdapter(ArrayList<Ereignis> ereignisse, Context context) {
         super();
         this.ereignisse = ereignisse;
+        this.context = context;
     }
 
     @NonNull
@@ -70,6 +76,21 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         // nur aktuellstes Ereignis soll bearbeitet werden können
         if (position == 0) {
             timelineViewHolder.imageButtonEreignisBearbeiten.setVisibility(View.VISIBLE);
+
+            timelineViewHolder.imageButtonEreignisBearbeiten.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (ereignis.getEreignisTyp() == Ereignis.EreignisTyp.STRECKE) {
+                        Intent intent = new Intent(view.getContext(), NewStreckeActivity.class);
+                        intent.setAction(TimelineFragment.ACTION_EDIT_STRECKE);
+                        ((Activity) context).startActivityForResult(
+                                intent, TimelineFragment.LAUNCH_NEW_STRECKE_EDIT_STRECKE
+                        );
+                    } else {
+                        // TODO: starte Tankvorgang bearbeiten
+                    }
+                }
+            });
         }
     }
 
@@ -113,7 +134,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // TODO
+                    // TODO: Bild anzeigen lassen, falls Tankvorgang
                 }
             });
         }

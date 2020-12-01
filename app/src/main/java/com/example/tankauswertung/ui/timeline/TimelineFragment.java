@@ -31,8 +31,8 @@ public class TimelineFragment extends Fragment {
     private View root;
     private boolean fabOpen = false;
 
-    final int LAUNCH_NEW_STRECKE_EDIT_STRECKE = 4;
-    final int LAUNCH_NEW_TANKVORGANG_EDIT_TANKVORGANG = 5;
+    public static final int LAUNCH_NEW_STRECKE_EDIT_STRECKE = 4;
+    public static final int LAUNCH_NEW_TANKVORGANG_EDIT_TANKVORGANG = 5;
 
     // Activity action codes ("What should be done in the activity?")
     // Wir nutzen die gleiche Aktivität zum Hinzufügen und Bearbeiten eines Autos, deshalb müssen
@@ -109,7 +109,7 @@ public class TimelineFragment extends Fragment {
                     getContext(), RecyclerView.VERTICAL, false);
             recyclerView.setLayoutManager(layoutManager);
 
-            recyclerView.setAdapter(new TimelineAdapter(aktuellesFahrzeug.getEreignisse()));
+            recyclerView.setAdapter(new TimelineAdapter(aktuellesFahrzeug.getEreignisse(), getContext()));
         }
     }
 

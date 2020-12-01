@@ -67,12 +67,12 @@
 
             <ImageButton
                 android:id="@+id/imageButtonEreignisBearbeiten"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:gravity="end"
                 android:visibility="invisible"
-                android:contentDescription="@string/tankvorgang_bearbeiten"
+                android:contentDescription="@string/ereignis_bearbeiten"
                 android:background="#00FFFFFF"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/ic_baseline_edit_24" />
