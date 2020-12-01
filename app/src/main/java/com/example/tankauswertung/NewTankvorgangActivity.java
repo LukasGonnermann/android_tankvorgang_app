@@ -102,22 +102,31 @@ public class NewTankvorgangActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
 
-                // TODO: getankte Menge überprüfen (neue Menge darf nicht > Tankvolumen sein)
+                Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
+                Editable getankteMengeText = editTextGetankteMenge.getText();
+                double alterTankstand;
 
-                Editable kilometerStandText = editTextGetankteMenge.getText();
+                if (intent.getAction().equals(TimelineFragment.ACTION_NEW_TANKVORGANG)) {
+                    alterTankstand = aktuellesFahrzeug.getTankstand() / 100 * aktuellesFahrzeug.getTankgroesse();
+                } else {
+                    Tankvorgang neuesterTankvorgang = aktuellesFahrzeug.getTankvorgaenge().get(0);
+                    alterTankstand = aktuellesFahrzeug.getTankstand() / 100 * aktuellesFahrzeug.getTankgroesse() -
+                        neuesterTankvorgang.getGetankteMenge();
+                }
+                double altesRestvolumen = aktuellesFahrzeug.getTankgroesse() - alterTankstand;
 
-                if (TextUtils.isEmpty(kilometerStandText)) {
+                if (TextUtils.isEmpty(getankteMengeText)) {
 
                     editTextGetankteMenge.setError("Bitte geben Sie die getankte Menge an");
                     korrekteEinzeleingaben.put("menge", false);
 
-//                } else if (Double.parseDouble(kilometerStandText.toString()) < alterKilometerstand) {
-//
-//                    editTextKilometerstand.setError(
-//                            "Bitte geben Sie einen Kilometerstand an, der größer oder gleich dem " +
-//                                    "letzten Kilometerstand Ihres Fahrzeugs (" +
-//                                    alterKilometerstand +  ") ist.");
-//                    korrekteEinzeleingaben.put("menge", false);
+                } else if (Double.parseDouble(getankteMengeText.toString()) > altesRestvolumen) {
+
+                    editTextGetankteMenge.setError(
+                            "Bitte geben Sie Tankmenge an, die kleiner als das restliche Volumen " +
+                                    "Ihres Tanks (" +
+                                    altesRestvolumen +  " l) ist.");
+                    korrekteEinzeleingaben.put("menge", false);
 
                 } else {
                     korrekteEinzeleingaben.put("menge", true);
@@ -208,7 +217,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
+                ".jpg",   /* suffix */
                 storageDir      /* directory */
         );
 
@@ -270,11 +279,11 @@ public class NewTankvorgangActivity extends AppCompatActivity {
                 Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
                 Tankvorgang neuesterTankvorgang = aktuellesFahrzeug.getTankvorgaenge().get(0);
 
-                double alterTankstand = aktuellesFahrzeug.getTankstand() - neuesterTankvorgang.getGetankteMenge();
+                double alterTankstand = aktuellesFahrzeug.getTankstand() / 100 * aktuellesFahrzeug.getTankgroesse() - neuesterTankvorgang.getGetankteMenge();
                 double neuerTankstand = alterTankstand + getankteMenge;
 
                 try {
-                    aktuellesFahrzeug.setTankstand(neuerTankstand);
+                    aktuellesFahrzeug.setTankstand(neuerTankstand / aktuellesFahrzeug.getTankgroesse() * 100);
                 } catch (FahrzeugWertException e) {
                     e.printStackTrace();
                 }
