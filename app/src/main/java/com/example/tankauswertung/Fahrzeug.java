@@ -441,21 +441,21 @@ public class Fahrzeug implements Serializable {
         switch (pStreckentyp) {
             case INNERORTS:
                 try {
-                    setVerbrauchInnerorts((strecken.size() * getVerbrauchInnerorts() + verbrauchDerStrecke) / strecken.size() + 1);
+                    setVerbrauchInnerorts(((strecken.size() + 1) * getVerbrauchInnerorts() + verbrauchDerStrecke) / (strecken.size() + 1));
                 } catch (FahrzeugWertException e) {
                     e.printStackTrace();
                 }
                 break;
             case AUSSERORTS:
                 try {
-                    setVerbrauchAusserorts((strecken.size() * getVerbrauchAusserorts() + verbrauchDerStrecke) / strecken.size() + 1);
+                    setVerbrauchAusserorts(((strecken.size() + 1) * getVerbrauchAusserorts() + verbrauchDerStrecke) / (strecken.size() + 1));
                 } catch (FahrzeugWertException e) {
                     e.printStackTrace();
                 }
                 break;
             case KOMBINIERT:
                 try {
-                    setVerbrauchKombiniert((strecken.size() * getVerbrauchKombiniert() + verbrauchDerStrecke) / strecken.size() + 1);
+                    setVerbrauchKombiniert(((strecken.size() + 1) * getVerbrauchKombiniert() + verbrauchDerStrecke) / (strecken.size() + 1));
                 } catch (FahrzeugWertException e) {
                     e.printStackTrace();
                 }
