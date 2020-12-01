@@ -147,9 +147,9 @@ public class FahrzeugStatistikTest {
         // Fahrzeug anlegen und Tankvorgaenge hinzufuegen
         Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 10, 5, 45);
         try {
-            f.tangvorgangHinzufuegen(4, 8.45, "/DCIM/Camera/meinFoto1.jpg");
-            f.tangvorgangHinzufuegen(22, 32.91, "/DCIM/Camera/meinFoto2.jpg");
-            f.tangvorgangHinzufuegen(11, 24.45, "/DCIM/Camera/meinFoto3.jpg");
+            f.tankvorgangHinzufuegen(4, 8.45, "/DCIM/Camera/meinFoto1.jpg");
+            f.tankvorgangHinzufuegen(22, 32.91, "/DCIM/Camera/meinFoto2.jpg");
+            f.tankvorgangHinzufuegen(11, 24.45, "/DCIM/Camera/meinFoto3.jpg");
         } catch (FahrzeugWertException e) {
             e.printStackTrace();
         }

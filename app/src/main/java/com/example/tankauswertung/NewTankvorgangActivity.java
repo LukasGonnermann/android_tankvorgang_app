@@ -3,8 +3,6 @@ package com.example.tankauswertung;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,7 +23,6 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
@@ -35,12 +32,10 @@ import com.example.tankauswertung.ui.timeline.TimelineFragment;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.SimpleTimeZone;
 
 public class NewTankvorgangActivity extends AppCompatActivity {
 
@@ -263,7 +258,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
 
                 try {
                     // TODO: Bild
-                    garage.getAusgewaehltesFahrzeug().tangvorgangHinzufuegen(
+                    garage.getAusgewaehltesFahrzeug().tankvorgangHinzufuegen(
                             getankteMenge, preis, ""
                     );
                 } catch (FahrzeugWertException e) {

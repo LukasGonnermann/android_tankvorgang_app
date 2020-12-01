@@ -500,7 +500,7 @@ public class Fahrzeug implements Serializable {
      * @param pImg           String, Pfad zum Foto
      * @throws FahrzeugWertException via setTankstand, wenn der neue Tankstand groesser als die Tankgroesse ist
      */
-    public void tangvorgangHinzufuegen(double pGetankteMenge, double pPreis, String pImg) throws FahrzeugWertException {
+    public void tankvorgangHinzufuegen(double pGetankteMenge, double pPreis, String pImg) throws FahrzeugWertException {
         tankvorgaenge.add(0, new Tankvorgang(pGetankteMenge, pPreis, pImg));
         this.setTankstand(this.getTankstand() + (pGetankteMenge * 100 / this.getTankgroesse()));
     }
