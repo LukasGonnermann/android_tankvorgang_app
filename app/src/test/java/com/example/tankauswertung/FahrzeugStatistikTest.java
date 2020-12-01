@@ -25,10 +25,12 @@ public class FahrzeugStatistikTest {
         f.streckeHinzufuegen(27748, Strecke.Streckentyp.KOMBINIERT, 75);
         f.streckeHinzufuegen(27768, Strecke.Streckentyp.AUSSERORTS, 68);
         f.streckeHinzufuegen(27773, Strecke.Streckentyp.INNERORTS, 52);
+
+        double distanz = f.getKmStand() - 27728;
         // Woche
         // Ergebnis pruefen: Strecke fuer heutigen Tag erfasst, Rest 0
         double[] ergebnisWoche = f.getWocheStreckenStatistik(0);
-        assertEquals(ergebnisWoche[0], 45, 0);
+        assertEquals(ergebnisWoche[0], distanz, 0);
         for (int i = 1; i < ergebnisWoche.length; i++) {
             assertEquals(ergebnisWoche[i], 0, 0);
         }
@@ -36,14 +38,17 @@ public class FahrzeugStatistikTest {
         // Monat
         // Ergebnis pruefen: Strecke fuer aktuelle Woche erfasst, Rest 0
         double[] ergebnisMonat = f.getMonatStreckenStatistik(0);
-        assertEquals(ergebnisMonat[0], 45, 0);
+        assertEquals(ergebnisMonat[0], distanz, 0);
         for (int i = 1; i < ergebnisMonat.length; i++) {
             assertEquals(ergebnisMonat[i], 0, 0);
         }
 
         // Jahr
-        // Methode noch nicht vorhanden
-
+        double[] ergebnisJahr = f.getJahrStreckenStatistik(0);
+        assertEquals(ergebnisJahr[0], distanz, 0);
+        for (int i = 1; i < ergebnisJahr.length; i++) {
+            assertEquals(ergebnisJahr[i], 0, 0);
+        }
     }
 
     /**
@@ -82,8 +87,11 @@ public class FahrzeugStatistikTest {
         }
 
         // Jahr
-        // Methode noch nicht vorhanden
-
+        double[] ergebnisJahr = f.getJahrTreibstoffStatistik(0);
+        assertEquals(ergebnisJahr[0], verbrauch, 0);
+        for (int i = 1; i < ergebnisJahr.length; i++) {
+            assertEquals(ergebnisJahr[i], 0, 0);
+        }
     }
 
     /**
@@ -128,7 +136,6 @@ public class FahrzeugStatistikTest {
         for (int i = 1; i < ergebnisJahr.length; i++) {
             assertEquals(ergebnisJahr[i], 0, 0);
         }
-
     }
 
     /**
@@ -140,9 +147,9 @@ public class FahrzeugStatistikTest {
         // Fahrzeug anlegen und Tankvorgaenge hinzufuegen
         Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 10, 5, 45);
         try {
-            f.tangvorgangHinzufuegen(4, 8.45, "/DCIM/Camera/meinFoto1.jpg");
-            f.tangvorgangHinzufuegen(22, 32.91, "/DCIM/Camera/meinFoto2.jpg");
-            f.tangvorgangHinzufuegen(11, 24.45, "/DCIM/Camera/meinFoto3.jpg");
+            f.tankvorgangHinzufuegen(4, 8.45, "/DCIM/Camera/meinFoto1.jpg");
+            f.tankvorgangHinzufuegen(22, 32.91, "/DCIM/Camera/meinFoto2.jpg");
+            f.tankvorgangHinzufuegen(11, 24.45, "/DCIM/Camera/meinFoto3.jpg");
         } catch (FahrzeugWertException e) {
             e.printStackTrace();
         }
@@ -171,6 +178,10 @@ public class FahrzeugStatistikTest {
         }
 
         // Jahr
-        // Methode noch nicht vorhanden
+        double[] ergebnisJahr = f.getJahrTankkostenStatistik(0);
+        assertEquals(ergebnisJahr[0], kosten, 0);
+        for (int i = 1; i < ergebnisJahr.length; i++) {
+            assertEquals(ergebnisJahr[i], 0, 0);
+        }
     }
 }

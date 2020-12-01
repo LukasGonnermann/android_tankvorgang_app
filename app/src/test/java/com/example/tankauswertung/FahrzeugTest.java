@@ -146,9 +146,9 @@ public class FahrzeugTest {
 
         // Tankvorgaenge hinzufuegen
         try {
-            f.tangvorgangHinzufuegen(t1.getGetankteMenge(), t1.getPreis(), t1.getImg());
-            f.tangvorgangHinzufuegen(t2.getGetankteMenge(), t2.getPreis(), t2.getImg());
-            f.tangvorgangHinzufuegen(t3.getGetankteMenge(), t3.getPreis(), t3.getImg());
+            f.tankvorgangHinzufuegen(t1.getGetankteMenge(), t1.getPreis(), t1.getImg());
+            f.tankvorgangHinzufuegen(t2.getGetankteMenge(), t2.getPreis(), t2.getImg());
+            f.tankvorgangHinzufuegen(t3.getGetankteMenge(), t3.getPreis(), t3.getImg());
         } catch (FahrzeugWertException e) {
             e.printStackTrace();
         }
@@ -175,7 +175,7 @@ public class FahrzeugTest {
         Tankvorgang t4 = new Tankvorgang(45.01, 86.10, "/DCIM/Camera/meinFoto4.jpg");
 
         // Tankvorgang t4 hinzufuegen und Exception pruefen
-        Exception exception = assertThrows(FahrzeugWertException.class, () -> f.tangvorgangHinzufuegen(t4.getGetankteMenge(), t4.getPreis(), t4.getImg()));
+        Exception exception = assertThrows(FahrzeugWertException.class, () -> f.tankvorgangHinzufuegen(t4.getGetankteMenge(), t4.getPreis(), t4.getImg()));
         String expectedMessage = "Tankstand konnte nicht gesetzt werden, da kein Wert zwischen 0 und 100 eingegeben wurde.";
         String actualMessage = exception.getMessage();
 
