@@ -22,7 +22,7 @@ public class Strecke implements Serializable {
     public enum Streckentyp {INNERORTS, AUSSERORTS, KOMBINIERT}  // umgeändert von int in enum
 
     /**
-     * Tankstand, welcher nach der gefahrenen Strecke übrig ist
+     * Tankstand, welcher nach der gefahrenen Strecke übrig ist, in Litern
      */
     private double tankstand;
 
@@ -81,7 +81,7 @@ public class Strecke implements Serializable {
     /**
      * Getter fuer den Tankstand
      *
-     * @return double, Tankstand nach der zurueckgelegten Strecke
+     * @return double, Tankstand nach der zurueckgelegten Strecke in Litern
      */
     public double getTankstand() {
         return tankstand;

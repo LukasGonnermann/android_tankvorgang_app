@@ -239,6 +239,9 @@ public class NewCarActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(editTextTankvolumen.getText())) {
                     editTextTankvolumen.setError("Bitte geben Sie das Tankvolumen Ihres Fahrzeugs an");
                     korrekteEinzeleingaben.put("tankvolumen", false);
+                } else if (Double.parseDouble(editTextTankvolumen.getText().toString()) < 1) {
+                    editTextTankvolumen.setError("Bitte Sie ein Tankvolumen größer oder gleich 1 Liter ein");
+                    korrekteEinzeleingaben.put("tankvolumen", false);
                 } else {
                     korrekteEinzeleingaben.put("tankvolumen", true);
                 }

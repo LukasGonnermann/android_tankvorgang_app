@@ -67,4 +67,5 @@
     <string name="edit_tankvorgang">Tankvorgang bearbeiten</string>
     <string name="streckentyp">Streckentyp</string>
     <string name="ereignis_bearbeiten">Ereignis bearbeiten</string>
+    <string name="default_tankvolumen">50</string>
 </resources>
