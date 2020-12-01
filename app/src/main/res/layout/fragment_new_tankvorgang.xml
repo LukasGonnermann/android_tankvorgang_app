@@ -14,8 +14,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
             android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
             android:orientation="vertical">
 
             <!-- Getankte Menge -->
@@ -24,32 +24,43 @@
                 android:id="@+id/labelGetankteMengeTitel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="@string/getankte_menge" />
+                android:layout_marginTop="10dp"
+                android:text="@string/getankte_menge_l" />
 
-            <LinearLayout
+            <!-- Spanne zwischen möglichen Tankvolumina ist sehr groß -> kein Slider sinnvoll -->
+
+            <EditText
+                android:id="@+id/editTextGetankteMenge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                android:orientation="horizontal">
+                android:layout_marginEnd="5dp"
+                android:inputType="numberDecimal"
+                android:text="@string/zero_number" />
 
-                <TextView
-                    android:id="@+id/labelTankvorgangMenge"
-                    android:layout_width="24dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/zero_number" />
+            <!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="5dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginBottom="20dp"-->
+<!--                android:orientation="horizontal">-->
 
-                <SeekBar
-                    android:id="@+id/seekBarTankvorgangMenge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
-                    android:max="100"
-                    android:min="0" /><!-- TODO ? -->
-            </LinearLayout>
+<!--                <TextView-->
+<!--                    android:id="@+id/labelGetankteMengeMenge"-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="5dp"-->
+<!--                    android:text="@string/zero_number" />-->
+
+<!--                <SeekBar-->
+<!--                    android:id="@+id/seekBarGetankteMenge"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="1dp"-->
+<!--                    android:max="100"-->
+<!--                    android:min="0" /> &lt;!&ndash; TODO &ndash;&gt;-->
+<!--            </LinearLayout>-->
 
             <!-- Preis -->
 
@@ -59,7 +70,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:text="@string/preis" />
-
 
             <EditText
                 android:id="@+id/editTextPreis"
@@ -71,24 +81,20 @@
                 android:text="@string/zero_number" />
 
 
-            <!-- Bild des Tankvorgangs -->
-            <TextView
-                android:id="@+id/labelTankvorgangBild"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="@string/bild_des_tankbelegs" />
+            <!-- Bild des Tankbelegs -->
 
             <ImageView
-                android:id="@+id/imageViewTankvorgangThumbnail"
+                android:id="@+id/imageViewTankvorgangBeleg"
                 android:layout_width="200dp"
                 android:layout_height="150dp"
                 tools:srcCompat="@tools:sample/backgrounds/scenic"
-                android:visibility="gone"/> <!-- TODO IMG File source -->
+                android:visibility="gone"
+                android:contentDescription="@string/bild_des_tankbelegs" />
+            <!-- TODO image File source -->
 
 
             <Button
-                android:id="@+id/buttonTankvorgangBildAufnehmen"
+                android:id="@+id/buttonTankvorgangBelegHinzufuegen"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:text="@string/tankvorgang_bild_aufnehmen" />

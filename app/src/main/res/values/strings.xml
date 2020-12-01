@@ -56,13 +56,15 @@
     <string name="innerorts">innerorts</string>
     <string name="kombiniert">kombiniert</string>
     <string name="ausserorts">außerorts</string>
-    <string name="getankte_menge">Getankte Menge</string>
+    <string name="getankte_menge_l">Getankte Menge (l)</string>
+    <string name="getankte_menge_kwh">Geladen (kWh)</string>
     <string name="preis">Preis (€)</string>
     <string name="bild_des_tankbelegs">Bild des Tankbelegs</string>
     <string name="tankvorgang_bild_aufnehmen">Bild aufnehmen</string>
     <string name="frueher">&lt;</string>
     <string name="spaeter">&gt;</string>
     <string name="edit_strecke">Strecke bearbeiten</string>
+    <string name="edit_tankvorgang">Tankvorgang bearbeiten</string>
     <string name="streckentyp">Streckentyp</string>
     <string name="ereignis_bearbeiten">Ereignis bearbeiten</string>
 </resources>

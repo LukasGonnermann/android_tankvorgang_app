@@ -40,6 +40,11 @@
             android:name=".NewStreckeActivity"
             android:label="Strecke hinzufügen">
         </activity>
+
+        <activity
+            android:name=".NewTankvorgangActivity"
+            android:label="Tankvorgang hinzufügen">
+        </activity>
     </application>
 
 </manifest>

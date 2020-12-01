@@ -22,6 +22,7 @@ import com.example.tankauswertung.Ereignis;
 import com.example.tankauswertung.Garage;
 import com.example.tankauswertung.MainActivity;
 import com.example.tankauswertung.NewStreckeActivity;
+import com.example.tankauswertung.NewTankvorgangActivity;
 import com.example.tankauswertung.R;
 import com.github.vipulasri.timelineview.TimelineView;
 
@@ -87,7 +88,11 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                                 intent, TimelineFragment.LAUNCH_NEW_STRECKE_EDIT_STRECKE
                         );
                     } else {
-                        // TODO: starte Tankvorgang bearbeiten
+                        Intent intent = new Intent(view.getContext(), NewTankvorgangActivity.class);
+                        intent.setAction(TimelineFragment.ACTION_EDIT_TANKVORGANG);
+                        ((Activity) context).startActivityForResult(
+                                intent, TimelineFragment.LAUNCH_NEW_TANKVORGANG_EDIT_TANKVORGANG
+                        );
                     }
                 }
             });

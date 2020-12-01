@@ -10,7 +10,6 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -32,12 +31,13 @@ public class NewStreckeActivity extends AppCompatActivity {
     }};
 
     // UI-Elemente
-    EditText editTextStreckeHinzufuegenKilometerstand;
-    SeekBar seekBarStreckeHinzufuegenAktuellerTankstand;
+    EditText editTextKilometerstand;
+    SeekBar seekBarAktuellerTankstand;
     RadioGroup radioGroupStreckenTyp;
     int radioButtonInnerortsId;
     int radioButtonAusserortsId;
     int radioButtonKombiniertId;
+    TextView labelAktuellerTankstandTitel;
 
     Intent intent;
     Garage garage;
@@ -60,19 +60,20 @@ public class NewStreckeActivity extends AppCompatActivity {
         intent = getIntent();  // erhalte Intent vom Aufruf
         garage = MainActivity.getGarage();  // erhalte Garagenobjekt
 
-        editTextStreckeHinzufuegenKilometerstand = findViewById(R.id.editTextStreckeHinzufuegenKilometerstand);
-        seekBarStreckeHinzufuegenAktuellerTankstand = findViewById(R.id.seekBarStreckeHinzufuegenAktuellerTankstand);
+        editTextKilometerstand = findViewById(R.id.editTextStreckeHinzufuegenKilometerstand);
+        seekBarAktuellerTankstand = findViewById(R.id.seekBarStreckeHinzufuegenAktuellerTankstand);
         radioGroupStreckenTyp = findViewById(R.id.radioGroupStreckentyp);
         radioButtonInnerortsId = findViewById(R.id.radioButtonInnerorts).getId();
         radioButtonAusserortsId = findViewById(R.id.radioButtonAusserorts).getId();
         radioButtonKombiniertId = findViewById(R.id.radioButtonKombiniert).getId();
+        labelAktuellerTankstandTitel = findViewById(R.id.labelStreckeHinzufuegenAktuellerTankstandTitel);
 
         // zeigt den Zurück-Button an
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // --- EditText Listener (inkl. Fehlerüberprüfung)
 
-        editTextStreckeHinzufuegenKilometerstand.addTextChangedListener(new TextWatcher() {
+        editTextKilometerstand.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
@@ -85,7 +86,7 @@ public class NewStreckeActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
 
                 Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
-                Editable kilometerStandText = editTextStreckeHinzufuegenKilometerstand.getText();
+                Editable kilometerStandText = editTextKilometerstand.getText();
                 double alterKilometerstand;
 
                 if (intent.getAction().equals(TimelineFragment.ACTION_NEW_STRECKE)) {
@@ -97,12 +98,12 @@ public class NewStreckeActivity extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(kilometerStandText)) {
 
-                    editTextStreckeHinzufuegenKilometerstand.setError("Bitte geben Sie den aktuellen Kilometerstand Ihres Fahrzeugs an");
+                    editTextKilometerstand.setError("Bitte geben Sie den aktuellen Kilometerstand Ihres Fahrzeugs an");
                     korrekteEinzeleingaben.put("kilometerstand", false);
 
                 } else if (Double.parseDouble(kilometerStandText.toString()) < alterKilometerstand) {
 
-                    editTextStreckeHinzufuegenKilometerstand.setError(
+                    editTextKilometerstand.setError(
                             "Bitte geben Sie einen Kilometerstand an, der größer oder gleich dem " +
                             "letzten Kilometerstand Ihres Fahrzeugs (" +
                             alterKilometerstand +  ") ist.");
@@ -115,7 +116,7 @@ public class NewStreckeActivity extends AppCompatActivity {
             }
         });
 
-        seekBarStreckeHinzufuegenAktuellerTankstand.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBarAktuellerTankstand.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
@@ -131,27 +132,32 @@ public class NewStreckeActivity extends AppCompatActivity {
             }
         });
 
+        // Label für Elektroauto ändern
+        if (garage.getAusgewaehltesFahrzeug().isElektro()) {
+            labelAktuellerTankstandTitel.setText(R.string.tankstand_kwh);
+        }
+
         // --- Default-Werte setzen
 
-         if (intent.getAction().equals(TimelineFragment.ACTION_EDIT_STRECKE)) {
+        if (intent.getAction().equals(TimelineFragment.ACTION_EDIT_STRECKE)) {
 
-             setTitle(R.string.edit_strecke);  // Titel "Strecke bearbeiten" setzen
-             Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
-             Strecke neuesteStrecke = aktuellesFahrzeug.getStrecken().get(0);
+         setTitle(R.string.edit_strecke);  // Titel "Strecke bearbeiten" setzen
+         Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
+         Strecke neuesteStrecke = aktuellesFahrzeug.getStrecken().get(0);
 
-             editTextStreckeHinzufuegenKilometerstand.setText(Double.toString(
-                     aktuellesFahrzeug.getKmStand()
-             ));
-             seekBarStreckeHinzufuegenAktuellerTankstand.setProgress((int) neuesteStrecke.getTankstand());
+         editTextKilometerstand.setText(Double.toString(
+                 aktuellesFahrzeug.getKmStand()
+         ));
+         seekBarAktuellerTankstand.setProgress((int) neuesteStrecke.getTankstand());
 
-             // korrekten RadioButton abhaken
-             if (neuesteStrecke.getStreckentyp().equals(Strecke.Streckentyp.INNERORTS)) {
-                 radioGroupStreckenTyp.check(radioButtonInnerortsId);
-             } else if (neuesteStrecke.getStreckentyp().equals(Strecke.Streckentyp.AUSSERORTS)) {
-                 radioGroupStreckenTyp.check(radioButtonAusserortsId);
-             } else if (neuesteStrecke.getStreckentyp().equals(Strecke.Streckentyp.KOMBINIERT)) {
-                 radioGroupStreckenTyp.check(radioButtonKombiniertId);
-             }
+         // korrekten RadioButton abhaken
+         if (neuesteStrecke.getStreckentyp().equals(Strecke.Streckentyp.INNERORTS)) {
+             radioGroupStreckenTyp.check(radioButtonInnerortsId);
+         } else if (neuesteStrecke.getStreckentyp().equals(Strecke.Streckentyp.AUSSERORTS)) {
+             radioGroupStreckenTyp.check(radioButtonAusserortsId);
+         } else if (neuesteStrecke.getStreckentyp().equals(Strecke.Streckentyp.KOMBINIERT)) {
+             radioGroupStreckenTyp.check(radioButtonKombiniertId);
+         }
         }
     }
 
@@ -177,8 +183,8 @@ public class NewStreckeActivity extends AppCompatActivity {
         if (korrekteEingabe) {  // korrekte Eingaben getätigt
 
             // Parsing
-            double kilometerstand = Double.parseDouble(editTextStreckeHinzufuegenKilometerstand.getText().toString());
-            int aktuellerTankstand = seekBarStreckeHinzufuegenAktuellerTankstand.getProgress();
+            double kilometerstand = Double.parseDouble(editTextKilometerstand.getText().toString());
+            int aktuellerTankstand = seekBarAktuellerTankstand.getProgress();
             Strecke.Streckentyp streckentyp;
 
             // angekreuzten RadioButton sichern

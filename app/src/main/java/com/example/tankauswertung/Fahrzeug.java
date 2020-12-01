@@ -236,7 +236,7 @@ public class Fahrzeug implements Serializable {
                 Date datum = aktuellerTankvorgang.getZeitstempel();
                 String beschreibung = Double.toString(aktuellerTankvorgang.getGetankteMenge())
                         + ", " + Double.toString(aktuellerTankvorgang.getPreis());
-                ereignisse.add(new Ereignis(Ereignis.EreignisTyp.STRECKE, i, datum, beschreibung));
+                ereignisse.add(new Ereignis(Ereignis.EreignisTyp.TANKVORGANG, i, datum, beschreibung));
 
             }
 

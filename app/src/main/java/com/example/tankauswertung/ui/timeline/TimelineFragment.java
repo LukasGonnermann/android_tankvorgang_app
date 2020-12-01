@@ -19,6 +19,7 @@ import com.example.tankauswertung.Garage;
 import com.example.tankauswertung.MainActivity;
 import com.example.tankauswertung.NewCarActivity;
 import com.example.tankauswertung.NewStreckeActivity;
+import com.example.tankauswertung.NewTankvorgangActivity;
 import com.example.tankauswertung.R;
 import com.example.tankauswertung.Strecke;
 import com.example.tankauswertung.exceptions.FahrzeugWertException;
@@ -97,6 +98,16 @@ public class TimelineFragment extends Fragment {
             }
         });
 
+        floatingActionButtonTankvorgang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), NewTankvorgangActivity.class);
+                intent.setAction(ACTION_NEW_TANKVORGANG);
+                startActivityForResult(intent, LAUNCH_NEW_TANKVORGANG_EDIT_TANKVORGANG);
+            }
+        });
+
+        // Placeholder einblenden, falls keine Strecken oder Tankvorgänge vorhanden
         if (aktuellesFahrzeug.getEreignisse().size() == 0) {
             textView.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.INVISIBLE);
@@ -123,18 +134,30 @@ public class TimelineFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
-        // Auto hinzugefügt oder geändert
+        // Strecke hinzugefügt oder geändert
         if (requestCode == LAUNCH_NEW_STRECKE_EDIT_STRECKE) {
 
-                if (intent.getAction().equals(ACTION_NEW_STRECKE)) {  // Strecke hinzugefügt
+            if (intent.getAction().equals(ACTION_NEW_STRECKE)) {  // Strecke hinzugefügt
                 if (resultCode == Activity.RESULT_OK) {
-                    // TODO: testweise
-                    Toast toast = Toast.makeText(getContext(), "hinzugefügt", Toast.LENGTH_LONG);
-                    toast.show();
+                    // alles ok
                 }
             } else if (intent.getAction().equals(ACTION_EDIT_STRECKE)) {  // Auto geändert
                 if (resultCode == Activity.RESULT_OK) {
-                    Toast toast = Toast.makeText(getContext(), "geändert", Toast.LENGTH_LONG);
+                    // alles ok
+                }
+            }
+
+        } else if (requestCode == LAUNCH_NEW_TANKVORGANG_EDIT_TANKVORGANG) {
+
+            if (intent.getAction().equals(ACTION_NEW_TANKVORGANG)) {
+                if (resultCode == Activity.RESULT_OK) {
+                    // TODO: entfernen, sobald stable
+                    Toast toast = Toast.makeText(getContext(), "hinzugefügt", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            } else if (intent.getAction().equals(ACTION_EDIT_TANKVORGANG)) {
+                if (resultCode == Activity.RESULT_OK) {
+                    Toast toast = Toast.makeText(getContext(), "bearbeitet", Toast.LENGTH_LONG);
                     toast.show();
                 }
             }
