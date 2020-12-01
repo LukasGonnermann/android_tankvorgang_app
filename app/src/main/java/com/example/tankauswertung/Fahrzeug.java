@@ -221,8 +221,8 @@ public class Fahrzeug implements Serializable {
         // solange nicht noch mindestens eine Strecke oder ein Tankvorgang vorhanden
         while (!(keineStreckeMehr && keinTankvorgangMehr)) {
 
-            if (keinTankvorgangMehr || aktuelleStrecke.getZeitstempel()
-                    .compareTo(aktuellerTankvorgang.getZeitstempel()) > 0) {
+            if (keinTankvorgangMehr || (aktuelleStrecke != null && aktuelleStrecke.getZeitstempel()
+                    .compareTo(aktuellerTankvorgang.getZeitstempel()) > 0)) {
 
                 // aktuelles Streckenelement ist aktueller
                 // oder kein Tankvorgangelement mehr vorhanden
@@ -231,28 +231,31 @@ public class Fahrzeug implements Serializable {
                         + ", " + aktuelleStrecke.getStreckentyp().toString();
                 ereignisse.add(new Ereignis(Ereignis.EreignisTyp.STRECKE, i, datum, beschreibung));
 
+                // i (Strecken) weiter iterieren
+                if (i + 1 >= strecken.size()) {
+                    keineStreckeMehr = true;
+                    aktuelleStrecke = null;
+                    // Flag wird gesetzt, Index i bleibt aber trotzdem gleich, damit noch accessible
+                } else {
+                    i++;
+                    aktuelleStrecke = strecken.get(i);
+                }
+
             } else {
-                // keineStreckeMehr || aktuelleStrecke.getZeitstempel().compareTo(aktuellerTankvorgang.getZeitstempel()) <= 0
+                // keineStreckeMehr || (aktuelleStrecke != null && aktuelleStrecke.getZeitstempel().compareTo(aktuellerTankvorgang.getZeitstempel())) <= 0
                 Date datum = aktuellerTankvorgang.getZeitstempel();
                 String beschreibung = Double.toString(aktuellerTankvorgang.getGetankteMenge())
                         + ", " + Double.toString(aktuellerTankvorgang.getPreis());
                 ereignisse.add(new Ereignis(Ereignis.EreignisTyp.TANKVORGANG, i, datum, beschreibung));
 
-            }
-
-            if (i + 1 >= strecken.size()) {
-                keineStreckeMehr = true;
-                // Flag wird gesetzt, Index i bleibt aber trotzdem gleich, damit noch accessible
-            } else {
-                i++;
-                aktuelleStrecke = strecken.get(i);
-            }
-
-            if (j + 1 >= tankvorgaenge.size()) {
-                keinTankvorgangMehr = true;
-            } else {
-                j++;
-                aktuellerTankvorgang = tankvorgaenge.get(i);
+                // j (Tankvorgänge) weiter iterieren
+                if (j + 1 >= tankvorgaenge.size()) {
+                    keinTankvorgangMehr = true;
+                    aktuellerTankvorgang = null;
+                } else {
+                    j++;
+                    aktuellerTankvorgang = tankvorgaenge.get(j);
+                }
             }
         }
         return ereignisse;

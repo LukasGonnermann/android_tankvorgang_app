@@ -185,21 +185,20 @@ public class NewTankvorgangActivity extends AppCompatActivity {
                 try {
                     photoFile = createImageFile();
                 } catch (IOException e) {
-                    Toast.makeText(this, "Create Photo File Failed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Erstellen der Fotodatei fehlgeschlagen", Toast.LENGTH_LONG).show();
                 }
                 if (photoFile != null) {
                     Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.fileprovider", photoFile);
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
-            }
-            else {
-                Toast.makeText(this, "Activity couldnt be resolved", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Aktivität konnte nicht resolved werden", Toast.LENGTH_LONG).show();
             }
         } else {
             // Dialog welcher Permissions beschreibt (wird nicht immer ausgeführt)
             if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                Toast.makeText(this, "Permissions needed to Save/Read Pictures!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Berechtigungen zum Schreiben/Lesen von Bildern benötigt", Toast.LENGTH_LONG).show();
             }
             // Get RW permissions
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, READ_WRITE_PERMISSION_CODE);
