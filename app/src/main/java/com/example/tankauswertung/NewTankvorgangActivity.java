@@ -28,8 +28,13 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.tankauswertung.exceptions.FahrzeugWertException;
 import com.example.tankauswertung.ui.timeline.TimelineFragment;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SimpleTimeZone;
 
 public class NewTankvorgangActivity extends AppCompatActivity {
 
@@ -52,6 +57,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
     private static final int MY_CAMERA_PERMISSION_CODE = 69;
     private static final int CAMERA_REQUEST = 1889;
     private Bitmap tankvorgang_bild = null;
+    private String tankvorgang_bild_path;
 
     /**
      * ausgeführt, sobald die Aktivität gestartet wird
@@ -162,13 +168,9 @@ public class NewTankvorgangActivity extends AppCompatActivity {
         buttonTankvorgangBildAufnehmen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Request Runtime Permission
-                if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
-                } else {
-                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                }
+                // TODO geht auch ohne Permissions? Nachschauen!
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
     }
@@ -246,32 +248,33 @@ public class NewTankvorgangActivity extends AppCompatActivity {
 
     /**
      * Ueberprueft ob notwendigen permissions gegeben wurden um Bilder zu machen
-     * @param requestCode   requestCode welcher von der methode uebergeben wurde die permissions angefragt hat
-     * @param permissions   die angefragen permissions
-     * @param grantResults  enthaelt infos ob die permissions erteilt wurden
+     * !Debug if necessary!
+     * @param requestCode  requestCode welcher von der methode uebergeben wurde die permissions angefragt hat
+     * @param permissions  die angefragen permissions
+     * @param grantResults enthaelt infos ob die permissions erteilt wurden
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MY_CAMERA_PERMISSION_CODE ) {
+        if (requestCode == MY_CAMERA_PERMISSION_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Kleines Popup das Permissions erteilt wurden
-                Toast.makeText(this,"Camera permission granted!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Camera permission granted!", Toast.LENGTH_LONG).show();
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
-            }
-            else  {
+            } else {
                 // Kleines Popup das Permissions nicht erteilt wurden
-                Toast.makeText(this,"Camera permission denied", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Camera permission denied", Toast.LENGTH_LONG).show();
             }
         }
     }
 
     /**
      * Ergebnis des Camera aufrufs um ein Bild aufzunehmen
-     * @param requestCode   Code der aufgerufenen Activity(Camera-> Bildaufnehmen)
-     * @param resultCode    wie lief die activity
-     * @param data          daten zu Bitmap convertierbar
+     *
+     * @param requestCode Code der aufgerufenen Activity(Camera-> Bildaufnehmen)
+     * @param resultCode  wie lief die activity
+     * @param data        daten zu Bitmap convertierbar
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -282,6 +285,51 @@ public class NewTankvorgangActivity extends AppCompatActivity {
             // Bitmap image anzeigen
             imageViewTankvorgangBeleg.setImageBitmap(pic);
             tankvorgang_bild = pic;
+            imageViewTankvorgangBeleg.setImageBitmap(pic);
+            imageViewTankvorgangBeleg.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * Erstellt eine File um ein Bild in hoher Auflösung zu speichern
+     * @return File
+     */
+    private File createImageFile() throws IOException {
+        // Create image filename (Collisionfree)
+        @SuppressLint("SimpleDateFormat")
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String fileName = "JPEG_" + timestamp + "_";
+        File storageDir = getFilesDir();
+        File image;
+        try {
+            image = File.createTempFile(
+                    fileName,
+                    ".jpg",
+                    storageDir
+            );
+        } catch (IOException e) {
+            Toast.makeText(this ,"IO Exception has occured",Toast.LENGTH_LONG).show();
+            throw new IOException();
+        }
+        tankvorgang_bild_path = image.getAbsolutePath();
+        return image;
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                // TODO wird in Button onClick geschrieben
+            }
         }
     }
 
