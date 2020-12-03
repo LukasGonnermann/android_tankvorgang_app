@@ -130,31 +130,8 @@ public class NewStreckeActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
                 Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
-
                 TextView progressLabel = findViewById(R.id.labelStreckeHinzufuegenAktuellerTankstandStand);
                 progressLabel.setText(String.valueOf(i));
-
-                double alterTankstandProzent;
-
-                if (intent.getAction().equals(TimelineFragment.ACTION_NEW_STRECKE)) {
-                    alterTankstandProzent = aktuellesFahrzeug.getTankstand() / aktuellesFahrzeug.getTankgroesse() * 100;
-                } else {
-                    Strecke neuesteStrecke = aktuellesFahrzeug.getStrecken().get(0);
-                    alterTankstandProzent = (neuesteStrecke.getTankstand() - neuesteStrecke.getVerbrauchterTreibstoff())
-                            / aktuellesFahrzeug.getTankgroesse() * 100;
-                }
-
-                if (i > alterTankstandProzent) {
-                    editTextKilometerstand.setError(
-                            // TODO: Diff. E-Auto
-                            "Bitte geben Sie einen Tankstand an, der kleiner oder gleich dem " +
-                                    "letzten Tankstand Ihres Fahrzeugs (" +
-                                    alterTankstandProzent +  " %) ist.");
-                    korrekteEinzeleingaben.put("tankstand", false);
-                } else {
-                    korrekteEinzeleingaben.put("tankstand", true);
-                }
-                updateKorrekteEingabe();
             }
         });
 
@@ -164,6 +141,18 @@ public class NewStreckeActivity extends AppCompatActivity {
         }
 
         Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
+
+        // Maximum setzen: dafür alten Tankstand in Prozent berechnen
+        double alterTankstandProzent;
+
+        if (intent.getAction().equals(TimelineFragment.ACTION_NEW_STRECKE)) {
+            alterTankstandProzent = aktuellesFahrzeug.getTankstand();
+        } else {
+            Strecke neuesteStrecke = aktuellesFahrzeug.getStrecken().get(0);
+            alterTankstandProzent = (neuesteStrecke.getTankstand() + neuesteStrecke.getVerbrauchterTreibstoff())
+                    / aktuellesFahrzeug.getTankgroesse() * 100;
+        }
+        seekBarAktuellerTankstand.setMax((int) alterTankstandProzent);
 
         // --- Default-Werte setzen
 
@@ -247,18 +236,24 @@ public class NewStreckeActivity extends AppCompatActivity {
 
                 // da man nur eine Distanz setzen kann
                 double alterKilometerstand = aktuellesFahrzeug.getKmStand() - neuesteStrecke.getDistanz();
+
+                double aktuellerTankstand = aktuellerTankstandProzent / 100.0 * aktuellesFahrzeug.getTankgroesse();
+                double alterTankstand = neuesteStrecke.getTankstand() + neuesteStrecke.getVerbrauchterTreibstoff();
                 double distanz = kilometerstand - alterKilometerstand;
 
                 try {
                     aktuellesFahrzeug.setKmStand(kilometerstand);
+                    aktuellesFahrzeug.setTankstand(aktuellerTankstandProzent);
                 } catch (FahrzeugWertException e) {
                     e.printStackTrace();
                 }
 
                 neuesteStrecke.streckeBearbeiten(
-                        distanz, streckentyp,
-                        aktuellerTankstandProzent * aktuellesFahrzeug.getTankgroesse()
+                        distanz, streckentyp, aktuellerTankstand
+
                 );
+
+                neuesteStrecke.setVerbrauchterTreibstoff(alterTankstand - aktuellerTankstand);
 
             }
         }

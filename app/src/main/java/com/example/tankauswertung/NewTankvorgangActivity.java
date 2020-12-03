@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
+
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Toast;
@@ -55,10 +55,8 @@ public class NewTankvorgangActivity extends AppCompatActivity {
     Intent intent;
     Garage garage;
 
-    private static final int MY_CAMERA_PERMISSION_CODE = 69;
     private static final int READ_WRITE_PERMISSION_CODE = 200;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    private Bitmap tankvorgang_bild = null;
     private String tankvorgang_bild_path = null;
 
     /**
@@ -102,22 +100,31 @@ public class NewTankvorgangActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
 
-                // TODO: getankte Menge überprüfen (neue Menge darf nicht > Tankvolumen sein)
+                Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
+                Editable getankteMengeText = editTextGetankteMenge.getText();
+                double alterTankstand;
 
-                Editable kilometerStandText = editTextGetankteMenge.getText();
+                if (intent.getAction().equals(TimelineFragment.ACTION_NEW_TANKVORGANG)) {
+                    alterTankstand = aktuellesFahrzeug.getTankstand() / 100 * aktuellesFahrzeug.getTankgroesse();
+                } else {
+                    Tankvorgang neuesterTankvorgang = aktuellesFahrzeug.getTankvorgaenge().get(0);
+                    alterTankstand = aktuellesFahrzeug.getTankstand() / 100 * aktuellesFahrzeug.getTankgroesse() -
+                        neuesterTankvorgang.getGetankteMenge();
+                }
+                double altesRestvolumen = aktuellesFahrzeug.getTankgroesse() - alterTankstand;
 
-                if (TextUtils.isEmpty(kilometerStandText)) {
+                if (TextUtils.isEmpty(getankteMengeText)) {
 
                     editTextGetankteMenge.setError("Bitte geben Sie die getankte Menge an");
                     korrekteEinzeleingaben.put("menge", false);
 
-//                } else if (Double.parseDouble(kilometerStandText.toString()) < alterKilometerstand) {
-//
-//                    editTextKilometerstand.setError(
-//                            "Bitte geben Sie einen Kilometerstand an, der größer oder gleich dem " +
-//                                    "letzten Kilometerstand Ihres Fahrzeugs (" +
-//                                    alterKilometerstand +  ") ist.");
-//                    korrekteEinzeleingaben.put("menge", false);
+                } else if (Double.parseDouble(getankteMengeText.toString()) > altesRestvolumen) {
+
+                    editTextGetankteMenge.setError(
+                            "Bitte geben Sie Tankmenge an, die kleiner als das restliche Volumen " +
+                                    "Ihres Tanks (" +
+                                    altesRestvolumen +  " l) ist.");
+                    korrekteEinzeleingaben.put("menge", false);
 
                 } else {
                     korrekteEinzeleingaben.put("menge", true);
@@ -159,11 +166,14 @@ public class NewTankvorgangActivity extends AppCompatActivity {
             setTitle(R.string.edit_tankvorgang);  // Titel "Tankvorgang bearbeiten" setzen
             Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
             Tankvorgang neuesterTankvorgang = aktuellesFahrzeug.getTankvorgaenge().get(0);
+            String imgPath = neuesterTankvorgang.getImg();
 
             editTextGetankteMenge.setText(Double.toString(neuesterTankvorgang.getGetankteMenge()));
             editTextPreis.setText(Double.toString(neuesterTankvorgang.getPreis()));
 
-            // TODO: ImageView setzen
+            Uri imageURI = Uri.fromFile(new File(imgPath));
+            this.imageViewTankvorgangBeleg.setImageURI(imageURI);
+            this.imageViewTankvorgangBeleg.setVisibility(View.VISIBLE);
         }
 
         // --- OnClickListener für Bild-aufnehmen-Button
@@ -200,15 +210,14 @@ public class NewTankvorgangActivity extends AppCompatActivity {
         }
     }
 
-
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
+                ".jpg",   /* suffix */
                 storageDir      /* directory */
         );
 
@@ -226,7 +235,6 @@ public class NewTankvorgangActivity extends AppCompatActivity {
             imageViewTankvorgangBeleg.setVisibility(View.VISIBLE);
         }
     }
-
 
     /**
      * aktualisiert die Variable korrekteEingabe auf Basis der Korrektheit der Einzeleingaben
@@ -252,14 +260,13 @@ public class NewTankvorgangActivity extends AppCompatActivity {
             // Parsing
             double getankteMenge = Double.parseDouble(editTextGetankteMenge.getText().toString());
             double preis = Double.parseDouble(editTextPreis.getText().toString());
-            // TODO: Bild
+            String bildPfad = this.tankvorgang_bild_path;
 
             if (intent.getAction().equals(TimelineFragment.ACTION_NEW_TANKVORGANG)) {  // Tankvorgang hinzufügen
 
                 try {
-                    // TODO: Bild
                     garage.getAusgewaehltesFahrzeug().tankvorgangHinzufuegen(
-                            getankteMenge, preis, ""
+                            getankteMenge, preis, bildPfad
                     );
                 } catch (FahrzeugWertException e) {
                     e.printStackTrace();
@@ -270,18 +277,15 @@ public class NewTankvorgangActivity extends AppCompatActivity {
                 Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
                 Tankvorgang neuesterTankvorgang = aktuellesFahrzeug.getTankvorgaenge().get(0);
 
-                double alterTankstand = aktuellesFahrzeug.getTankstand() - neuesterTankvorgang.getGetankteMenge();
+                double alterTankstand = aktuellesFahrzeug.getTankstand() / 100 * aktuellesFahrzeug.getTankgroesse() - neuesterTankvorgang.getGetankteMenge();
                 double neuerTankstand = alterTankstand + getankteMenge;
 
                 try {
-                    aktuellesFahrzeug.setTankstand(neuerTankstand);
+                    aktuellesFahrzeug.setTankstand(neuerTankstand / aktuellesFahrzeug.getTankgroesse() * 100);
                 } catch (FahrzeugWertException e) {
                     e.printStackTrace();
                 }
-
-                // TODO: Bild
-                neuesterTankvorgang.tankvorgangBearbeiten(getankteMenge, preis, "");
-
+                neuesterTankvorgang.tankvorgangBearbeiten(getankteMenge, preis, bildPfad);
             }
         }
 

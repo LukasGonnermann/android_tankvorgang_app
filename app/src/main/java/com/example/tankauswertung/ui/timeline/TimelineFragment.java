@@ -156,6 +156,7 @@ public class TimelineFragment extends Fragment {
                     toast.show();
                 }
             } else if (intent.getAction().equals(ACTION_EDIT_TANKVORGANG)) {
+                // TODO: toast wird nicht ausgelöst -> warum?
                 if (resultCode == Activity.RESULT_OK) {
                     Toast toast = Toast.makeText(getContext(), "bearbeitet", Toast.LENGTH_LONG);
                     toast.show();
