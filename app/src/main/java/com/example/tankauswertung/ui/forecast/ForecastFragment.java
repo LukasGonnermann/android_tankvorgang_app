@@ -19,6 +19,8 @@ import com.example.tankauswertung.Garage;
 import com.example.tankauswertung.MainActivity;
 import com.example.tankauswertung.R;
 
+import java.util.HashMap;
+
 public class ForecastFragment extends Fragment {
 
     private View root;
@@ -38,6 +40,7 @@ public class ForecastFragment extends Fragment {
     SeekBar seekBarInnerorts;
     SeekBar seekBarAusserorts;
     SeekBar seekBarKombiniert;
+    TextView labelKraftstoffverbrauchWert;
     TextView labelKraftstoffkostenWert;
     TextView labelAnzahlNoetigerTankvorgaengeWert;
     TextView labelCo2AusstossWert;
@@ -68,6 +71,7 @@ public class ForecastFragment extends Fragment {
         seekBarKombiniert = root.findViewById(R.id.seekBarKalkulationKombiniert);
 
         // output elements
+        labelKraftstoffverbrauchWert = root.findViewById(R.id.labelKraftstoffverbrauchWert);
         labelKraftstoffkostenWert = root.findViewById(R.id.labelKraftstoffkostenWert);
         labelAnzahlNoetigerTankvorgaengeWert = root.findViewById(R.id.labelAnzahlNoetigerTankvorgaengeWert);
         labelCo2AusstossWert = root.findViewById(R.id.labelKalkulationCo2AusstossWert);
@@ -98,6 +102,7 @@ public class ForecastFragment extends Fragment {
                 } else {
                     korrekteEingabe = true;
                 }
+                updateBerechneteWerte();
             }
         });
 
@@ -216,5 +221,34 @@ public class ForecastFragment extends Fragment {
      */
     private void updateBerechneteWerte() {
 
+        if (korrekteEingabe) {
+
+            HashMap<String, Double> streckenprognose = aktuellesFahrzeug.getStreckenprognose(
+                    Double.parseDouble(editTextStreckenlaenge.getText().toString()),
+                    seekBarInnerorts.getProgress(),
+                    seekBarAusserorts.getProgress(),
+                    seekBarKombiniert.getProgress()
+            );
+
+            double kraftstoffverbrauch = streckenprognose.get("kraftstoffverbrauch");
+            double kraftstoffkosten = streckenprognose.get("kraftstoffkosten");
+            int anzahlNoetigerTankvorgaenge = streckenprognose.get("anzahlNoetigerTankvorgaenge").intValue();
+            double co2Ausstoss = streckenprognose.get("co2Ausstoss");
+
+            labelKraftstoffverbrauchWert.setText(String.valueOf(kraftstoffverbrauch));
+            labelAnzahlNoetigerTankvorgaengeWert.setText(String.valueOf(anzahlNoetigerTankvorgaenge));
+            labelCo2AusstossWert.setText(String.valueOf(co2Ausstoss));
+
+            if (kraftstoffkosten != -1) {
+                labelKraftstoffkostenWert.setText(R.string.idle);
+            } else {
+                labelKraftstoffkostenWert.setText(String.valueOf(kraftstoffkosten));
+            }
+        } else {
+            labelKraftstoffverbrauchWert.setText(R.string.idle);
+            labelKraftstoffkostenWert.setText(R.string.idle);
+            labelAnzahlNoetigerTankvorgaengeWert.setText(R.string.idle);
+            labelCo2AusstossWert.setText(R.string.idle);
+        }
     }
 }

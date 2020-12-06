@@ -820,4 +820,65 @@ public class Fahrzeug implements Serializable {
         }
         return rueckgabe;
     }
+
+    /**
+     * Methode zum Anfragen der Streckenprognose für das aktuelle Fahrzeug
+     * @return in der Reihenfolge: Kraftstoffverbrauch, Kraftstoffkosten, Anzahl der nötigen Tankvorgänge, CO2-Ausstoß
+     */
+    public HashMap<String, Double> getStreckenprognose(double streckenlaenge,
+            double prozentInnerorts, double prozentAusserorts, double prozentKombiniert) {
+
+        // Kraftstoffverbrauch
+        double kraftstoffverbrauch = (
+                prozentInnerorts  / 100 * getVerbrauchInnerorts() +
+                prozentAusserorts / 100 * getVerbrauchAusserorts() +
+                prozentKombiniert / 100 * getVerbrauchKombiniert()
+        ) / 100 * streckenlaenge;
+
+        // Kraftstoffkosten
+        double kraftstoffkosten = kraftstoffverbrauch * getDurchschnittlicheTankkostenProLiter();
+
+        // Anzahl nötiger Tankvorgänge
+        double anzahlNoetigerTankvorgaenge;
+        if (tankstand >= kraftstoffverbrauch) {
+            anzahlNoetigerTankvorgaenge = 0;
+        } else {
+            anzahlNoetigerTankvorgaenge = Math.ceil((kraftstoffverbrauch - tankstand) / getTankgroesse());
+        }
+
+        // CO2-Ausstoß
+        double co2Ausstoss = streckenlaenge * getCo2Ausstoss() / 1000;  // in kg
+
+        // Rückgabe
+        HashMap<String, Double> rueckgabe = new HashMap<>();
+        rueckgabe.put("kraftstoffverbrauch", kraftstoffverbrauch);
+        rueckgabe.put("kraftstoffkosten", kraftstoffkosten);
+        rueckgabe.put("anzahlNoetigerTankvorgaenge", anzahlNoetigerTankvorgaenge);
+        rueckgabe.put("co2Ausstoss", co2Ausstoss);
+        return rueckgabe;
+    }
+
+    private double getDurchschnittlicheTankkostenProLiter() {
+
+        if (tankvorgaenge.isEmpty()) {
+            return -1;  // soll "—" ausgeben
+        } else {
+
+            double summeGetankteMenge = 0;
+            double summeGezahlteBetraege = 0;
+
+            for (Tankvorgang tankvorgang : tankvorgaenge) {
+                summeGetankteMenge += tankvorgang.getGetankteMenge();
+                summeGezahlteBetraege += tankvorgang.getPreis();
+            }
+
+            double durchschnittlicheTankkostenProLiter = summeGezahlteBetraege / summeGetankteMenge;
+
+            if (Double.isInfinite(durchschnittlicheTankkostenProLiter)) {  // Division durch 0
+                return -1;
+            } else {
+                return durchschnittlicheTankkostenProLiter;
+            }
+        }
+    }
 }
