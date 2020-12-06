@@ -6,118 +6,143 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/imageButtonStrecken"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_weight="1"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+        app:layout_constraintEnd_toStartOf="@+id/imageButtonTreibstoff"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_alt_route_24" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/imageButtonTreibstoff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_weight="1"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton3"
-        app:layout_constraintStart_toEndOf="@+id/imageButton"
+        app:layout_constraintEnd_toStartOf="@+id/imageButtonTankkosten"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonStrecken"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_local_gas_station_24" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/imageButtonTankkosten"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_weight="1"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton4"
-        app:layout_constraintStart_toEndOf="@+id/imageButton2"
+        app:layout_constraintEnd_toStartOf="@+id/imageButtonCO2"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonTreibstoff"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_euro_24" />
 
     <ImageButton
-        android:id="@+id/imageButton4"
+        android:id="@+id/imageButtonCO2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_weight="1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageButton3"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonTankkosten"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_directions_car_24" />
+        app:srcCompat="@drawable/ic_baseline_wb_cloudy_24" />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/fragment_verticalbarchart_chart"
-        android:layout_width="300dp"
+        android:layout_width="400dp"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/button5"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
-        app:layout_constraintStart_toEndOf="@+id/button"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        android:layout_marginBottom="70dp"
+        app:layout_constraintBottom_toTopOf="@id/buttonWoche"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitel">
 
     </com.github.mikephil.charting.charts.BarChart>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonFrueher"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="@string/frueher"
-        app:layout_constraintBottom_toBottomOf="@+id/fragment_verticalbarchart_chart"
-        app:layout_constraintEnd_toStartOf="@+id/fragment_verticalbarchart_chart"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@id/buttonWoche"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_verticalbarchart_chart"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonSpaeter"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="@string/spaeter"
-        app:layout_constraintBottom_toBottomOf="@+id/fragment_verticalbarchart_chart"
+        app:layout_constraintBottom_toBottomOf="@id/buttonWoche"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/fragment_verticalbarchart_chart" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment_verticalbarchart_chart"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/buttonWoche"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="Woche"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button5"
+        app:layout_constraintEnd_toStartOf="@+id/buttonMonat"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/buttonMonat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="Monat"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button6"
-        app:layout_constraintStart_toEndOf="@+id/button4" />
+        app:layout_constraintEnd_toStartOf="@+id/buttonJahr"
+        app:layout_constraintStart_toEndOf="@+id/buttonWoche" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/buttonJahr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="Jahr"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button5" />
+        app:layout_constraintStart_toEndOf="@+id/buttonMonat" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textViewZeitraum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Ausgewaehlte Statistik"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:text="20.11.20 - 20.12.20"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/buttonMonat"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSpaeter"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toEndOf="@+id/buttonFrueher"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_verticalbarchart_chart"
+        app:layout_constraintVertical_bias="0.447" />
+
+    <TextView
+        android:id="@+id/textViewTitel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Treibstoffverbrauch"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/fragment_verticalbarchart_chart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton2" />
+        app:layout_constraintTop_toBottomOf="@+id/imageButtonTreibstoff" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

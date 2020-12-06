@@ -10,4 +10,5 @@
     <color name="grey_light">#f1f2f6</color>
     <color name="branding_purple">#778beb</color>
     <color name="branding_dark_purple">#474787</color>
+    <color name="orange">#FF9800</color>
 </resources>
