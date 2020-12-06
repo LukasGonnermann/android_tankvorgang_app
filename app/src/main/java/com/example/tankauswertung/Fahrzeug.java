@@ -6,6 +6,9 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Klasse Fahrzeuge
@@ -510,26 +513,34 @@ public class Fahrzeug implements Serializable {
      * Methode zum Abfragen der gefahrenen Strecken in der letzten Woche (Statistik)
      *
      * @param verschiebung int, "-1" wuerde die Statistik eine Woche in die Vergangenheit bringen
-     * @return double[], Array mit den einzelnen Tagen als Index
+     * @return LinkedHashMap mit den einzelnen Tagen als Key und der zugehoerigen Distanz als Value
      */
-    public double[] getWocheStreckenStatistik(int verschiebung) {
-        double[] rueckgabe = new double[7];
+    public LinkedHashMap<String, Double> getWocheStreckenStatistik(int verschiebung) {
+        LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
         long delta = Math.multiplyExact((long) verschiebung, 604800000);
         Date heute = new Date();
         heute.setTime(heute.getTime() + delta);
-        Date vorEinerWoche = new Date();
-        vorEinerWoche.setTime(heute.getTime() - 604800000);
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+
         int i = 0;
-        int n = 0;
-        while (heute.after(vorEinerWoche) && i < strecken.size()) {
-            if (formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
-                rueckgabe[n] += strecken.get(i).getDistanz();
-                i++;
-            } else {
-                n++;
-                heute.setTime(heute.getTime() - 86400000);
+        double distanz;
+
+        for (int j = 0; j < 7; j++) {
+            distanz = 0;
+            rueckgabe.put(formatter.format(heute), distanz);
+
+            while (i < strecken.size()) {
+                if (formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
+                    distanz += strecken.get(i).getDistanz();
+                    rueckgabe.replace(formatter.format(heute), distanz);
+                    i++;
+                } else if (strecken.get(i).getZeitstempel().after(heute)) {
+                    i++;
+                } else {
+                    break;
+                }
             }
+            heute.setTime(heute.getTime() - 86400000);
         }
         return rueckgabe;
     }
@@ -538,26 +549,34 @@ public class Fahrzeug implements Serializable {
      * Methode zum Abfragen des verfahrenen Treibstoffs in der letzten Woche (Statistik)
      *
      * @param verschiebung int, "-1" wuerde die Statistik eine Woche in die Vergangenheit bringen
-     * @return double[], Array mit den einzelnen Tagen als Index
+     * @return LinkedHashMap mit den einzelnen Tagen als Key und dem zugehoerigen Verbrauchswert als Value
      */
-    public double[] getWocheTreibstoffStatistik(int verschiebung) {
-        double[] rueckgabe = new double[7];
+    public LinkedHashMap<String, Double> getWocheTreibstoffStatistik(int verschiebung) {
+        LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
         long delta = Math.multiplyExact((long) verschiebung, 604800000);
         Date heute = new Date();
         heute.setTime(heute.getTime() + delta);
-        Date vorEinerWoche = new Date();
-        vorEinerWoche.setTime(heute.getTime() - 604800000);
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+
         int i = 0;
-        int n = 0;
-        while (heute.after(vorEinerWoche) && i < strecken.size()) {
-            if (formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
-                rueckgabe[n] += strecken.get(i).getVerbrauchterTreibstoff();
-                i++;
-            } else {
-                n++;
-                heute.setTime(heute.getTime() - 86400000);
+        double verbrauch;
+
+        for (int j = 0; j < 7; j++) {
+            verbrauch = 0;
+            rueckgabe.put(formatter.format(heute), verbrauch);
+
+            while (i < strecken.size()) {
+                if (formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
+                    verbrauch += strecken.get(i).getVerbrauchterTreibstoff();
+                    rueckgabe.replace(formatter.format(heute), verbrauch);
+                    i++;
+                } else if (strecken.get(i).getZeitstempel().after(heute)) {
+                    i++;
+                } else {
+                    break;
+                }
             }
+            heute.setTime(heute.getTime() - 86400000);
         }
         return rueckgabe;
     }
@@ -566,26 +585,34 @@ public class Fahrzeug implements Serializable {
      * Methode zum Abfragen der Tankkosten in der letzten Woche (Statistik)
      *
      * @param verschiebung int, "-1" wuerde die Statistik eine Woche in die Vergangenheit bringen
-     * @return double[], Array mit den einzelnen Tagen als Index
+     * @return LinkedHashMap mit den einzelnen Tagen als Key und den zugehoerigen Tankkosten als Value
      */
-    public double[] getWocheTankkostenStatistik(int verschiebung) {
-        double[] rueckgabe = new double[7];
+    public LinkedHashMap<String, Double> getWocheTankkostenStatistik(int verschiebung) {
+        LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
         long delta = Math.multiplyExact((long) verschiebung, 604800000);
         Date heute = new Date();
         heute.setTime(heute.getTime() + delta);
-        Date vorEinerWoche = new Date();
-        vorEinerWoche.setTime(heute.getTime() - 604800000);
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+
         int i = 0;
-        int n = 0;
-        while (heute.after(vorEinerWoche) && i < tankvorgaenge.size()) {
-            if (formatter.format(tankvorgaenge.get(i).getZeitstempel()).equals(formatter.format(heute))) {
-                rueckgabe[n] += tankvorgaenge.get(i).getPreis();
-                i++;
-            } else {
-                n++;
-                heute.setTime(heute.getTime() - 86400000);
+        double kosten;
+
+        for (int j = 0; j < 7; j++) {
+            kosten = 0;
+            rueckgabe.put(formatter.format(heute), kosten);
+
+            while (i < tankvorgaenge.size()) {
+                if (formatter.format(tankvorgaenge.get(i).getZeitstempel()).equals(formatter.format(heute))) {
+                    kosten += tankvorgaenge.get(i).getPreis();
+                    rueckgabe.replace(formatter.format(heute), kosten);
+                    i++;
+                } else if (tankvorgaenge.get(i).getZeitstempel().after(heute)) {
+                    i++;
+                } else {
+                    break;
+                }
             }
+            heute.setTime(heute.getTime() - 86400000);
         }
         return rueckgabe;
     }
@@ -594,26 +621,34 @@ public class Fahrzeug implements Serializable {
      * Methode zum Abfragen des CO2-Ausstosses der letzten Woche (Statistik)
      *
      * @param verschiebung int, "-1" wuerde die Statistik eine Woche in die Vergangenheit bringen
-     * @return double[], Array mit den einzelnen Tagen als Index
+     * @return LinkedHashMap mit den einzelnen Tagen als Key und dem zugehoerigen CO2-Ausstoss als Value
      */
-    public double[] getWocheCO2Statistik(int verschiebung) {
-        double[] rueckgabe = new double[7];
+    public LinkedHashMap<String, Double> getWocheCO2Statistik(int verschiebung) {
+        LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
         long delta = Math.multiplyExact((long) verschiebung, 604800000);
         Date heute = new Date();
         heute.setTime(heute.getTime() + delta);
-        Date vorEinerWoche = new Date();
-        vorEinerWoche.setTime(heute.getTime() - 604800000);
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+
         int i = 0;
-        int n = 0;
-        while (heute.after(vorEinerWoche) && i < strecken.size()) {
-            if (formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
-                rueckgabe[n] += strecken.get(i).getCo2Ausstoss();
-                i++;
-            } else {
-                n++;
-                heute.setTime(heute.getTime() - 86400000);
+        double ausstoss;
+
+        for (int j = 0; j < 7; j++) {
+            ausstoss = 0;
+            rueckgabe.put(formatter.format(heute), ausstoss);
+
+            while (i < strecken.size()) {
+                if (formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
+                    ausstoss += strecken.get(i).getCo2Ausstoss();
+                    rueckgabe.replace(formatter.format(heute), ausstoss);
+                    i++;
+                } else if (strecken.get(i).getZeitstempel().after(heute)) {
+                    i++;
+                } else {
+                    break;
+                }
             }
+            heute.setTime(heute.getTime() - 86400000);
         }
         return rueckgabe;
     }
@@ -622,15 +657,19 @@ public class Fahrzeug implements Serializable {
      * Methode zum Abfragen des verfahrenen Treibstoffs (Statistik)
      *
      * @param verschiebung int, Verschiebung des ausgewählten Zeitfensters um den Zeitrahmen (verschiebung=-1 ==> Ein Monat vorher)
-     * @return double[], Array mit den einzelnen Monaten als Index
+     * @return LinkedHashMap mit dem ersten Tag der Woche als Key und dem zugehoerigen Verbrauchswert als Value
      */
-    public double[] getMonatTreibstoffStatistik(int verschiebung) {
-        double[] rueckgabe = new double[4];
+    public LinkedHashMap<String, Double> getMonatTreibstoffStatistik(int verschiebung) {
+        LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
+        double summe;
         for (int i = 0; i < 4; i++) {
-            double[] eineWoche = getWocheTreibstoffStatistik(-i + (verschiebung * 4));
-            for (int j = 0; j < eineWoche.length; j++) {
-                rueckgabe[i] += eineWoche[j];
+            summe = 0;
+            LinkedHashMap<String, Double> eineWoche = getWocheTreibstoffStatistik(-i + (verschiebung * 4));
+            for (double d : eineWoche.values()) {
+                summe += d;
             }
+            String firstDate = (String) eineWoche.keySet().stream().toArray()[6];
+            rueckgabe.put(firstDate, summe);
         }
         return rueckgabe;
     }
@@ -639,15 +678,19 @@ public class Fahrzeug implements Serializable {
      * Methode zum Abfragen der zurueckgelegten Strecken (Statistik)
      *
      * @param verschiebung int, Verschiebung des ausgewählten Zeitfensters um den Zeitrahmen (verschiebung=-1 ==> Ein Monat vorher)
-     * @return double[], Array mit den einzelnen Monaten als Index
+     * @return LinkedHashMap mit dem ersten Tag der Woche als Key und der zugehoerigen Distanz als Value
      */
-    public double[] getMonatStreckenStatistik(int verschiebung) {
-        double[] rueckgabe = new double[4];
+    public LinkedHashMap<String, Double> getMonatStreckenStatistik(int verschiebung) {
+        LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
+        double summe;
         for (int i = 0; i < 4; i++) {
-            double[] eineWoche = getWocheStreckenStatistik(-i + (verschiebung * 4));
-            for (int j = 0; j < eineWoche.length; j++) {
-                rueckgabe[i] += eineWoche[j];
+            summe = 0;
+            LinkedHashMap<String, Double> eineWoche = getWocheStreckenStatistik(-i + (verschiebung * 4));
+            for (double d : eineWoche.values()) {
+                summe += d;
             }
+            String firstDate = (String) eineWoche.keySet().stream().toArray()[6];
+            rueckgabe.put(firstDate, summe);
         }
         return rueckgabe;
     }
@@ -656,15 +699,19 @@ public class Fahrzeug implements Serializable {
      * Methode zum Abfragen der Tankkosten (Statistik)
      *
      * @param verschiebung int, Verschiebung des ausgewählten Zeitfensters um den Zeitrahmen (verschiebung=-1 ==> Ein Monat vorher)
-     * @return double[], Array mit den einzelnen Monaten als Index
+     * @return LinkedHashMap mit dem ersten Tag der Woche als Key und den zugehoerigen Tankkosten als Value
      */
-    public double[] getMonatTankkostenStatistik(int verschiebung) {
-        double[] rueckgabe = new double[4];
+    public LinkedHashMap<String, Double> getMonatTankkostenStatistik(int verschiebung) {
+        LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
+        double summe;
         for (int i = 0; i < 4; i++) {
-            double[] eineWoche = getWocheTankkostenStatistik(-i + (verschiebung * 4));
-            for (int j = 0; j < eineWoche.length; j++) {
-                rueckgabe[i] += eineWoche[j];
+            summe = 0;
+            LinkedHashMap<String, Double> eineWoche = getWocheTankkostenStatistik(-i + (verschiebung * 4));
+            for (double d : eineWoche.values()) {
+                summe += d;
             }
+            String firstDate = (String) eineWoche.keySet().stream().toArray()[6];
+            rueckgabe.put(firstDate, summe);
         }
         return rueckgabe;
     }
@@ -673,15 +720,19 @@ public class Fahrzeug implements Serializable {
      * Methode zum Abfragen des CO2-Ausstosses (Statistik)
      *
      * @param verschiebung int, Verschiebung des ausgewählten Zeitfensters um den Zeitrahmen (verschiebung=-1 ==> Ein Monat vorher)
-     * @return double[], Array mit den einzelnen Monaten als Index
+     * @return LinkedHashMap mit dem ersten Tag der Woche als Key und dem zugehoerigen CO2-Ausstoss als Value
      */
-    public double[] getMonatCO2Statistik(int verschiebung) {
-        double[] rueckgabe = new double[4];
+    public LinkedHashMap<String, Double> getMonatCO2Statistik(int verschiebung) {
+        LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
+        double summe;
         for (int i = 0; i < 4; i++) {
-            double[] eineWoche = getWocheCO2Statistik(-i + (verschiebung * 4));
-            for (int j = 0; j < eineWoche.length; j++) {
-                rueckgabe[i] += eineWoche[j];
+            summe = 0;
+            LinkedHashMap<String, Double> eineWoche = getWocheCO2Statistik(-i + (verschiebung * 4));
+            for (double d : eineWoche.values()) {
+                summe += d;
             }
+            String firstDate = (String) eineWoche.keySet().stream().toArray()[6];
+            rueckgabe.put(firstDate, summe);
         }
         return rueckgabe;
     }
@@ -690,15 +741,19 @@ public class Fahrzeug implements Serializable {
      * Methode zum Abfragen des CO2-Ausstosses (Statistik)
      *
      * @param verschiebung int, Verschiebung des ausgewählten Zeitfensters um den Zeitrahmen (verschiebung=-1 ==> Ein Jahr vorher)
-     * @return double[], Array mit den einzelnen Jahren als Index
+     * @return LinkedHashMap mit dem ersten Tag des Monats als Key und dem zugehoerigen CO2-Ausstoss als Value
      */
-    public double[] getJahrCO2Statistik(int verschiebung) {
-        double[] rueckgabe = new double[12];
+    public LinkedHashMap<String, Double> getJahrCO2Statistik(int verschiebung) {
+        LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
+        double summe;
         for (int i = 0; i < 12; i++) {
-            double[] einMonat = getMonatCO2Statistik(-i + (verschiebung * 12));
-            for (int j = 0; j < einMonat.length; j++) {
-                rueckgabe[i] += einMonat[j];
+            summe = 0;
+            LinkedHashMap<String, Double> einMonat = getMonatCO2Statistik(-i + (verschiebung * 12));
+            for (double d : einMonat.values()) {
+                summe += d;
             }
+            String firstDate = (String) einMonat.keySet().stream().toArray()[3];
+            rueckgabe.put(firstDate, summe);
         }
         return rueckgabe;
     }
@@ -707,15 +762,19 @@ public class Fahrzeug implements Serializable {
      * Methode zum Abfragen der Tankkosten (Statistik)
      *
      * @param verschiebung int, Verschiebung des ausgewählten Zeitfensters um den Zeitrahmen (verschiebung=-1 ==> Ein Jahr vorher)
-     * @return double[], Array mit den einzelnen Jahren als Index
+     * @return LinkedHashMap mit dem ersten Tag des Monats als Key und den zugehoerigen Tankkosten als Value
      */
-    public double[] getJahrTankkostenStatistik(int verschiebung) {
-        double[] rueckgabe = new double[12];
+    public LinkedHashMap<String, Double> getJahrTankkostenStatistik(int verschiebung) {
+        LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
+        double summe;
         for (int i = 0; i < 12; i++) {
-            double[] einMonat = getMonatTankkostenStatistik(-i + (verschiebung * 12));
-            for (int j = 0; j < einMonat.length; j++) {
-                rueckgabe[i] += einMonat[j];
+            summe = 0;
+            LinkedHashMap<String, Double> einMonat = getMonatTankkostenStatistik(-i + (verschiebung * 12));
+            for (double d : einMonat.values()) {
+                summe += d;
             }
+            String firstDate = (String) einMonat.keySet().stream().toArray()[3];
+            rueckgabe.put(firstDate, summe);
         }
         return rueckgabe;
     }
@@ -724,15 +783,19 @@ public class Fahrzeug implements Serializable {
      * Methode zum Abfragen des Treibstoffsverbrauchs (Statistik)
      *
      * @param verschiebung int, Verschiebung des ausgewählten Zeitfensters um den Zeitrahmen (verschiebung=-1 ==> Ein Jahr vorher)
-     * @return double[], Array mit den einzelnen Jahren als Index
+     * @return LinkedHashMap mit dem ersten Tag des Monats als Key und dem zugehoerigen Verbrauchswert als Value
      */
-    public double[] getJahrTreibstoffStatistik(int verschiebung) {
-        double[] rueckgabe = new double[12];
+    public LinkedHashMap<String, Double> getJahrTreibstoffStatistik(int verschiebung) {
+        LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
+        double summe;
         for (int i = 0; i < 12; i++) {
-            double[] einMonat = getMonatTreibstoffStatistik(-i + (verschiebung * 12));
-            for (int j = 0; j < einMonat.length; j++) {
-                rueckgabe[i] += einMonat[j];
+            summe = 0;
+            LinkedHashMap<String, Double> einMonat = getMonatTreibstoffStatistik(-i + (verschiebung * 12));
+            for (double d : einMonat.values()) {
+                summe += d;
             }
+            String firstDate = (String) einMonat.keySet().stream().toArray()[3];
+            rueckgabe.put(firstDate, summe);
         }
         return rueckgabe;
     }
@@ -741,15 +804,19 @@ public class Fahrzeug implements Serializable {
      * Methode zum Abfragen der Strecken innerhalb eines Jahres (Statistik)
      *
      * @param verschiebung int, Verschiebung des ausgewählten Zeitfensters um den Zeitrahmen (verschiebung=-1 ==> Ein Jahr vorher)
-     * @return double[], Array mit den einzelnen Jahren als Index
+     * @return LinkedHashMap mit dem ersten Tag des Monats als Key und der zugehoerigen Distanz als Value
      */
-    public double[] getJahrStreckenStatistik(int verschiebung) {
-        double[] rueckgabe = new double[12];
+    public LinkedHashMap<String, Double> getJahrStreckenStatistik(int verschiebung) {
+        LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
+        double summe;
         for (int i = 0; i < 12; i++) {
-            double[] einMonat = getMonatStreckenStatistik(-i + (verschiebung * 12));
-            for (int j = 0; j < einMonat.length; j++) {
-                rueckgabe[i] += einMonat[j];
+            summe = 0;
+            LinkedHashMap<String, Double> einMonat = getMonatStreckenStatistik(-i + (verschiebung * 12));
+            for (double d : einMonat.values()) {
+                summe += d;
             }
+            String firstDate = (String) einMonat.keySet().stream().toArray()[3];
+            rueckgabe.put(firstDate, summe);
         }
         return rueckgabe;
     }
