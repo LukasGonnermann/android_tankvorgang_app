@@ -106,8 +106,6 @@ public class NewCarActivity extends AppCompatActivity {
         // zeigt den Zurück-Button an
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // --- CheckBox Listener, ob Elektroauto
-
 
         // Dialog vorbauen (2 Benutzungen)
         AlertDialog dialogElektroInfoBestaetigung = new AlertDialog.Builder(NewCarActivity.this)
@@ -127,10 +125,11 @@ public class NewCarActivity extends AppCompatActivity {
 
                 .create();
 
+        // --- CheckBox Listener, ob Elektroauto
+
         checkBoxElektro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                // TODO
                 TextView labelVerbrauchInnerortsTitel = findViewById(R.id.labelVerbrauchInnerortsTitel);
                 TextView labelVerbrauchAusserortsTitel = findViewById(R.id.labelVerbrauchAusserortsTitel);
                 TextView labelVerbrauchKombiniertTitel = findViewById(R.id.labelVerbrauchKombiniertTitel);
@@ -458,6 +457,7 @@ public class NewCarActivity extends AppCompatActivity {
                 hinweis_angezeigt = true;
             }
         });
+
         // --- Default-Werte setzen
 
         if (intent.getAction().equals(MainActivity.ACTION_NEW_CAR)) {

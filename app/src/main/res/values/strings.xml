@@ -68,4 +68,15 @@
     <string name="streckentyp">Streckentyp</string>
     <string name="ereignis_bearbeiten">Ereignis bearbeiten</string>
     <string name="default_tankvolumen">50</string>
+    <string name="innerorts_prozent">Innerorts (%)</string>
+    <string name="ausserorts_prozent">Außerorts (%)</string>
+    <string name="kombiniert_prozent">Kombiniert (%)</string>
+    <string name="geschaetzte_werte">Geschätzte Werte</string>
+    <string name="streckenlaenge_km">Streckenlänge (km)</string>
+    <string name="kraftstoffverbrauch_l">Kraftstoffverbrauch (l)</string>
+    <string name="kraftstoffkosten_euro">Kraftstoffkosten (€)</string>
+    <string name="anzahl_noetiger_tankvorgaenge">Anzahl nötiger Tankvorgänge</string>
+    <string name="co2_ausstoss_kg">CO2-Ausstoß (kg)</string>
+    <string name="idle">—</string>
+    <string name="hundred_number">100</string>
 </resources>
