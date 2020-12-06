@@ -4,8 +4,11 @@ import com.example.tankauswertung.exceptions.FahrzeugWertException;
 
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -15,6 +18,9 @@ import static org.junit.Assert.*;
  * in den unterschiedlichen Intervallen
  */
 public class FahrzeugStatistikTest {
+    Date heute = new Date();
+    transient SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+
     /**
      * Test der Statistik-Methoden fuer Strecken
      * Lege ein Fahrzeug an und fuege Strecken hinzu, pruefe ob die Distanz in der Statistik korrekt erfasst wird
@@ -28,28 +34,27 @@ public class FahrzeugStatistikTest {
         f.streckeHinzufuegen(27773, Strecke.Streckentyp.INNERORTS, 52);
 
         double distanz = f.getKmStand() - 27728;
+
         // Woche
-        // Ergebnis pruefen: Strecke fuer heutigen Tag erfasst, Rest 0
-        double[] ergebnisWoche = f.getWocheStreckenStatistik(0);
-        assertEquals(ergebnisWoche[0], distanz, 0);
-        for (int i = 1; i < ergebnisWoche.length; i++) {
-            assertEquals(ergebnisWoche[i], 0, 0);
+        // Verbrauch in Wochenstatistik pruefen
+        LinkedHashMap ergebnisWoche = f.getWocheStreckenStatistik(0);
+
+        assertEquals(ergebnisWoche.get(formatter.format(heute)), distanz);
+        Set<String> keys = ergebnisWoche.keySet();
+        for (String key : keys) {
+            if (!key.equals(formatter.format(heute))) {
+                assertEquals(ergebnisWoche.get(key), 0.0);
+            }
         }
 
         // Monat
-        // Ergebnis pruefen: Strecke fuer aktuelle Woche erfasst, Rest 0
-        double[] ergebnisMonat = f.getMonatStreckenStatistik(0);
-        assertEquals(ergebnisMonat[0], distanz, 0);
-        for (int i = 1; i < ergebnisMonat.length; i++) {
-            assertEquals(ergebnisMonat[i], 0, 0);
-        }
+        // Verbrauch in Monatsstatistik pruefen
+        LinkedHashMap ergebnisMonat = f.getMonatStreckenStatistik(0);
+
 
         // Jahr
-        double[] ergebnisJahr = f.getJahrStreckenStatistik(0);
-        assertEquals(ergebnisJahr[0], distanz, 0);
-        for (int i = 1; i < ergebnisJahr.length; i++) {
-            assertEquals(ergebnisJahr[i], 0, 0);
-        }
+        // Verbrauch in Jahresstatistik pruefen
+        LinkedHashMap ergebnisJahr = f.getJahrStreckenStatistik(0);
     }
 
     /**
@@ -75,49 +80,22 @@ public class FahrzeugStatistikTest {
         // Verbrauch in Wochenstatistik pruefen
         LinkedHashMap ergebnisWoche = f.getWocheTreibstoffStatistik(0);
 
-        ergebnisWoche.forEach((k, v) -> {
-            System.out.println("Key: " + k + ", Value: " + v);
-        });
+        assertEquals(ergebnisWoche.get(formatter.format(heute)), verbrauch);
+        Set<String> keys = ergebnisWoche.keySet();
+        for (String key : keys) {
+            if (!key.equals(formatter.format(heute))) {
+                assertEquals(ergebnisWoche.get(key), 0.0);
+            }
+        }
 
         // Monat
         // Verbrauch in Monatsstatistik pruefen
         LinkedHashMap ergebnisMonat = f.getMonatTreibstoffStatistik(0);
 
-        ergebnisMonat.forEach((k, v) -> {
-            System.out.println("Key: " + k + ", Value: " + v);
-        });
 
         // Jahr
         // Verbrauch in Jahresstatistik pruefen
         LinkedHashMap ergebnisJahr = f.getJahrTreibstoffStatistik(0);
-
-        ergebnisJahr.forEach((k, v) -> {
-            System.out.println("Key: " + k + ", Value: " + v);
-        });
-
-/*
-        // Woche
-        // Verbrauch in Wochenstatistik pruefen
-        double[] ergebnisWoche = f.getWocheTreibstoffStatistik(0);
-        assertEquals(ergebnisWoche[0], verbrauch, 0);
-        for (int i = 1; i < ergebnisWoche.length; i++) {
-            assertEquals(ergebnisWoche[i], 0, 0);
-        }
-
-        // Monat
-        // Verbrauch in Monatsstatistik pruefen
-        double[] ergebnisMonat = f.getMonatTreibstoffStatistik(0);
-        assertEquals(ergebnisMonat[0], verbrauch, 0);
-        for (int i = 1; i < ergebnisMonat.length; i++) {
-            assertEquals(ergebnisMonat[i], 0, 0);
-        }
-
-        // Jahr
-        double[] ergebnisJahr = f.getJahrTreibstoffStatistik(0);
-        assertEquals(ergebnisJahr[0], verbrauch, 0);
-        for (int i = 1; i < ergebnisJahr.length; i++) {
-            assertEquals(ergebnisJahr[i], 0, 0);
-        }*/
     }
 
     /**
@@ -140,28 +118,25 @@ public class FahrzeugStatistikTest {
         }
 
         // Woche
-        // CO2 in Wochenstatistik pruefen
-        double[] ergebnisWoche = f.getWocheCO2Statistik(0);
-        assertEquals(ergebnisWoche[0], ausstoss, 0);
-        for (int i = 1; i < ergebnisWoche.length; i++) {
-            assertEquals(ergebnisWoche[i], 0, 0);
+        // Verbrauch in Wochenstatistik pruefen
+        LinkedHashMap ergebnisWoche = f.getWocheCO2Statistik(0);
+
+        assertEquals(ergebnisWoche.get(formatter.format(heute)), ausstoss);
+        Set<String> keys = ergebnisWoche.keySet();
+        for (String key : keys) {
+            if (!key.equals(formatter.format(heute))) {
+                assertEquals(ergebnisWoche.get(key), 0.0);
+            }
         }
 
         // Monat
-        // CO2 in Monatsstatistik pruefen
-        double[] ergebnisMonat = f.getMonatCO2Statistik(0);
-        assertEquals(ergebnisMonat[0], ausstoss, 0);
-        for (int i = 1; i < ergebnisMonat.length; i++) {
-            assertEquals(ergebnisMonat[i], 0, 0);
-        }
+        // Verbrauch in Monatsstatistik pruefen
+        LinkedHashMap ergebnisMonat = f.getMonatCO2Statistik(0);
+
 
         // Jahr
-        // CO2 in Jahresstatistik pruefen
-        double[] ergebnisJahr = f.getJahrCO2Statistik(0);
-        assertEquals(ergebnisJahr[0], ausstoss, 0);
-        for (int i = 1; i < ergebnisJahr.length; i++) {
-            assertEquals(ergebnisJahr[i], 0, 0);
-        }
+        // Verbrauch in Jahresstatistik pruefen
+        LinkedHashMap ergebnisJahr = f.getJahrCO2Statistik(0);
     }
 
     /**
@@ -188,26 +163,25 @@ public class FahrzeugStatistikTest {
         }
 
         // Woche
-        // Tankkosten in Wochenstatistik pruefen
-        double[] ergebnisWoche = f.getWocheTankkostenStatistik(0);
-        assertEquals(ergebnisWoche[0], kosten, 0);
-        for (int i = 1; i < ergebnisWoche.length; i++) {
-            assertEquals(ergebnisWoche[i], 0, 0);
+        // Verbrauch in Wochenstatistik pruefen
+        LinkedHashMap ergebnisWoche = f.getWocheTankkostenStatistik(0);
+
+        assertEquals(ergebnisWoche.get(formatter.format(heute)), kosten);
+        Set<String> keys = ergebnisWoche.keySet();
+        for (String key : keys) {
+            if (!key.equals(formatter.format(heute))) {
+                assertEquals(ergebnisWoche.get(key), 0.0);
+            }
         }
 
         // Monat
-        // Tankkosten in Monatsstatistik pruefen
-        double[] ergebnisMonat = f.getMonatTankkostenStatistik(0);
-        assertEquals(ergebnisMonat[0], kosten, 0);
-        for (int i = 1; i < ergebnisMonat.length; i++) {
-            assertEquals(ergebnisMonat[i], 0, 0);
-        }
+        // Verbrauch in Monatsstatistik pruefen
+        LinkedHashMap ergebnisMonat = f.getMonatTankkostenStatistik(0);
+
 
         // Jahr
-        double[] ergebnisJahr = f.getJahrTankkostenStatistik(0);
-        assertEquals(ergebnisJahr[0], kosten, 0);
-        for (int i = 1; i < ergebnisJahr.length; i++) {
-            assertEquals(ergebnisJahr[i], 0, 0);
-        }
+        // Verbrauch in Jahresstatistik pruefen
+        LinkedHashMap ergebnisJahr = f.getJahrTankkostenStatistik(0);
+
     }
 }
