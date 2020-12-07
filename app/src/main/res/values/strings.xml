@@ -3,7 +3,7 @@
     <string name="title_dashboard">Übersicht</string>
     <string name="title_timeline">Chronik</string>
     <string name="title_stats">Statistik</string>
-    <string name="title_forecast">Kalkulation</string>
+    <string name="title_forecast">Prognose</string>
     <string name="navigation_drawer_open">Öffne Menü</string>
     <string name="navigation_drawer_close">Schließe Menü</string>
     <string name="nav_header_title">Name aktuelles Auto</string>
