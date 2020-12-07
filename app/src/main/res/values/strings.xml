@@ -29,6 +29,7 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="abbrechen">Abbrechen</string>
     <string name="anzeigename">Name</string>
+    <!-- bei Wortgruppen dürfen auch Leerzeichen gesetzt werden (nach DIN 5008) -->
     <string name="verbrauch_innerorts_l_100km">Verbrauch innerorts (l / 100 km)</string>
     <string name="verbrauch_au_erorts_l_100km">Verbrauch außerorts (l / 100 km)</string>
     <string name="verbrauch_kombiniert_l_100km">Verbrauch kombiniert (l / 100 km)</string>
@@ -40,7 +41,8 @@
     <string name="tankstand_kwh">Restladung (%)</string>
     <string name="tankvolumen_l">Tankvolumen (l)</string>
     <string name="tankvolumen_kwh">Akkukapazität (kWh)</string>
-    <string name="co2_ausstoss_g_km">CO2-Ausstoß (g / km)</string>
+    <!-- Schreibweise von Einheiten ohne Leerzeichen (nach DIN 5008) -->
+    <string name="co2_ausstoss_g_km">CO2-Ausstoß (g/km)</string>
     <string name="dark_mode">Nachtmodus</string>
     <string name="done">Fertig</string>
     <string name="zero_number">0</string>
@@ -74,6 +76,7 @@
     <string name="geschaetzte_werte">Geschätzte Werte</string>
     <string name="streckenlaenge_km">Streckenlänge (km)</string>
     <string name="kraftstoffverbrauch_l">Kraftstoffverbrauch (l)</string>
+    <string name="kraftstoffverbrauch_kwh">Energieverbrauch (kWh)</string>
     <string name="kraftstoffkosten_euro">Kraftstoffkosten (€)</string>
     <string name="anzahl_noetiger_tankvorgaenge">Anzahl nötiger Tankvorgänge</string>
     <string name="co2_ausstoss_kg">CO2-Ausstoß (kg)</string>
