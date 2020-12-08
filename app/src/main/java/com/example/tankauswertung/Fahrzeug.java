@@ -492,7 +492,6 @@ public class Fahrzeug implements Serializable {
         double distanz = pKmStand - this.getKmStand();
         double verbrauchteLiter = (this.getTankstand() - pTankstand) / 100 * this.getTankgroesse();
         double neuerTankstandInLitern = pTankstand / 100 * this.getTankgroesse();
-        verbrauchAktualisieren();
         try {
             this.setKmStand(pKmStand);
         } catch (FahrzeugWertException e) {
@@ -507,6 +506,7 @@ public class Fahrzeug implements Serializable {
         //CO2-Ausstoss der Strecke berechnen:
         double co2AusstossDerStrecke = distanz * this.getCo2Ausstoss();
         strecken.add(0, new Strecke(distanz, pStreckentyp, neuerTankstandInLitern, co2AusstossDerStrecke, verbrauchteLiter));
+        verbrauchAktualisieren();
     }
 
     /**
