@@ -10,7 +10,7 @@ public class Settings implements Serializable {
     /**
      * Variable, welche die Darkmodeeinstellung speichert
      */
-    darkMode darkModeSafe;
+    private darkMode darkModeSafe;
 
     /**
      * Konstruktor der Klasse, setzt Standardmaessig die Darkmodesettings auf SYSTEM
