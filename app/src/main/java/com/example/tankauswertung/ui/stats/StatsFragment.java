@@ -176,6 +176,7 @@ public class StatsFragment extends Fragment {
         zeitraumende = daten[daten.length - 1];
         x_beschriftung = daten;
         Date dateZeitraumende = null; //letztes uebergebene Datum
+        Date dateZeitraumbeginn = null;//erstes uebergebene Datum
 
         /*letztes einbezogene Datum des Zeitraums z.B 1 Woche nach dem letzten Datum bei Zeitraum Monat,
         da ja das Anfangsdatum des Zeitraums uebergeben wird*/
@@ -184,6 +185,8 @@ public class StatsFragment extends Fragment {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yy");
         try {
             dateZeitraumende = formatter.parse(zeitraumende);
+            dateZeitraumbeginn = formatter.parse(zeitraumbeginn);
+
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -192,16 +195,17 @@ public class StatsFragment extends Fragment {
         int sechstage_ms = 518400000;
         long dreiwochen_ms = Math.multiplyExact((long) 86400000, 7 * 3);
 
+
         switch (zeitraum) {
             case 0: //woche
                 formatter = new SimpleDateFormat("dd.MM.yy");
                 break;
             case 1://monat
-                formatter = new SimpleDateFormat("dd.MM.yy");
+                SimpleDateFormat formattermonat = new SimpleDateFormat("dd.MM.yyyy");
                 dateZeitraumende.setTime(dateZeitraumende.getTime() + sechstage_ms);
                 dateEndeZeitraumende = dateZeitraumende;
-                zeitraumende = formatter.format(dateEndeZeitraumende);
-
+                zeitraumende = formattermonat.format(dateEndeZeitraumende);
+                zeitraumbeginn = formattermonat.format(dateZeitraumbeginn);
                 break;
             case 2://jahr
                 formatter = new SimpleDateFormat("MM.yy");
@@ -209,8 +213,9 @@ public class StatsFragment extends Fragment {
                 dateZeitraumende.setTime(dateZeitraumende.getTime() + dreiwochen_ms + sechstage_ms); //ein Tag weniger da letzter und erster Tag inklusiv ist
                 dateEndeZeitraumende = dateZeitraumende;
 
-                SimpleDateFormat formatterZeitraumende = new SimpleDateFormat("dd.MM.yy");
+                SimpleDateFormat formatterZeitraumende = new SimpleDateFormat("dd.MM.yyyy");
                 zeitraumende = formatterZeitraumende.format(dateEndeZeitraumende);
+                zeitraumbeginn = formatterZeitraumende.format(dateZeitraumbeginn);
                 break;
 
         }
