@@ -1,15 +1,21 @@
 package com.example.tankauswertung;
 
 import android.os.Bundle;
-import android.widget.CompoundButton;
-import android.widget.Switch;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    // Auswahlmoeglichkeiten im Menue
+    private static final String[] items = {"Deaktivieren", "Aktivieren", "Systemeinstellung verwenden"};
+    // Speicher der aktuell ausgewaehlten Option
+    int selectedItem = 0;
 
     /**
      * ausgeführt, sobald die Aktivität gestartet wird
@@ -27,38 +33,37 @@ public class SettingsActivity extends AppCompatActivity {
         // zeigt den Zurück-Button an
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final Switch switchDarkMode = findViewById(R.id.switchDarkMode);
 
-        switchDarkMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // do something, the isChecked will be
-                // true if the switch is in the On position
-                if (isChecked) {
-                    MainActivity.steuereNachtDesign(1);
-                } else {
-                    MainActivity.steuereNachtDesign(2);
-                }
-            }
-        });
+        Spinner spinner = findViewById(R.id.spinnerDarkMode);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(SettingsActivity.this,
+                android.R.layout.simple_spinner_item, items);
 
-//        --- dunno wofür das ist, deswegen auskommentiert
-//        SettingsViewModel settingsViewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
-//        settingsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//            }
-//        });
-
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(selectedItem, true);
+        spinner.setOnItemSelectedListener(this);
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+        MainActivity.steuereNachtDesign(position);
+        selectedItem = position;
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        // wird nicht benoetigt, muss aber ueberschrieben werden
+    }
+
+
     /**
-     * lässt den Zurück-Button funktionieren
-     * @return -
+     * Aktion fuer Zurueck-Button
      */
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
+
 }
+
