@@ -432,37 +432,51 @@ public class Fahrzeug implements Serializable {
     }
 
     /**
-     * Aktualisiert den tatsächlichen Verbrauch des Autos nach dem eintragen eier Strecke
-     *
-     * @param verbrauchteLiter double, Auf der Strecke verbrauchte Liter
-     * @param streckendistanz  double, Distanz der Strecke
-     * @param pStreckentyp     enum Strecke.Streckentyp, Typ der Strecke
+     * Aktualisiert den tatsächlichen Verbrauch des Autos, indem alle Strecken analysiert werden.
      */
-    public void verbrauchAktualisieren(double verbrauchteLiter, double streckendistanz, Strecke.Streckentyp pStreckentyp) {
-        //Berechnung:
-        double verbrauchDerStrecke = verbrauchteLiter / streckendistanz * 100;
-        switch (pStreckentyp) {
-            case INNERORTS:
-                try {
-                    setVerbrauchInnerorts(((strecken.size() + 1) * getVerbrauchInnerorts() + verbrauchDerStrecke) / (strecken.size() + 2));
-                } catch (FahrzeugWertException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case AUSSERORTS:
-                try {
-                    setVerbrauchAusserorts(((strecken.size() + 1) * getVerbrauchAusserorts() + verbrauchDerStrecke) / (strecken.size() + 2));
-                } catch (FahrzeugWertException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case KOMBINIERT:
-                try {
-                    setVerbrauchKombiniert(((strecken.size() + 1) * getVerbrauchKombiniert() + verbrauchDerStrecke) / (strecken.size() + 2));
-                } catch (FahrzeugWertException e) {
-                    e.printStackTrace();
-                }
-                break;
+    public void verbrauchAktualisieren() {
+        double verbrauchsWertInnerorts = 0.0;
+        int anzahlStreckenInnerorts = 0;
+        double verbrauchsWertAusserorts = 0.0;
+        int anzahlStreckenAusserorts = 0;
+        double verbrauchsWertKombiniert = 0.0;
+        int anzahlStreckenKombiniert = 0;
+        for (int i = 0; i < this.strecken.size(); i++) {
+            switch (strecken.get(i).getStreckentyp()) {
+                case INNERORTS:
+                    verbrauchsWertInnerorts += (strecken.get(i).getVerbrauchterTreibstoff() / strecken.get(i).getDistanz() * 100);
+                    anzahlStreckenInnerorts++;
+                    break;
+                case AUSSERORTS:
+                    verbrauchsWertAusserorts += (strecken.get(i).getVerbrauchterTreibstoff() / strecken.get(i).getDistanz() * 100);
+                    anzahlStreckenAusserorts++;
+                    break;
+                case KOMBINIERT:
+                    verbrauchsWertKombiniert += (strecken.get(i).getVerbrauchterTreibstoff() / strecken.get(i).getDistanz() * 100);
+                    anzahlStreckenKombiniert++;
+                    break;
+            }
+
+            verbrauchsWertInnerorts = verbrauchsWertInnerorts / anzahlStreckenInnerorts;
+            try {
+                this.setVerbrauchInnerorts(verbrauchsWertInnerorts);
+            } catch (FahrzeugWertException e) {
+                e.printStackTrace();
+            }
+
+            verbrauchsWertAusserorts = verbrauchsWertAusserorts / anzahlStreckenAusserorts;
+            try {
+                this.setVerbrauchAusserorts(verbrauchsWertAusserorts);
+            } catch (FahrzeugWertException e) {
+                e.printStackTrace();
+            }
+
+            verbrauchsWertKombiniert = verbrauchsWertKombiniert / anzahlStreckenKombiniert;
+            try {
+                this.setVerbrauchKombiniert(verbrauchsWertKombiniert);
+            } catch (FahrzeugWertException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -478,7 +492,7 @@ public class Fahrzeug implements Serializable {
         double distanz = pKmStand - this.getKmStand();
         double verbrauchteLiter = (this.getTankstand() - pTankstand) / 100 * this.getTankgroesse();
         double neuerTankstandInLitern = pTankstand / 100 * this.getTankgroesse();
-        verbrauchAktualisieren(verbrauchteLiter, distanz, pStreckentyp);
+        verbrauchAktualisieren();
         try {
             this.setKmStand(pKmStand);
         } catch (FahrzeugWertException e) {
@@ -495,7 +509,6 @@ public class Fahrzeug implements Serializable {
         strecken.add(0, new Strecke(distanz, pStreckentyp, neuerTankstandInLitern, co2AusstossDerStrecke, verbrauchteLiter));
     }
 
-
     /**
      * Methode zum Hinzufuegen eines Tankvorgangs in die "tankvorgaenge"-ArrayList am Index 0 (Anfang der Liste)
      *
@@ -504,7 +517,8 @@ public class Fahrzeug implements Serializable {
      * @param pImg           String, Pfad zum Foto
      * @throws FahrzeugWertException via setTankstand, wenn der neue Tankstand groesser als die Tankgroesse ist
      */
-    public void tankvorgangHinzufuegen(double pGetankteMenge, double pPreis, String pImg) throws FahrzeugWertException {
+    public void tankvorgangHinzufuegen(double pGetankteMenge, double pPreis, String pImg) throws
+            FahrzeugWertException {
         tankvorgaenge.add(0, new Tankvorgang(pGetankteMenge, pPreis, pImg));
         this.setTankstand(this.getTankstand() + (pGetankteMenge * 100 / this.getTankgroesse()));
     }
@@ -823,16 +837,17 @@ public class Fahrzeug implements Serializable {
 
     /**
      * Methode zum Anfragen der Streckenprognose für das aktuelle Fahrzeug
+     *
      * @return in der Reihenfolge: Kraftstoffverbrauch, Kraftstoffkosten, Anzahl der nötigen Tankvorgänge, CO2-Ausstoß
      */
     public HashMap<String, Double> getStreckenprognose(double streckenlaenge,
-            double prozentInnerorts, double prozentAusserorts, double prozentKombiniert) {
+                                                       double prozentInnerorts, double prozentAusserorts, double prozentKombiniert) {
 
         // Kraftstoffverbrauch
         double kraftstoffverbrauch = (
-                prozentInnerorts  / 100 * getVerbrauchInnerorts() +
-                prozentAusserorts / 100 * getVerbrauchAusserorts() +
-                prozentKombiniert / 100 * getVerbrauchKombiniert()
+                prozentInnerorts / 100 * getVerbrauchInnerorts() +
+                        prozentAusserorts / 100 * getVerbrauchAusserorts() +
+                        prozentKombiniert / 100 * getVerbrauchKombiniert()
         ) / 100 * streckenlaenge;
 
         // Kraftstoffkosten
