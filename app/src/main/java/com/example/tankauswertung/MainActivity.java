@@ -21,8 +21,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.tankauswertung.exceptions.GarageNullPointerException;
 import com.example.tankauswertung.exceptions.GarageLeerException;
+import com.example.tankauswertung.exceptions.GarageNullPointerException;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -84,8 +84,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationUI.setupWithNavController(botNavView, navController);
 
         // lade Garage
-        garage = new Garage();
-        garage.load(getApplicationContext());
+        //Da getGarage() static ist, darf kein neues Garage-Objekt erstellt werden, wenn schon eines erstellt wurde
+        if (garage == null) {
+            garage = new Garage();
+            garage.load(getApplicationContext());
+        }
+
     }
 
     /**

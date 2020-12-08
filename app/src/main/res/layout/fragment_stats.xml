@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_weight="1"
+        app:layout_constraintBottom_toTopOf="@id/textViewTitel"
         app:layout_constraintEnd_toStartOf="@+id/imageButtonTreibstoff"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_weight="1"
+        app:layout_constraintBottom_toTopOf="@+id/textViewTitel"
         app:layout_constraintEnd_toStartOf="@+id/imageButtonTankkosten"
         app:layout_constraintStart_toEndOf="@+id/imageButtonStrecken"
         app:layout_constraintTop_toTopOf="parent"
@@ -34,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_weight="1"
+        app:layout_constraintBottom_toTopOf="@+id/textViewTitel"
         app:layout_constraintEnd_toStartOf="@+id/imageButtonCO2"
         app:layout_constraintStart_toEndOf="@+id/imageButtonTreibstoff"
         app:layout_constraintTop_toTopOf="parent"
@@ -45,6 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_weight="1"
+        app:layout_constraintBottom_toTopOf="@id/textViewTitel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageButtonTankkosten"
         app:layout_constraintTop_toTopOf="parent"
@@ -52,9 +56,8 @@
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/fragment_verticalbarchart_chart"
-        android:layout_width="400dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="70dp"
         app:layout_constraintBottom_toTopOf="@id/buttonWoche"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,21 +71,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/frueher"
-        app:layout_constraintBottom_toBottomOf="@id/buttonWoche"
+        app:layout_constraintBottom_toTopOf="@id/buttonWoche"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_verticalbarchart_chart"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment_verticalbarchart_chart" />
 
     <Button
         android:id="@+id/buttonSpaeter"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:text="@string/spaeter"
-        app:layout_constraintBottom_toBottomOf="@id/buttonWoche"
+        app:layout_constraintBottom_toTopOf="@id/buttonJahr"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_verticalbarchart_chart"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment_verticalbarchart_chart" />
 
     <Button
         android:id="@+id/buttonWoche"
@@ -134,8 +134,6 @@
         android:id="@+id/textViewTitel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
         android:text="Treibstoffverbrauch"
         android:textSize="24sp"
         android:textStyle="bold"
