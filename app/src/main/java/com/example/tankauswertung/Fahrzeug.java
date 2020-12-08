@@ -31,14 +31,28 @@ public class Fahrzeug implements Serializable {
     private double verbrauchInnerorts;
 
     /**
+     * Speichert den bei Initialisierung eingegebenen Verbrauchswert
+     */
+    private double verbrauchInnerortsAnfangswert;
+    /**
      * Angabe zum Verbrauch ausserorts
      */
     private double verbrauchAusserorts;
 
     /**
+     * Speichert den bei Initialisierung eingegebenen Verbrauchswert
+     */
+    private double verbrauchAusserortsAnfangswert;
+
+    /**
      * Angabe zum Verbrauch kombiniert
      */
     private double verbrauchKombiniert;
+
+    /**
+     * Speichert den bei Initialisierung eingegebenen Verbrauchswert
+     */
+    private double verbrauchKombiniertAnfangswert;
 
     /**
      * Aktueller Kilometerstand
@@ -92,6 +106,9 @@ public class Fahrzeug implements Serializable {
         }
         this.strecken = new ArrayList<>();
         this.tankvorgaenge = new ArrayList<>();
+        this.setVerbrauchAusserortsAnfangswert(pVerbrauchAusserorts);
+        this.setVerbrauchInnerortsAnfangswert(pVerbrauchInnerorts);
+        this.setVerbrauchKombiniertAnfangswert(pVerbrauchKombiniert);
     }
 
     /**
@@ -101,6 +118,60 @@ public class Fahrzeug implements Serializable {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Setter fuer Verbrauch Ausserorts Anfangswert
+     *
+     * @param verbrauchAusserortsAnfangswert double-Wert, der gesetzt werden soll
+     */
+    public void setVerbrauchAusserortsAnfangswert(double verbrauchAusserortsAnfangswert) {
+        this.verbrauchAusserortsAnfangswert = verbrauchAusserortsAnfangswert;
+    }
+
+    /**
+     * Setter fuer Verbrauch Innerorts Anfangswert
+     *
+     * @param verbrauchInnerortsAnfangswert double-Wert, der gesetzt werden soll
+     */
+    public void setVerbrauchInnerortsAnfangswert(double verbrauchInnerortsAnfangswert) {
+        this.verbrauchInnerortsAnfangswert = verbrauchInnerortsAnfangswert;
+    }
+
+    /**
+     * Setter fuer Verbrauch Kombiniert Anfangswert
+     *
+     * @param verbrauchKombiniertAnfangswert double-Wert, der gesetzt werden soll
+     */
+    public void setVerbrauchKombiniertAnfangswert(double verbrauchKombiniertAnfangswert) {
+        this.verbrauchKombiniertAnfangswert = verbrauchKombiniertAnfangswert;
+    }
+
+    /**
+     * Getter fuer den Anfangsverbrauchswert
+     *
+     * @return Gibt den Anfangsverbraucswert zurueck
+     */
+    public double getVerbrauchAusserortsAnfangswert() {
+        return verbrauchAusserortsAnfangswert;
+    }
+
+    /**
+     * Getter fuer den Anfangsverbrauchswert
+     *
+     * @return Gibt den Anfangsverbraucswert zurueck
+     */
+    public double getVerbrauchInnerortsAnfangswert() {
+        return verbrauchInnerortsAnfangswert;
+    }
+
+    /**
+     * Getter fuer den Anfangsverbrauchswert
+     *
+     * @return Gibt den Anfangsverbraucswert zurueck
+     */
+    public double getVerbrauchKombiniertAnfangswert() {
+        return verbrauchKombiniertAnfangswert;
     }
 
     /**
@@ -435,12 +506,12 @@ public class Fahrzeug implements Serializable {
      * Aktualisiert den tatsächlichen Verbrauch des Autos, indem alle Strecken analysiert werden.
      */
     public void verbrauchAktualisieren() {
-        double verbrauchsWertInnerorts = 0.0;
-        int anzahlStreckenInnerorts = 0;
-        double verbrauchsWertAusserorts = 0.0;
-        int anzahlStreckenAusserorts = 0;
-        double verbrauchsWertKombiniert = 0.0;
-        int anzahlStreckenKombiniert = 0;
+        double verbrauchsWertInnerorts = this.getVerbrauchInnerortsAnfangswert();
+        int anzahlStreckenInnerorts = 1;
+        double verbrauchsWertAusserorts = this.getVerbrauchAusserortsAnfangswert();
+        int anzahlStreckenAusserorts = 1;
+        double verbrauchsWertKombiniert = this.getVerbrauchKombiniertAnfangswert();
+        int anzahlStreckenKombiniert = 1;
         for (int i = 0; i < this.strecken.size(); i++) {
             switch (strecken.get(i).getStreckentyp()) {
                 case INNERORTS:
