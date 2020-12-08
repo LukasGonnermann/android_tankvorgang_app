@@ -254,10 +254,7 @@ public class NewStreckeActivity extends AppCompatActivity {
                 );
 
                 neuesteStrecke.setVerbrauchterTreibstoff(alterTankstand - aktuellerTankstand);
-                aktuellesFahrzeug.verbrauchAktualisieren(
-                        alterTankstand - aktuellerTankstand, distanz, streckentyp
-                );
-
+                aktuellesFahrzeug.verbrauchAktualisieren();
             }
         }
 
