@@ -82,4 +82,7 @@
     <string name="co2_ausstoss_kg">CO2-Ausstoß (kg)</string>
     <string name="idle">—</string>
     <string name="hundred_number">100</string>
+    <string name="jahr">Jahr</string>
+    <string name="monat">Monat</string>
+    <string name="woche">Woche</string>
 </resources>
