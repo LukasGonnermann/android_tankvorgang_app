@@ -26,6 +26,8 @@
                 android:text="@string/dark_mode"
             />
 
+
+
         </LinearLayout>
 
     </ScrollView>

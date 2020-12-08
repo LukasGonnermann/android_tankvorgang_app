@@ -40,7 +40,7 @@
     <string name="tankstand_kwh">Restladung (%)</string>
     <string name="tankvolumen_l">Tankvolumen (l)</string>
     <string name="tankvolumen_kwh">Akkukapazität (kWh)</string>
-    <string name="co2_ausstoss_g_km">CO2-Ausstoß (g / km)</string>
+    <string name="co2_ausstoss_g_km">CO2-Ausstoß (g/km)</string>
     <string name="dark_mode">Nachtmodus</string>
     <string name="done">Fertig</string>
     <string name="zero_number">0</string>

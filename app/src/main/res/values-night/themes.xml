@@ -1,16 +1,24 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Base application theme. -->
     <style name="Theme.Tankauswertung" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#FF9800</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">@color/purple</item>  <!-- Überschrift/Titel -->
+        <item name="colorPrimaryVariant">@color/white</item> <!-- kopfleiste -->
+        <item name="colorOnPrimary">@color/white</item>  <!-- schrift der statistik-->
+
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">@color/purple_light</item>  <!-- KREISE VON SLEEKBAR-->
+        <item name="colorSecondaryVariant">@color/white</item>  <!-- HOCHSWIPE DING -->
+        <item name="colorOnSecondary">@color/white</item> <!-- das + im hinzufügen knopf -->
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
         <!-- Customize your theme here. -->
+        <item name="cardBackgroundColor" >@color/grey</item>
+
     </style>
+
 </resources>

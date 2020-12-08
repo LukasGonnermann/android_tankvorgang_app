@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.dashboard.DashboardFragment">
 
     <ScrollView
@@ -13,7 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
             android:layout_marginRight="30dp"
             android:orientation="vertical">
 
@@ -22,8 +22,8 @@
                 android:id="@+id/TextViewName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColor="@color/black"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:layout_marginTop="15dp"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -39,8 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:enabled="false"
-                    android:text="@string/elektrofahrzeug"
-                    android:textColor="@color/black" />
+                    android:text="@string/elektrofahrzeug"/>
 
             </LinearLayout>
 
@@ -50,9 +49,10 @@
                 android:id="@+id/labelVerbrauchInnerortsTitel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="@string/verbrauch_innerorts_l_100km"
-                android:textColor="@color/black" />
+                android:layout_marginTop="20dp"
+                android:textSize="18dp"
+                android:text="@string/verbrauch_innerorts_l_100km"/>
+
 
             <TextView
                 android:id="@+id/TextViewVerbrauchInnerortsStand"
@@ -60,7 +60,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:gravity="center"
-                android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <!-- Verbrauch außerorts -->
@@ -69,9 +68,9 @@
                 android:id="@+id/labelVerbrauchAusserortsTitel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="@string/verbrauch_au_erorts_l_100km"
-                android:textColor="@color/black" />
+                android:layout_marginTop="20dp"
+                android:textSize="18dp"
+                android:text="@string/verbrauch_au_erorts_l_100km" />
 
             <TextView
                 android:id="@+id/TextViewVerbrauchAusserortsStand"
@@ -79,7 +78,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:gravity="center"
-                android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <!-- Verbrauch kombiniert -->
@@ -88,9 +86,9 @@
                 android:id="@+id/labelVerbrauchKombiniertTitel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="@string/verbrauch_kombiniert_l_100km"
-                android:textColor="@color/black" />
+                android:layout_marginTop="20dp"
+                android:textSize="18dp"
+                android:text="@string/verbrauch_kombiniert_l_100km"/>
 
             <TextView
                 android:id="@+id/TextViewVerbrauchKombiniertStand"
@@ -98,18 +96,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:gravity="center"
-                android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <!-- CO2-Ausstoß -->
-
             <TextView
                 android:id="@+id/labelCo2Ausstoss"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="@string/co2_ausstoss_g_km"
-                android:textColor="@color/black" />
+                android:layout_marginTop="20dp"
+                android:textSize="18dp"
+                android:text="@string/co2_ausstoss_g_km"/>
 
             <TextView
                 android:id="@+id/TextViewCo2"
@@ -117,7 +113,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:gravity="center"
-                android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <!-- Kilometerstand -->
@@ -126,16 +121,15 @@
                 android:id="@+id/labelKilometerstand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="@string/kilometerstand_km"
-                android:textColor="@color/black" />
+                android:layout_marginTop="20dp"
+                android:textSize="18dp"
+                android:text="@string/kilometerstand_km"/>
 
             <TextView
                 android:id="@+id/TextViewKilometerstand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <!-- Tankvolumen -->
@@ -144,35 +138,35 @@
                 android:id="@+id/labelTankvolumen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/tankvolumen_l"
-                android:textColor="@color/black" />
+                android:layout_marginTop="20dp"
+                android:textSize="18dp"
+                android:text="@string/tankvolumen_l" />
 
             <TextView
                 android:id="@+id/TextViewTankvolumen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <!-- Aktueller Tankstand -->
 
-            <TextView
-                android:id="@+id/labelAktuellerTankstandTitel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="@string/tankstand_l"
-                android:textColor="@color/black" />
+                    <TextView
+                        android:id="@+id/labelAktuellerTankstandTitel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/tankstand_l"
+                        android:textSize="18dp" />
 
-            <TextView
-                android:id="@+id/TextViewAktuellerTankstandStand"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/TextViewAktuellerTankstandStand"
+                        android:layout_width="325dp"
+                        android:layout_height="42dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginBottom="15dp"
+                        android:textSize="18dp" />
 
         </LinearLayout>
 
