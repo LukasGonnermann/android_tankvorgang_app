@@ -346,12 +346,12 @@ public class StatsFragment extends Fragment {
 
         Set<String> setKeys = statistikdaten.keySet();
 
-        String[] zeitdaten = setKeys.toArray(new String[setKeys.size()]);
+        String[] zeitdaten = setKeys.toArray(new String[0]);
         daten = zeitdaten;
 
         Collection<Double> dvalues = statistikdaten.values();
 
-        Double[] arrayValues = dvalues.toArray(new Double[dvalues.size()]);
+        Double[] arrayValues = dvalues.toArray(new Double[0]);
         dstatistikdaten = Stream.of(arrayValues).mapToDouble(Double::doubleValue).toArray();
 
 
@@ -378,7 +378,7 @@ public class StatsFragment extends Fragment {
     /**
      * Fuegt die uebergebenen Daten dem Diagramm hinzu und zeichnet es
      *
-     * @param data
+     * @param data Erstellte Diagrammdaten
      */
     private void bereiteDiagrammdaten(BarData data) {
         data.setValueTextSize(12f);
@@ -389,7 +389,7 @@ public class StatsFragment extends Fragment {
     /**
      * Setzt den ausgewaehlten Zeitraum (Woche, Monat, Jahr)
      *
-     * @param pzeitraum
+     * @param pzeitraum Zeitraum, der ausgewaehlt und angezeigt werde soll
      */
     public void setZeitraum(int pzeitraum) {
         zeitraum = pzeitraum;
@@ -398,7 +398,7 @@ public class StatsFragment extends Fragment {
     /**
      * Setzt die ausgewaehlte Verschiebung -1 ist eine Einheit (Woche, Monat, Jahr) frueher, +1 eine spaeter
      *
-     * @param pverschiebung
+     * @param pverschiebung zeitliche Verschiebung von der aktuellen Ansicht um eine Einheit
      */
     public void setVerschiebung(int pverschiebung) {
         verschiebung += pverschiebung;
@@ -407,7 +407,7 @@ public class StatsFragment extends Fragment {
     /**
      * Setzt die ausgewaehlte Statistikart (Strecken=0 Treibstoff=1 Tankkosten=2 CO2=3)
      *
-     * @param pstatistikart
+     * @param pstatistikart Art der Statistik
      */
     public void setStatistikart(int pstatistikart) {
         statistikart = pstatistikart;

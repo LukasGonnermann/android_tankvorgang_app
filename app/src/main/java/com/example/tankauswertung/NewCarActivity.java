@@ -364,10 +364,10 @@ public class NewCarActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                if (aendern) {
-                } else {
-                    aendern = true;
-                } // damit editTexts sich wieder der seekBar anpassen
+                if (!aendern) {
+                    aendern = true; // damit editTexts sich wieder der seekBar anpassen
+                }
+
 
                 updateKorrekteEingabe();
 
