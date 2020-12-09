@@ -239,7 +239,7 @@ public class ForecastFragment extends Fragment {
             labelAnzahlNoetigerTankvorgaengeWert.setText(String.valueOf(anzahlNoetigerTankvorgaenge));
             labelCo2AusstossWert.setText(String.valueOf(co2Ausstoss));
 
-            if (kraftstoffkosten != -1) {
+            if (kraftstoffkosten == -1) {
                 labelKraftstoffkostenWert.setText(R.string.idle);
             } else {
                 labelKraftstoffkostenWert.setText(String.valueOf(kraftstoffkosten));

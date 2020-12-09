@@ -85,4 +85,5 @@
     <string name="jahr">Jahr</string>
     <string name="monat">Monat</string>
     <string name="woche">Woche</string>
+    <string name="ten_number">10</string>
 </resources>
