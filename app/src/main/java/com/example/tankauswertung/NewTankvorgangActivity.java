@@ -121,8 +121,8 @@ public class NewTankvorgangActivity extends AppCompatActivity {
                 } else if (Double.parseDouble(getankteMengeText.toString()) > altesRestvolumen) {
 
                     editTextGetankteMenge.setError(
-                            "Bitte geben Sie Tankmenge an, die kleiner als das restliche Volumen " +
-                                    "Ihres Tanks (" +
+                            "Bitte geben Sie eine Tankmenge an, die kleiner als das restliche " +
+                                    "Volumen Ihres Tanks (" +
                                     altesRestvolumen +  " l) ist.");
                     korrekteEinzeleingaben.put("menge", false);
 

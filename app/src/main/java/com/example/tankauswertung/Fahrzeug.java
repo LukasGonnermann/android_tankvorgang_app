@@ -506,48 +506,77 @@ public class Fahrzeug implements Serializable {
      * Aktualisiert den tatsächlichen Verbrauch des Autos, indem alle Strecken analysiert werden.
      */
     public void verbrauchAktualisieren() {
-        double verbrauchsWertInnerorts = this.getVerbrauchInnerortsAnfangswert();
+
+        // da Anfangswert als eigene Strecke gewertet wird
         int anzahlStreckenInnerorts = 1;
-        double verbrauchsWertAusserorts = this.getVerbrauchAusserortsAnfangswert();
         int anzahlStreckenAusserorts = 1;
-        double verbrauchsWertKombiniert = this.getVerbrauchKombiniertAnfangswert();
         int anzahlStreckenKombiniert = 1;
+
+        double verbrauchterTreibstoffInnerorts = 0;
+        double verbrauchterTreibstoffAusserorts = 0;
+        double verbrauchterTreibstoffKombiniert = 0;
+        double distanzInnerorts = 0;
+        double distanzAusserorts = 0;
+        double distanzKombiniert = 0;
+
+        double verbrauchswertInnerorts, verbrauchswertAusserorts, verbrauchswertKombiniert;
+
         for (int i = 0; i < this.strecken.size(); i++) {
-            switch (strecken.get(i).getStreckentyp()) {
+
+            Strecke strecke = strecken.get(i);
+
+            switch (strecke.getStreckentyp()) {
                 case INNERORTS:
-                    verbrauchsWertInnerorts += (strecken.get(i).getVerbrauchterTreibstoff() / strecken.get(i).getDistanz() * 100);
+                    verbrauchterTreibstoffInnerorts += strecke.getVerbrauchterTreibstoff();
+                    distanzInnerorts += strecke.getDistanz();
                     anzahlStreckenInnerorts++;
                     break;
                 case AUSSERORTS:
-                    verbrauchsWertAusserorts += (strecken.get(i).getVerbrauchterTreibstoff() / strecken.get(i).getDistanz() * 100);
+                    verbrauchterTreibstoffAusserorts += strecke.getVerbrauchterTreibstoff();
+                    distanzAusserorts += strecke.getDistanz();
                     anzahlStreckenAusserorts++;
                     break;
                 case KOMBINIERT:
-                    verbrauchsWertKombiniert += (strecken.get(i).getVerbrauchterTreibstoff() / strecken.get(i).getDistanz() * 100);
+                    verbrauchterTreibstoffKombiniert += strecke.getVerbrauchterTreibstoff();
+                    distanzKombiniert += strecke.getDistanz();
                     anzahlStreckenKombiniert++;
                     break;
             }
+        }
 
-            verbrauchsWertInnerorts = verbrauchsWertInnerorts / anzahlStreckenInnerorts;
-            try {
-                this.setVerbrauchInnerorts(verbrauchsWertInnerorts);
-            } catch (FahrzeugWertException e) {
-                e.printStackTrace();
-            }
+        if (distanzInnerorts == 0) {
+            verbrauchswertInnerorts = getVerbrauchInnerortsAnfangswert();
+        } else {
+            double ungewichtet = verbrauchterTreibstoffInnerorts / distanzInnerorts * 100;
+            verbrauchswertInnerorts
+                    = getVerbrauchInnerortsAnfangswert() / anzahlStreckenInnerorts                  // Gewichtung mit 1/n
+                       + ungewichtet / anzahlStreckenInnerorts * (anzahlStreckenInnerorts - 1);     // Gewichtung mit (n-1)/n
+        }
 
-            verbrauchsWertAusserorts = verbrauchsWertAusserorts / anzahlStreckenAusserorts;
-            try {
-                this.setVerbrauchAusserorts(verbrauchsWertAusserorts);
-            } catch (FahrzeugWertException e) {
-                e.printStackTrace();
-            }
+        if (distanzAusserorts == 0) {
+            verbrauchswertAusserorts = getVerbrauchAusserortsAnfangswert();
+        } else {
+            double ungewichtet = verbrauchterTreibstoffAusserorts / distanzAusserorts * 100;
+            verbrauchswertAusserorts
+                    = getVerbrauchAusserortsAnfangswert() / anzahlStreckenAusserorts                // Gewichtung mit 1/n
+                    + ungewichtet / anzahlStreckenAusserorts * (anzahlStreckenAusserorts - 1);      // Gewichtung mit (n-1)/n
+        }
 
-            verbrauchsWertKombiniert = verbrauchsWertKombiniert / anzahlStreckenKombiniert;
-            try {
-                this.setVerbrauchKombiniert(verbrauchsWertKombiniert);
-            } catch (FahrzeugWertException e) {
-                e.printStackTrace();
-            }
+        if (distanzKombiniert == 0) {
+            verbrauchswertKombiniert = getVerbrauchKombiniertAnfangswert();
+        } else {
+            double ungewichtet = verbrauchterTreibstoffKombiniert / distanzKombiniert * 100;
+            verbrauchswertKombiniert
+                    = getVerbrauchKombiniertAnfangswert() / anzahlStreckenKombiniert                // Gewichtung mit 1/n
+                    + ungewichtet / anzahlStreckenKombiniert * (anzahlStreckenKombiniert - 1);      // Gewichtung mit (n-1)/n
+        }
+
+        try {
+            this.setVerbrauchInnerorts(verbrauchswertInnerorts);
+            this.setVerbrauchAusserorts(verbrauchswertAusserorts);
+            this.setVerbrauchKombiniert(verbrauchswertKombiniert);
+        } catch (FahrzeugWertException e) {
+            e.printStackTrace();
         }
     }
 
@@ -922,7 +951,12 @@ public class Fahrzeug implements Serializable {
         ) / 100 * streckenlaenge;
 
         // Kraftstoffkosten
-        double kraftstoffkosten = kraftstoffverbrauch * getDurchschnittlicheTankkostenProLiter();
+        double kraftstoffkosten;
+        if (tankvorgaenge.isEmpty()) {
+            kraftstoffkosten = -1;  // soll "—" ausgeben
+        } else {
+            kraftstoffkosten = kraftstoffverbrauch * getDurchschnittlicheTankkostenProLiter();
+        }
 
         // Anzahl nötiger Tankvorgänge
         double anzahlNoetigerTankvorgaenge;
@@ -947,25 +981,20 @@ public class Fahrzeug implements Serializable {
 
     private double getDurchschnittlicheTankkostenProLiter() {
 
-        if (tankvorgaenge.isEmpty()) {
-            return -1;  // soll "—" ausgeben
+        double summeGetankteMenge = 0;
+        double summeGezahlteBetraege = 0;
+
+        for (Tankvorgang tankvorgang : tankvorgaenge) {
+            summeGetankteMenge += tankvorgang.getGetankteMenge();
+            summeGezahlteBetraege += tankvorgang.getPreis();
+        }
+
+        double durchschnittlicheTankkostenProLiter = summeGezahlteBetraege / summeGetankteMenge;
+
+        if (Double.isInfinite(durchschnittlicheTankkostenProLiter)) {  // Division durch 0
+            return -1;
         } else {
-
-            double summeGetankteMenge = 0;
-            double summeGezahlteBetraege = 0;
-
-            for (Tankvorgang tankvorgang : tankvorgaenge) {
-                summeGetankteMenge += tankvorgang.getGetankteMenge();
-                summeGezahlteBetraege += tankvorgang.getPreis();
-            }
-
-            double durchschnittlicheTankkostenProLiter = summeGezahlteBetraege / summeGetankteMenge;
-
-            if (Double.isInfinite(durchschnittlicheTankkostenProLiter)) {  // Division durch 0
-                return -1;
-            } else {
-                return durchschnittlicheTankkostenProLiter;
-            }
+            return durchschnittlicheTankkostenProLiter;
         }
     }
 }

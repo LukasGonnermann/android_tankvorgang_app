@@ -96,7 +96,7 @@ public class TimelineFragment extends Fragment {
                 if (aktuellesFahrzeug.getTankstand() < DELTA_TANKSTAND_PROZENT) {  // Tank leer / so gut wie leer
 
                     AlertDialog dialogTankFastLeer = new AlertDialog.Builder(getContext())
-                            .setTitle("Tank fast leer")
+                            .setTitle("Tank ist leer")
                             .setMessage("Ihr Tank ist leer. Wenn Sie dennoch eine Strecke " +
                                     "hinzufügen wollen, fügen Sie erst einen Tankvorgang hinzu. ")
                             .setIcon(R.drawable.ic_baseline_local_gas_station_24)
