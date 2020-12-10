@@ -175,16 +175,15 @@ public class TimelineFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
-        // Strecke hinzugefügt oder geändert
+        // Hinweis: ACTION_EDIT_STRECKE kann nicht abgefangen werden, da von TimelineAdapter aus
+        //          aufgerufen
+
         if (requestCode == LAUNCH_NEW_STRECKE_EDIT_STRECKE) {
 
-            if (intent.getAction().equals(ACTION_NEW_STRECKE)) {  // Strecke hinzugefügt
+            if (intent.getAction().equals(ACTION_NEW_STRECKE)) {
                 if (resultCode == Activity.RESULT_OK) {
-                    // alles ok
-                }
-            } else if (intent.getAction().equals(ACTION_EDIT_STRECKE)) {  // Auto geändert
-                if (resultCode == Activity.RESULT_OK) {
-                    // alles ok
+                    Toast toast = Toast.makeText(getContext(), "S hinzugefügt", Toast.LENGTH_LONG);
+                    toast.show();
                 }
             }
 
@@ -192,15 +191,7 @@ public class TimelineFragment extends Fragment {
 
             if (intent.getAction().equals(ACTION_NEW_TANKVORGANG)) {
                 if (resultCode == Activity.RESULT_OK) {
-                    // TODO: entfernen, sobald stable
-                    Toast toast = Toast.makeText(getContext(), "hinzugefügt", Toast.LENGTH_LONG);
-                    toast.show();
-                }
-            } else if (intent.getAction().equals(ACTION_EDIT_TANKVORGANG)) {
-                // TODO: toast wird nicht ausgelöst -> warum?
-                if (resultCode == Activity.RESULT_OK) {
-                    Toast toast = Toast.makeText(getContext(), "bearbeitet", Toast.LENGTH_LONG);
-                    toast.show();
+                    // alles ok
                 }
             }
 

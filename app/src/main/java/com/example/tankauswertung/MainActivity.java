@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         // zum Tab "Dashboard" navigieren
-        // TODO: scheint nicht zu funktionieren nach Hinzufügen und Ändern
+        // Hier, Tom: scheint nicht zu funktionieren nach Hinzufügen und Ändern
         navController.navigate(R.id.navigation_dashboard);
 
         aktualisiereSeitenmenue();

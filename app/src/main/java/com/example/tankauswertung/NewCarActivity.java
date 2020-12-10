@@ -344,7 +344,8 @@ public class NewCarActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 Editable verbrauchKombiniertStand = editTextVerbrauchKombiniertStand.getText();
-                int verbrauchKombiniertStand_int = 0;
+                int verbrauchKombiniertStand_int;
+
                 try {
                     verbrauchKombiniertStand_int = (int) Double.parseDouble(verbrauchKombiniertStand.toString());
 
@@ -514,7 +515,7 @@ public class NewCarActivity extends AppCompatActivity {
     /**
      * Backend, um Daten abzufangen und Fahrzeug zu ändern oder zu Garage hinzuzufügen
      */
-    private boolean fertigButtonGedrueckt() {
+    private void fertigButtonGedrueckt() {
 
         boolean datenEingepflegt = false;  // Fahrzeugerstellung fehlerhaft oder nicht
 
@@ -574,7 +575,6 @@ public class NewCarActivity extends AppCompatActivity {
         } else {
             setResult(Activity.RESULT_CANCELED, intent);
         }
-        return true;
     }
 
     /**
@@ -600,12 +600,9 @@ public class NewCarActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_new_car_done) {
-            boolean hatFunktioniert = fertigButtonGedrueckt();
-            if (hatFunktioniert) {
-                setResult(Activity.RESULT_OK, intent);
-                finish();
-                return true;
-            }
+            fertigButtonGedrueckt();
+            finish();
+            return true;
         }
         setResult(Activity.RESULT_CANCELED, intent);
         return false;
