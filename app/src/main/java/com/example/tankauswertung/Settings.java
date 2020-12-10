@@ -4,30 +4,30 @@ import java.io.Serializable;
 
 public class Settings implements Serializable {
     /**
-     * Enum darkMode umfasst die möglichen Zustände der Einstellung zum Darkmode
+     * Enum DarkModeStatus umfasst die möglichen Zustände der Einstellung zum Darkmode
      */
-    public enum darkMode {AN, AUS, SYSTEM};
+    public enum DarkModeStatus {AN, AUS, SYSTEM};
     /**
      * Variable, welche die Darkmodeeinstellung speichert
      */
-    private darkMode darkModeSafe;
+    private DarkModeStatus darkModeSafe;
 
     /**
      * Konstruktor der Klasse, setzt Standardmaessig die Darkmodesettings auf SYSTEM
      */
     public Settings(){
-        darkModeSafe = darkMode.SYSTEM;
+        darkModeSafe = DarkModeStatus.SYSTEM;
     }
 
     /**
      * Getter fuer die Darkmodesettings
-     * @return enum darkMode, Aktuelle Darkmodeeinstellung
+     * @return enum DarkModeStatus, Aktuelle Darkmodeeinstellung
      */
-    public darkMode getDarkModeSafe() { return darkModeSafe; }
+    public DarkModeStatus getDarkModeSafe() { return darkModeSafe; }
 
     /**
      * Setter fuer die Darkmodesetting Variable
-     * @param darkModeSafe enum darkMode, Inputwert, auf welchen die Darkmodeeinstellung gesetzt wird
+     * @param darkModeSafe enum DarkModeStatus, Inputwert, auf welchen die Darkmodeeinstellung gesetzt wird
      */
-    public void setDarkModeSafe(darkMode darkModeSafe) { this.darkModeSafe = darkModeSafe; }
+    public void setDarkModeSafe(DarkModeStatus darkModeSafe) { this.darkModeSafe = darkModeSafe; }
 }

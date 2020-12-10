@@ -10,10 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 
-public class SettingsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class SettingsActivity extends AppCompatActivity {
 
     // Auswahlmoeglichkeiten im Menue
-    private static final String[] items = {"Deaktivieren", "Aktivieren", "Systemeinstellung verwenden"};
+    private static final String[] items = {"Hell", "Dunkel", "Systemeinstellung folgen"};
     // Speicher der aktuell ausgewaehlten Option
     int selectedItem = 0;
 
@@ -41,23 +41,23 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setSelection(selectedItem, true);
-        spinner.setOnItemSelectedListener(this);
-    }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
-        MainActivity.steuereNachtDesign(position);
-        selectedItem = position;
-    }
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                MainActivity.steuereNachtDesign(position);
+                selectedItem = position;
+            }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        // wird nicht benoetigt, muss aber ueberschrieben werden
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // wird nicht benoetigt, muss aber ueberschrieben werden
+            }
+        });
     }
-
 
     /**
-     * Aktion fuer Zurueck-Button
+     * Aktion fuer Zurueck-Button (Pfeil)
      */
     @Override
     public boolean onSupportNavigateUp() {
@@ -66,4 +66,3 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     }
 
 }
-
