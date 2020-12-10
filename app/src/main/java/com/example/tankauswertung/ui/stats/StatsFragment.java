@@ -208,7 +208,7 @@ public class StatsFragment extends Fragment {
                 zeitraumbeginn = formattermonat.format(dateZeitraumbeginn);
                 break;
             case 2://jahr
-                formatter = new SimpleDateFormat("MM.yy");
+                formatter = new SimpleDateFormat("dd.MM");
 
                 dateZeitraumende.setTime(dateZeitraumende.getTime() + dreiwochen_ms + sechstage_ms); //ein Tag weniger da letzter und erster Tag inklusiv ist
                 dateEndeZeitraumende = dateZeitraumende;
@@ -220,10 +220,11 @@ public class StatsFragment extends Fragment {
 
         }
 
-
+        x_beschriftung = daten.clone();
+        SimpleDateFormat formatterparse = new SimpleDateFormat("dd.MM.yyyy");
         for (int i = 0; i < daten.length; i++) {
             try {
-                Date ddatum = formatter.parse(daten[i]);
+                Date ddatum = formatterparse.parse(x_beschriftung[i]);
                 String sdatum = formatter.format(ddatum);
                 x_beschriftung[i] = sdatum;
 
