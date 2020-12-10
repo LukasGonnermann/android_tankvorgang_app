@@ -916,8 +916,8 @@ public class Fahrzeug implements Serializable {
 
         // Kraftstoffverbrauch
         double kraftstoffverbrauch = (
-                prozentInnerorts / 100 * getVerbrauchInnerorts() +
-                        prozentAusserorts / 100 * getVerbrauchAusserorts() +
+                prozentInnerorts / 100.0 * getVerbrauchInnerorts() +
+                        prozentAusserorts / 100.0 * getVerbrauchAusserorts() +
                         prozentKombiniert / 100 * getVerbrauchKombiniert()
         ) / 100 * streckenlaenge;
 
@@ -926,10 +926,11 @@ public class Fahrzeug implements Serializable {
 
         // Anzahl nötiger Tankvorgänge
         double anzahlNoetigerTankvorgaenge;
-        if (tankstand >= kraftstoffverbrauch) {
+        double tankstandLiter = tankstand / 100 * tankgroesse;
+        if (tankstandLiter > kraftstoffverbrauch) {
             anzahlNoetigerTankvorgaenge = 0;
         } else {
-            anzahlNoetigerTankvorgaenge = Math.ceil((kraftstoffverbrauch - tankstand) / getTankgroesse());
+            anzahlNoetigerTankvorgaenge = Math.ceil((kraftstoffverbrauch - tankstandLiter) / getTankgroesse());
         }
 
         // CO2-Ausstoß

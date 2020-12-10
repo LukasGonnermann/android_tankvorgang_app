@@ -146,9 +146,9 @@ public class NewTankvorgangActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 if (TextUtils.isEmpty(editTextPreis.getText())) {
                     editTextPreis.setError("Bitte geben Sie den Preis für den Tankvorgang an");
-                    korrekteEinzeleingaben.put("menge", false);
+                    korrekteEinzeleingaben.put("preis", false);
                 } else {
-                    korrekteEinzeleingaben.put("menge", true);
+                    korrekteEinzeleingaben.put("preis", true);
                 }
                 updateKorrekteEingabe();
             }
