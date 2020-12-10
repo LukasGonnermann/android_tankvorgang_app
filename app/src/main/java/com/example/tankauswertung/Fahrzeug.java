@@ -831,7 +831,7 @@ public class Fahrzeug implements Serializable {
     public LinkedHashMap<String, Double> getJahrCO2Statistik(int verschiebung) {
         LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
         double summe;
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 13; i++) {
             summe = 0;
             LinkedHashMap<String, Double> einMonat = getMonatCO2Statistik(-i + (verschiebung * 12));
             for (double d : einMonat.values()) {
@@ -852,7 +852,7 @@ public class Fahrzeug implements Serializable {
     public LinkedHashMap<String, Double> getJahrTankkostenStatistik(int verschiebung) {
         LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
         double summe;
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 13; i++) {
             summe = 0;
             LinkedHashMap<String, Double> einMonat = getMonatTankkostenStatistik(-i + (verschiebung * 12));
             for (double d : einMonat.values()) {
@@ -873,7 +873,7 @@ public class Fahrzeug implements Serializable {
     public LinkedHashMap<String, Double> getJahrTreibstoffStatistik(int verschiebung) {
         LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
         double summe;
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 13; i++) {
             summe = 0;
             LinkedHashMap<String, Double> einMonat = getMonatTreibstoffStatistik(-i + (verschiebung * 12));
             for (double d : einMonat.values()) {
@@ -894,7 +894,7 @@ public class Fahrzeug implements Serializable {
     public LinkedHashMap<String, Double> getJahrStreckenStatistik(int verschiebung) {
         LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
         double summe;
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 13; i++) {
             summe = 0;
             LinkedHashMap<String, Double> einMonat = getMonatStreckenStatistik(-i + (verschiebung * 12));
             for (double d : einMonat.values()) {
