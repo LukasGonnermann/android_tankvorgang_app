@@ -87,4 +87,6 @@
     <string name="woche">Woche</string>
     <string name="ten_number">10</string>
     <string name="theme">Thema</string>
+    <string name="edit_tankvorgang_elektro">Ladevorgang bearbeiten</string>
+    <string name="new_tankvorgang_elektro">Ladevorgang hinzufügen</string>
 </resources>

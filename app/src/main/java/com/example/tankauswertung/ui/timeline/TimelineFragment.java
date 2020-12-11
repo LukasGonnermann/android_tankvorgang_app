@@ -25,7 +25,8 @@ import com.example.tankauswertung.R;
 //import com.github.vipulasri.timelineview.TimelineView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class TimelineFragment extends Fragment {
+public class
+TimelineFragment extends Fragment {
 
     private View root;
     private boolean fabOpen = false;

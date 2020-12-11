@@ -77,6 +77,9 @@ public class NewTankvorgangActivity extends AppCompatActivity {
         intent = getIntent();  // erhalte Intent vom Aufruf
         garage = MainActivity.getGarage();  // erhalte Garagenobjekt
 
+        if(garage.getAusgewaehltesFahrzeug().isElektro())
+            setTitle(getString(R.string.new_tankvorgang_elektro));
+
         editTextGetankteMenge = findViewById(R.id.editTextGetankteMenge);
         editTextPreis = findViewById(R.id.editTextPreis);
         imageViewTankvorgangBeleg = findViewById(R.id.imageViewTankvorgangBeleg);
@@ -115,17 +118,24 @@ public class NewTankvorgangActivity extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(getankteMengeText)) {
 
-                    editTextGetankteMenge.setError("Bitte geben Sie die getankte Menge an");
+                    if(!aktuellesFahrzeug.isElektro())
+                        editTextGetankteMenge.setError("Bitte geben Sie die getankte Menge an");
+                    else
+                        editTextGetankteMenge.setError("Bitte geben Sie die geladene Menge an");
                     korrekteEinzeleingaben.put("menge", false);
 
                 } else if (Double.parseDouble(getankteMengeText.toString()) > altesRestvolumen) {
-
-                    editTextGetankteMenge.setError(
+                    if(!aktuellesFahrzeug.isElektro())
+                        editTextGetankteMenge.setError(
                             "Bitte geben Sie eine Tankmenge an, die kleiner als das restliche " +
                                     "Volumen Ihres Tanks (" +
                                     altesRestvolumen +  " l) ist.");
+                    else
+                        editTextGetankteMenge.setError(
+                                "Bitte geben Sie eine Tankmenge an, die kleiner als die restliche " +
+                                        "Kapazität Ihres Akkus (" +
+                                        altesRestvolumen +  " kWh) ist.");
                     korrekteEinzeleingaben.put("menge", false);
-
                 } else {
                     korrekteEinzeleingaben.put("menge", true);
                 }
@@ -134,6 +144,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
         });
 
         editTextPreis.addTextChangedListener(new TextWatcher() {
+            Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
@@ -145,7 +156,10 @@ public class NewTankvorgangActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (TextUtils.isEmpty(editTextPreis.getText())) {
-                    editTextPreis.setError("Bitte geben Sie den Preis für den Tankvorgang an");
+                    if(!aktuellesFahrzeug.isElektro())
+                        editTextPreis.setError("Bitte geben Sie den Preis für den Tankvorgang an");
+                    else
+                        editTextPreis.setError("Bitte geben Sie den Preis für den Ladevorgang an");
                     korrekteEinzeleingaben.put("preis", false);
                 } else {
                     korrekteEinzeleingaben.put("preis", true);
@@ -162,8 +176,10 @@ public class NewTankvorgangActivity extends AppCompatActivity {
         // --- Default-Werte setzen
 
         if (intent.getAction().equals(TimelineFragment.ACTION_EDIT_TANKVORGANG)) {
-
-            setTitle(R.string.edit_tankvorgang);  // Titel "Tankvorgang bearbeiten" setzen
+            if(!garage.getAusgewaehltesFahrzeug().isElektro())
+                setTitle(R.string.edit_tankvorgang);  // Titel "Tankvorgang bearbeiten" setzen
+            else
+                setTitle(getString(R.string.edit_tankvorgang_elektro));  // Titel "Ladevorgang bearbeiten" setzen
             Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
             Tankvorgang neuesterTankvorgang = aktuellesFahrzeug.getTankvorgaenge().get(0);
             String imgPath = neuesterTankvorgang.getImg();

@@ -142,6 +142,10 @@ public class NewCarActivity extends AppCompatActivity {
                     if (intent.getAction().equals(MainActivity.ACTION_NEW_CAR) && !hinweis_angezeigt) {
                         dialogElektroInfoBestaetigung.show();
                     }
+                    //Aendere Maxwerte fuer die Verbrauchsslider zu 50
+                    seekBarVerbrauchAusserorts.setMax(50);
+                    seekBarVerbrauchInnerorts.setMax(50);
+                    seekBarVerbrauchKombiniert.setMax(50);
                     hinweis_angezeigt = true;
                     labelVerbrauchInnerortsTitel.setText(R.string.verbrauch_innerorts_kwh_100km);
                     labelVerbrauchAusserortsTitel.setText(R.string.verbrauch_au_erorts_kwh_100km);
@@ -149,6 +153,7 @@ public class NewCarActivity extends AppCompatActivity {
                     labelTankvolumen.setText(R.string.tankvolumen_kwh);
                     labelAktuellerTankstandTitel.setText(R.string.tankstand_kwh);
                     editTextCo2.setEnabled(false);
+
                     //ist Verbrenner
                 } else {
                     labelVerbrauchInnerortsTitel.setText(R.string.verbrauch_innerorts_l_100km);
