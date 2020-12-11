@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="black">#131313</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="grey_light">#F5F5F5</color>
+    <color name="grey_light">#FBFBFB</color>
     <color name="grey">#9E9E9E</color>
 
     <color name="purple">#B39DDB</color>
@@ -12,7 +12,24 @@
 
     <color name="pink">#EF9A9A</color>
 
-    <color name="blau">#3F51B5</color>
+    <color name="blau_alt">#3F51B5</color>
+
+    <!-- re-design -->
+
+    <color name="tuerkis">#08A876</color>
+    <color name="tuerkis_alternativ">#07A693</color>
+    <color name="tuerkis_entsaettigt">#3EA884</color>
+    <color name="tuerkis_hell">#A9F5DD</color>
+
+    <color name="rot">#5197B0</color>
+    <color name="rot_alternativ">#A86F5D</color>
+
+    <color name="blau">#709AAC</color>
+
+
+
+
+
 
 
 </resources>

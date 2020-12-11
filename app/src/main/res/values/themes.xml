@@ -4,20 +4,20 @@
     <style name="Theme.Tankauswertung" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/lila</item>    <!-- Überschrift/Titel -->
-        <item name="colorPrimaryVariant">@color/white</item>  <!-- kopfleiste -->
+        <item name="colorPrimary">@color/grey_light</item>    <!-- Überschrift/Titel -->
+        <item name="colorPrimaryVariant">@color/tuerkis_alternativ</item>  <!-- kopfleiste -->
         <item name="colorOnPrimary">@color/white</item>
 
-         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/purple_light</item>    <!-- KREISE VON SLEEKBAR-->
-        <item name="colorSecondaryVariant">@color/white</item>    <!-- HOCHSWIPE DING -->
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/rot</item>    <!-- KREISE VON SLEEKBAR-->
+        <item name="colorSecondaryVariant">@color/rot_alternativ</item>    <!-- HOCHSWIPE DING -->
         <item name="colorOnSecondary">@color/white</item> <!-- das + im hinzufügen knopf und die schrift -->
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
 
         <!-- Customize your theme here. -->
-        <item name="cardBackgroundColor" >@color/grey_light</item>
+        <item name="cardBackgroundColor">@color/grey_light</item>
 
     </style>
 
