@@ -35,7 +35,10 @@ public class Garage {
      * Legt den Namen des Datei fest die beim Serialisierungsprozess benutzt wird (Methoden load, save)
      */
     private final String fileName = "fahrzeuge.dat";
-
+    /**
+     * Im Settingsobjekt werden sämtliche Einstellungen der App gespeichert
+     */
+    private Settings einstellungen;
 
     /**
      * Default Konstruktor Standard
@@ -44,6 +47,7 @@ public class Garage {
         this.maxAnzFahrzeuge = 25;
         this.anzFahrzeuge = 0;
         fahrzeuge = new ArrayList<>();
+        einstellungen = new Settings();
     }
 
     /**

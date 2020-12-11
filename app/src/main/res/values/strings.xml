@@ -3,7 +3,7 @@
     <string name="title_dashboard">Übersicht</string>
     <string name="title_timeline">Chronik</string>
     <string name="title_stats">Statistik</string>
-    <string name="title_forecast">Kalkulation</string>
+    <string name="title_forecast">Prognose</string>
     <string name="navigation_drawer_open">Öffne Menü</string>
     <string name="navigation_drawer_close">Schließe Menü</string>
     <string name="nav_header_title">Name aktuelles Auto</string>
@@ -31,19 +31,21 @@
     <string name="anzeigename">Name</string>
     <string name="verbrauch_durchschnittlich">Verbrauch</string>
     <string name="Reichweite">Reichweite</string>
+    <!-- bei Wortgruppen dürfen auch Leerzeichen gesetzt werden (nach DIN 5008) -->
     <string name="verbrauch_innerorts_l_100km">Verbrauch innerorts (l / 100 km)</string>
     <string name="verbrauch_au_erorts_l_100km">Verbrauch außerorts (l / 100 km)</string>
     <string name="verbrauch_kombiniert_l_100km">Verbrauch kombiniert (l / 100 km)</string>
     <string name="verbrauch_innerorts_kwh_100km">Verbrauch innerorts (kWh / 100 km)</string>
     <string name="verbrauch_au_erorts_kwh_100km">Verbrauch außerorts (kWh / 100 km)</string>
     <string name="verbrauch_kombiniert_kwh_100km">Verbrauch kombiniert (kWh / 100 km)</string>
-    <string name="kilometerstand_km">Kilometerstand</string>
-    <string name="tankstand_l">Tankstand</string>
+    <string name="kilometerstand_km">Kilometerstand (km)</string>
+    <string name="tankstand_l">Aktueller Tankstand (%)</string>
     <string name="tankstand_kwh">Restladung (%)</string>
     <string name="tankvolumen_l">Tankvolumen (l)</string>
     <string name="tankvolumen_kwh">Akkukapazität (kWh)</string>
     <string name="co2_ausstoss">CO2-Ausstoß</string>
-    <string name="co2_ausstoss_g_km">CO2-Ausstoß (g / km)</string>
+    <!-- Schreibweise von Einheiten ohne Leerzeichen (nach DIN 5008) -->
+    <string name="co2_ausstoss_g_km">CO2-Ausstoß (g/km)</string>
     <string name="dark_mode">Nachtmodus</string>
     <string name="done">Fertig</string>
     <string name="zero_number">0</string>
@@ -71,4 +73,21 @@
     <string name="streckentyp">Streckentyp</string>
     <string name="ereignis_bearbeiten">Ereignis bearbeiten</string>
     <string name="default_tankvolumen">50</string>
+    <string name="innerorts_prozent">Innerorts (%)</string>
+    <string name="ausserorts_prozent">Außerorts (%)</string>
+    <string name="kombiniert_prozent">Kombiniert (%)</string>
+    <string name="geschaetzte_werte">Geschätzte Werte</string>
+    <string name="streckenlaenge_km">Streckenlänge (km)</string>
+    <string name="kraftstoffverbrauch_l">Kraftstoffverbrauch (l)</string>
+    <string name="kraftstoffverbrauch_kwh">Energieverbrauch (kWh)</string>
+    <string name="kraftstoffkosten_euro">Kraftstoffkosten (€)</string>
+    <string name="anzahl_noetiger_tankvorgaenge">Anzahl nötiger Tankvorgänge</string>
+    <string name="co2_ausstoss_kg">CO2-Ausstoß (kg)</string>
+    <string name="idle">—</string>
+    <string name="hundred_number">100</string>
+    <string name="jahr">Jahr</string>
+    <string name="monat">Monat</string>
+    <string name="woche">Woche</string>
+    <string name="ten_number">10</string>
+    <string name="theme">Thema</string>
 </resources>

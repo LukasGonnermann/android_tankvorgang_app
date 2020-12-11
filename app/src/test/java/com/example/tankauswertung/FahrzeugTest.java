@@ -105,7 +105,6 @@ public class FahrzeugTest {
      */
     @Test
     public void testFahrzeugStrecken() {
-        // TODO: hier treten noch Fehler auf, muessen gefixt werden
         // Fahrzeug und Strecken anlegen
         Fahrzeug f = new Fahrzeug("Testfahrzeug", false, 6, 7.5, 7, 27728, 70, 5, 45);
         f.streckeHinzufuegen(27758, Strecke.Streckentyp.KOMBINIERT, 34);

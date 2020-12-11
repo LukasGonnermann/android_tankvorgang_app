@@ -1,6 +1,7 @@
 package com.example.tankauswertung.ui.timeline;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,20 +19,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tankauswertung.Fahrzeug;
 import com.example.tankauswertung.Garage;
 import com.example.tankauswertung.MainActivity;
-import com.example.tankauswertung.NewCarActivity;
 import com.example.tankauswertung.NewStreckeActivity;
 import com.example.tankauswertung.NewTankvorgangActivity;
 import com.example.tankauswertung.R;
-import com.example.tankauswertung.Strecke;
-import com.example.tankauswertung.exceptions.FahrzeugWertException;
 //import com.github.vipulasri.timelineview.TimelineView;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class TimelineFragment extends Fragment {
 
     private View root;
     private boolean fabOpen = false;
+
+    private static final double DELTA_TANKSTAND_PROZENT = 0.01;
 
     public static final int LAUNCH_NEW_STRECKE_EDIT_STRECKE = 4;
     public static final int LAUNCH_NEW_TANKVORGANG_EDIT_TANKVORGANG = 5;
@@ -92,18 +92,59 @@ public class TimelineFragment extends Fragment {
         floatingActionButtonStrecke.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), NewStreckeActivity.class);
-                intent.setAction(ACTION_NEW_STRECKE);
-                startActivityForResult(intent, LAUNCH_NEW_STRECKE_EDIT_STRECKE);
+
+                if (aktuellesFahrzeug.getTankstand() < DELTA_TANKSTAND_PROZENT) {  // Tank leer / so gut wie leer
+
+                    AlertDialog dialogTankFastLeer = new AlertDialog.Builder(getContext())
+                            .setTitle("Tank ist leer")
+                            .setMessage("Ihr Tank ist leer. Wenn Sie dennoch eine Strecke " +
+                                    "hinzufügen wollen, fügen Sie erst einen Tankvorgang hinzu. ")
+                            .setIcon(R.drawable.ic_baseline_local_gas_station_24)
+
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int whichButton) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .create();
+                    dialogTankFastLeer.show();
+
+                } else {
+                    Intent intent = new Intent(getContext(), NewStreckeActivity.class);
+                    intent.setAction(ACTION_NEW_STRECKE);
+                    startActivityForResult(intent, LAUNCH_NEW_STRECKE_EDIT_STRECKE);
+                }
             }
         });
 
         floatingActionButtonTankvorgang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), NewTankvorgangActivity.class);
-                intent.setAction(ACTION_NEW_TANKVORGANG);
-                startActivityForResult(intent, LAUNCH_NEW_TANKVORGANG_EDIT_TANKVORGANG);
+
+                // Tank voll, kleineres Delta (0.001) damit voll auch wirklich voll bedeutet
+                if (100 - aktuellesFahrzeug.getTankstand() < DELTA_TANKSTAND_PROZENT) {
+
+                    AlertDialog dialogTankVoll = new AlertDialog.Builder(getContext())
+                            .setTitle("Tank bereits voll")
+                            .setMessage("Ihr Tank ist bereits voll. Haben Sie eventuell " +
+                                    "vergessen, eine Strecke hinzuzufügen?")
+                            .setIcon(R.drawable.ic_baseline_local_gas_station_24)
+
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int whichButton) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .create();
+                    dialogTankVoll.show();
+
+                } else {
+                    Intent intent = new Intent(getContext(), NewTankvorgangActivity.class);
+                    intent.setAction(ACTION_NEW_TANKVORGANG);
+                    startActivityForResult(intent, LAUNCH_NEW_TANKVORGANG_EDIT_TANKVORGANG);
+                }
             }
         });
 
@@ -134,16 +175,15 @@ public class TimelineFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
-        // Strecke hinzugefügt oder geändert
+        // Hinweis: ACTION_EDIT_STRECKE kann nicht abgefangen werden, da von TimelineAdapter aus
+        //          aufgerufen
+
         if (requestCode == LAUNCH_NEW_STRECKE_EDIT_STRECKE) {
 
-            if (intent.getAction().equals(ACTION_NEW_STRECKE)) {  // Strecke hinzugefügt
+            if (intent.getAction().equals(ACTION_NEW_STRECKE)) {
                 if (resultCode == Activity.RESULT_OK) {
-                    // alles ok
-                }
-            } else if (intent.getAction().equals(ACTION_EDIT_STRECKE)) {  // Auto geändert
-                if (resultCode == Activity.RESULT_OK) {
-                    // alles ok
+                    Toast toast = Toast.makeText(getContext(), "S hinzugefügt", Toast.LENGTH_LONG);
+                    toast.show();
                 }
             }
 
@@ -151,15 +191,7 @@ public class TimelineFragment extends Fragment {
 
             if (intent.getAction().equals(ACTION_NEW_TANKVORGANG)) {
                 if (resultCode == Activity.RESULT_OK) {
-                    // TODO: entfernen, sobald stable
-                    Toast toast = Toast.makeText(getContext(), "hinzugefügt", Toast.LENGTH_LONG);
-                    toast.show();
-                }
-            } else if (intent.getAction().equals(ACTION_EDIT_TANKVORGANG)) {
-                // TODO: toast wird nicht ausgelöst -> warum?
-                if (resultCode == Activity.RESULT_OK) {
-                    Toast toast = Toast.makeText(getContext(), "bearbeitet", Toast.LENGTH_LONG);
-                    toast.show();
+                    // alles ok
                 }
             }
 

@@ -106,8 +106,6 @@ public class NewCarActivity extends AppCompatActivity {
         // zeigt den Zurück-Button an
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // --- CheckBox Listener, ob Elektroauto
-
 
         // Dialog vorbauen (2 Benutzungen)
         AlertDialog dialogElektroInfoBestaetigung = new AlertDialog.Builder(NewCarActivity.this)
@@ -127,10 +125,11 @@ public class NewCarActivity extends AppCompatActivity {
 
                 .create();
 
+        // --- CheckBox Listener, ob Elektroauto
+
         checkBoxElektro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                // TODO
                 TextView labelVerbrauchInnerortsTitel = findViewById(R.id.labelVerbrauchInnerortsTitel);
                 TextView labelVerbrauchAusserortsTitel = findViewById(R.id.labelVerbrauchAusserortsTitel);
                 TextView labelVerbrauchKombiniertTitel = findViewById(R.id.labelVerbrauchKombiniertTitel);
@@ -149,6 +148,7 @@ public class NewCarActivity extends AppCompatActivity {
                     labelVerbrauchKombiniertTitel.setText(R.string.verbrauch_kombiniert_kwh_100km);
                     labelTankvolumen.setText(R.string.tankvolumen_kwh);
                     labelAktuellerTankstandTitel.setText(R.string.tankstand_kwh);
+                    editTextCo2.setEnabled(false);
                     //ist Verbrenner
                 } else {
                     labelVerbrauchInnerortsTitel.setText(R.string.verbrauch_innerorts_l_100km);
@@ -156,6 +156,7 @@ public class NewCarActivity extends AppCompatActivity {
                     labelVerbrauchKombiniertTitel.setText(R.string.verbrauch_kombiniert_l_100km);
                     labelTankvolumen.setText(R.string.tankvolumen_l);
                     labelAktuellerTankstandTitel.setText(R.string.tankstand_l);
+                    editTextCo2.setEnabled(true);
                 }
             }
         });
@@ -343,7 +344,8 @@ public class NewCarActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 Editable verbrauchKombiniertStand = editTextVerbrauchKombiniertStand.getText();
-                int verbrauchKombiniertStand_int = 0;
+                int verbrauchKombiniertStand_int;
+
                 try {
                     verbrauchKombiniertStand_int = (int) Double.parseDouble(verbrauchKombiniertStand.toString());
 
@@ -363,10 +365,10 @@ public class NewCarActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                if (aendern) {
-                } else {
-                    aendern = true;
-                } // damit editTexts sich wieder der seekBar anpassen
+                if (!aendern) {
+                    aendern = true; // damit editTexts sich wieder der seekBar anpassen
+                }
+
 
                 updateKorrekteEingabe();
 
@@ -458,6 +460,7 @@ public class NewCarActivity extends AppCompatActivity {
                 hinweis_angezeigt = true;
             }
         });
+
         // --- Default-Werte setzen
 
         if (intent.getAction().equals(MainActivity.ACTION_NEW_CAR)) {
@@ -512,7 +515,7 @@ public class NewCarActivity extends AppCompatActivity {
     /**
      * Backend, um Daten abzufangen und Fahrzeug zu ändern oder zu Garage hinzuzufügen
      */
-    private boolean fertigButtonGedrueckt() {
+    private void fertigButtonGedrueckt() {
 
         boolean datenEingepflegt = false;  // Fahrzeugerstellung fehlerhaft oder nicht
 
@@ -572,7 +575,6 @@ public class NewCarActivity extends AppCompatActivity {
         } else {
             setResult(Activity.RESULT_CANCELED, intent);
         }
-        return true;
     }
 
     /**
@@ -598,12 +600,9 @@ public class NewCarActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_new_car_done) {
-            boolean hatFunktioniert = fertigButtonGedrueckt();
-            if (hatFunktioniert) {
-                setResult(Activity.RESULT_OK, intent);
-                finish();
-                return true;
-            }
+            fertigButtonGedrueckt();
+            finish();
+            return true;
         }
         setResult(Activity.RESULT_CANCELED, intent);
         return false;

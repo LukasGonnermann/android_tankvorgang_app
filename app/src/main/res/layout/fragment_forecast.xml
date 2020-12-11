@@ -4,19 +4,233 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.forecast.ForecastFragment">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ui.forecast.ForecastFragment" >
 
-    <TextView
-        android:id="@+id/text_forecast"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="112dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:orientation="vertical">
+
+            <!-- Streckenlänge -->
+
+            <TextView
+                android:id="@+id/labelKalkulationStreckenlaenge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/streckenlaenge_km" />
+
+            <EditText
+                android:id="@+id/editTextKalkulationStreckenlaenge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="@string/hundred_number" />
+
+            <!-- innerorts -->
+
+            <TextView
+                android:id="@+id/labelKalkulationInnerortsTitel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/innerorts_prozent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/labelKalkulationInnerortsWert"
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/hundred_number" />
+
+                <SeekBar
+                    android:id="@+id/seekBarKalkulationInnerorts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:progress="100"
+                    android:max="100"
+                    android:min="0" />
+
+            </LinearLayout>
+
+            <!-- außerorts -->
+
+            <TextView
+                android:id="@+id/labelKalkulationAusserortsTitel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/ausserorts_prozent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/labelKalkulationAusserortsWert"
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/zero_number" />
+
+                <SeekBar
+                    android:id="@+id/seekBarKalkulationAusserorts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:max="100"
+                    android:min="0" />
+
+            </LinearLayout>
+
+            <!-- kombiniert -->
+
+            <TextView
+                android:id="@+id/labelKalkulationKombiniertTitel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/kombiniert_prozent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/labelKalkulationKombiniertWert"
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/zero_number" />
+
+                <SeekBar
+                    android:id="@+id/seekBarKalkulationKombiniert"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:max="100"
+                    android:min="0" />
+
+            </LinearLayout>
+
+            <!-- let's make it REACTIVE
+
+            <Button
+                android:id="@+id/buttonBerechnen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Berechnen" />
+            -->
+
+            <!-- Überschrift -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="24sp"
+                android:text="@string/geschaetzte_werte"
+                android:textColor="@color/black"
+            />
+
+            <!-- Kraftstoffverbrauch -->
+
+            <TextView
+                android:id="@+id/labelKraftstoffverbrauchTitel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/kraftstoffverbrauch_l" />
+
+            <TextView
+                android:id="@+id/labelKraftstoffverbrauchWert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:text="@string/idle" />
+
+            <!-- Kraftstoffkosten -->
+
+            <TextView
+                android:id="@+id/labelKraftstoffkostenTitel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/kraftstoffkosten_euro" />
+
+            <TextView
+                android:id="@+id/labelKraftstoffkostenWert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:text="@string/idle" />
+
+            <!-- Anzahl nötiger Tankvorgänge -->
+
+            <TextView
+                android:id="@+id/labelAnzahlNoetigerTankvorgaengeTitel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/anzahl_noetiger_tankvorgaenge" />
+
+            <TextView
+                android:id="@+id/labelAnzahlNoetigerTankvorgaengeWert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:text="@string/idle" />
+
+            <!-- CO2-Ausstoß -->
+
+            <TextView
+                android:id="@+id/labelKalkulationCO2AusstossTitel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/co2_ausstoss_kg" />
+
+            <TextView
+                android:id="@+id/labelKalkulationCo2AusstossWert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:text="@string/idle" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

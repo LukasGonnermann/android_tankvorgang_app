@@ -4,10 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.tankauswertung.Fahrzeug;
+import com.example.tankauswertung.Garage;
+import com.example.tankauswertung.MainActivity;
 import com.example.tankauswertung.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -15,74 +21,444 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Collection;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Set;
+import java.util.stream.Stream;
 
 public class StatsFragment extends Fragment {
-    private static final int MAX_X_VALUE = 7;
-    private static final int MAX_Y_VALUE = 50;
-    private static final int MIN_Y_VALUE = 5;
-    private static final String SET_LABEL = "Kraftstoffkosten";
-    private static final String[] DAYS = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
-    private BarChart chart;
+    private final String setLabel = "";
+    // UI-Elemente
+    ImageButton imageButtonStrecken;
+    ImageButton imageButtonTreibstoff;
+    ImageButton imageButtonTankkosten;
+    ImageButton imageButtonCO2;
+    Button buttonFrueher;
+    Button buttonSpaeter;
+    Button buttonWoche;
+    Button buttonMonat;
+    Button buttonJahr;
+    TextView textViewTitel;
+    TextView textViewZeitraum;
+    LinkedHashMap<String, Double> statistikdaten; //statistikdaten mit zugehoerigem Datum
+    double[] dstatistikdaten; //Werte (Double-Teil) der Hashmap statitkdaten
+    String[] daten;//zeitdaten der statistikwerte
+    String zeitraumbeginn = "";
+    String zeitraumende = "";
+    private String titel = "";
+    private BarChart diagramm;
+    private int verschiebung = 0; //zeitliche Verschiebung der angezeigten Stats von aktueller Zeit
+    private int zeitraum = 0; //ausgewaehlter Zeitraum: Woche=0 Monat=1 Jahr=2
+    private int statistikart = 0; //ausgwaehlte Ereignisart: Strecken=0 Treibstoff=1 Tankkosten=2 Co2=3
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_stats, container, false);
-        chart = root.findViewById(R.id.fragment_verticalbarchart_chart);
+        diagramm = root.findViewById(R.id.fragment_verticalbarchart_chart);
 
-        BarData data = createChartData();
-        configureChartAppearance();
-        prepareChartData(data);
+        imageButtonStrecken = root.findViewById(R.id.imageButtonStrecken);
+        imageButtonTreibstoff = root.findViewById(R.id.imageButtonTreibstoff);
+        imageButtonTankkosten = root.findViewById(R.id.imageButtonTankkosten);
+        imageButtonCO2 = root.findViewById(R.id.imageButtonCO2);
+
+        buttonFrueher = root.findViewById(R.id.buttonFrueher);
+        buttonSpaeter = root.findViewById(R.id.buttonSpaeter);
+        buttonWoche = root.findViewById(R.id.buttonWoche);
+        buttonMonat = root.findViewById(R.id.buttonMonat);
+        buttonJahr = root.findViewById(R.id.buttonJahr);
+
+        textViewTitel = root.findViewById(R.id.textViewTitel);
+        textViewZeitraum = root.findViewById(R.id.textViewZeitraum);
+
+        //setListener
+        imageButtonStrecken.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setStatistikart(0);
+                baueDiagramm();
+            }
+        });
+        imageButtonTreibstoff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setStatistikart(1);
+                baueDiagramm();
+            }
+        });
+        imageButtonTankkosten.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setStatistikart(2);
+                baueDiagramm();
+            }
+        });
+        imageButtonCO2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setStatistikart(3);
+                baueDiagramm();
+            }
+        });
+        buttonFrueher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setVerschiebung(-1);
+                baueDiagramm();
+            }
+        });
+        buttonSpaeter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setVerschiebung(1);
+                baueDiagramm();
+            }
+        });
+        buttonWoche.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setZeitraum(0);
+                baueDiagramm();
+                diagramm.fitScreen();
+                setZeitraumButtonFarbe();
+            }
+        });
+        buttonMonat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setZeitraum(1);
+                baueDiagramm();
+                diagramm.fitScreen();
+                setZeitraumButtonFarbe();
+            }
+        });
+        buttonJahr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setZeitraum(2);
+                baueDiagramm();
+                diagramm.fitScreen();
+                setZeitraumButtonFarbe();
+
+            }
+        });
+        setZeitraumButtonFarbe();
+        baueDiagramm();
         return root;
     }
 
-    private void configureChartAppearance() {
-        chart.getDescription().setEnabled(false);
-        chart.setDrawValueAboveBar(false);
+    /**
+     * Baut das Diagramm: erstellt Diagrammdaten, gestaltet das Diagrammaussehen und erstellt endgueltig das Diagramm
+     */
+    private void baueDiagramm() {
+        BarData data = erstelleDiagrammdaten();
+        gestalteDiagrammAussehen();
+        bereiteDiagrammdaten(data);
 
-
-        XAxis xAxis = chart.getXAxis();
-        xAxis.setValueFormatter(new ValueFormatter() {
-            @Override
-            public String getFormattedValue(float value) {
-                return DAYS[(int) value];
-            }
-        });
-
-        YAxis axisLeft = chart.getAxisLeft();
-        axisLeft.setGranularity(10f);
-        axisLeft.setAxisMinimum(0);
-
-        YAxis axisRight = chart.getAxisRight();
-        axisRight.setGranularity(10f);
-        axisRight.setAxisMinimum(0);
+        textViewTitel.setText(titel);
+        textViewZeitraum.setText(zeitraumbeginn + " - " + zeitraumende);
     }
 
-    private BarData createChartData() {
+    /**
+     * Erstellt die Achsenbestriftung der X-Achse
+     *
+     * @return Achsenbestriftung der X-Achse
+     */
+    private String[] erstelleXachse_Beschriftung() {
+        String[] x_beschriftung = new String[daten.length];
+        zeitraumbeginn = daten[0];
+        zeitraumende = daten[daten.length - 1];
+        x_beschriftung = daten;
+        Date dateZeitraumende = null; //letztes uebergebene Datum
+        Date dateZeitraumbeginn = null;//erstes uebergebene Datum
+
+        /*letztes einbezogene Datum des Zeitraums z.B 1 Woche nach dem letzten Datum bei Zeitraum Monat,
+        da ja das Anfangsdatum des Zeitraums uebergeben wird*/
+        Date dateEndeZeitraumende = null;
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yy");
+        try {
+            dateZeitraumende = formatter.parse(zeitraumende);
+            dateZeitraumbeginn = formatter.parse(zeitraumbeginn);
+
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        int sechstage_ms = 518400000;
+        long dreiwochen_ms = Math.multiplyExact((long) 86400000, 7 * 3);
+
+
+        switch (zeitraum) {
+            case 0: //woche
+                formatter = new SimpleDateFormat("dd.MM.yy");
+                break;
+            case 1://monat
+                SimpleDateFormat formattermonat = new SimpleDateFormat("dd.MM.yyyy");
+                dateZeitraumende.setTime(dateZeitraumende.getTime() + sechstage_ms);
+                dateEndeZeitraumende = dateZeitraumende;
+                zeitraumende = formattermonat.format(dateEndeZeitraumende);
+                zeitraumbeginn = formattermonat.format(dateZeitraumbeginn);
+                break;
+            case 2://jahr
+                formatter = new SimpleDateFormat("dd.MM");
+
+                dateZeitraumende.setTime(dateZeitraumende.getTime() + dreiwochen_ms + sechstage_ms); //ein Tag weniger da letzter und erster Tag inklusiv ist
+                dateEndeZeitraumende = dateZeitraumende;
+
+                SimpleDateFormat formatterZeitraumende = new SimpleDateFormat("dd.MM.yyyy");
+                zeitraumende = formatterZeitraumende.format(dateEndeZeitraumende);
+                zeitraumbeginn = formatterZeitraumende.format(dateZeitraumbeginn);
+                break;
+
+        }
+
+        x_beschriftung = daten.clone();
+        SimpleDateFormat formatterparse = new SimpleDateFormat("dd.MM.yyyy");
+        for (int i = 0; i < daten.length; i++) {
+            try {
+                Date ddatum = formatterparse.parse(x_beschriftung[i]);
+                String sdatum = formatter.format(ddatum);
+                x_beschriftung[i] = sdatum;
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return x_beschriftung;
+    }
+
+    /**
+     * konfiguriert das Aussehen des Diagramms
+     */
+    private void gestalteDiagrammAussehen() {
+        diagramm.getDescription().setEnabled(false);
+        diagramm.setDrawValueAboveBar(true);
+        diagramm.getLegend().setEnabled(false);
+        //chart.getAxisRight().setEnabled(false);
+
+        XAxis xAchse = diagramm.getXAxis();
+        xAchse.setGranularity(1f);
+        xAchse.setLabelCount(12);
+        xAchse.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        xAchse.setValueFormatter(new IndexAxisValueFormatter(erstelleXachse_Beschriftung()));
+
+        YAxis axeLinks = diagramm.getAxisLeft();
+        axeLinks.setGranularity(1f);
+        axeLinks.setAxisMinimum(0);
+
+        YAxis axeRechts = diagramm.getAxisRight();
+        axeRechts.setGranularity(1f);
+        axeRechts.setAxisMinimum(0);
+    }
+
+    /**
+     * Bereitet die Diagrammdaten aus den uebergebenen Werten auf
+     *
+     * @return Diagrammdaten, womit dann das Diagramm erstellt werden kann
+     */
+    private BarData erstelleDiagrammdaten() {
+
+        Garage garage = MainActivity.getGarage();
+        Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
+
+        if (statistikdaten != null) {
+            statistikdaten.clear();
+        }
+        switch (statistikart) {
+
+            case 0: //Strecken
+                titel = "Strecken";
+                switch (zeitraum) {
+                    case 0: //Woche in 7 Tagen
+                        statistikdaten = aktuellesFahrzeug.getWocheStreckenStatistik(verschiebung);
+                        //statistikdaten= new double[]{10, 20, 5, 10, 30, 1,6}; //Testdaten
+                        break;
+                    case 1: //Monat in 4 Monatsquartalen
+                        statistikdaten = aktuellesFahrzeug.getMonatStreckenStatistik(verschiebung);
+                        //statistikdaten= new double[]{40,50,80,10};//Testdaten
+                        break;
+                    case 2: //Jahr in 12 Monaten
+                        statistikdaten = aktuellesFahrzeug.getJahrStreckenStatistik(verschiebung);
+                        //statistikdaten= new double[]{1000,2200,100,0,122,100,4000,5000,10,1000,2000,200};//Testdaten
+                        break;
+                }
+
+                break;
+            case 1: //Treibstoffverbrauch
+                titel = "Treibstoffverbrauch";
+                switch (zeitraum) {
+                    case 0: //Woche in 7 Tagen
+                        statistikdaten = aktuellesFahrzeug.getWocheTreibstoffStatistik(verschiebung);
+                        break;
+                    case 1://Monat in 4 Monatsquartalen
+                        statistikdaten = aktuellesFahrzeug.getMonatTreibstoffStatistik(verschiebung);
+                        break;
+                    case 2://Jahr in 12 Monaten
+                        statistikdaten = aktuellesFahrzeug.getJahrTreibstoffStatistik(verschiebung);
+                        break;
+                }
+
+                break;
+            case 2: //Tankkosten
+                titel = "Tankkosten";
+                switch (zeitraum) {
+                    case 0: //Woche in 7 Tagen
+                        statistikdaten = aktuellesFahrzeug.getWocheTankkostenStatistik(verschiebung);
+
+                        break;
+                    case 1://Monat in 4 Monatsquartalen
+                        statistikdaten = aktuellesFahrzeug.getMonatTankkostenStatistik(verschiebung);
+
+                        break;
+                    case 2://Jahr in 12 Monaten
+                        statistikdaten = aktuellesFahrzeug.getJahrTankkostenStatistik(verschiebung);
+
+                        break;
+                }
+
+                break;
+            case 3: //CO2
+                titel = "CO2-Ausstoß";
+                switch (zeitraum) {
+                    case 0://Woche in 7 Tagen
+                        statistikdaten = aktuellesFahrzeug.getWocheCO2Statistik(verschiebung);
+                        break;
+                    case 1://Monat in 4 Monatsquartalen
+                        statistikdaten = aktuellesFahrzeug.getMonatCO2Statistik(verschiebung);
+
+                        break;
+                    case 2://Jahr in 12 Monaten
+                        statistikdaten = aktuellesFahrzeug.getJahrCO2Statistik(verschiebung);
+                        break;
+                }
+                break;
+        }
+
+        Set<String> setKeys = statistikdaten.keySet();
+
+        String[] zeitdaten = setKeys.toArray(new String[0]);
+        daten = zeitdaten;
+
+        Collection<Double> dvalues = statistikdaten.values();
+
+        Double[] arrayValues = dvalues.toArray(new Double[0]);
+        dstatistikdaten = Stream.of(arrayValues).mapToDouble(Double::doubleValue).toArray();
+
+
+        dreheStatistikdaten();
+        drehexAchsedaten();
+
         ArrayList<BarEntry> values = new ArrayList<>();
-        for (int i = 0; i < MAX_X_VALUE; i++) {
+        for (int i = 0; i < dstatistikdaten.length; i++) {
             float x = i;
-            float y = MIN_Y_VALUE + new Random().nextFloat() * (MAX_Y_VALUE - MIN_Y_VALUE);
+            float y = (float) dstatistikdaten[i];
             values.add(new BarEntry(x, y));
         }
 
-        BarDataSet set1 = new BarDataSet(values, SET_LABEL);
+
+        BarDataSet set1 = new BarDataSet(values, setLabel); //obligatorisch aber nicht angezeigt
 
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(set1);
 
         BarData data = new BarData(dataSets);
-
         return data;
     }
 
-    private void prepareChartData(BarData data) {
+    /**
+     * Fuegt die uebergebenen Daten dem Diagramm hinzu und zeichnet es
+     *
+     * @param data Erstellte Diagrammdaten
+     */
+    private void bereiteDiagrammdaten(BarData data) {
         data.setValueTextSize(12f);
-        chart.setData(data);
-        chart.invalidate();
+        diagramm.setData(data);
+        diagramm.invalidate();
+    }
+
+    /**
+     * Setzt den ausgewaehlten Zeitraum (Woche, Monat, Jahr)
+     *
+     * @param pzeitraum Zeitraum, der ausgewaehlt und angezeigt werde soll
+     */
+    public void setZeitraum(int pzeitraum) {
+        zeitraum = pzeitraum;
+    }
+
+    /**
+     * Setzt die ausgewaehlte Verschiebung -1 ist eine Einheit (Woche, Monat, Jahr) frueher, +1 eine spaeter
+     *
+     * @param pverschiebung zeitliche Verschiebung von der aktuellen Ansicht um eine Einheit
+     */
+    public void setVerschiebung(int pverschiebung) {
+        verschiebung += pverschiebung;
+    }
+
+    /**
+     * Setzt die ausgewaehlte Statistikart (Strecken=0 Treibstoff=1 Tankkosten=2 CO2=3)
+     *
+     * @param pstatistikart Art der Statistik
+     */
+    public void setStatistikart(int pstatistikart) {
+        statistikart = pstatistikart;
+    }
+
+    /**
+     * Verwaltet die Hervorhebungen der Zeitraumbuttons, je nach dem welcher Zeitraum ausgewaehlt wurde
+     */
+    public void setZeitraumButtonFarbe() {
+        switch (zeitraum) {
+            case 0:
+                buttonWoche.setBackgroundColor(getResources().getColor(R.color.orange));
+                buttonMonat.setBackgroundColor(getResources().getColor(R.color.design_default_color_primary));
+                buttonJahr.setBackgroundColor(getResources().getColor(R.color.design_default_color_primary));
+                break;
+            case 1:
+                buttonWoche.setBackgroundColor(getResources().getColor(R.color.design_default_color_primary));
+                buttonMonat.setBackgroundColor(getResources().getColor(R.color.orange));
+                buttonJahr.setBackgroundColor(getResources().getColor(R.color.design_default_color_primary));
+                break;
+            case 2:
+                buttonWoche.setBackgroundColor(getResources().getColor(R.color.design_default_color_primary));
+                buttonMonat.setBackgroundColor(getResources().getColor(R.color.design_default_color_primary));
+                buttonJahr.setBackgroundColor(getResources().getColor(R.color.orange));
+                break;
+        }
+
+    }
+
+
+    /**
+     * Dreht das Array um, sodass der erste Eintrag genau dem aeltesten entspricht
+     */
+    private void dreheStatistikdaten() {
+        for (int i = 0; i < dstatistikdaten.length / 2; i++) {
+            double temp = dstatistikdaten[i];
+            dstatistikdaten[i] = dstatistikdaten[dstatistikdaten.length - i - 1];
+            dstatistikdaten[dstatistikdaten.length - i - 1] = temp;
+        }
+    }
+
+    /**
+     * Dreht das Array um, sodass der erste Eintrag genau dem aeltesten entspricht
+     */
+    private void drehexAchsedaten() {
+        for (int i = 0; i < daten.length / 2; i++) {
+            String temp = daten[i];
+            daten[i] = daten[daten.length - i - 1];
+            daten[daten.length - i - 1] = temp;
+        }
+
     }
 }

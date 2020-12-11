@@ -129,7 +129,6 @@ public class NewStreckeActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
-                Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
                 TextView progressLabel = findViewById(R.id.labelStreckeHinzufuegenAktuellerTankstandStand);
                 progressLabel.setText(String.valueOf(i));
             }
@@ -203,7 +202,7 @@ public class NewStreckeActivity extends AppCompatActivity {
     /**
      * Backend, um Daten abzufangen und Strecke zu ändern oder zur Chronik hinzuzufügen
      */
-    private boolean fertigButtonGedrueckt() {
+    private void fertigButtonGedrueckt() {
 
         if (korrekteEingabe) {  // korrekte Eingaben getätigt
 
@@ -254,10 +253,7 @@ public class NewStreckeActivity extends AppCompatActivity {
                 );
 
                 neuesteStrecke.setVerbrauchterTreibstoff(alterTankstand - aktuellerTankstand);
-                aktuellesFahrzeug.verbrauchAktualisieren(
-                        alterTankstand - aktuellerTankstand, distanz, streckentyp
-                );
-
+                aktuellesFahrzeug.verbrauchAktualisieren();
             }
         }
 
@@ -270,7 +266,6 @@ public class NewStreckeActivity extends AppCompatActivity {
         } else {
             setResult(Activity.RESULT_CANCELED, intent);
         }
-        return true;
     }
 
     /**
@@ -296,12 +291,9 @@ public class NewStreckeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_new_strecke_done) {
-            boolean hatFunktioniert = fertigButtonGedrueckt();
-            if (hatFunktioniert) {
-                setResult(Activity.RESULT_OK, intent);
-                finish();
-                return true;
-            }
+            fertigButtonGedrueckt();
+            finish();
+            return true;
         }
         setResult(Activity.RESULT_CANCELED, intent);
         return false;

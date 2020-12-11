@@ -34,7 +34,7 @@ import java.util.ArrayList;
 public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final ArrayList<Ereignis> ereignisse;
-    private Context context;
+    private final Context context;
 
     /**
      * zur Übergabe der Ereignisliste
@@ -82,13 +82,13 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public void onClick(View view) {
                     if (ereignis.getEreignisTyp() == Ereignis.EreignisTyp.STRECKE) {
-                        Intent intent = new Intent(view.getContext(), NewStreckeActivity.class);
+                        Intent intent = new Intent(context, NewStreckeActivity.class);
                         intent.setAction(TimelineFragment.ACTION_EDIT_STRECKE);
                         ((Activity) context).startActivityForResult(
                                 intent, TimelineFragment.LAUNCH_NEW_STRECKE_EDIT_STRECKE
                         );
                     } else {
-                        Intent intent = new Intent(view.getContext(), NewTankvorgangActivity.class);
+                        Intent intent = new Intent(context, NewTankvorgangActivity.class);
                         intent.setAction(TimelineFragment.ACTION_EDIT_TANKVORGANG);
                         ((Activity) context).startActivityForResult(
                                 intent, TimelineFragment.LAUNCH_NEW_TANKVORGANG_EDIT_TANKVORGANG
@@ -139,7 +139,8 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // TODO: Bild anzeigen lassen, falls Tankvorgang
+                    // Hier biste richtig, Lukas
+                    // Bild anzeigen lassen, falls Ereignis ein Tankvorgang ist
                 }
             });
         }

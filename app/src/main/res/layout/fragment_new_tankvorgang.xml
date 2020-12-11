@@ -38,32 +38,6 @@
                 android:inputType="numberDecimal"
                 android:text="@string/zero_number" />
 
-            <!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="5dp"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:layout_marginBottom="20dp"-->
-<!--                android:orientation="horizontal">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/labelGetankteMengeMenge"-->
-<!--                    android:layout_width="24dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="5dp"-->
-<!--                    android:text="@string/zero_number" />-->
-
-<!--                <SeekBar-->
-<!--                    android:id="@+id/seekBarGetankteMenge"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="1dp"-->
-<!--                    android:max="100"-->
-<!--                    android:min="0" /> &lt;!&ndash; TODO &ndash;&gt;-->
-<!--            </LinearLayout>-->
-
-            <!-- Preis -->
-
             <TextView
                 android:id="@+id/labelPreisTitel"
                 android:layout_width="match_parent"
