@@ -5,6 +5,7 @@ import com.example.tankauswertung.exceptions.FahrzeugWertException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -550,7 +551,7 @@ public class Fahrzeug implements Serializable {
             double ungewichtet = verbrauchterTreibstoffInnerorts / distanzInnerorts * 100;
             verbrauchswertInnerorts
                     = getVerbrauchInnerortsAnfangswert() / anzahlStreckenInnerorts                  // Gewichtung mit 1/n
-                       + ungewichtet / anzahlStreckenInnerorts * (anzahlStreckenInnerorts - 1);     // Gewichtung mit (n-1)/n
+                    + ungewichtet / anzahlStreckenInnerorts * (anzahlStreckenInnerorts - 1);     // Gewichtung mit (n-1)/n
         }
 
         if (distanzAusserorts == 0) {
@@ -858,17 +859,34 @@ public class Fahrzeug implements Serializable {
      * @return LinkedHashMap mit dem ersten Tag des Monats als Key und dem zugehoerigen CO2-Ausstoss als Value
      */
     public LinkedHashMap<String, Double> getJahrCO2Statistik(int verschiebung) {
+        String[] monthNames = {"Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"};
         LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
-        double summe;
-        for (int i = 0; i < 13; i++) {
-            summe = 0;
-            LinkedHashMap<String, Double> einMonat = getMonatCO2Statistik(-i + (verschiebung * 12));
-            for (double d : einMonat.values()) {
-                summe += d;
+        Calendar heute = Calendar.getInstance();
+        heute.add(Calendar.YEAR, verschiebung);
+        Calendar vergleich = Calendar.getInstance();
+
+        int i = 0; // Strecken-Index
+
+        for (int j = 0; j < 12; j++) {
+            double summeAusstoss = 0;
+            int month = heute.get(Calendar.MONTH);
+            rueckgabe.put(monthNames[month], summeAusstoss);
+
+            while (i < strecken.size()) {
+                vergleich.setTime(strecken.get(i).getZeitstempel());
+                if (vergleich.get(Calendar.MONTH) == heute.get(Calendar.MONTH)) {
+                    summeAusstoss += strecken.get(i).getCo2Ausstoss();
+                    rueckgabe.replace(monthNames[month], summeAusstoss);
+                    i++;
+                } else if (vergleich.after(heute)) {
+                    i++;
+                } else {
+                    break;
+                }
             }
-            String firstDate = (String) einMonat.keySet().stream().toArray()[3];
-            rueckgabe.put(firstDate, summe);
+            heute.add(Calendar.MONTH, -1);
         }
+
         return rueckgabe;
     }
 

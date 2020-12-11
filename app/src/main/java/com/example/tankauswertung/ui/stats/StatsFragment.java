@@ -27,6 +27,7 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -210,8 +211,14 @@ public class StatsFragment extends Fragment {
             case 2://jahr
                 formatter = new SimpleDateFormat("dd.MM");
 
-                dateZeitraumende.setTime(dateZeitraumende.getTime() + dreiwochen_ms + sechstage_ms); //ein Tag weniger da letzter und erster Tag inklusiv ist
-                dateEndeZeitraumende = dateZeitraumende;
+                //dateZeitraumende.setTime(dateZeitraumende.getTime() + dreiwochen_ms + sechstage_ms); //ein Tag weniger da letzter und erster Tag inklusiv ist
+                //dateEndeZeitraumende = dateZeitraumende;
+                dateEndeZeitraumende = new Date();
+                dateZeitraumbeginn = new Date();
+                /*Calendar calZeitraumBeginn = Calendar.getInstance();
+                calZeitraumBeginn.add(Calendar.MONTH, -11);
+                calZeitraumBeginn.set(Calendar.DAY_OF_MONTH, 1);
+                dateZeitraumbeginn = calZeitraumBeginn.getTime();*/
 
                 SimpleDateFormat formatterZeitraumende = new SimpleDateFormat("dd.MM.yyyy");
                 zeitraumende = formatterZeitraumende.format(dateEndeZeitraumende);
