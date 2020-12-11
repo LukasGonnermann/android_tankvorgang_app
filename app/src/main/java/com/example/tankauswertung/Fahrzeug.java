@@ -153,6 +153,8 @@ public class Fahrzeug implements Serializable {
      *
      * @return Gibt den aktuellen Tankstand als int zurueck, in Prozent
      */
+
+
     public double getTankstand() {
         return tankstand;
     }
