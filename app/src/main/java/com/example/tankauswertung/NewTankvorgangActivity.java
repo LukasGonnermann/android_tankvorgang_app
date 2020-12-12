@@ -193,13 +193,15 @@ public class NewTankvorgangActivity extends AppCompatActivity {
             Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
             Tankvorgang neuesterTankvorgang = aktuellesFahrzeug.getTankvorgaenge().get(0);
             String imgPath = neuesterTankvorgang.getImg();
+            // Falls kein Bild aufgenommen wurde wird kein Bild angezeigt
+            if (imgPath != null) {
+                Uri imageURI = Uri.fromFile(new File(imgPath));
+                this.imageViewTankvorgangBeleg.setImageURI(imageURI);
+                this.imageViewTankvorgangBeleg.setVisibility(View.VISIBLE);
+            }
 
             editTextGetankteMenge.setText(Double.toString(neuesterTankvorgang.getGetankteMenge()));
             editTextPreis.setText(Double.toString(neuesterTankvorgang.getPreis()));
-
-            Uri imageURI = Uri.fromFile(new File(imgPath));
-            this.imageViewTankvorgangBeleg.setImageURI(imageURI);
-            this.imageViewTankvorgangBeleg.setVisibility(View.VISIBLE);
         }
 
         // --- OnClickListener für Bild-aufnehmen-Button
