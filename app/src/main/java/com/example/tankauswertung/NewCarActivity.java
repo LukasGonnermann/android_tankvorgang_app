@@ -58,6 +58,12 @@ public class NewCarActivity extends AppCompatActivity {
     CheckBox checkBoxElektro;
     ImageButton imageButtonElektroInfo;
 
+    TextView labelCo2Ausstoss;
+    TextView labelKilometerstand;
+    TextView labelTankvolumen;
+    TextView labelAktuellerTankstandTitel;
+    TextView labelAktuellerTankstandStand;
+
     Intent intent;
 
     Garage garage;
@@ -103,6 +109,12 @@ public class NewCarActivity extends AppCompatActivity {
         checkBoxElektro = findViewById(R.id.checkBoxElektro);
         imageButtonElektroInfo = findViewById(R.id.imageButtonElektroInfo);
 
+        labelKilometerstand = findViewById(R.id.labelKilometerstand);
+        labelTankvolumen = findViewById(R.id.labelTankvolumen);
+        labelAktuellerTankstandTitel = findViewById(R.id.labelAktuellerTankstandTitel);
+        labelAktuellerTankstandStand = findViewById(R.id.labelAktuellerTankstandStand);
+        labelCo2Ausstoss = findViewById(R.id.labelCo2Ausstoss);
+
         // zeigt den Zurück-Button an
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -138,8 +150,8 @@ public class NewCarActivity extends AppCompatActivity {
 
                 // ist Elektro
                 if (b) {
-                    // Hinweis-Dialog nur anzeigen, wenn Auto hinzugefügt wird und er nicht schon einmal angezeigt wurde
-                    if (intent.getAction().equals(MainActivity.ACTION_NEW_CAR) && !hinweis_angezeigt) {
+                    // Hinweis-Dialog nur anzeigen, wenn er nicht schon einmal angezeigt wurde
+                    if (!hinweis_angezeigt) {
                         dialogElektroInfoBestaetigung.show();
                     }
                     // ändere Maxwerte für die Verbrauchsslider zu 50
@@ -480,6 +492,7 @@ public class NewCarActivity extends AppCompatActivity {
         // --- Default-Werte setzen
 
         if (intent.getAction().equals(MainActivity.ACTION_NEW_CAR)) {
+
             aendern = true;
             editTextName.setText("");  // so wird der Listener (Überprüfung) zu Beginn ausgelöst
             editTextName.setError(null);  // so wird zwar der Haken ausgegraut, aber zu Beginn kein Fehler angezeigt (bessere UX!)
@@ -503,16 +516,24 @@ public class NewCarActivity extends AppCompatActivity {
             seekBarVerbrauchAusserorts.setProgress((int) aktuellesFahrzeug.getVerbrauchAusserorts());
             seekBarVerbrauchKombiniert.setProgress((int) aktuellesFahrzeug.getVerbrauchKombiniert());
              */
-            editTextVerbrauchInnerortsStand.setText(aktuellesFahrzeug.getVerbrauchInnerorts() + "");
-            editTextVerbrauchAusserortsStand.setText(aktuellesFahrzeug.getVerbrauchAusserorts() + "");
-            editTextVerbrauchKombiniertStand.setText(aktuellesFahrzeug.getVerbrauchKombiniert() + "");
+            editTextVerbrauchInnerortsStand.setText(Double.toString(aktuellesFahrzeug.getVerbrauchInnerortsAnfangswert()));
+            editTextVerbrauchAusserortsStand.setText(Double.toString(aktuellesFahrzeug.getVerbrauchAusserortsAnfangswert()));
+            editTextVerbrauchKombiniertStand.setText(Double.toString(aktuellesFahrzeug.getVerbrauchKombiniertAnfangswert()));
             seekBarAktuellerTankstand.setProgress((int) aktuellesFahrzeug.getTankstand());
 
-            // beim Ändern eines Fahrzeugs, welches schon Strecken/Tankvorgaenge gespeichert hat, sind einige Parameter ausgegraut
+            // beim Ändern eines Fahrzeugs, welches schon Strecken/Tankvorgänge gespeichert hat,
+            // sollen einige Parameter nicht mehr bearbeitbar sein
             if (!aktuellesFahrzeug.getStrecken().isEmpty() || !aktuellesFahrzeug.getTankvorgaenge().isEmpty()) {
-                editTextKilometerstand.setEnabled(false);
-                editTextTankvolumen.setEnabled(false);
-                seekBarAktuellerTankstand.setEnabled(false);
+                findViewById(R.id.groupElektro).setVisibility(View.GONE);
+                labelCo2Ausstoss.setVisibility(View.GONE);
+                editTextCo2.setVisibility(View.GONE);
+                labelKilometerstand.setVisibility(View.GONE);
+                editTextKilometerstand.setVisibility(View.GONE);
+                labelTankvolumen.setVisibility(View.GONE);
+                editTextTankvolumen.setVisibility(View.GONE);
+                labelAktuellerTankstandTitel.setVisibility(View.GONE);
+                labelAktuellerTankstandStand.setVisibility(View.GONE);
+                seekBarAktuellerTankstand.setVisibility(View.GONE);
             }
         }
 
