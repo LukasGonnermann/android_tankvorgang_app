@@ -115,15 +115,26 @@ public class NewTankvorgangActivity extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(getankteMengeText)) {
 
-                    editTextGetankteMenge.setError("Bitte geben Sie die getankte Menge an");
+                    if (!aktuellesFahrzeug.isElektro()) {
+                        editTextGetankteMenge.setError("Bitte geben Sie die getankte Menge an.");
+                    } else {
+                        editTextGetankteMenge.setError("Bitte geben Sie die geladene Menge an.");
+                    }
                     korrekteEinzeleingaben.put("menge", false);
 
                 } else if (Double.parseDouble(getankteMengeText.toString()) > altesRestvolumen) {
 
-                    editTextGetankteMenge.setError(
-                            "Bitte geben Sie eine Tankmenge an, die kleiner als das restliche " +
-                                    "Volumen Ihres Tanks (" +
-                                    altesRestvolumen +  " l) ist.");
+                    if (!aktuellesFahrzeug.isElektro()) {
+                        editTextGetankteMenge.setError(
+                                "Bitte geben Sie eine Tankmenge an, die kleiner als das restliche " +
+                                        "Volumen Ihres Tanks (" +
+                                        altesRestvolumen + " l) ist.");
+                    } else {
+                        editTextGetankteMenge.setError(
+                                "Bitte geben Sie eine Lademenge an, die kleiner als die " +
+                                        "restliche Kapazität Ihres Akkus (" +
+                                        altesRestvolumen + " kWh) ist.");
+                    }
                     korrekteEinzeleingaben.put("menge", false);
 
                 } else {
@@ -144,9 +155,18 @@ public class NewTankvorgangActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+
+                Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
+
                 if (TextUtils.isEmpty(editTextPreis.getText())) {
-                    editTextPreis.setError("Bitte geben Sie den Preis für den Tankvorgang an");
+
+                    if (!aktuellesFahrzeug.isElektro()) {
+                        editTextPreis.setError("Bitte geben Sie den Preis für den Tankvorgang an.");
+                    } else {
+                        editTextPreis.setError("Bitte geben Sie den Preis für den Ladevorgang an.");
+                    }
                     korrekteEinzeleingaben.put("preis", false);
+
                 } else {
                     korrekteEinzeleingaben.put("preis", true);
                 }
@@ -157,23 +177,31 @@ public class NewTankvorgangActivity extends AppCompatActivity {
         // Label für Elektroauto ändern
         if (garage.getAusgewaehltesFahrzeug().isElektro()) {
             labelGetankteMengeTitel.setText(R.string.getankte_menge_kwh);
+            setTitle(getString(R.string.new_tankvorgang_elektro));
         }
 
         // --- Default-Werte setzen
 
         if (intent.getAction().equals(TimelineFragment.ACTION_EDIT_TANKVORGANG)) {
 
-            setTitle(R.string.edit_tankvorgang);  // Titel "Tankvorgang bearbeiten" setzen
+            if (!garage.getAusgewaehltesFahrzeug().isElektro()) {
+                setTitle(R.string.edit_tankvorgang);  // Titel "Tankvorgang bearbeiten" setzen
+            } else {
+                setTitle(getString(R.string.edit_tankvorgang_elektro));  // Titel "Ladevorgang bearbeiten" setzen
+            }
+
             Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
             Tankvorgang neuesterTankvorgang = aktuellesFahrzeug.getTankvorgaenge().get(0);
             String imgPath = neuesterTankvorgang.getImg();
+            // Falls kein Bild aufgenommen wurde wird kein Bild angezeigt
+            if (imgPath != null) {
+                Uri imageURI = Uri.fromFile(new File(imgPath));
+                this.imageViewTankvorgangBeleg.setImageURI(imageURI);
+                this.imageViewTankvorgangBeleg.setVisibility(View.VISIBLE);
+            }
 
             editTextGetankteMenge.setText(Double.toString(neuesterTankvorgang.getGetankteMenge()));
             editTextPreis.setText(Double.toString(neuesterTankvorgang.getPreis()));
-
-            Uri imageURI = Uri.fromFile(new File(imgPath));
-            this.imageViewTankvorgangBeleg.setImageURI(imageURI);
-            this.imageViewTankvorgangBeleg.setVisibility(View.VISIBLE);
         }
 
         // --- OnClickListener für Bild-aufnehmen-Button

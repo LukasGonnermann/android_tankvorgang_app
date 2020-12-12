@@ -19,7 +19,10 @@ import com.example.tankauswertung.Garage;
 import com.example.tankauswertung.MainActivity;
 import com.example.tankauswertung.R;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class ForecastFragment extends Fragment {
 
@@ -32,6 +35,8 @@ public class ForecastFragment extends Fragment {
     Fahrzeug aktuellesFahrzeug;
 
     TextView labelKraftstoffverbrauchTitel;
+    TextView labelKraftstoffkostenTitel;
+    TextView labelAnzahlNoetigerTankvorgaengeTitel;
     TextView labelInnerortsWert;
     TextView labelAusserortsWert;
     TextView labelKombiniertWert;
@@ -45,8 +50,11 @@ public class ForecastFragment extends Fragment {
     TextView labelAnzahlNoetigerTankvorgaengeWert;
     TextView labelCo2AusstossWert;
 
+    DecimalFormat df = new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.GERMAN));
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         root = inflater.inflate(R.layout.fragment_forecast, container, false);
         return root;
     }
@@ -60,6 +68,8 @@ public class ForecastFragment extends Fragment {
 
         // label elements
         labelKraftstoffverbrauchTitel = root.findViewById(R.id.labelKraftstoffverbrauchTitel);
+        labelKraftstoffkostenTitel = root.findViewById(R.id.labelKraftstoffkostenTitel);
+        labelAnzahlNoetigerTankvorgaengeTitel = root.findViewById(R.id.labelAnzahlNoetigerTankvorgaengeTitel);
         labelInnerortsWert = root.findViewById(R.id.labelKalkulationInnerortsWert);
         labelAusserortsWert = root.findViewById(R.id.labelKalkulationAusserortsWert);
         labelKombiniertWert = root.findViewById(R.id.labelKalkulationKombiniertWert);
@@ -79,6 +89,12 @@ public class ForecastFragment extends Fragment {
         garage = MainActivity.getGarage();
         aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
 
+        // Elektromodifikationen
+        if (aktuellesFahrzeug.isElektro()) {
+            labelKraftstoffverbrauchTitel.setText(R.string.kraftstoffverbrauch_kwh);
+            labelKraftstoffkostenTitel.setText(R.string.kraftstoffkosten_euro_elektro);
+            labelAnzahlNoetigerTankvorgaengeTitel.setText(R.string.anzahl_noetige_tankvorgaenge_elektro);
+        }
 
         // --- input listener
 
@@ -94,10 +110,10 @@ public class ForecastFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (TextUtils.isEmpty(editTextStreckenlaenge.getText())) {
-                    editTextStreckenlaenge.setError("Bitte geben Sie eine Streckenlänge ein");
+                    editTextStreckenlaenge.setError("Bitte geben Sie eine Streckenlänge ein.");
                     korrekteEingabe = false;
                 } else if (Double.parseDouble(editTextStreckenlaenge.getText().toString()) <= 0) {
-                    editTextStreckenlaenge.setError("Bitte geben Sie eine Streckenlänge größer oder gleich 0 km ein");
+                    editTextStreckenlaenge.setError("Bitte geben Sie eine Streckenlänge größer oder gleich 0 km ein.");
                     korrekteEingabe = false;
                 } else {
                     korrekteEingabe = true;
@@ -235,14 +251,14 @@ public class ForecastFragment extends Fragment {
             int anzahlNoetigerTankvorgaenge = streckenprognose.get("anzahlNoetigerTankvorgaenge").intValue();
             double co2Ausstoss = streckenprognose.get("co2Ausstoss");
 
-            labelKraftstoffverbrauchWert.setText(String.valueOf(kraftstoffverbrauch));
-            labelAnzahlNoetigerTankvorgaengeWert.setText(String.valueOf(anzahlNoetigerTankvorgaenge));
-            labelCo2AusstossWert.setText(String.valueOf(co2Ausstoss));
+            labelKraftstoffverbrauchWert.setText(df.format(kraftstoffverbrauch));
+            labelAnzahlNoetigerTankvorgaengeWert.setText(df.format(anzahlNoetigerTankvorgaenge));
+            labelCo2AusstossWert.setText(df.format(co2Ausstoss));
 
             if (kraftstoffkosten == -1) {
                 labelKraftstoffkostenWert.setText(R.string.idle);
             } else {
-                labelKraftstoffkostenWert.setText(String.valueOf(kraftstoffkosten));
+                labelKraftstoffkostenWert.setText(df.format(kraftstoffkosten));
             }
         } else {
             labelKraftstoffverbrauchWert.setText(R.string.idle);

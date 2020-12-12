@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationUI.setupWithNavController(botNavView, navController);
 
         // lade Garage
-        //Da getGarage() static ist, darf kein neues Garage-Objekt erstellt werden, wenn schon eines erstellt wurde
+        // da getGarage() static ist, darf kein neues Garage-Objekt erstellt werden, wenn schon eines erstellt wurde
         if (garage == null) {
             garage = new Garage();
             garage.load(getApplicationContext());
@@ -305,15 +305,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         editButton.setIcon(R.drawable.ic_baseline_edit_24);
         removeButton.setIcon(R.drawable.ic_baseline_delete_24);
 
-        // falls keine Fahrzeuge da oder eines der Fahrzeuge hat mindestens eine Strecke oder
-        // Tankvorgang, dann Bearbeiten-Button nicht mehr anzeigen
-        if (garage.isEmpty()
-                || !garage.getAusgewaehltesFahrzeug().getStrecken().isEmpty()
-                || !garage.getAusgewaehltesFahrzeug().getTankvorgaenge().isEmpty()) {
-            editButton.setVisible(false);
-        } else {
-            editButton.setVisible(true);
-        }
+        // falls keine Fahrzeuge da, Bearbeiten-Button nicht anzeigen
+        editButton.setVisible(!garage.isEmpty());
 
         // falls keine Fahrzeuge da, soll auch keins löschbar sein
         removeButton.setVisible(!garage.isEmpty());

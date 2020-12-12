@@ -1,5 +1,6 @@
 package com.example.tankauswertung.ui.stats;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.example.tankauswertung.Fahrzeug;
 import com.example.tankauswertung.Garage;
 import com.example.tankauswertung.MainActivity;
 import com.example.tankauswertung.R;
+import com.example.tankauswertung.ui.forecast.ForecastValueFormatter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -27,6 +29,7 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -34,14 +37,16 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public class StatsFragment extends Fragment {
+
     private final String setLabel = "";
+
     // UI-Elemente
     ImageButton imageButtonStrecken;
     ImageButton imageButtonTreibstoff;
     ImageButton imageButtonTankkosten;
     ImageButton imageButtonCO2;
-    Button buttonFrueher;
-    Button buttonSpaeter;
+    ImageButton buttonFrueher;
+    ImageButton buttonSpaeter;
     Button buttonWoche;
     Button buttonMonat;
     Button buttonJahr;
@@ -52,7 +57,7 @@ public class StatsFragment extends Fragment {
     String[] daten;//zeitdaten der statistikwerte
     String zeitraumbeginn = "";
     String zeitraumende = "";
-    private String titel = "";
+    private int titel;
     private BarChart diagramm;
     private int verschiebung = 0; //zeitliche Verschiebung der angezeigten Stats von aktueller Zeit
     private int zeitraum = 0; //ausgewaehlter Zeitraum: Woche=0 Monat=1 Jahr=2
@@ -162,7 +167,8 @@ public class StatsFragment extends Fragment {
         bereiteDiagrammdaten(data);
 
         textViewTitel.setText(titel);
-        textViewZeitraum.setText(zeitraumbeginn + " - " + zeitraumende);
+        // laut Duden ohne Leerzeichen
+        textViewZeitraum.setText(zeitraumbeginn + "–" + zeitraumende);
     }
 
     /**
@@ -182,23 +188,24 @@ public class StatsFragment extends Fragment {
         da ja das Anfangsdatum des Zeitraums uebergeben wird*/
         Date dateEndeZeitraumende = null;
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yy");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         try {
             dateZeitraumende = formatter.parse(zeitraumende);
             dateZeitraumbeginn = formatter.parse(zeitraumbeginn);
 
 
         } catch (ParseException e) {
+            System.out.println("EXCEPTION");
             e.printStackTrace();
         }
 
         int sechstage_ms = 518400000;
-        long dreiwochen_ms = Math.multiplyExact((long) 86400000, 7 * 3);
+        //long dreiwochen_ms = Math.multiplyExact((long) 86400000, 7 * 3);
 
 
         switch (zeitraum) {
             case 0: //woche
-                formatter = new SimpleDateFormat("dd.MM.yy");
+                formatter = new SimpleDateFormat("dd.MM.");
                 break;
             case 1://monat
                 SimpleDateFormat formattermonat = new SimpleDateFormat("dd.MM.yyyy");
@@ -208,10 +215,15 @@ public class StatsFragment extends Fragment {
                 zeitraumbeginn = formattermonat.format(dateZeitraumbeginn);
                 break;
             case 2://jahr
-                formatter = new SimpleDateFormat("dd.MM");
+                formatter = new SimpleDateFormat("dd.MM.");
 
-                dateZeitraumende.setTime(dateZeitraumende.getTime() + dreiwochen_ms + sechstage_ms); //ein Tag weniger da letzter und erster Tag inklusiv ist
+                //dateZeitraumende.setTime(dateZeitraumende.getTime() + dreiwochen_ms + sechstage_ms); //ein Tag weniger da letzter und erster Tag inklusiv ist
                 dateEndeZeitraumende = dateZeitraumende;
+
+                Calendar calZeitraumbeginn = Calendar.getInstance();
+                calZeitraumbeginn.setTime(dateZeitraumbeginn);
+                calZeitraumbeginn.set(Calendar.DAY_OF_MONTH, 1);
+                dateZeitraumbeginn = calZeitraumbeginn.getTime();
 
                 SimpleDateFormat formatterZeitraumende = new SimpleDateFormat("dd.MM.yyyy");
                 zeitraumende = formatterZeitraumende.format(dateEndeZeitraumende);
@@ -220,18 +232,41 @@ public class StatsFragment extends Fragment {
 
         }
 
+        // Spaeter-Button deaktivieren, wenn heute = Zeitraumende ist (Weil es keine Statistik fuer die Zukunft gibt)
+        Calendar heute = Calendar.getInstance();
+        Calendar calZeitraumende = Calendar.getInstance();
+        calZeitraumende.setTime(dateZeitraumende);
+
+        boolean spaeterButtonSichtbar =
+                   heute.get(Calendar.DATE) != calZeitraumende.get(Calendar.DATE)
+                || heute.get(Calendar.MONTH) != calZeitraumende.get(Calendar.MONTH)
+                || heute.get(Calendar.YEAR) != calZeitraumende.get(Calendar.YEAR);
+
+        if (spaeterButtonSichtbar) {
+            buttonSpaeter.setVisibility(View.VISIBLE);
+        } else {
+            buttonSpaeter.setVisibility(View.INVISIBLE);
+        }
+
         x_beschriftung = daten.clone();
         SimpleDateFormat formatterparse = new SimpleDateFormat("dd.MM.yyyy");
+        String[] monthNames = {"Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"};
+        String sdatum;
         for (int i = 0; i < daten.length; i++) {
             try {
                 Date ddatum = formatterparse.parse(x_beschriftung[i]);
-                String sdatum = formatter.format(ddatum);
+                if (zeitraum == 2) {
+                    Calendar calDatum = Calendar.getInstance();
+                    calDatum.setTime(ddatum);
+                    sdatum = monthNames[calDatum.get(Calendar.MONTH)];
+                } else {
+                    sdatum = formatter.format(ddatum);
+                }
                 x_beschriftung[i] = sdatum;
 
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
         }
 
         return x_beschriftung;
@@ -278,7 +313,7 @@ public class StatsFragment extends Fragment {
         switch (statistikart) {
 
             case 0: //Strecken
-                titel = "Strecken";
+                titel = R.string.gefahrene_distanz_km;
                 switch (zeitraum) {
                     case 0: //Woche in 7 Tagen
                         statistikdaten = aktuellesFahrzeug.getWocheStreckenStatistik(verschiebung);
@@ -295,8 +330,12 @@ public class StatsFragment extends Fragment {
                 }
 
                 break;
-            case 1: //Treibstoffverbrauch
-                titel = "Treibstoffverbrauch";
+            case 1: // Treibstoffverbrauch
+                if (aktuellesFahrzeug.isElektro()) {
+                    titel = R.string.kraftstoffverbrauch_kwh;
+                } else {
+                    titel = R.string.kraftstoffverbrauch_l;
+                }
                 switch (zeitraum) {
                     case 0: //Woche in 7 Tagen
                         statistikdaten = aktuellesFahrzeug.getWocheTreibstoffStatistik(verschiebung);
@@ -311,7 +350,11 @@ public class StatsFragment extends Fragment {
 
                 break;
             case 2: //Tankkosten
-                titel = "Tankkosten";
+                if (aktuellesFahrzeug.isElektro()) {
+                    titel = R.string.kraftstoffkosten_euro_elektro;
+                } else {
+                    titel = R.string.kraftstoffkosten_euro;
+                }
                 switch (zeitraum) {
                     case 0: //Woche in 7 Tagen
                         statistikdaten = aktuellesFahrzeug.getWocheTankkostenStatistik(verschiebung);
@@ -329,7 +372,7 @@ public class StatsFragment extends Fragment {
 
                 break;
             case 3: //CO2
-                titel = "CO2-Ausstoß";
+                titel = R.string.co2_ausstoss_g;
                 switch (zeitraum) {
                     case 0://Woche in 7 Tagen
                         statistikdaten = aktuellesFahrzeug.getWocheCO2Statistik(verschiebung);
@@ -368,12 +411,12 @@ public class StatsFragment extends Fragment {
 
 
         BarDataSet set1 = new BarDataSet(values, setLabel); //obligatorisch aber nicht angezeigt
+        set1.setValueFormatter(new ForecastValueFormatter());
 
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(set1);
 
-        BarData data = new BarData(dataSets);
-        return data;
+        return new BarData(dataSets);
     }
 
     /**
