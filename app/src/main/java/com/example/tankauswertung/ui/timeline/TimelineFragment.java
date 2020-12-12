@@ -151,6 +151,8 @@ TimelineFragment extends Fragment {
 
         // Placeholder einblenden, falls keine Strecken oder Tankvorgänge vorhanden
         if (aktuellesFahrzeug.getEreignisse().size() == 0) {
+            if(aktuellesFahrzeug.isElektro())
+                textView.setText(R.string.timeline_no_items_elektro);
             textView.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.INVISIBLE);
         } else {
@@ -183,7 +185,7 @@ TimelineFragment extends Fragment {
 
             if (intent.getAction().equals(ACTION_NEW_STRECKE)) {
                 if (resultCode == Activity.RESULT_OK) {
-                    Toast toast = Toast.makeText(getContext(), "S hinzugefügt", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(getContext(), "Strecke hinzugefügt", Toast.LENGTH_LONG);
                     toast.show();
                 }
             }

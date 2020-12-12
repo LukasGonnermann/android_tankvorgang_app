@@ -91,4 +91,5 @@
     <string name="new_tankvorgang_elektro">Ladevorgang hinzufügen</string>
     <string name="kraftstoffverbrauch_elektro">Kraftstoffverbrauch (kWh)</string>
     <string name="anzahl_noetige_tankvorgaenge_elektro">Anzahl nötiger Ladevorgänge</string>
+    <string name="timeline_no_items_elektro">Noch keine Strecken oder Ladevorgänge vorhanden</string>
 </resources>
