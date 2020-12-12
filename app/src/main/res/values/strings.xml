@@ -103,4 +103,5 @@
     <string name="tank_voll_title_elektro">Akku bereits voll</string>
     <string name="tank_voll_msg">Ihr Tank ist bereits voll. Haben Sie eventuell vergessen, eine Strecke hinzuzufügen?</string>
     <string name="tank_voll_msg_elektro">Ihr Akku ist bereits voll. Haben Sie eventuell vergessen, eine Strecke hinzuzufügen?</string>
+    <string name="timeline_no_items_elektro">Noch keine Strecken oder Ladevorgänge vorhanden</string>
 </resources>

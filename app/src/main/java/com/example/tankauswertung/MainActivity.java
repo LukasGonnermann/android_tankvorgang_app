@@ -307,9 +307,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // falls keine Fahrzeuge da oder eines der Fahrzeuge hat mindestens eine Strecke oder
         // Tankvorgang, dann Bearbeiten-Button nicht mehr anzeigen
-        if (garage.isEmpty()
-                || !garage.getAusgewaehltesFahrzeug().getStrecken().isEmpty()
-                || !garage.getAusgewaehltesFahrzeug().getTankvorgaenge().isEmpty()) {
+        if (garage.isEmpty()) {
             editButton.setVisible(false);
         } else {
             editButton.setVisible(true);
