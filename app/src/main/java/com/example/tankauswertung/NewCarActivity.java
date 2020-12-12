@@ -508,8 +508,8 @@ public class NewCarActivity extends AppCompatActivity {
             editTextVerbrauchKombiniertStand.setText(aktuellesFahrzeug.getVerbrauchKombiniert() + "");
             seekBarAktuellerTankstand.setProgress((int) aktuellesFahrzeug.getTankstand());
 
-            //Beim Aendern eines Fahrzeugs, welches schon Strecken/Tankvorgaenge gespeichert hat sind einige Parameter ausgegraut:
-            if(!aktuellesFahrzeug.getStrecken().isEmpty() || !aktuellesFahrzeug.getTankvorgaenge().isEmpty()) {
+            // beim Ändern eines Fahrzeugs, welches schon Strecken/Tankvorgaenge gespeichert hat, sind einige Parameter ausgegraut
+            if (!aktuellesFahrzeug.getStrecken().isEmpty() || !aktuellesFahrzeug.getTankvorgaenge().isEmpty()) {
                 editTextKilometerstand.setEnabled(false);
                 editTextTankvolumen.setEnabled(false);
                 seekBarAktuellerTankstand.setEnabled(false);
