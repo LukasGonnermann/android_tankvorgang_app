@@ -99,7 +99,7 @@ public class NewStreckeActivity extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(kilometerStandText)) {
 
-                    editTextKilometerstand.setError("Bitte geben Sie den aktuellen Kilometerstand Ihres Fahrzeugs an");
+                    editTextKilometerstand.setError("Bitte geben Sie den aktuellen Kilometerstand Ihres Fahrzeugs an.");
                     korrekteEinzeleingaben.put("kilometerstand", false);
 
                 } else if (Double.parseDouble(kilometerStandText.toString()) < alterKilometerstand) {

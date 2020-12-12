@@ -35,7 +35,9 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public class StatsFragment extends Fragment {
+
     private final String setLabel = "";
+
     // UI-Elemente
     ImageButton imageButtonStrecken;
     ImageButton imageButtonTreibstoff;
@@ -53,7 +55,7 @@ public class StatsFragment extends Fragment {
     String[] daten;//zeitdaten der statistikwerte
     String zeitraumbeginn = "";
     String zeitraumende = "";
-    private String titel = "";
+    private int titel;
     private BarChart diagramm;
     private int verschiebung = 0; //zeitliche Verschiebung der angezeigten Stats von aktueller Zeit
     private int zeitraum = 0; //ausgewaehlter Zeitraum: Woche=0 Monat=1 Jahr=2
@@ -163,7 +165,7 @@ public class StatsFragment extends Fragment {
         bereiteDiagrammdaten(data);
 
         textViewTitel.setText(titel);
-        textViewZeitraum.setText(zeitraumbeginn + " - " + zeitraumende);
+        textViewZeitraum.setText(zeitraumbeginn + " – " + zeitraumende);
     }
 
     /**
@@ -285,7 +287,7 @@ public class StatsFragment extends Fragment {
         switch (statistikart) {
 
             case 0: //Strecken
-                titel = "Strecken";
+                titel = R.string.gefahrene_distanz_km;
                 switch (zeitraum) {
                     case 0: //Woche in 7 Tagen
                         statistikdaten = aktuellesFahrzeug.getWocheStreckenStatistik(verschiebung);
@@ -302,8 +304,12 @@ public class StatsFragment extends Fragment {
                 }
 
                 break;
-            case 1: //Treibstoffverbrauch
-                titel = "Treibstoffverbrauch";
+            case 1: // Treibstoffverbrauch
+                if (aktuellesFahrzeug.isElektro()) {
+                    titel = R.string.kraftstoffverbrauch_kwh;
+                } else {
+                    titel = R.string.kraftstoffverbrauch_l;
+                }
                 switch (zeitraum) {
                     case 0: //Woche in 7 Tagen
                         statistikdaten = aktuellesFahrzeug.getWocheTreibstoffStatistik(verschiebung);
@@ -318,7 +324,11 @@ public class StatsFragment extends Fragment {
 
                 break;
             case 2: //Tankkosten
-                titel = "Tankkosten";
+                if (aktuellesFahrzeug.isElektro()) {
+                    titel = R.string.kraftstoffkosten_euro_elektro;
+                } else {
+                    titel = R.string.kraftstoffkosten_euro;
+                }
                 switch (zeitraum) {
                     case 0: //Woche in 7 Tagen
                         statistikdaten = aktuellesFahrzeug.getWocheTankkostenStatistik(verschiebung);
@@ -336,7 +346,7 @@ public class StatsFragment extends Fragment {
 
                 break;
             case 3: //CO2
-                titel = "CO2-Ausstoß";
+                titel = R.string.co2_ausstoss_g;
                 switch (zeitraum) {
                     case 0://Woche in 7 Tagen
                         statistikdaten = aktuellesFahrzeug.getWocheCO2Statistik(verschiebung);
@@ -379,8 +389,7 @@ public class StatsFragment extends Fragment {
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(set1);
 
-        BarData data = new BarData(dataSets);
-        return data;
+        return new BarData(dataSets);
     }
 
     /**

@@ -32,6 +32,8 @@ public class ForecastFragment extends Fragment {
     Fahrzeug aktuellesFahrzeug;
 
     TextView labelKraftstoffverbrauchTitel;
+    TextView labelKraftstoffkostenTitel;
+    TextView labelAnzahlNoetigerTankvorgaengeTitel;
     TextView labelInnerortsWert;
     TextView labelAusserortsWert;
     TextView labelKombiniertWert;
@@ -44,7 +46,6 @@ public class ForecastFragment extends Fragment {
     TextView labelKraftstoffkostenWert;
     TextView labelAnzahlNoetigerTankvorgaengeWert;
     TextView labelCo2AusstossWert;
-    TextView labelAnzahlNoetigerTankvorgaengeTitel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -61,10 +62,11 @@ public class ForecastFragment extends Fragment {
 
         // label elements
         labelKraftstoffverbrauchTitel = root.findViewById(R.id.labelKraftstoffverbrauchTitel);
+        labelKraftstoffkostenTitel = root.findViewById(R.id.labelKraftstoffkostenTitel);
+        labelAnzahlNoetigerTankvorgaengeTitel = root.findViewById(R.id.labelAnzahlNoetigerTankvorgaengeTitel);
         labelInnerortsWert = root.findViewById(R.id.labelKalkulationInnerortsWert);
         labelAusserortsWert = root.findViewById(R.id.labelKalkulationAusserortsWert);
         labelKombiniertWert = root.findViewById(R.id.labelKalkulationKombiniertWert);
-        labelAnzahlNoetigerTankvorgaengeTitel = root.findViewById(R.id.labelAnzahlNoetigerTankvorgaengeTitel);
 
         // input elements
         editTextStreckenlaenge = root.findViewById(R.id.editTextKalkulationStreckenlaenge);
@@ -81,9 +83,10 @@ public class ForecastFragment extends Fragment {
         garage = MainActivity.getGarage();
         aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
 
-        //Elektromodifikationen:
-        if(aktuellesFahrzeug.isElektro()) {
-            labelKraftstoffverbrauchTitel.setText(R.string.kraftstoffverbrauch_elektro);
+        // Elektromodifikationen
+        if (aktuellesFahrzeug.isElektro()) {
+            labelKraftstoffverbrauchTitel.setText(R.string.kraftstoffverbrauch_kwh);
+            labelKraftstoffkostenTitel.setText(R.string.kraftstoffkosten_euro_elektro);
             labelAnzahlNoetigerTankvorgaengeTitel.setText(R.string.anzahl_noetige_tankvorgaenge_elektro);
         }
 
@@ -101,10 +104,10 @@ public class ForecastFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (TextUtils.isEmpty(editTextStreckenlaenge.getText())) {
-                    editTextStreckenlaenge.setError("Bitte geben Sie eine Streckenlänge ein");
+                    editTextStreckenlaenge.setError("Bitte geben Sie eine Streckenlänge ein.");
                     korrekteEingabe = false;
                 } else if (Double.parseDouble(editTextStreckenlaenge.getText().toString()) <= 0) {
-                    editTextStreckenlaenge.setError("Bitte geben Sie eine Streckenlänge größer oder gleich 0 km ein");
+                    editTextStreckenlaenge.setError("Bitte geben Sie eine Streckenlänge größer oder gleich 0 km ein.");
                     korrekteEingabe = false;
                 } else {
                     korrekteEingabe = true;

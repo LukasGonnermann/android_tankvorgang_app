@@ -25,8 +25,7 @@ import com.example.tankauswertung.R;
 //import com.github.vipulasri.timelineview.TimelineView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class
-TimelineFragment extends Fragment {
+public class TimelineFragment extends Fragment {
 
     private View root;
     private boolean fabOpen = false;
@@ -96,10 +95,20 @@ TimelineFragment extends Fragment {
 
                 if (aktuellesFahrzeug.getTankstand() < DELTA_TANKSTAND_PROZENT) {  // Tank leer / so gut wie leer
 
+                    int title;
+                    int msg;
+
+                    if (aktuellesFahrzeug.isElektro()) {
+                        title = R.string.tank_leer_title_elektro;
+                        msg = R.string.tank_leer_msg_elektro;
+                    } else {
+                        title = R.string.tank_leer_title;
+                        msg = R.string.tank_leer_msg;
+                    }
+
                     AlertDialog dialogTankFastLeer = new AlertDialog.Builder(getContext())
-                            .setTitle("Tank ist leer")
-                            .setMessage("Ihr Tank ist leer. Wenn Sie dennoch eine Strecke " +
-                                    "hinzufügen wollen, fügen Sie erst einen Tankvorgang hinzu. ")
+                            .setTitle(title)
+                            .setMessage(msg)
                             .setIcon(R.drawable.ic_baseline_local_gas_station_24)
 
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -123,13 +132,23 @@ TimelineFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                int title;
+                int msg;
+
+                if (aktuellesFahrzeug.isElektro()) {
+                    title = R.string.tank_voll_title_elektro;
+                    msg = R.string.tank_voll_msg_elektro;
+                } else {
+                    title = R.string.tank_voll_title;
+                    msg = R.string.tank_voll_msg;
+                }
+
                 // Tank voll, kleineres Delta (0.001) damit voll auch wirklich voll bedeutet
                 if (100 - aktuellesFahrzeug.getTankstand() < DELTA_TANKSTAND_PROZENT) {
 
                     AlertDialog dialogTankVoll = new AlertDialog.Builder(getContext())
-                            .setTitle("Tank bereits voll")
-                            .setMessage("Ihr Tank ist bereits voll. Haben Sie eventuell " +
-                                    "vergessen, eine Strecke hinzuzufügen?")
+                            .setTitle(title)
+                            .setMessage(msg)
                             .setIcon(R.drawable.ic_baseline_local_gas_station_24)
 
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -151,6 +170,9 @@ TimelineFragment extends Fragment {
 
         // Placeholder einblenden, falls keine Strecken oder Tankvorgänge vorhanden
         if (aktuellesFahrzeug.getEreignisse().size() == 0) {
+            if (aktuellesFahrzeug.isElektro()) {
+                textView.setText(R.string.ereignisseLeerElektro);
+            }
             textView.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.INVISIBLE);
         } else {
@@ -183,8 +205,7 @@ TimelineFragment extends Fragment {
 
             if (intent.getAction().equals(ACTION_NEW_STRECKE)) {
                 if (resultCode == Activity.RESULT_OK) {
-                    Toast toast = Toast.makeText(getContext(), "S hinzugefügt", Toast.LENGTH_LONG);
-                    toast.show();
+                    // alles ok
                 }
             }
 

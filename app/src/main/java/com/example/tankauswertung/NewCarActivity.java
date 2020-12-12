@@ -136,13 +136,13 @@ public class NewCarActivity extends AppCompatActivity {
                 TextView labelTankvolumen = findViewById(R.id.labelTankvolumen);
                 TextView labelAktuellerTankstandTitel = findViewById(R.id.labelAktuellerTankstandTitel);
 
-                //ist Elektro
+                // ist Elektro
                 if (b) {
-                    //Hinweis-Dialog nur anzeigen, wenn Auto hinzugefügt wird und er nicht schon einmal angezeigt wurde
+                    // Hinweis-Dialog nur anzeigen, wenn Auto hinzugefügt wird und er nicht schon einmal angezeigt wurde
                     if (intent.getAction().equals(MainActivity.ACTION_NEW_CAR) && !hinweis_angezeigt) {
                         dialogElektroInfoBestaetigung.show();
                     }
-                    //Aendere Maxwerte fuer die Verbrauchsslider zu 50
+                    // ändere Maxwerte für die Verbrauchsslider zu 50
                     seekBarVerbrauchAusserorts.setMax(50);
                     seekBarVerbrauchInnerorts.setMax(50);
                     seekBarVerbrauchKombiniert.setMax(50);
@@ -154,7 +154,7 @@ public class NewCarActivity extends AppCompatActivity {
                     labelAktuellerTankstandTitel.setText(R.string.tankstand_kwh);
                     editTextCo2.setEnabled(false);
 
-                    //ist Verbrenner
+                // ist Verbrenner
                 } else {
                     labelVerbrauchInnerortsTitel.setText(R.string.verbrauch_innerorts_l_100km);
                     labelVerbrauchAusserortsTitel.setText(R.string.verbrauch_au_erorts_l_100km);
@@ -180,7 +180,7 @@ public class NewCarActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (TextUtils.isEmpty(editTextName.getText())) {
-                    editTextName.setError("Bitte geben Sie einen Fahrzeugnamen an");
+                    editTextName.setError("Bitte geben Sie einen Fahrzeugnamen an.");
                     korrekteEinzeleingaben.put("name", false);
                 } else {
                     korrekteEinzeleingaben.put("name", true);
@@ -201,7 +201,7 @@ public class NewCarActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (TextUtils.isEmpty(editTextCo2.getText())) {
-                    editTextCo2.setError("Bitte geben Sie einen CO2-Ausstoß an");
+                    editTextCo2.setError("Bitte geben Sie einen CO2-Ausstoß an.");
                     korrekteEinzeleingaben.put("co2", false);
                 } else {
                     korrekteEinzeleingaben.put("co2", true);
@@ -222,7 +222,7 @@ public class NewCarActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (TextUtils.isEmpty(editTextKilometerstand.getText())) {
-                    editTextKilometerstand.setError("Bitte geben Sie den aktuellen Kilometerstand Ihres Fahrzeugs an");
+                    editTextKilometerstand.setError("Bitte geben Sie den aktuellen Kilometerstand Ihres Fahrzeugs an.");
                     korrekteEinzeleingaben.put("kilometerstand", false);
                 } else {
                     korrekteEinzeleingaben.put("kilometerstand", true);
@@ -243,11 +243,23 @@ public class NewCarActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (TextUtils.isEmpty(editTextTankvolumen.getText())) {
-                    editTextTankvolumen.setError("Bitte geben Sie das Tankvolumen Ihres Fahrzeugs an");
+
+                    if (checkBoxElektro.isChecked()) {
+                        editTextTankvolumen.setError("Bitte geben Sie die Akkukapazität Ihres Fahrzeugs an.");
+                    } else {
+                        editTextTankvolumen.setError("Bitte geben Sie das Tankvolumen Ihres Fahrzeugs an.");
+                    }
                     korrekteEinzeleingaben.put("tankvolumen", false);
+
                 } else if (Double.parseDouble(editTextTankvolumen.getText().toString()) < 1) {
-                    editTextTankvolumen.setError("Bitte Sie ein Tankvolumen größer oder gleich 1 Liter ein");
+
+                    if (checkBoxElektro.isChecked()) {
+                        editTextTankvolumen.setError("Bitte Sie eine Akkukapazität größer oder gleich 1 kWh ein.");
+                    } else {
+                        editTextTankvolumen.setError("Bitte Sie ein Tankvolumen größer oder gleich 1 Liter ein.");
+                    }
                     korrekteEinzeleingaben.put("tankvolumen", false);
+
                 } else {
                     korrekteEinzeleingaben.put("tankvolumen", true);
                 }
@@ -278,7 +290,7 @@ public class NewCarActivity extends AppCompatActivity {
                         korrekteEinzeleingaben.put("verbrauch_innerorts", false);
 
                     } else if (verbrauchInnerortsStand_int < seekBarVerbrauchInnerorts.getMin() || verbrauchInnerortsStand_int > seekBarVerbrauchInnerorts.getMax()) {
-                        editTextVerbrauchInnerortsStand.setError("Eingabe ist außerhalb des zulässigen Bereichs");
+                        editTextVerbrauchInnerortsStand.setError("Ihre Eingabe ist außerhalb des zulässigen Bereichs.");
                         korrekteEinzeleingaben.put("verbrauch_innerorts", false);
                     } else {
                         editTextVerbrauchInnerortsStand.setSelection(verbrauchInnerortsStand.length());
@@ -286,7 +298,7 @@ public class NewCarActivity extends AppCompatActivity {
                         korrekteEinzeleingaben.put("verbrauch_innerorts", true);
                     }
                 } catch (NumberFormatException e) {
-                    editTextVerbrauchInnerortsStand.setError("Bitte geben Sie einen gültigen Wert ein");
+                    editTextVerbrauchInnerortsStand.setError("Bitte geben Sie einen gültigen Wert ein.");
                     e.printStackTrace();
                 }
 
@@ -318,7 +330,7 @@ public class NewCarActivity extends AppCompatActivity {
                         //editTextVerbrauchAusserortsStand.setError("Eingabe darf nicht leer sein");
                         korrekteEinzeleingaben.put("verbrauch_au_erorts", false);
                     } else if (verbrauchAusserortsStand_int < seekBarVerbrauchAusserorts.getMin() || verbrauchAusserortsStand_int > seekBarVerbrauchAusserorts.getMax()) {
-                        editTextVerbrauchAusserortsStand.setError("Eingabe ist außerhalb des zulässigen Bereichs");
+                        editTextVerbrauchAusserortsStand.setError("Ihre Eingabe ist außerhalb des zulässigen Bereichs.");
                         korrekteEinzeleingaben.put("verbrauch_au_erorts", false);
                     } else {
                         editTextVerbrauchAusserortsStand.setSelection(verbrauchAusserortsStand.length());
@@ -326,7 +338,7 @@ public class NewCarActivity extends AppCompatActivity {
                         korrekteEinzeleingaben.put("verbrauch_au_erorts", true);
                     }
                 } catch (NumberFormatException e) {
-                    editTextVerbrauchAusserortsStand.setError("Bitte geben Sie einen gültigen Wert ein");
+                    editTextVerbrauchAusserortsStand.setError("Bitte geben Sie einen gültigen Wert ein.");
                     e.printStackTrace();
                 }
 
@@ -358,7 +370,7 @@ public class NewCarActivity extends AppCompatActivity {
                         // editTextVerbrauchKombiniertStand.setError("Eingabe darf nicht leer sein");
                         korrekteEinzeleingaben.put("verbrauch_kombiniert", false);
                     } else if (verbrauchKombiniertStand_int < seekBarVerbrauchKombiniert.getMin() || verbrauchKombiniertStand_int > seekBarVerbrauchKombiniert.getMax()) {
-                        editTextVerbrauchKombiniertStand.setError("Eingabe ist außerhalb des zulässigen Bereichs");
+                        editTextVerbrauchKombiniertStand.setError("Ihre Eingabe ist außerhalb des zulässigen Bereichs.");
                         korrekteEinzeleingaben.put("verbrauch_kombiniert", false);
                     } else {
                         editTextVerbrauchKombiniertStand.setSelection(verbrauchKombiniertStand.length());
@@ -366,14 +378,13 @@ public class NewCarActivity extends AppCompatActivity {
                         korrekteEinzeleingaben.put("verbrauch_kombiniert", true);
                     }
                 } catch (NumberFormatException e) {
-                    editTextVerbrauchKombiniertStand.setError("Bitte geben Sie einen gültigen Wert ein");
+                    editTextVerbrauchKombiniertStand.setError("Bitte geben Sie einen gültigen Wert ein.");
                     e.printStackTrace();
                 }
 
                 if (!aendern) {
                     aendern = true; // damit editTexts sich wieder der seekBar anpassen
                 }
-
 
                 updateKorrekteEingabe();
 

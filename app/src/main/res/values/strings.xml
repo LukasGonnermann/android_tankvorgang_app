@@ -50,9 +50,12 @@
     <string name="no_cars_in_garage">Kein Fahrzeug vorhanden</string>
     <string name="elektrofahrzeug">Elektrofahrzeug</string>
     <string name="ereignisseLeer">Noch keine Strecken oder Tankvorgänge vorhanden</string>
+    <string name="ereignisseLeerElektro">Noch keine Strecken oder Ladevorgänge vorhanden</string>
     <string name="tankvorgang_bearbeiten">Tankvorgang bearbeiten</string>
     <string name="ereignis_hinzufuegen">Ereignis hinzufügen</string>
     <string name="tankvorgang_hinzufügen">Tankvorgang hinzufügen</string>
+    <string name="new_tankvorgang_elektro">Ladevorgang hinzufügen</string>
+    <string name="edit_tankvorgang_elektro">Ladevorgang bearbeiten</string>
     <string name="strecke_hinzufügen">Strecke hinzufügen</string>
     <string name="info_button_elektroauto">Info-Button Elektroauto</string>
     <string name="innerorts">innerorts</string>
@@ -78,7 +81,9 @@
     <string name="kraftstoffverbrauch_l">Kraftstoffverbrauch (l)</string>
     <string name="kraftstoffverbrauch_kwh">Energieverbrauch (kWh)</string>
     <string name="kraftstoffkosten_euro">Kraftstoffkosten (€)</string>
+    <string name="kraftstoffkosten_euro_elektro">Stromkosten (€)</string>
     <string name="anzahl_noetiger_tankvorgaenge">Anzahl nötiger Tankvorgänge</string>
+    <string name="anzahl_noetige_tankvorgaenge_elektro">Anzahl nötiger Ladevorgänge</string>
     <string name="co2_ausstoss_kg">CO2-Ausstoß (kg)</string>
     <string name="idle">—</string>
     <string name="hundred_number">100</string>
@@ -87,8 +92,15 @@
     <string name="woche">Woche</string>
     <string name="ten_number">10</string>
     <string name="theme">Thema</string>
-    <string name="edit_tankvorgang_elektro">Ladevorgang bearbeiten</string>
-    <string name="new_tankvorgang_elektro">Ladevorgang hinzufügen</string>
-    <string name="kraftstoffverbrauch_elektro">Kraftstoffverbrauch (kWh)</string>
-    <string name="anzahl_noetige_tankvorgaenge_elektro">Anzahl nötiger Ladevorgänge</string>
+    <string name="strecken">Strecken</string>
+    <string name="co2_ausstoss_g">CO2-Ausstoß (g)</string>
+    <string name="gefahrene_distanz_km">Gefahrene Distanz (km)</string>
+    <string name="tank_leer_title">Tank ist leer</string>
+    <string name="tank_leer_msg">Ihr Tank ist leer. Wenn Sie dennoch eine Strecke hinzufügen wollen, fügen Sie erst einen Tankvorgang hinzu.</string>
+    <string name="tank_leer_msg_elektro">Ihr Akku ist leer. Wenn Sie dennoch eine Strecke hinzufügen wollen, fügen Sie erst einen Ladevorgang hinzu.</string>
+    <string name="tank_leer_title_elektro">Akku ist leer</string>
+    <string name="tank_voll_title">Tank bereits voll</string>
+    <string name="tank_voll_title_elektro">Akku bereits voll</string>
+    <string name="tank_voll_msg">Ihr Tank ist bereits voll. Haben Sie eventuell vergessen, eine Strecke hinzuzufügen?</string>
+    <string name="tank_voll_msg_elektro">Ihr Akku ist bereits voll. Haben Sie eventuell vergessen, eine Strecke hinzuzufügen?</string>
 </resources>
