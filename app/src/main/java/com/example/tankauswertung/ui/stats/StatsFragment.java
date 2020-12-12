@@ -1,5 +1,6 @@
 package com.example.tankauswertung.ui.stats;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,8 +44,8 @@ public class StatsFragment extends Fragment {
     ImageButton imageButtonTreibstoff;
     ImageButton imageButtonTankkosten;
     ImageButton imageButtonCO2;
-    Button buttonFrueher;
-    Button buttonSpaeter;
+    ImageButton buttonFrueher;
+    ImageButton buttonSpaeter;
     Button buttonWoche;
     Button buttonMonat;
     Button buttonJahr;
@@ -165,7 +166,8 @@ public class StatsFragment extends Fragment {
         bereiteDiagrammdaten(data);
 
         textViewTitel.setText(titel);
-        textViewZeitraum.setText(zeitraumbeginn + " – " + zeitraumende);
+        // laut Duden ohne Leerzeichen
+        textViewZeitraum.setText(zeitraumbeginn + "–" + zeitraumende);
     }
 
     /**
@@ -185,7 +187,7 @@ public class StatsFragment extends Fragment {
         da ja das Anfangsdatum des Zeitraums uebergeben wird*/
         Date dateEndeZeitraumende = null;
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yy");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         try {
             dateZeitraumende = formatter.parse(zeitraumende);
             dateZeitraumbeginn = formatter.parse(zeitraumbeginn);
@@ -202,7 +204,7 @@ public class StatsFragment extends Fragment {
 
         switch (zeitraum) {
             case 0: //woche
-                formatter = new SimpleDateFormat("dd.MM.yy");
+                formatter = new SimpleDateFormat("dd.MM.");
                 break;
             case 1://monat
                 SimpleDateFormat formattermonat = new SimpleDateFormat("dd.MM.yyyy");
@@ -212,7 +214,7 @@ public class StatsFragment extends Fragment {
                 zeitraumbeginn = formattermonat.format(dateZeitraumbeginn);
                 break;
             case 2://jahr
-                formatter = new SimpleDateFormat("dd.MM");
+                formatter = new SimpleDateFormat("dd.MM.");
 
                 //dateZeitraumende.setTime(dateZeitraumende.getTime() + dreiwochen_ms + sechstage_ms); //ein Tag weniger da letzter und erster Tag inklusiv ist
                 dateEndeZeitraumende = dateZeitraumende;
@@ -233,7 +235,17 @@ public class StatsFragment extends Fragment {
         Calendar heute = Calendar.getInstance();
         Calendar calZeitraumende = Calendar.getInstance();
         calZeitraumende.setTime(dateZeitraumende);
-        buttonSpaeter.setEnabled(heute.get(Calendar.DATE) != calZeitraumende.get(Calendar.DATE) || heute.get(Calendar.MONTH) != calZeitraumende.get(Calendar.MONTH) || heute.get(Calendar.YEAR) != calZeitraumende.get(Calendar.YEAR));
+
+        boolean spaeterButtonSichtbar =
+                   heute.get(Calendar.DATE) != calZeitraumende.get(Calendar.DATE)
+                || heute.get(Calendar.MONTH) != calZeitraumende.get(Calendar.MONTH)
+                || heute.get(Calendar.YEAR) != calZeitraumende.get(Calendar.YEAR);
+
+        if (spaeterButtonSichtbar) {
+            buttonSpaeter.setVisibility(View.VISIBLE);
+        } else {
+            buttonSpaeter.setVisibility(View.INVISIBLE);
+        }
 
         x_beschriftung = daten.clone();
         SimpleDateFormat formatterparse = new SimpleDateFormat("dd.MM.yyyy");
