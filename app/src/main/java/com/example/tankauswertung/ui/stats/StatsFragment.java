@@ -16,6 +16,7 @@ import com.example.tankauswertung.Fahrzeug;
 import com.example.tankauswertung.Garage;
 import com.example.tankauswertung.MainActivity;
 import com.example.tankauswertung.R;
+import com.example.tankauswertung.ui.forecast.ForecastValueFormatter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -410,6 +411,7 @@ public class StatsFragment extends Fragment {
 
 
         BarDataSet set1 = new BarDataSet(values, setLabel); //obligatorisch aber nicht angezeigt
+        set1.setValueFormatter(new ForecastValueFormatter());
 
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(set1);

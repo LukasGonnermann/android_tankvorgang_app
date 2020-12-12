@@ -67,7 +67,7 @@
     <string name="getankte_menge_kwh">Geladen (kWh)</string>
     <string name="preis">Preis (€)</string>
     <string name="bild_des_tankbelegs">Bild des Tankbelegs</string>
-    <string name="tankvorgang_bild_aufnehmen">Bild aufnehmen</string>
+    <string name="tankvorgang_bild_aufnehmen">Tankbeleg fotografieren</string>
     <string name="frueher">&lt;</string>
     <string name="spaeter">&gt;</string>
     <string name="edit_strecke">Strecke bearbeiten</string>
