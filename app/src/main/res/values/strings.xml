@@ -89,4 +89,6 @@
     <string name="theme">Thema</string>
     <string name="edit_tankvorgang_elektro">Ladevorgang bearbeiten</string>
     <string name="new_tankvorgang_elektro">Ladevorgang hinzufügen</string>
+    <string name="kraftstoffverbrauch_elektro">Kraftstoffverbrauch (kWh)</string>
+    <string name="anzahl_noetige_tankvorgaenge_elektro">Anzahl nötiger Ladevorgänge</string>
 </resources>
