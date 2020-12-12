@@ -190,11 +190,12 @@ public class StatsFragment extends Fragment {
 
 
         } catch (ParseException e) {
+            System.out.println("EXCEPTION");
             e.printStackTrace();
         }
 
         int sechstage_ms = 518400000;
-        long dreiwochen_ms = Math.multiplyExact((long) 86400000, 7 * 3);
+        //long dreiwochen_ms = Math.multiplyExact((long) 86400000, 7 * 3);
 
 
         switch (zeitraum) {
@@ -212,13 +213,12 @@ public class StatsFragment extends Fragment {
                 formatter = new SimpleDateFormat("dd.MM");
 
                 //dateZeitraumende.setTime(dateZeitraumende.getTime() + dreiwochen_ms + sechstage_ms); //ein Tag weniger da letzter und erster Tag inklusiv ist
-                //dateEndeZeitraumende = dateZeitraumende;
-                dateEndeZeitraumende = new Date();
-                dateZeitraumbeginn = new Date();
-                /*Calendar calZeitraumBeginn = Calendar.getInstance();
-                calZeitraumBeginn.add(Calendar.MONTH, -11);
-                calZeitraumBeginn.set(Calendar.DAY_OF_MONTH, 1);
-                dateZeitraumbeginn = calZeitraumBeginn.getTime();*/
+                dateEndeZeitraumende = dateZeitraumende;
+
+                Calendar calZeitraumbeginn = Calendar.getInstance();
+                calZeitraumbeginn.setTime(dateZeitraumbeginn);
+                calZeitraumbeginn.set(Calendar.DAY_OF_MONTH, 1);
+                dateZeitraumbeginn = calZeitraumbeginn.getTime();
 
                 SimpleDateFormat formatterZeitraumende = new SimpleDateFormat("dd.MM.yyyy");
                 zeitraumende = formatterZeitraumende.format(dateEndeZeitraumende);
@@ -227,18 +227,31 @@ public class StatsFragment extends Fragment {
 
         }
 
+        // Spaeter-Button deaktivieren, wenn heute = Zeitraumende ist (Weil es keine Statistik fuer die Zukunft gibt)
+        Calendar heute = Calendar.getInstance();
+        Calendar calZeitraumende = Calendar.getInstance();
+        calZeitraumende.setTime(dateZeitraumende);
+        buttonSpaeter.setEnabled(heute.get(Calendar.DATE) != calZeitraumende.get(Calendar.DATE) || heute.get(Calendar.MONTH) != calZeitraumende.get(Calendar.MONTH) || heute.get(Calendar.YEAR) != calZeitraumende.get(Calendar.YEAR));
+
         x_beschriftung = daten.clone();
         SimpleDateFormat formatterparse = new SimpleDateFormat("dd.MM.yyyy");
+        String[] monthNames = {"Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"};
+        String sdatum;
         for (int i = 0; i < daten.length; i++) {
             try {
                 Date ddatum = formatterparse.parse(x_beschriftung[i]);
-                String sdatum = formatter.format(ddatum);
+                if (zeitraum == 2) {
+                    Calendar calDatum = Calendar.getInstance();
+                    calDatum.setTime(ddatum);
+                    sdatum = monthNames[calDatum.get(Calendar.MONTH)];
+                } else {
+                    sdatum = formatter.format(ddatum);
+                }
                 x_beschriftung[i] = sdatum;
 
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
         }
 
         return x_beschriftung;
@@ -285,7 +298,7 @@ public class StatsFragment extends Fragment {
         switch (statistikart) {
 
             case 0: //Strecken
-                titel = "Strecken";
+                titel = "Strecken (km)";
                 switch (zeitraum) {
                     case 0: //Woche in 7 Tagen
                         statistikdaten = aktuellesFahrzeug.getWocheStreckenStatistik(verschiebung);
@@ -303,7 +316,7 @@ public class StatsFragment extends Fragment {
 
                 break;
             case 1: //Treibstoffverbrauch
-                titel = "Treibstoffverbrauch";
+                titel = "Treibstoffverbrauch (l / 100 km)";
                 switch (zeitraum) {
                     case 0: //Woche in 7 Tagen
                         statistikdaten = aktuellesFahrzeug.getWocheTreibstoffStatistik(verschiebung);
@@ -318,7 +331,7 @@ public class StatsFragment extends Fragment {
 
                 break;
             case 2: //Tankkosten
-                titel = "Tankkosten";
+                titel = "Tankkosten (€)";
                 switch (zeitraum) {
                     case 0: //Woche in 7 Tagen
                         statistikdaten = aktuellesFahrzeug.getWocheTankkostenStatistik(verschiebung);
@@ -336,7 +349,7 @@ public class StatsFragment extends Fragment {
 
                 break;
             case 3: //CO2
-                titel = "CO2-Ausstoß";
+                titel = "CO2-Ausstoß (g/km)";
                 switch (zeitraum) {
                     case 0://Woche in 7 Tagen
                         statistikdaten = aktuellesFahrzeug.getWocheCO2Statistik(verschiebung);

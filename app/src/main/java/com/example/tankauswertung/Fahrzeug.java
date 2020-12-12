@@ -860,24 +860,29 @@ public class Fahrzeug implements Serializable {
      * @return LinkedHashMap mit dem ersten Tag des Monats als Key und dem zugehoerigen CO2-Ausstoss als Value
      */
     public LinkedHashMap<String, Double> getJahrCO2Statistik(int verschiebung) {
-        String[] monthNames = {"Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"};
         LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         Calendar heute = Calendar.getInstance();
-        heute.add(Calendar.YEAR, verschiebung);
         Calendar vergleich = Calendar.getInstance();
+
+        // Verschiebung des Enddatums
+        if (verschiebung != 0) {
+            heute.add(Calendar.YEAR, verschiebung);
+            heute.set(Calendar.DAY_OF_MONTH, heute.getActualMaximum(Calendar.DAY_OF_MONTH));
+        }
 
         int i = 0; // Strecken-Index
 
         for (int j = 0; j < 12; j++) {
             double summeAusstoss = 0;
-            int month = heute.get(Calendar.MONTH);
-            rueckgabe.put(monthNames[month], summeAusstoss);
+            String datum = String.valueOf(formatter.format(heute.getTime()));
+            rueckgabe.put(datum, summeAusstoss);
 
             while (i < strecken.size()) {
                 vergleich.setTime(strecken.get(i).getZeitstempel());
-                if (vergleich.get(Calendar.MONTH) == heute.get(Calendar.MONTH)) {
+                if (vergleich.get(Calendar.MONTH) == heute.get(Calendar.MONTH) && vergleich.get(Calendar.YEAR) == heute.get(Calendar.YEAR)) {
                     summeAusstoss += strecken.get(i).getCo2Ausstoss();
-                    rueckgabe.replace(monthNames[month], summeAusstoss);
+                    rueckgabe.replace(datum, summeAusstoss);
                     i++;
                 } else if (vergleich.after(heute)) {
                     i++;
@@ -899,16 +904,37 @@ public class Fahrzeug implements Serializable {
      */
     public LinkedHashMap<String, Double> getJahrTankkostenStatistik(int verschiebung) {
         LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
-        double summe;
-        for (int i = 0; i < 13; i++) {
-            summe = 0;
-            LinkedHashMap<String, Double> einMonat = getMonatTankkostenStatistik(-i + (verschiebung * 12));
-            for (double d : einMonat.values()) {
-                summe += d;
-            }
-            String firstDate = (String) einMonat.keySet().stream().toArray()[3];
-            rueckgabe.put(firstDate, summe);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        Calendar heute = Calendar.getInstance();
+        Calendar vergleich = Calendar.getInstance();
+        // Verschiebung des Enddatums
+        if (verschiebung != 0) {
+            heute.add(Calendar.YEAR, verschiebung);
+            heute.set(Calendar.DAY_OF_MONTH, heute.getActualMaximum(Calendar.DAY_OF_MONTH));
         }
+
+        int i = 0; // Tankvorgaenge-Index
+
+        for (int j = 0; j < 12; j++) {
+            double summeTankkosten = 0;
+            String datum = String.valueOf(formatter.format(heute.getTime()));
+            rueckgabe.put(datum, summeTankkosten);
+
+            while (i < tankvorgaenge.size()) {
+                vergleich.setTime(tankvorgaenge.get(i).getZeitstempel());
+                if (vergleich.get(Calendar.MONTH) == heute.get(Calendar.MONTH) && vergleich.get(Calendar.YEAR) == heute.get(Calendar.YEAR)) {
+                    summeTankkosten += tankvorgaenge.get(i).getPreis();
+                    rueckgabe.replace(datum, summeTankkosten);
+                    i++;
+                } else if (vergleich.after(heute)) {
+                    i++;
+                } else {
+                    break;
+                }
+            }
+            heute.add(Calendar.MONTH, -1);
+        }
+
         return rueckgabe;
     }
 
@@ -920,16 +946,37 @@ public class Fahrzeug implements Serializable {
      */
     public LinkedHashMap<String, Double> getJahrTreibstoffStatistik(int verschiebung) {
         LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
-        double summe;
-        for (int i = 0; i < 13; i++) {
-            summe = 0;
-            LinkedHashMap<String, Double> einMonat = getMonatTreibstoffStatistik(-i + (verschiebung * 12));
-            for (double d : einMonat.values()) {
-                summe += d;
-            }
-            String firstDate = (String) einMonat.keySet().stream().toArray()[3];
-            rueckgabe.put(firstDate, summe);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        Calendar heute = Calendar.getInstance();
+        Calendar vergleich = Calendar.getInstance();
+        // Verschiebung des Enddatums
+        if (verschiebung != 0) {
+            heute.add(Calendar.YEAR, verschiebung);
+            heute.set(Calendar.DAY_OF_MONTH, heute.getActualMaximum(Calendar.DAY_OF_MONTH));
         }
+
+        int i = 0; // Strecken-Index
+
+        for (int j = 0; j < 12; j++) {
+            double summeVerbrauch = 0;
+            String datum = String.valueOf(formatter.format(heute.getTime()));
+            rueckgabe.put(datum, summeVerbrauch);
+
+            while (i < strecken.size()) {
+                vergleich.setTime(strecken.get(i).getZeitstempel());
+                if (vergleich.get(Calendar.MONTH) == heute.get(Calendar.MONTH) && vergleich.get(Calendar.YEAR) == heute.get(Calendar.YEAR)) {
+                    summeVerbrauch += strecken.get(i).getVerbrauchterTreibstoff();
+                    rueckgabe.replace(datum, summeVerbrauch);
+                    i++;
+                } else if (vergleich.after(heute)) {
+                    i++;
+                } else {
+                    break;
+                }
+            }
+            heute.add(Calendar.MONTH, -1);
+        }
+
         return rueckgabe;
     }
 
@@ -941,16 +988,37 @@ public class Fahrzeug implements Serializable {
      */
     public LinkedHashMap<String, Double> getJahrStreckenStatistik(int verschiebung) {
         LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
-        double summe;
-        for (int i = 0; i < 13; i++) {
-            summe = 0;
-            LinkedHashMap<String, Double> einMonat = getMonatStreckenStatistik(-i + (verschiebung * 12));
-            for (double d : einMonat.values()) {
-                summe += d;
-            }
-            String firstDate = (String) einMonat.keySet().stream().toArray()[3];
-            rueckgabe.put(firstDate, summe);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        Calendar heute = Calendar.getInstance();
+        Calendar vergleich = Calendar.getInstance();
+        // Verschiebung des Enddatums
+        if (verschiebung != 0) {
+            heute.add(Calendar.YEAR, verschiebung);
+            heute.set(Calendar.DAY_OF_MONTH, heute.getActualMaximum(Calendar.DAY_OF_MONTH));
         }
+
+        int i = 0; // Strecken-Index
+
+        for (int j = 0; j < 12; j++) {
+            double summeDistanz = 0;
+            String datum = String.valueOf(formatter.format(heute.getTime()));
+            rueckgabe.put(datum, summeDistanz);
+
+            while (i < strecken.size()) {
+                vergleich.setTime(strecken.get(i).getZeitstempel());
+                if (vergleich.get(Calendar.MONTH) == heute.get(Calendar.MONTH) && vergleich.get(Calendar.YEAR) == heute.get(Calendar.YEAR)) {
+                    summeDistanz += strecken.get(i).getDistanz();
+                    rueckgabe.replace(datum, summeDistanz);
+                    i++;
+                } else if (vergleich.after(heute)) {
+                    i++;
+                } else {
+                   break;
+                }
+            }
+            heute.add(Calendar.MONTH, -1);
+        }
+
         return rueckgabe;
     }
 
