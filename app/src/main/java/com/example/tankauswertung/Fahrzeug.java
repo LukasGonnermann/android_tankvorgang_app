@@ -477,22 +477,22 @@ public class Fahrzeug implements Serializable {
      *
      * @param pName                String, Name des Autos, der gesetzt werden soll
      * @param pElektro             boolean, True, wenn es sich um ein Elektroauto handelt
-     * @param pVerbrauchAusserorts double, Verbrauch des Autos Ausserorts, der gesetzt werden soll
-     * @param pVerbrauchInnerorts  double, Verbrauch des Autos Innerorts, der gesetzt werden soll
-     * @param pVerbrauchKombiniert double, kombinierter Verbrauch des Autos, der gesetzt werden soll
+     * @param pVerbrauchAusserortsAnfangswert double, Verbrauch des Autos Ausserorts, der gesetzt werden soll
+     * @param pVerbrauchInnerortsAnfangswert  double, Verbrauch des Autos Innerorts, der gesetzt werden soll
+     * @param pVerbrauchKombiniertAnfangswert double, kombinierter Verbrauch des Autos, der gesetzt werden soll
      * @param pKmStand             double, aktueller Kilometerstand des Autos, der gesetzt werden soll
      * @param pTankstand           double, aktueller Tankstand des Autos, der gesetzt werden soll
      * @param pCo2Ausstoss         double, C02-Ausstoss des Autos, der gesetzt werden soll
      * @param pTankgroesse         double, Tankgroesse des Autos in Litern
      */
-    public void fahrzeugAendern(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
-                                double pVerbrauchKombiniert, double pKmStand, double pTankstand, double pCo2Ausstoss, double pTankgroesse) {
+    public void fahrzeugAendern(String pName, boolean pElektro, double pVerbrauchAusserortsAnfangswert, double pVerbrauchInnerortsAnfangswert,
+                                double pVerbrauchKombiniertAnfangswert, double pKmStand, double pTankstand, double pCo2Ausstoss, double pTankgroesse) {
         try {
             this.setName(pName);
             this.setElektro(pElektro);
-            this.setVerbrauchInnerorts(pVerbrauchInnerorts);
-            this.setVerbrauchAusserorts(pVerbrauchAusserorts);
-            this.setVerbrauchKombiniert(pVerbrauchKombiniert);
+            this.setVerbrauchInnerortsAnfangswert(pVerbrauchInnerortsAnfangswert);
+            this.setVerbrauchAusserortsAnfangswert(pVerbrauchAusserortsAnfangswert);
+            this.setVerbrauchKombiniertAnfangswert(pVerbrauchKombiniertAnfangswert);
             this.setKmStand(pKmStand);
             this.setTankstand(pTankstand);
             this.setCo2Ausstoss(pCo2Ausstoss);
@@ -501,6 +501,7 @@ public class Fahrzeug implements Serializable {
             e.printStackTrace();
             System.err.println("Fahrzeug konnte nicht geaendert werden, ungueltige Werte wurden eingegeben.");
         }
+        verbrauchAktualisieren();
     }
 
     /**
