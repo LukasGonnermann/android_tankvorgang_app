@@ -58,6 +58,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
     private static final int READ_WRITE_PERMISSION_CODE = 200;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private String tankvorgang_bild_path = null;
+    private String create_image_file_path = null;
 
     /**
      * ausgeführt, sobald die Aktivität gestartet wird
@@ -192,10 +193,10 @@ public class NewTankvorgangActivity extends AppCompatActivity {
 
             Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
             Tankvorgang neuesterTankvorgang = aktuellesFahrzeug.getTankvorgaenge().get(0);
-            String imgPath = neuesterTankvorgang.getImg();
+            tankvorgang_bild_path = neuesterTankvorgang.getImg();
             // Falls kein Bild aufgenommen wurde wird kein Bild angezeigt
-            if (imgPath != null) {
-                Uri imageURI = Uri.fromFile(new File(imgPath));
+            if (tankvorgang_bild_path != null) {
+                Uri imageURI = Uri.fromFile(new File(tankvorgang_bild_path));
                 this.imageViewTankvorgangBeleg.setImageURI(imageURI);
                 this.imageViewTankvorgangBeleg.setVisibility(View.VISIBLE);
             }
@@ -250,7 +251,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
         );
 
         // Save a file: path for use with ACTION_VIEW intents
-        tankvorgang_bild_path = image.getAbsolutePath();
+        create_image_file_path = image.getAbsolutePath();
         return image;
     }
 
@@ -258,6 +259,14 @@ public class NewTankvorgangActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            // (Wenn existiert) Existierendes Bild löschen
+            if (tankvorgang_bild_path != null) {
+                File f = new File(tankvorgang_bild_path);
+                if (!f.delete()) {
+                    Toast.makeText(this, "Altes Bild konnte nicht gelöscht werden", Toast.LENGTH_LONG).show();
+                }
+            }
+            tankvorgang_bild_path = create_image_file_path;
             Uri imageURI = Uri.fromFile(new File(tankvorgang_bild_path));
             imageViewTankvorgangBeleg.setImageURI(imageURI);
             imageViewTankvorgangBeleg.setVisibility(View.VISIBLE);
