@@ -87,6 +87,16 @@ public class Fahrzeug implements Serializable {
     private ArrayList<Tankvorgang> tankvorgaenge;
 
     /**
+     * Variable, welche das Format der Zeitangabe festlegt.
+     */
+    transient SimpleDateFormat formatter;
+
+    /**
+     * Variabe, welche die aktuelle Systemzeit zum Zeitpunkt der Eingabe eines Fahrzeugs speichert.
+     */
+    Date zeitstempel;
+
+    /**
      * Konstruktor fuer neues Fahrzeug, setzt alle Attribute auf Parameterwerte
      */
     public Fahrzeug(String pName, boolean pElektro, double pVerbrauchAusserorts, double pVerbrauchInnerorts,
@@ -110,6 +120,10 @@ public class Fahrzeug implements Serializable {
         this.setVerbrauchAusserortsAnfangswert(pVerbrauchAusserorts);
         this.setVerbrauchInnerortsAnfangswert(pVerbrauchInnerorts);
         this.setVerbrauchKombiniertAnfangswert(pVerbrauchKombiniert);
+
+        // Zeitsstempel auf aktuelles Datum und Uhrzeit setzen
+        formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        zeitstempel = new Date();
     }
 
     /**
@@ -263,6 +277,24 @@ public class Fahrzeug implements Serializable {
      */
     public ArrayList<Tankvorgang> getTankvorgaenge() {
         return tankvorgaenge;
+    }
+
+    /**
+     * Getter fuer den Zeitstempel
+     *
+     * @return Date zeitstempel, Der Zeitpunkt der Abspeicherung.
+     */
+    public Date getZeitstempel() {
+        return zeitstempel;
+    }
+
+    /**
+     * Methode zum erlangen des Zeitstempels als String
+     *
+     * @return String format(this.zeitstempel), Ein zum String konvertiertes Date-Objekt.
+     */
+    public String getZeitstempelAsString() {
+        return formatter.format(this.zeitstempel);
     }
 
     /**
@@ -475,15 +507,15 @@ public class Fahrzeug implements Serializable {
      * Aendern eines bestehenden Fahrzeugs
      * Ruft alle Setter mit den Parameterwerten auf
      *
-     * @param pName                             String, Name des Autos, der gesetzt werden soll
-     * @param pElektro                          boolean, True, wenn es sich um ein Elektroauto handelt
-     * @param pVerbrauchAusserortsAnfangswert   double, Verbrauch des Autos Ausserorts, der gesetzt werden soll
-     * @param pVerbrauchInnerortsAnfangswert    double, Verbrauch des Autos Innerorts, der gesetzt werden soll
-     * @param pVerbrauchKombiniertAnfangswert   double, kombinierter Verbrauch des Autos, der gesetzt werden soll
-     * @param pKmStand                          double, aktueller Kilometerstand des Autos, der gesetzt werden soll
-     * @param pTankstand                        double, aktueller Tankstand des Autos, der gesetzt werden soll
-     * @param pCo2Ausstoss                      double, C02-Ausstoss des Autos, der gesetzt werden soll
-     * @param pTankgroesse                      double, Tankgroesse des Autos in Litern
+     * @param pName                           String, Name des Autos, der gesetzt werden soll
+     * @param pElektro                        boolean, True, wenn es sich um ein Elektroauto handelt
+     * @param pVerbrauchAusserortsAnfangswert double, Verbrauch des Autos Ausserorts, der gesetzt werden soll
+     * @param pVerbrauchInnerortsAnfangswert  double, Verbrauch des Autos Innerorts, der gesetzt werden soll
+     * @param pVerbrauchKombiniertAnfangswert double, kombinierter Verbrauch des Autos, der gesetzt werden soll
+     * @param pKmStand                        double, aktueller Kilometerstand des Autos, der gesetzt werden soll
+     * @param pTankstand                      double, aktueller Tankstand des Autos, der gesetzt werden soll
+     * @param pCo2Ausstoss                    double, C02-Ausstoss des Autos, der gesetzt werden soll
+     * @param pTankgroesse                    double, Tankgroesse des Autos in Litern
      */
     public void fahrzeugAendern(String pName, boolean pElektro, double pVerbrauchAusserortsAnfangswert, double pVerbrauchInnerortsAnfangswert,
                                 double pVerbrauchKombiniertAnfangswert, double pKmStand, double pTankstand, double pCo2Ausstoss, double pTankgroesse) {
@@ -1013,7 +1045,7 @@ public class Fahrzeug implements Serializable {
                 } else if (vergleich.after(heute)) {
                     i++;
                 } else {
-                   break;
+                    break;
                 }
             }
             heute.add(Calendar.MONTH, -1);
