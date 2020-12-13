@@ -111,7 +111,7 @@ public class NewCarActivity extends AppCompatActivity {
 
         labelKilometerstand = findViewById(R.id.labelKilometerstand);
         labelTankvolumen = findViewById(R.id.labelTankvolumen);
-        labelAktuellerTankstandTitel = findViewById(R.id.labelAktuellerTankstandTitel);
+        labelAktuellerTankstandTitel = findViewById(R.id.labelAktuellerTankstand);
         labelAktuellerTankstandStand = findViewById(R.id.labelAktuellerTankstandStand);
         labelCo2Ausstoss = findViewById(R.id.labelCo2Ausstoss);
 
@@ -146,7 +146,7 @@ public class NewCarActivity extends AppCompatActivity {
                 TextView labelVerbrauchAusserortsTitel = findViewById(R.id.labelVerbrauchAusserortsTitel);
                 TextView labelVerbrauchKombiniertTitel = findViewById(R.id.labelVerbrauchKombiniertTitel);
                 TextView labelTankvolumen = findViewById(R.id.labelTankvolumen);
-                TextView labelAktuellerTankstandTitel = findViewById(R.id.labelAktuellerTankstandTitel);
+                TextView labelAktuellerTankstandTitel = findViewById(R.id.labelAktuellerTankstand);
 
                 // ist Elektro
                 if (b) {

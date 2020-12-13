@@ -278,11 +278,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /**
-     * lädt das aktuelle Fragment neu
+     * lädt das aktuelle Fragment neu (behebt den Bug nach dem Hinzufügen eines Fahrzeugs etc.)
      */
     public void refresh() {
-        navController.navigate(navController.getCurrentDestination().getId());
         onResume();
+        navController.navigate(navController.getCurrentDestination().getId());
     }
 
     // --- ab hier nur noch Listener (onXYZ-Methoden)

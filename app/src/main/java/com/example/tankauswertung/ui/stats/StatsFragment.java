@@ -396,7 +396,7 @@ public class StatsFragment extends Fragment {
                 }
 
                 break;
-            case 3: //CO2
+            case 3: // CO2
                 titel = R.string.co2_ausstoss_g;
                 switch (zeitraum) {
                     case 0://Woche in 7 Tagen

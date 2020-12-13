@@ -9,7 +9,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * Klasse Fahrzeuge
@@ -225,8 +224,6 @@ public class Fahrzeug implements Serializable {
      *
      * @return Gibt den aktuellen Tankstand als int zurueck, in Prozent
      */
-
-
     public double getTankstand() {
         return tankstand;
     }
@@ -1085,5 +1082,37 @@ public class Fahrzeug implements Serializable {
         } else {
             return durchschnittlicheTankkostenProLiter;
         }
+    }
+
+    /**
+     * für das Dashboard
+     * @return durchschnittlicher Verbrauch pro 100 km
+     */
+    public double getVerbrauchDurchschnittlich() {
+        return (getVerbrauchInnerorts() + getVerbrauchAusserorts() + getVerbrauchKombiniert()) / 3;
+    }
+
+    /**
+     * für das Dashboard
+     * @return geschätzte verbleibende Reichweite auf Basis der durchschnittlichen Verbrauchs
+     */
+    public double getReichweite() {
+
+        double tankstandLiter = getTankstand() / 100 * getTankgroesse();
+        double verbrauchDurchschnittlich = getVerbrauchDurchschnittlich();
+
+        if (verbrauchDurchschnittlich == 0) {
+            return -1;
+        } else {
+            return tankstandLiter / verbrauchDurchschnittlich * 100;
+        }
+    }
+
+    /**
+     * für das Dashboard
+     * @return bisher insgesamt ausgestoßene Emissionen in kg
+     */
+    public double getCo2AusstossGesamtKg() {
+        return getCo2Ausstoss() * getKmStand() / 1000;
     }
 }

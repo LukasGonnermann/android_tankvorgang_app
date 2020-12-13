@@ -1,3 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- non-breaking space, U+00A0 -->
+<!DOCTYPE resources [
+    <!ENTITY nbsp "&#160;">
+]>
+
 <resources>
     <string name="app_name">Tankauswertung</string>
     <string name="title_dashboard">Übersicht</string>
@@ -29,17 +35,16 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="abbrechen">Abbrechen</string>
     <string name="anzeigename">Name</string>
-    <string name="verbrauch_durchschnittlich">Verbrauch</string>
-    <string name="Reichweite">Reichweite</string>
+    <string name="reichweite_km">Reichweite (km)</string>
     <!-- bei Wortgruppen dürfen auch Leerzeichen gesetzt werden (nach DIN 5008) -->
-    <string name="verbrauch_innerorts_l_100km">Anfangswert Verbrauch innerorts (l / 100 km)</string>
-    <string name="verbrauch_au_erorts_l_100km">Anfangswert Verbrauch außerorts (l / 100 km)</string>
-    <string name="verbrauch_kombiniert_l_100km">Anfangswert Verbrauch kombiniert (l / 100 km)</string>
-    <string name="verbrauch_innerorts_kwh_100km">Anfangswert Verbrauch innerorts (kWh / 100 km)</string>
-    <string name="verbrauch_au_erorts_kwh_100km">Anfangswert Verbrauch außerorts (kWh / 100 km)</string>
-    <string name="verbrauch_kombiniert_kwh_100km">Anfangswert Verbrauch kombiniert (kWh / 100 km)</string>
+    <string name="verbrauch_innerorts_l_100km">Anfangswert Verbrauch innerorts (l&nbsp;/&nbsp;100 km)</string>
+    <string name="verbrauch_au_erorts_l_100km">Anfangswert Verbrauch außerorts (l&nbsp;/&nbsp;100 km)</string>
+    <string name="verbrauch_kombiniert_l_100km">Anfangswert Verbrauch kombiniert (l&nbsp;/&nbsp;100 km)</string>
+    <string name="verbrauch_innerorts_kwh_100km">Anfangswert Verbrauch innerorts (kWh&nbsp;/&nbsp;100 km)</string>
+    <string name="verbrauch_au_erorts_kwh_100km">Anfangswert Verbrauch außerorts (kWh&nbsp;/&nbsp;100 km)</string>
+    <string name="verbrauch_kombiniert_kwh_100km">Anfangswert Verbrauch kombiniert (kWh&nbsp;/&nbsp;100 km)</string>
     <string name="kilometerstand_km">Kilometerstand (km)</string>
-    <string name="tankstand_l">Aktueller Tankstand (%)</string>
+    <string name="tankstand_l">Tankstand (%)</string>
     <string name="tankstand_kwh">Restladung (%)</string>
     <string name="tankvolumen_l">Tankvolumen (l)</string>
     <string name="tankvolumen_kwh">Akkukapazität (kWh)</string>
@@ -49,7 +54,7 @@
     <string name="done">Fertig</string>
     <string name="zero_number">0</string>
     <string name="edit_car">Fahrzeug bearbeiten</string>
-    <string name="no_cars_in_garage">Kein Fahrzeug vorhanden</string>
+    <string name="keine_fahrzeuge_vorhanden">Keine Fahrzeuge vorhanden</string>
     <string name="elektrofahrzeug">Elektrofahrzeug</string>
     <string name="ereignisseLeer">Noch keine Strecken oder Tankvorgänge vorhanden</string>
     <string name="ereignisseLeerElektro">Noch keine Strecken oder Ladevorgänge vorhanden</string>
@@ -86,6 +91,7 @@
     <string name="kraftstoffkosten_euro_elektro">Stromkosten (€)</string>
     <string name="anzahl_noetiger_tankvorgaenge">Anzahl nötiger Tankvorgänge</string>
     <string name="anzahl_noetige_tankvorgaenge_elektro">Anzahl nötiger Ladevorgänge</string>
+    <string name="co2_ausstoss_g">CO2-Ausstoß (kg)</string>
     <string name="co2_ausstoss_kg">CO2-Ausstoß (kg)</string>
     <string name="idle">—</string>
     <string name="hundred_number">100</string>
@@ -95,7 +101,6 @@
     <string name="ten_number">10</string>
     <string name="theme">Thema</string>
     <string name="strecken">Strecken</string>
-    <string name="co2_ausstoss_g">CO2-Ausstoß (g)</string>
     <string name="gefahrene_distanz_km">Gefahrene Distanz (km)</string>
     <string name="tank_leer_title">Tank ist leer</string>
     <string name="tank_leer_msg">Ihr Tank ist leer. Wenn Sie dennoch eine Strecke hinzufügen wollen, fügen Sie erst einen Tankvorgang hinzu.</string>
@@ -105,4 +110,6 @@
     <string name="tank_voll_title_elektro">Akku bereits voll</string>
     <string name="tank_voll_msg">Ihr Tank ist bereits voll. Haben Sie eventuell vergessen, eine Strecke hinzuzufügen?</string>
     <string name="tank_voll_msg_elektro">Ihr Akku ist bereits voll. Haben Sie eventuell vergessen, eine Strecke hinzuzufügen?</string>
+    <string name="durchschnitt_verbrauch_l_100km">∅-Verbrauch (l&nbsp;/&nbsp;100 km)</string>
+    <string name="durchschnitt_verbrauch_kwh_100km">∅-Verbrauch (kWh&nbsp;/&nbsp;100 km)</string>
 </resources>

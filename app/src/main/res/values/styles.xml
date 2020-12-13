@@ -2,6 +2,7 @@
 <resources>
 
     <!-- Trennlinien -->
+
     <style name="Divider">
         <item name="android:background">#FF000000</item>
     </style>
