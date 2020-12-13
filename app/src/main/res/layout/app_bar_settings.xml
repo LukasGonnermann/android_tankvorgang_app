@@ -15,8 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.NavDrawer.PopupOverlay" />
+            android:theme="@style/Theme.Tankauswertung.Toolbar" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

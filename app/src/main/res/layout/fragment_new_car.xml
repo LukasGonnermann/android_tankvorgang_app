@@ -214,7 +214,7 @@
             <!-- Aktueller Tankstand -->
 
             <TextView
-                android:id="@+id/labelAktuellerTankstandTitel"
+                android:id="@+id/labelAktuellerTankstand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -233,6 +233,7 @@
                     android:layout_width="24dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
+                    style="@style/Theme.Tankauswertung.TextViewDark"
                     android:text="@string/zero_number" />
 
                 <SeekBar

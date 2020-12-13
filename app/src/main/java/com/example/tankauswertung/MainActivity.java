@@ -186,12 +186,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             botNavView.setVisibility(View.VISIBLE);
         }
 
-        // zum Tab "Dashboard" navigieren
-        // Hier, Tom: scheint nicht zu funktionieren nach Hinzufügen und Ändern
-        navController.navigate(R.id.navigation_dashboard);
-
         aktualisiereSeitenmenue();
         invalidateOptionsMenu();  // Drei-Punkte-Menü auf jeden Fall aktualisieren
+        refresh();
     }
 
     /**
@@ -203,6 +200,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navView = findViewById(R.id.nav_view);
         Menu menu = navView.getMenu();
         menu.clear();  // erst einmal alle bereits vorhandenen Items entfernen
+
+        menu.addSubMenu("");  // Dummy für Linie
 
         // SubMenu für Garage hinzufügen
         SubMenu garageMenu = menu.addSubMenu(0, 0, 0, R.string.garage);
@@ -253,10 +252,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             e.printStackTrace();
                         }
 
-                        // zum Tab "Dashboard" navigieren
-                        navController.navigate(R.id.navigation_dashboard);
+                        refresh();
                         DrawerLayout drawer = findViewById(R.id.drawer_layout);
                         drawer.closeDrawer(GravityCompat.START);  // Schließen des Seitenmenüs
+
                         return true;
                     }
                 });
@@ -276,6 +275,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             }
         });
+    }
+
+    /**
+     * lädt das aktuelle Fragment neu (behebt den Bug nach dem Hinzufügen eines Fahrzeugs etc.)
+     */
+    public void refresh() {
+        onResume();
+        navController.navigate(navController.getCurrentDestination().getId());
     }
 
     // --- ab hier nur noch Listener (onXYZ-Methoden)
@@ -410,6 +417,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
 
+        } else if (requestCode == LAUNCH_SETTINGS) {
+            refresh();
         } else {
             super.onActivityResult(requestCode, resultCode, intent);
         }

@@ -7,15 +7,17 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:layout_marginLeft="50dp"
-    android:layout_marginRight="50dp" >
+    android:layout_marginRight="50dp">
 
     <com.github.vipulasri.timelineview.TimelineView
         android:id="@+id/timeline"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:theme="@style/Theme.Tankauswertung.TimelineView"
         app:markerSize="40dp"
         app:markerInCenter="true"
         app:lineWidth="3dp"
+        app:linePadding="3dp"
         app:lineStyle="normal"/>
 
     <!-- Card-Prototyp -->
@@ -32,9 +34,9 @@
         android:layout_marginEnd="30dp"
         android:layout_gravity="center_vertical"
         android:clickable="true"
-        app:cardBackgroundColor="@color/grey_light"
+        app:cardBackgroundColor="?attr/cardBackgroundColor"
         app:contentPadding="15dp"
-        app:cardElevation="1dp" >
+        app:cardElevation="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,14 +56,14 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewTimelineDatum"
                     android:textSize="12sp"
-                    tools:text="Testdatum"/>
+                    tools:text="Testdatum" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:id="@+id/textViewTimelineBeschreibung"
-                    tools:text="Testbeschreibung"/>
+                    tools:text="Testbeschreibung" />
 
             </LinearLayout>
 

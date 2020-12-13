@@ -69,9 +69,9 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         timelineViewHolder.textViewTimelineBeschreibung.setText(ereignis.getBeschreibung());
 
         if (ereignis.getEreignisTyp() == Ereignis.EreignisTyp.STRECKE) {
-            setMarker(timelineViewHolder, R.drawable.ic_baseline_navigation_24);
+            setMarker(timelineViewHolder, R.drawable.marker_strecke);
         } else {
-            setMarker(timelineViewHolder, R.drawable.ic_baseline_local_gas_station_24);
+            setMarker(timelineViewHolder, R.drawable.marker_tankvorgang);
         }
 
         // nur aktuellstes Ereignis soll bearbeitet werden können
