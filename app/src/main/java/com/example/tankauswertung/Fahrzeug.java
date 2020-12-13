@@ -671,9 +671,10 @@ public class Fahrzeug implements Serializable {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
 
         int i = 0;
+        int j = 0;
         double distanz;
 
-        for (int j = 0; j < 7; j++) {
+        while (j < 7 && heute.after(this.getZeitstempel())) {
             distanz = 0;
             rueckgabe.put(formatter.format(heute), distanz);
 
@@ -689,6 +690,7 @@ public class Fahrzeug implements Serializable {
                 }
             }
             heute.setTime(heute.getTime() - 86400000);
+            j++;
         }
         return rueckgabe;
     }
@@ -707,9 +709,10 @@ public class Fahrzeug implements Serializable {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
 
         int i = 0;
+        int j = 0;
         double verbrauch;
 
-        for (int j = 0; j < 7; j++) {
+        while (j < 7 && heute.after(this.getZeitstempel())) {
             verbrauch = 0;
             rueckgabe.put(formatter.format(heute), verbrauch);
 
@@ -725,6 +728,7 @@ public class Fahrzeug implements Serializable {
                 }
             }
             heute.setTime(heute.getTime() - 86400000);
+            j++;
         }
         return rueckgabe;
     }
@@ -743,9 +747,10 @@ public class Fahrzeug implements Serializable {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
 
         int i = 0;
+        int j = 0;
         double kosten;
 
-        for (int j = 0; j < 7; j++) {
+        while (j < 7 && heute.after(this.getZeitstempel())) {
             kosten = 0;
             rueckgabe.put(formatter.format(heute), kosten);
 
@@ -761,6 +766,7 @@ public class Fahrzeug implements Serializable {
                 }
             }
             heute.setTime(heute.getTime() - 86400000);
+            j++;
         }
         return rueckgabe;
     }
@@ -779,16 +785,17 @@ public class Fahrzeug implements Serializable {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
 
         int i = 0;
-        double ausstoss;
+        int j = 0;
+        double distanz;
 
-        for (int j = 0; j < 7; j++) {
-            ausstoss = 0;
-            rueckgabe.put(formatter.format(heute), ausstoss);
+        while (j < 7 && heute.after(this.getZeitstempel())) {
+            distanz = 0;
+            rueckgabe.put(formatter.format(heute), distanz);
 
             while (i < strecken.size()) {
                 if (formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
-                    ausstoss += strecken.get(i).getCo2Ausstoss();
-                    rueckgabe.replace(formatter.format(heute), ausstoss);
+                    distanz += strecken.get(i).getCo2Ausstoss();
+                    rueckgabe.replace(formatter.format(heute), distanz);
                     i++;
                 } else if (strecken.get(i).getZeitstempel().after(heute)) {
                     i++;
@@ -797,6 +804,7 @@ public class Fahrzeug implements Serializable {
                 }
             }
             heute.setTime(heute.getTime() - 86400000);
+            j++;
         }
         return rueckgabe;
     }
@@ -813,11 +821,15 @@ public class Fahrzeug implements Serializable {
         for (int i = 0; i < 4; i++) {
             summe = 0;
             LinkedHashMap<String, Double> eineWoche = getWocheTreibstoffStatistik(-i + (verschiebung * 4));
-            for (double d : eineWoche.values()) {
-                summe += d;
+            if (!eineWoche.isEmpty()) {
+                for (double d : eineWoche.values()) {
+                    summe += d;
+                }
+                String firstDate = (String) eineWoche.keySet().stream().toArray()[eineWoche.size() - 1];
+                rueckgabe.put(firstDate, summe);
+            } else {
+                break;
             }
-            String firstDate = (String) eineWoche.keySet().stream().toArray()[6];
-            rueckgabe.put(firstDate, summe);
         }
         return rueckgabe;
     }
@@ -834,11 +846,15 @@ public class Fahrzeug implements Serializable {
         for (int i = 0; i < 4; i++) {
             summe = 0;
             LinkedHashMap<String, Double> eineWoche = getWocheStreckenStatistik(-i + (verschiebung * 4));
-            for (double d : eineWoche.values()) {
-                summe += d;
+            if (!eineWoche.isEmpty()) {
+                for (double d : eineWoche.values()) {
+                    summe += d;
+                }
+                String firstDate = (String) eineWoche.keySet().stream().toArray()[eineWoche.size() - 1];
+                rueckgabe.put(firstDate, summe);
+            } else {
+                break;
             }
-            String firstDate = (String) eineWoche.keySet().stream().toArray()[6];
-            rueckgabe.put(firstDate, summe);
         }
         return rueckgabe;
     }
@@ -855,11 +871,15 @@ public class Fahrzeug implements Serializable {
         for (int i = 0; i < 4; i++) {
             summe = 0;
             LinkedHashMap<String, Double> eineWoche = getWocheTankkostenStatistik(-i + (verschiebung * 4));
-            for (double d : eineWoche.values()) {
-                summe += d;
+            if (!eineWoche.isEmpty()) {
+                for (double d : eineWoche.values()) {
+                    summe += d;
+                }
+                String firstDate = (String) eineWoche.keySet().stream().toArray()[eineWoche.size() - 1];
+                rueckgabe.put(firstDate, summe);
+            } else {
+                break;
             }
-            String firstDate = (String) eineWoche.keySet().stream().toArray()[6];
-            rueckgabe.put(firstDate, summe);
         }
         return rueckgabe;
     }
@@ -876,11 +896,15 @@ public class Fahrzeug implements Serializable {
         for (int i = 0; i < 4; i++) {
             summe = 0;
             LinkedHashMap<String, Double> eineWoche = getWocheCO2Statistik(-i + (verschiebung * 4));
-            for (double d : eineWoche.values()) {
-                summe += d;
+            if (!eineWoche.isEmpty()) {
+                for (double d : eineWoche.values()) {
+                    summe += d;
+                }
+                String firstDate = (String) eineWoche.keySet().stream().toArray()[eineWoche.size() - 1];
+                rueckgabe.put(firstDate, summe);
+            } else {
+                break;
             }
-            String firstDate = (String) eineWoche.keySet().stream().toArray()[6];
-            rueckgabe.put(firstDate, summe);
         }
         return rueckgabe;
     }
@@ -896,16 +920,27 @@ public class Fahrzeug implements Serializable {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         Calendar heute = Calendar.getInstance();
         Calendar vergleich = Calendar.getInstance();
+        Calendar fzZeitstempel = Calendar.getInstance();
+        fzZeitstempel.setTime(this.getZeitstempel());
+        fzZeitstempel.set(Calendar.HOUR_OF_DAY, 0);
+        fzZeitstempel.set(Calendar.MINUTE, 0);
+        fzZeitstempel.set(Calendar.SECOND, 0);
+        fzZeitstempel.set(Calendar.MILLISECOND, 0);
 
         // Verschiebung des Enddatums
         if (verschiebung != 0) {
             heute.add(Calendar.YEAR, verschiebung);
             heute.set(Calendar.DAY_OF_MONTH, heute.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+            if (heute.before(fzZeitstempel)) {
+                heute.setTime(fzZeitstempel.getTime());
+            }
         }
 
         int i = 0; // Strecken-Index
+        int j = 0; // Monats-Index
 
-        for (int j = 0; j < 12; j++) {
+        while (j < 12 && (heute.after(fzZeitstempel) || heute.equals(fzZeitstempel))) {
             double summeAusstoss = 0;
             String datum = String.valueOf(formatter.format(heute.getTime()));
             rueckgabe.put(datum, summeAusstoss);
@@ -923,6 +958,10 @@ public class Fahrzeug implements Serializable {
                 }
             }
             heute.add(Calendar.MONTH, -1);
+            if (heute.before(fzZeitstempel) && heute.get(Calendar.MONTH) == fzZeitstempel.get(Calendar.MONTH)) {
+                heute.setTime(fzZeitstempel.getTime());
+            }
+            j++;
         }
 
         return rueckgabe;
@@ -939,15 +978,27 @@ public class Fahrzeug implements Serializable {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         Calendar heute = Calendar.getInstance();
         Calendar vergleich = Calendar.getInstance();
+        Calendar fzZeitstempel = Calendar.getInstance();
+        fzZeitstempel.setTime(this.getZeitstempel());
+        fzZeitstempel.set(Calendar.HOUR_OF_DAY, 0);
+        fzZeitstempel.set(Calendar.MINUTE, 0);
+        fzZeitstempel.set(Calendar.SECOND, 0);
+        fzZeitstempel.set(Calendar.MILLISECOND, 0);
+
         // Verschiebung des Enddatums
         if (verschiebung != 0) {
             heute.add(Calendar.YEAR, verschiebung);
             heute.set(Calendar.DAY_OF_MONTH, heute.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+            if (heute.before(fzZeitstempel)) {
+                heute.setTime(fzZeitstempel.getTime());
+            }
         }
 
-        int i = 0; // Tankvorgaenge-Index
+        int i = 0; // Strecken-Index
+        int j = 0; // Monats-Index
 
-        for (int j = 0; j < 12; j++) {
+        while (j < 12 && (heute.after(fzZeitstempel) || heute.equals(fzZeitstempel))) {
             double summeTankkosten = 0;
             String datum = String.valueOf(formatter.format(heute.getTime()));
             rueckgabe.put(datum, summeTankkosten);
@@ -965,6 +1016,10 @@ public class Fahrzeug implements Serializable {
                 }
             }
             heute.add(Calendar.MONTH, -1);
+            if (heute.before(fzZeitstempel) && heute.get(Calendar.MONTH) == fzZeitstempel.get(Calendar.MONTH)) {
+                heute.setTime(fzZeitstempel.getTime());
+            }
+            j++;
         }
 
         return rueckgabe;
@@ -981,15 +1036,27 @@ public class Fahrzeug implements Serializable {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         Calendar heute = Calendar.getInstance();
         Calendar vergleich = Calendar.getInstance();
+        Calendar fzZeitstempel = Calendar.getInstance();
+        fzZeitstempel.setTime(this.getZeitstempel());
+        fzZeitstempel.set(Calendar.HOUR_OF_DAY, 0);
+        fzZeitstempel.set(Calendar.MINUTE, 0);
+        fzZeitstempel.set(Calendar.SECOND, 0);
+        fzZeitstempel.set(Calendar.MILLISECOND, 0);
+
         // Verschiebung des Enddatums
         if (verschiebung != 0) {
             heute.add(Calendar.YEAR, verschiebung);
             heute.set(Calendar.DAY_OF_MONTH, heute.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+            if (heute.before(fzZeitstempel)) {
+                heute.setTime(fzZeitstempel.getTime());
+            }
         }
 
         int i = 0; // Strecken-Index
+        int j = 0; // Monats-Index
 
-        for (int j = 0; j < 12; j++) {
+        while (j < 12 && (heute.after(fzZeitstempel) || heute.equals(fzZeitstempel))) {
             double summeVerbrauch = 0;
             String datum = String.valueOf(formatter.format(heute.getTime()));
             rueckgabe.put(datum, summeVerbrauch);
@@ -1007,6 +1074,10 @@ public class Fahrzeug implements Serializable {
                 }
             }
             heute.add(Calendar.MONTH, -1);
+            if (heute.before(fzZeitstempel) && heute.get(Calendar.MONTH) == fzZeitstempel.get(Calendar.MONTH)) {
+                heute.setTime(fzZeitstempel.getTime());
+            }
+            j++;
         }
 
         return rueckgabe;
@@ -1023,15 +1094,27 @@ public class Fahrzeug implements Serializable {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         Calendar heute = Calendar.getInstance();
         Calendar vergleich = Calendar.getInstance();
+        Calendar fzZeitstempel = Calendar.getInstance();
+        fzZeitstempel.setTime(this.getZeitstempel());
+        fzZeitstempel.set(Calendar.HOUR_OF_DAY, 0);
+        fzZeitstempel.set(Calendar.MINUTE, 0);
+        fzZeitstempel.set(Calendar.SECOND, 0);
+        fzZeitstempel.set(Calendar.MILLISECOND, 0);
+
         // Verschiebung des Enddatums
         if (verschiebung != 0) {
             heute.add(Calendar.YEAR, verschiebung);
             heute.set(Calendar.DAY_OF_MONTH, heute.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+            if (heute.before(fzZeitstempel)) {
+                heute.setTime(fzZeitstempel.getTime());
+            }
         }
 
         int i = 0; // Strecken-Index
+        int j = 0; // Monats-Index
 
-        for (int j = 0; j < 12; j++) {
+        while (j < 12 && (heute.after(fzZeitstempel) || heute.equals(fzZeitstempel))) {
             double summeDistanz = 0;
             String datum = String.valueOf(formatter.format(heute.getTime()));
             rueckgabe.put(datum, summeDistanz);
@@ -1049,6 +1132,10 @@ public class Fahrzeug implements Serializable {
                 }
             }
             heute.add(Calendar.MONTH, -1);
+            if (heute.before(fzZeitstempel) && heute.get(Calendar.MONTH) == fzZeitstempel.get(Calendar.MONTH)) {
+                heute.setTime(fzZeitstempel.getTime());
+            }
+            j++;
         }
 
         return rueckgabe;

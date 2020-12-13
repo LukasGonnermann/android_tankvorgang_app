@@ -128,6 +128,7 @@ public class StatsFragment extends Fragment {
         buttonWoche.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                verschiebung = 0;
                 setZeitraum(0);
                 baueDiagramm();
                 diagramm.fitScreen();
@@ -137,6 +138,7 @@ public class StatsFragment extends Fragment {
         buttonMonat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                verschiebung = 0;
                 setZeitraum(1);
                 baueDiagramm();
                 diagramm.fitScreen();
@@ -146,6 +148,7 @@ public class StatsFragment extends Fragment {
         buttonJahr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                verschiebung = 0;
                 setZeitraum(2);
                 baueDiagramm();
                 diagramm.fitScreen();
@@ -177,6 +180,9 @@ public class StatsFragment extends Fragment {
      * @return Achsenbestriftung der X-Achse
      */
     private String[] erstelleXachse_Beschriftung() {
+        Garage garage = MainActivity.getGarage();
+        Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
+
         String[] x_beschriftung = new String[daten.length];
         zeitraumbeginn = daten[0];
         zeitraumende = daten[daten.length - 1];
@@ -193,15 +199,9 @@ public class StatsFragment extends Fragment {
             dateZeitraumende = formatter.parse(zeitraumende);
             dateZeitraumbeginn = formatter.parse(zeitraumbeginn);
 
-
         } catch (ParseException e) {
-            System.out.println("EXCEPTION");
             e.printStackTrace();
         }
-
-        int sechstage_ms = 518400000;
-        //long dreiwochen_ms = Math.multiplyExact((long) 86400000, 7 * 3);
-
 
         switch (zeitraum) {
             case 0: //woche
@@ -209,27 +209,43 @@ public class StatsFragment extends Fragment {
                 break;
             case 1://monat
                 SimpleDateFormat formattermonat = new SimpleDateFormat("dd.MM.yyyy");
-                dateZeitraumende.setTime(dateZeitraumende.getTime() + sechstage_ms);
-                dateEndeZeitraumende = dateZeitraumende;
+                Calendar calHeute = Calendar.getInstance();
+                Calendar calZeitraumende = Calendar.getInstance();
+                calZeitraumende.setTime(dateZeitraumende);
+                calZeitraumende.add(Calendar.DAY_OF_MONTH, 6);
+                if (calZeitraumende.after(calHeute)) {
+                    calZeitraumende.setTime(calHeute.getTime());
+                }
+                dateEndeZeitraumende = dateZeitraumende = calZeitraumende.getTime();
                 zeitraumende = formattermonat.format(dateEndeZeitraumende);
                 zeitraumbeginn = formattermonat.format(dateZeitraumbeginn);
                 break;
             case 2://jahr
                 formatter = new SimpleDateFormat("dd.MM.");
 
-                //dateZeitraumende.setTime(dateZeitraumende.getTime() + dreiwochen_ms + sechstage_ms); //ein Tag weniger da letzter und erster Tag inklusiv ist
                 dateEndeZeitraumende = dateZeitraumende;
 
                 Calendar calZeitraumbeginn = Calendar.getInstance();
                 calZeitraumbeginn.setTime(dateZeitraumbeginn);
-                calZeitraumbeginn.set(Calendar.DAY_OF_MONTH, 1);
+
+                Calendar fzZeitstempel = Calendar.getInstance();
+                fzZeitstempel.setTime(aktuellesFahrzeug.getZeitstempel());
+
+                Calendar ersterTagDesMonats = Calendar.getInstance();
+                ersterTagDesMonats.setTime(dateZeitraumbeginn);
+                ersterTagDesMonats.set(Calendar.DAY_OF_MONTH, 1);
+
+                if (fzZeitstempel.before(ersterTagDesMonats)) {
+                    calZeitraumbeginn.setTime(ersterTagDesMonats.getTime());
+                } else if (fzZeitstempel.get(Calendar.MONTH) == calZeitraumbeginn.get(Calendar.MONTH)) {
+                    calZeitraumbeginn.setTime(fzZeitstempel.getTime());
+                }
                 dateZeitraumbeginn = calZeitraumbeginn.getTime();
 
                 SimpleDateFormat formatterZeitraumende = new SimpleDateFormat("dd.MM.yyyy");
                 zeitraumende = formatterZeitraumende.format(dateEndeZeitraumende);
                 zeitraumbeginn = formatterZeitraumende.format(dateZeitraumbeginn);
                 break;
-
         }
 
         // Spaeter-Button deaktivieren, wenn heute = Zeitraumende ist (Weil es keine Statistik fuer die Zukunft gibt)
@@ -238,15 +254,30 @@ public class StatsFragment extends Fragment {
         calZeitraumende.setTime(dateZeitraumende);
 
         boolean spaeterButtonSichtbar =
-                   heute.get(Calendar.DATE) != calZeitraumende.get(Calendar.DATE)
-                || heute.get(Calendar.MONTH) != calZeitraumende.get(Calendar.MONTH)
-                || heute.get(Calendar.YEAR) != calZeitraumende.get(Calendar.YEAR);
+                heute.get(Calendar.DATE) != calZeitraumende.get(Calendar.DATE)
+                        || heute.get(Calendar.MONTH) != calZeitraumende.get(Calendar.MONTH)
+                        || heute.get(Calendar.YEAR) != calZeitraumende.get(Calendar.YEAR);
 
         if (spaeterButtonSichtbar) {
             buttonSpaeter.setVisibility(View.VISIBLE);
         } else {
             buttonSpaeter.setVisibility(View.INVISIBLE);
         }
+
+        // Frueher-Button deaktivieren, wenn Zeitraumbeginn = Erstellungsdatum des Fahrezugs ist
+        Calendar calZeitraumbeginn = Calendar.getInstance();
+        calZeitraumbeginn.setTime(dateZeitraumbeginn);
+        Calendar fzZeitstempel = Calendar.getInstance();
+        fzZeitstempel.setTime(aktuellesFahrzeug.getZeitstempel());
+
+        boolean frueherButtonSichtbar = fzZeitstempel.before(calZeitraumbeginn);
+
+        if (frueherButtonSichtbar) {
+            buttonFrueher.setVisibility(View.VISIBLE);
+        } else {
+            buttonFrueher.setVisibility(View.INVISIBLE);
+        }
+
 
         x_beschriftung = daten.clone();
         SimpleDateFormat formatterparse = new SimpleDateFormat("dd.MM.yyyy");
