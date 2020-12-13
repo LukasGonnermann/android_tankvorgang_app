@@ -18,10 +18,8 @@
         android:textSize="20sp"
         android:text="@string/keine_fahrzeuge_vorhanden"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <!-- Inhalt -->
 
@@ -39,38 +37,52 @@
 
             <!-- Anzeigename -->
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/textViewName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="45dp"
-                android:layout_marginBottom="35dp">
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="30dp"
+                android:gravity="center"
+                android:text="@string/idle"
+                style="@style/Theme.Tankauswertung.TextViewDark"
+                android:textSize="32sp" />
 
-                <TextView
-                    android:id="@+id/textViewName"
+            <!-- Tankstand -->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center">
+
+                <ProgressBar
+                    android:id="@+id/progressBarTankstand"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:gravity="center"
-                    android:text="@string/idle"
+                    android:indeterminate="false"
+                    android:progressDrawable="@drawable/circular_progress_bar"
+                    android:background="@drawable/circle_shape"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:max="100"
+                    android:min="0"
+                    android:progress="33" />
+
+                <!-- Tankstand Wert -->
+
+                <TextView
+                    android:id="@+id/textViewAktuellerTankstand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     style="@style/Theme.Tankauswertung.TextViewDark"
-                    android:textSize="32sp" />
+                    android:textSize="20sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- Aktueller Tankstand anzeige -->
-
-
-            <TextView
-                android:id="@+id/textViewAktuellerTankstand"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                style="@style/Theme.Tankauswertung.TextViewDark"
-                android:textSize="20sp" />
-
-            <!-- Aktueller Tankstand -->
+            <!-- Tankstand Label -->
 
             <TextView
                 android:id="@+id/labelAktuellerTankstand"
@@ -86,7 +98,7 @@
             <TableLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp">
+                android:layout_marginTop="50dp">
 
                 <TableRow>
 
@@ -147,7 +159,8 @@
 
                 </TableRow>
 
-                <View style="@style/Divider.Horizontal"/>
+                <!-- hier biste richtig, Berfin -->
+                <!-- <View style="@style/Divider.Horizontal"/> -->
 
                 <TableRow
                     android:layout_marginTop="20dp">
@@ -211,14 +224,6 @@
 
 
             </TableLayout>
-
-            <ProgressBar
-                android:id="@+id/simpleProgressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:max="100"
-                android:min="0"
-                android:layout_marginTop="100dp"/>
 
         </LinearLayout>
 

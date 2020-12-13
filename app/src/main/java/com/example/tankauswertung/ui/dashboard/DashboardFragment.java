@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ public class DashboardFragment extends Fragment {
     TextView labelReichweite;
     TextView labelCo2;
 
+    ProgressBar progressBarTankstand;
     TextView textViewGarageLeer;
     TextView textViewName;
     TextView textViewTankstand;
@@ -66,6 +68,7 @@ public class DashboardFragment extends Fragment {
         labelReichweite = root.findViewById(R.id.labelReichweite);
         labelCo2 = root.findViewById(R.id.labelCo2);
 
+        progressBarTankstand = root.findViewById(R.id.progressBarTankstand);
         textViewName = root.findViewById(R.id.textViewName);
         textViewTankstand = root.findViewById(R.id.textViewAktuellerTankstand);
         textViewKilometerstand = root.findViewById(R.id.textViewKilometerstand);
@@ -84,7 +87,6 @@ public class DashboardFragment extends Fragment {
             Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
 
             // Label für Tankstand und Verbrauch bei Elektroauto ändern
-
             if (aktuellesFahrzeug.isElektro()) {
                 labelTankstand.setText(R.string.tankstand_kwh);
                 labelVerbrauch.setText(R.string.durchschnitt_verbrauch_kwh_100km);
@@ -93,6 +95,8 @@ public class DashboardFragment extends Fragment {
             // anzuzeigende Werte setzen
 
             textViewName.setText(aktuellesFahrzeug.getName());
+            textViewTankstand.setText(String.valueOf(aktuellesFahrzeug.getTankstand()));
+            progressBarTankstand.setProgress((int) aktuellesFahrzeug.getTankstand());
             textViewKilometerstand.setText(String.valueOf(aktuellesFahrzeug.getKmStand()));
 
             textViewVerbrauch.setText(String.valueOf(aktuellesFahrzeug.getVerbrauchDurchschnittlich()));
@@ -107,8 +111,6 @@ public class DashboardFragment extends Fragment {
             if (!aktuellesFahrzeug.isElektro()) {
                 textViewCo2.setText(String.valueOf(aktuellesFahrzeug.getCo2AusstossGesamtKg()));
             }
-
-            textViewTankstand.setText(String.valueOf(aktuellesFahrzeug.getTankstand()));
         }
     }
 }

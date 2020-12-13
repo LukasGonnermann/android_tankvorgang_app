@@ -4,7 +4,7 @@
     <!-- Trennlinien -->
 
     <style name="Divider">
-        <item name="android:background">#FF000000</item>
+        <item name="android:background">?attr/colorPrimary</item>
     </style>
 
     <style name="Divider.Horizontal" parent="Divider">
@@ -16,6 +16,5 @@
         <item name="android:layout_width">1dp</item>
         <item name="android:layout_height">match_parent</item>
     </style>
-
 
 </resources>
