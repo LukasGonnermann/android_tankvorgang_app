@@ -20,8 +20,7 @@ import com.example.tankauswertung.MainActivity;
 
 import com.example.tankauswertung.R;
 
-public class DashboardFragment extends Fragment
-{
+public class DashboardFragment extends Fragment {
 
     Garage garage;
     TextView textViewName;
@@ -37,8 +36,8 @@ public class DashboardFragment extends Fragment
     TextView labelCo2;
     TextView labelReichweite;
 
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
         textViewName = root.findViewById(R.id.TextViewName);
         textViewVerbrauch = root.findViewById(R.id.TextViewVerbrauch);
@@ -60,14 +59,12 @@ public class DashboardFragment extends Fragment
      * immer ausgeführt, bevor das Fragment (der Tab) bedienbar ist (nach jedem Wechseln etc. etc.)
      */
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
 
         garage = MainActivity.getGarage();
 
-        if (garage.isEmpty())
-        {
+        if (garage.isEmpty()) {
             // Ausser Name alle Elemente ausblenden
             textViewName.setText(R.string.no_cars_in_garage);
             textViewVerbrauch.setVisibility(View.INVISIBLE);
@@ -81,10 +78,7 @@ public class DashboardFragment extends Fragment
             labelCo2.setVisibility(View.INVISIBLE);
             labelKilometerstand.setVisibility(View.INVISIBLE);
             labelAktuellerTankstandTitel.setVisibility(View.INVISIBLE);
-        }
-
-            else
-            {
+        } else {
             // Alle Attributwerte abfragen und in den TextViews darstellen
 
             Fahrzeug ausgewaehltesFahrzeug = garage.getAusgewaehltesFahrzeug();
@@ -103,8 +97,8 @@ public class DashboardFragment extends Fragment
            // textViewReichweite.setText(reichweite);
             textViewAktuellerTankstand.setText(aktuellerTankstand);
 
-            }
         }
-
     }
+
+}
 

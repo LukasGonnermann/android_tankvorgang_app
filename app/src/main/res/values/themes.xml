@@ -4,26 +4,60 @@
     <style name="Theme.Tankauswertung" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/grey_light</item>    <!-- Überschrift/Titel -->
-        <item name="colorPrimaryVariant">@color/tuerkis_alternativ</item>  <!-- kopfleiste -->
+        <item name="colorPrimary">@color/blau_1</item>
+        <item name="colorPrimaryVariant">@color/blau_2</item>
         <item name="colorOnPrimary">@color/white</item>
 
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/rot</item>    <!-- KREISE VON SLEEKBAR-->
-        <item name="colorSecondaryVariant">@color/rot_alternativ</item>    <!-- HOCHSWIPE DING -->
-        <item name="colorOnSecondary">@color/white</item> <!-- das + im hinzufügen knopf und die schrift -->
-
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="colorSecondary">@color/blau_1</item>
+        <item name="colorSecondaryVariant">@color/blau_2</item>
+        <item name="colorOnSecondary">@color/white</item>
 
         <!-- Customize your theme here. -->
-        <item name="cardBackgroundColor">@color/grey_light</item>
+        <item name="cardBackgroundColor">@color/white_darker</item>
+
+        <item name="android:statusBarColor" tools:targetApi="l">@color/white_darker</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="l">@color/white_darker</item>
 
     </style>
 
+    <style name="Theme.Tankauswertung.DarkTextView" parent="Theme.Tankauswertung">
+        <item name="android:textColor">@color/black_light</item>
+    </style>
 
+    <style name="Theme.Tankauswertung.Toolbar" parent="Theme.Tankauswertung">
+        <item name="android:background">@color/white_dark</item>
+        <item name="android:popupTheme">@style/Theme.NavDrawer.PopupOverlay</item>
+    </style>
+
+    <!-- custom Button styles -->
+
+    <style name="Theme.Tankauswertung.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/white_darker</item>
+        <item name="android:textColor">@color/black_light</item>
+    </style>
+
+    <style name="Theme.Tankauswertung.ButtonSelected" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">?attr/colorPrimary</item>
+    </style>
+
+    <!-- custom ImageButton styles -->
+
+    <style name="Theme.Tankauswertung.ImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:backgroundTint">@color/white_darker</item>
+        <item name="android:tint">@color/blackblue_lighter</item>
+        <item name="android:elevation">2dp</item>
+    </style>
+
+    <style name="Theme.Tankauswertung.ImageButtonSelected" parent="Widget.AppCompat.ImageButton">
+        <item name="android:backgroundTint">?attr/colorPrimary</item>
+        <item name="android:tint">@color/white</item>
+        <item name="android:elevation">2dp</item>
+    </style>
 
     <style name="Theme.NavDrawer.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="Theme.NavDrawer.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.NavDrawer.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:background">@color/white</item>
+    </style>
 
 </resources>

@@ -55,7 +55,7 @@
                     android:id="@+id/textViewTimelineDatum"
                     android:textSize="12sp"
                     tools:text="Testdatum"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/blackblue_light"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -63,7 +63,7 @@
                     android:layout_marginTop="5dp"
                     android:id="@+id/textViewTimelineBeschreibung"
                     tools:text="Testbeschreibung"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/blackblue_light"/>
 
             </LinearLayout>
 

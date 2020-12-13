@@ -4,21 +4,24 @@
     <style name="Theme.Tankauswertung" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple</item>  <!-- Überschrift/Titel -->
-        <item name="colorPrimaryVariant">@color/white</item> <!-- kopfleiste -->
-        <item name="colorOnPrimary">@color/white</item>  <!-- schrift der statistik-->
+        <item name="colorPrimary">@color/blackblue_light</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
 
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/purple_light</item>  <!-- KREISE VON SLEEKBAR-->
-        <item name="colorSecondaryVariant">@color/white</item>  <!-- HOCHSWIPE DING -->
-        <item name="colorOnSecondary">@color/white</item> <!-- das + im hinzufügen knopf -->
-
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="colorSecondary">@color/blackblue_light</item>
+        <item name="colorSecondaryVariant">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
 
         <!-- Customize your theme here. -->
-        <item name="cardBackgroundColor" >@color/grey</item>
+        <item name="cardBackgroundColor">@color/grey</item>
 
+        <item name="android:statusBarColor" tools:targetApi="l">@color/black</item>
+
+    </style>
+
+    <style name="Theme.Tankauswertung.Toolbar" parent="Theme.Tankauswertung">
+        <item name="android:background">@color/blackblue_lighter</item>
     </style>
 
 </resources>

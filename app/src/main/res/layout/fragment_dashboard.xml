@@ -34,6 +34,7 @@
                     android:layout_margin="10dp"
                     android:gravity="center"
                     android:text="Mein Auto"
+                    style="@style/Theme.Tankauswertung.DarkTextView"
                     android:textSize="40sp" />
 
             </LinearLayout>
@@ -51,6 +52,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="40%"
+                    style="@style/Theme.Tankauswertung.DarkTextView"
                     android:textSize="20sp" />
 
 
@@ -93,6 +95,7 @@
                         android:gravity="center"
                         android:textSize="25sp"
                         android:text="100 000"
+                        style="@style/Theme.Tankauswertung.DarkTextView"
                         android:textStyle="bold"/>
 
                     <!-- Verbrauch anzeige-->
@@ -105,6 +108,7 @@
                         android:gravity="center"
                         android:textSize="25sp"
                         android:textStyle="bold"
+                        style="@style/Theme.Tankauswertung.DarkTextView"
                         android:text="5,8"/>
 
                 </TableRow>
@@ -153,6 +157,7 @@
                         android:textSize="25sp"
                         android:gravity="center"
                         android:textStyle="bold"
+                        style="@style/Theme.Tankauswertung.DarkTextView"
                         android:text="100 000"/>
 
                     <!-- CO2-Ausstoß anzeigen -->
@@ -165,6 +170,7 @@
                         android:textSize="25sp"
                         android:gravity="center"
                         android:textStyle="bold"
+                        style="@style/Theme.Tankauswertung.DarkTextView"
                         android:text="5,8"/>
 
                 </TableRow>
@@ -193,7 +199,7 @@
                         android:textSize="18sp"
                         android:gravity="center"
                         android:layout_margin="10dp"
-                        android:text="@string/co2_ausstoss"/>
+                        android:text="@string/co2_ausstoss_kg"/>
 
                 </TableRow>
 

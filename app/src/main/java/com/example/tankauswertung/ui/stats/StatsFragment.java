@@ -1,5 +1,7 @@
 package com.example.tankauswertung.ui.stats;
 
+import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,8 +12,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.airbnb.paris.Paris;
 import com.example.tankauswertung.Fahrzeug;
 import com.example.tankauswertung.Garage;
 import com.example.tankauswertung.MainActivity;
@@ -88,6 +92,7 @@ public class StatsFragment extends Fragment {
             public void onClick(View v) {
                 setStatistikart(0);
                 baueDiagramm();
+                setStatistikartButtonFarbe();
             }
         });
         imageButtonTreibstoff.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +100,7 @@ public class StatsFragment extends Fragment {
             public void onClick(View v) {
                 setStatistikart(1);
                 baueDiagramm();
+                setStatistikartButtonFarbe();
             }
         });
         imageButtonTankkosten.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +108,7 @@ public class StatsFragment extends Fragment {
             public void onClick(View v) {
                 setStatistikart(2);
                 baueDiagramm();
+                setStatistikartButtonFarbe();
             }
         });
         imageButtonCO2.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +116,7 @@ public class StatsFragment extends Fragment {
             public void onClick(View v) {
                 setStatistikart(3);
                 baueDiagramm();
+                setStatistikartButtonFarbe();
             }
         });
         buttonFrueher.setOnClickListener(new View.OnClickListener() {
@@ -153,6 +161,7 @@ public class StatsFragment extends Fragment {
 
             }
         });
+        setStatistikartButtonFarbe();
         setZeitraumButtonFarbe();
         baueDiagramm();
         return root;
@@ -413,6 +422,14 @@ public class StatsFragment extends Fragment {
         BarDataSet set1 = new BarDataSet(values, setLabel); //obligatorisch aber nicht angezeigt
         set1.setValueFormatter(new ForecastValueFormatter());
 
+        // Styling
+        set1.setColors(
+                ContextCompat.getColor(diagramm.getContext(), R.color.blau_1),
+                ContextCompat.getColor(diagramm.getContext(), R.color.blau_1),
+                ContextCompat.getColor(diagramm.getContext(), R.color.blau_1),
+                ContextCompat.getColor(diagramm.getContext(), R.color.blau_1)
+        );
+
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(set1);
 
@@ -458,24 +475,59 @@ public class StatsFragment extends Fragment {
     }
 
     /**
+     * Verwaltet die Hervorhebungen der Statistikartbuttons, je nach dem welche Statistikart ausgewaehlt wurde
+     */
+    public void setStatistikartButtonFarbe() {
+
+        switch (statistikart) {
+            case 0:
+                Paris.style(imageButtonStrecken).apply(R.style.Theme_Tankauswertung_ImageButtonSelected);
+                Paris.style(imageButtonTreibstoff).apply(R.style.Theme_Tankauswertung_ImageButton);
+                Paris.style(imageButtonTankkosten).apply(R.style.Theme_Tankauswertung_ImageButton);
+                Paris.style(imageButtonCO2).apply(R.style.Theme_Tankauswertung_ImageButton);
+                break;
+            case 1:
+                Paris.style(imageButtonStrecken).apply(R.style.Theme_Tankauswertung_ImageButton);
+                Paris.style(imageButtonTreibstoff).apply(R.style.Theme_Tankauswertung_ImageButtonSelected);
+                Paris.style(imageButtonTankkosten).apply(R.style.Theme_Tankauswertung_ImageButton);
+                Paris.style(imageButtonCO2).apply(R.style.Theme_Tankauswertung_ImageButton);
+                break;
+            case 2:
+                Paris.style(imageButtonStrecken).apply(R.style.Theme_Tankauswertung_ImageButton);
+                Paris.style(imageButtonTreibstoff).apply(R.style.Theme_Tankauswertung_ImageButton);
+                Paris.style(imageButtonTankkosten).apply(R.style.Theme_Tankauswertung_ImageButtonSelected);
+                Paris.style(imageButtonCO2).apply(R.style.Theme_Tankauswertung_ImageButton);
+                break;
+            case 3:
+                Paris.style(imageButtonStrecken).apply(R.style.Theme_Tankauswertung_ImageButton);
+                Paris.style(imageButtonTreibstoff).apply(R.style.Theme_Tankauswertung_ImageButton);
+                Paris.style(imageButtonTankkosten).apply(R.style.Theme_Tankauswertung_ImageButton);
+                Paris.style(imageButtonCO2).apply(R.style.Theme_Tankauswertung_ImageButtonSelected);
+                break;
+        }
+
+    }
+
+    /**
      * Verwaltet die Hervorhebungen der Zeitraumbuttons, je nach dem welcher Zeitraum ausgewaehlt wurde
      */
     public void setZeitraumButtonFarbe() {
+
         switch (zeitraum) {
             case 0:
-                buttonWoche.setBackgroundColor(getResources().getColor(R.color.orange));
-                buttonMonat.setBackgroundColor(getResources().getColor(R.color.design_default_color_primary));
-                buttonJahr.setBackgroundColor(getResources().getColor(R.color.design_default_color_primary));
+                Paris.style(buttonWoche).apply(R.style.Theme_Tankauswertung_ButtonSelected);
+                Paris.style(buttonMonat).apply(R.style.Theme_Tankauswertung_Button);
+                Paris.style(buttonJahr).apply(R.style.Theme_Tankauswertung_Button);
                 break;
             case 1:
-                buttonWoche.setBackgroundColor(getResources().getColor(R.color.design_default_color_primary));
-                buttonMonat.setBackgroundColor(getResources().getColor(R.color.orange));
-                buttonJahr.setBackgroundColor(getResources().getColor(R.color.design_default_color_primary));
+                Paris.style(buttonWoche).apply(R.style.Theme_Tankauswertung_Button);
+                Paris.style(buttonMonat).apply(R.style.Theme_Tankauswertung_ButtonSelected);
+                Paris.style(buttonJahr).apply(R.style.Theme_Tankauswertung_Button);
                 break;
             case 2:
-                buttonWoche.setBackgroundColor(getResources().getColor(R.color.design_default_color_primary));
-                buttonMonat.setBackgroundColor(getResources().getColor(R.color.design_default_color_primary));
-                buttonJahr.setBackgroundColor(getResources().getColor(R.color.orange));
+                Paris.style(buttonWoche).apply(R.style.Theme_Tankauswertung_Button);
+                Paris.style(buttonMonat).apply(R.style.Theme_Tankauswertung_Button);
+                Paris.style(buttonJahr).apply(R.style.Theme_Tankauswertung_ButtonSelected);
                 break;
         }
 

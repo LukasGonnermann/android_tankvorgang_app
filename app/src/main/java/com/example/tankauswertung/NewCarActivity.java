@@ -151,7 +151,7 @@ public class NewCarActivity extends AppCompatActivity {
                 // ist Elektro
                 if (b) {
                     // Hinweis-Dialog nur anzeigen, wenn er nicht schon einmal angezeigt wurde
-                    if (!hinweis_angezeigt) {
+                    if (!hinweis_angezeigt && !intent.getAction().equals(MainActivity.ACTION_EDIT_CAR)) {
                         dialogElektroInfoBestaetigung.show();
                     }
                     // ändere Maxwerte für die Verbrauchsslider zu 50

@@ -61,6 +61,7 @@
                 android:id="@+id/imageViewTankvorgangBeleg"
                 android:layout_width="150dp"
                 android:layout_height="200dp"
+                android:layout_marginTop="20dp"
                 tools:srcCompat="@tools:sample/backgrounds/scenic"
                 android:visibility="gone"
                 android:contentDescription="@string/bild_des_tankbelegs" />
@@ -69,6 +70,7 @@
                 android:id="@+id/buttonTankvorgangBelegHinzufuegen"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:text="@string/tankvorgang_bild_aufnehmen" />
 
         </LinearLayout>

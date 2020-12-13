@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#131313</color>
+
+    <color name="black">#141414</color>
+    <color name="black_light">#222222</color>
+
+    <color name="blackblue_light">#2F3437</color>
+    <color name="blackblue_lighter">#373C3F</color>
+
     <color name="white">#FFFFFFFF</color>
+    <color name="white_dark">#FBFBFB</color>
 
-    <color name="grey_light">#FBFBFB</color>
+    <color name="white_darker">#F0F0F0</color>
+
     <color name="grey">#9E9E9E</color>
-
-    <color name="purple">#B39DDB</color>
-    <color name="purple_light">#D1C4E9</color>
-    <color name="lila">#7E57C2</color>
-
-    <color name="pink">#EF9A9A</color>
-
-    <color name="blau_alt">#3F51B5</color>
 
     <!-- re-design -->
 
@@ -21,15 +21,10 @@
     <color name="tuerkis_entsaettigt">#3EA884</color>
     <color name="tuerkis_hell">#A9F5DD</color>
 
-    <color name="rot">#5197B0</color>
-    <color name="rot_alternativ">#A86F5D</color>
+    <color name="blau_1">#5197B0</color>
+    <color name="blau_2">#2e758f</color>
+    <color name="blau_3">#1b4c5e</color>
 
-    <color name="blau">#709AAC</color>
-
-
-
-
-
-
+    <color name="rot">#A86F5D</color>
 
 </resources>
