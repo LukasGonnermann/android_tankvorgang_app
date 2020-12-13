@@ -1,30 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="black">#141414</color>
+    <color name="black">#121212</color>
     <color name="black_light">#222222</color>
-
-    <color name="blackblue_light">#2F3437</color>
-    <color name="blackblue_lighter">#373C3F</color>
 
     <color name="white">#FFFFFFFF</color>
     <color name="white_dark">#FBFBFB</color>
-
     <color name="white_darker">#F0F0F0</color>
-
-    <color name="grey">#9E9E9E</color>
-
-    <!-- re-design -->
-
-    <color name="tuerkis">#08A876</color>
-    <color name="tuerkis_alternativ">#07A693</color>
-    <color name="tuerkis_entsaettigt">#3EA884</color>
-    <color name="tuerkis_hell">#A9F5DD</color>
 
     <color name="blau_1">#5197B0</color>
     <color name="blau_2">#2e758f</color>
     <color name="blau_3">#1b4c5e</color>
 
-    <color name="rot">#A86F5D</color>
+    <color name="blackblue">#2F3437</color>
+    <color name="blackblue_light">#373C3F</color>
+
+    <!-- custom timeline gray -->
+    <color name="gray_timeline_light">#AAAAAA</color>
+    <color name="gray_timeline_dark">#444444</color>
 
 </resources>

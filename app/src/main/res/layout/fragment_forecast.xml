@@ -58,7 +58,7 @@
                     android:layout_width="24dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    style="@style/Theme.Tankauswertung.DarkTextView"
+                    style="@style/Theme.Tankauswertung.TextViewDark"
                     android:text="@string/hundred_number" />
 
                 <SeekBar
@@ -93,7 +93,7 @@
                     android:layout_width="24dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    style="@style/Theme.Tankauswertung.DarkTextView"
+                    style="@style/Theme.Tankauswertung.TextViewDark"
                     android:text="@string/zero_number" />
 
                 <SeekBar
@@ -128,7 +128,7 @@
                     android:layout_width="24dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    style="@style/Theme.Tankauswertung.DarkTextView"
+                    style="@style/Theme.Tankauswertung.TextViewDark"
                     android:text="@string/zero_number" />
 
                 <SeekBar
@@ -160,7 +160,7 @@
                 android:layout_marginTop="10dp"
                 android:textSize="24sp"
                 android:text="@string/geschaetzte_werte"
-                style="@style/Theme.Tankauswertung.DarkTextView"
+                style="@style/Theme.Tankauswertung.TextViewDark"
             />
 
             <!-- Kraftstoffverbrauch -->
@@ -177,7 +177,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                style="@style/Theme.Tankauswertung.DarkTextView"
+                style="@style/Theme.Tankauswertung.TextViewDark"
                 android:text="@string/idle" />
 
             <!-- Kraftstoffkosten -->
@@ -194,7 +194,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                style="@style/Theme.Tankauswertung.DarkTextView"
+                style="@style/Theme.Tankauswertung.TextViewDark"
                 android:text="@string/idle" />
 
             <!-- Anzahl nötiger Tankvorgänge -->
@@ -211,7 +211,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                style="@style/Theme.Tankauswertung.DarkTextView"
+                style="@style/Theme.Tankauswertung.TextViewDark"
                 android:text="@string/idle" />
 
             <!-- CO2-Ausstoß -->
@@ -229,7 +229,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="50dp"
                 android:textSize="18sp"
-                style="@style/Theme.Tankauswertung.DarkTextView"
+                style="@style/Theme.Tankauswertung.TextViewDark"
                 android:text="@string/idle" />
 
         </LinearLayout>

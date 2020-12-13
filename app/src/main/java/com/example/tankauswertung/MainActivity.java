@@ -204,6 +204,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Menu menu = navView.getMenu();
         menu.clear();  // erst einmal alle bereits vorhandenen Items entfernen
 
+        menu.addSubMenu("");  // Dummy für Linie
+
         // SubMenu für Garage hinzufügen
         SubMenu garageMenu = menu.addSubMenu(0, 0, 0, R.string.garage);
 

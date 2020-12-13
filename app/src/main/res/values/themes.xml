@@ -13,24 +13,31 @@
         <item name="colorSecondaryVariant">@color/blau_2</item>
         <item name="colorOnSecondary">@color/white</item>
 
-        <!-- Customize your theme here. -->
+        <!-- custom -->
         <item name="cardBackgroundColor">@color/white_darker</item>
-
         <item name="android:statusBarColor" tools:targetApi="l">@color/white_darker</item>
         <item name="android:windowLightStatusBar" tools:targetApi="l">@color/white_darker</item>
 
     </style>
 
-    <style name="Theme.Tankauswertung.DarkTextView" parent="Theme.Tankauswertung">
-        <item name="android:textColor">@color/black_light</item>
-    </style>
+    <!-- Toolbar -->
 
     <style name="Theme.Tankauswertung.Toolbar" parent="Theme.Tankauswertung">
         <item name="android:background">@color/white_dark</item>
         <item name="android:popupTheme">@style/Theme.NavDrawer.PopupOverlay</item>
     </style>
 
-    <!-- custom Button styles -->
+    <!-- TextView -->
+
+    <style name="Theme.Tankauswertung.TextViewDark" parent="Theme.Tankauswertung">
+        <item name="android:textColor">@color/black_light</item>
+    </style>
+
+    <style name="Theme.Tankauswertung.TextViewAppName" parent="Theme.Tankauswertung">
+        <item name="android:textColor">@color/blau_3</item>
+    </style>
+
+    <!-- Button, ImageButton -->
 
     <style name="Theme.Tankauswertung.Button" parent="Widget.MaterialComponents.Button">
         <item name="android:backgroundTint">@color/white_darker</item>
@@ -41,23 +48,30 @@
         <item name="android:backgroundTint">?attr/colorPrimary</item>
     </style>
 
-    <!-- custom ImageButton styles -->
-
     <style name="Theme.Tankauswertung.ImageButton" parent="Widget.AppCompat.ImageButton">
         <item name="android:backgroundTint">@color/white_darker</item>
-        <item name="android:tint">@color/blackblue_lighter</item>
+        <item name="android:tint">@color/blackblue_light</item>
         <item name="android:elevation">2dp</item>
     </style>
 
     <style name="Theme.Tankauswertung.ImageButtonSelected" parent="Widget.AppCompat.ImageButton">
         <item name="android:backgroundTint">?attr/colorPrimary</item>
-        <item name="android:tint">@color/white</item>
+        <item name="android:tint">@color/white_dark</item>
         <item name="android:elevation">2dp</item>
     </style>
 
+    <!-- TimelineView -->
+
+    <style name="Theme.Tankauswertung.TimelineView">
+        <item name="startLineColor">@color/gray_timeline_light</item>
+        <item name="endLineColor">@color/gray_timeline_light</item>
+    </style>
+
+    <!-- internal stuff -->
+
     <style name="Theme.NavDrawer.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.NavDrawer.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
 </resources>

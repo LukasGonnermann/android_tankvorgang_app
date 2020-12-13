@@ -61,7 +61,7 @@
         android:layout_marginBottom="10dp"
         android:text=""
         android:textSize="21sp"
-        style="@style/Theme.Tankauswertung.DarkTextView"
+        style="@style/Theme.Tankauswertung.TextViewDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageButtonStrecken" />
@@ -113,7 +113,7 @@
         app:layout_constraintEnd_toStartOf="@+id/buttonSpaeter"
         app:layout_constraintStart_toEndOf="@+id/buttonFrueher"
         app:layout_constraintTop_toBottomOf="@+id/fragment_verticalbarchart_chart"
-        style="@style/Theme.Tankauswertung.DarkTextView"
+        style="@style/Theme.Tankauswertung.TextViewDark"
         app:layout_constraintBottom_toBottomOf="@id/buttonMonat" />
 
     <Button

@@ -59,7 +59,7 @@
                     android:layout_width="24dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    style="@style/Theme.Tankauswertung.DarkTextView"
+                    style="@style/Theme.Tankauswertung.TextViewDark"
                     android:text="@string/zero_number" />
 
                 <SeekBar

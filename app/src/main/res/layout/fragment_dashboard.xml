@@ -34,7 +34,7 @@
                     android:layout_margin="10dp"
                     android:gravity="center"
                     android:text="Mein Auto"
-                    style="@style/Theme.Tankauswertung.DarkTextView"
+                    style="@style/Theme.Tankauswertung.TextViewDark"
                     android:textSize="40sp" />
 
             </LinearLayout>
@@ -52,7 +52,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="40%"
-                    style="@style/Theme.Tankauswertung.DarkTextView"
+                    style="@style/Theme.Tankauswertung.TextViewDark"
                     android:textSize="20sp" />
 
 
@@ -95,7 +95,7 @@
                         android:gravity="center"
                         android:textSize="25sp"
                         android:text="100 000"
-                        style="@style/Theme.Tankauswertung.DarkTextView"
+                        style="@style/Theme.Tankauswertung.TextViewDark"
                         android:textStyle="bold"/>
 
                     <!-- Verbrauch anzeige-->
@@ -108,7 +108,7 @@
                         android:gravity="center"
                         android:textSize="25sp"
                         android:textStyle="bold"
-                        style="@style/Theme.Tankauswertung.DarkTextView"
+                        style="@style/Theme.Tankauswertung.TextViewDark"
                         android:text="5,8"/>
 
                 </TableRow>
@@ -157,7 +157,7 @@
                         android:textSize="25sp"
                         android:gravity="center"
                         android:textStyle="bold"
-                        style="@style/Theme.Tankauswertung.DarkTextView"
+                        style="@style/Theme.Tankauswertung.TextViewDark"
                         android:text="100 000"/>
 
                     <!-- CO2-Ausstoß anzeigen -->
@@ -170,7 +170,7 @@
                         android:textSize="25sp"
                         android:gravity="center"
                         android:textStyle="bold"
-                        style="@style/Theme.Tankauswertung.DarkTextView"
+                        style="@style/Theme.Tankauswertung.TextViewDark"
                         android:text="5,8"/>
 
                 </TableRow>
@@ -219,6 +219,4 @@
 
     </ScrollView>
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
-

@@ -1,8 +1,6 @@
 package com.example.tankauswertung.ui.stats;
 
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -281,14 +279,27 @@ public class StatsFragment extends Fragment {
         return x_beschriftung;
     }
 
+    private int getBeschriftungstextfarbe() {
+
+        int colorResId = R.color.black;
+        int nightModeFlags = getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
+        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+            colorResId = R.color.white_darker;
+        }
+        return ContextCompat.getColor(diagramm.getContext(), colorResId);
+    }
+
     /**
      * konfiguriert das Aussehen des Diagramms
      */
     private void gestalteDiagrammAussehen() {
+
         diagramm.getDescription().setEnabled(false);
         diagramm.setDrawValueAboveBar(true);
         diagramm.getLegend().setEnabled(false);
-        //chart.getAxisRight().setEnabled(false);
+
+        // chart.getAxisRight().setEnabled(false);
 
         XAxis xAchse = diagramm.getXAxis();
         xAchse.setGranularity(1f);
@@ -304,6 +315,11 @@ public class StatsFragment extends Fragment {
         YAxis axeRechts = diagramm.getAxisRight();
         axeRechts.setGranularity(1f);
         axeRechts.setAxisMinimum(0);
+
+        // Beschriftungsfarben
+        xAchse.setTextColor(getBeschriftungstextfarbe());
+        axeLinks.setTextColor(getBeschriftungstextfarbe());
+        axeRechts.setTextColor(getBeschriftungstextfarbe());
     }
 
     /**
@@ -423,12 +439,7 @@ public class StatsFragment extends Fragment {
         set1.setValueFormatter(new ForecastValueFormatter());
 
         // Styling
-        set1.setColors(
-                ContextCompat.getColor(diagramm.getContext(), R.color.blau_1),
-                ContextCompat.getColor(diagramm.getContext(), R.color.blau_1),
-                ContextCompat.getColor(diagramm.getContext(), R.color.blau_1),
-                ContextCompat.getColor(diagramm.getContext(), R.color.blau_1)
-        );
+        set1.setColor(ContextCompat.getColor(diagramm.getContext(), R.color.blau_1));
 
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(set1);
@@ -442,7 +453,9 @@ public class StatsFragment extends Fragment {
      * @param data Erstellte Diagrammdaten
      */
     private void bereiteDiagrammdaten(BarData data) {
+        // Styling
         data.setValueTextSize(12f);
+        data.setValueTextColor(getBeschriftungstextfarbe());
         diagramm.setData(data);
         diagramm.invalidate();
     }
