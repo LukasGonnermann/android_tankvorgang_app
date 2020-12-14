@@ -799,16 +799,16 @@ public class Fahrzeug implements Serializable {
 
         int i = 0;
         int j = 0;
-        double distanz;
+        double ausstoss;
 
         while (j < 7 && heute.after(this.getZeitstempel())) {
-            distanz = 0;
-            rueckgabe.put(formatter.format(heute), distanz);
+            ausstoss = 0;
+            rueckgabe.put(formatter.format(heute), ausstoss);
 
             while (i < strecken.size()) {
                 if (formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
-                    distanz += strecken.get(i).getCo2Ausstoss() / 1000;
-                    rueckgabe.replace(formatter.format(heute), distanz);
+                    ausstoss += strecken.get(i).getCo2Ausstoss() / 1000;
+                    rueckgabe.replace(formatter.format(heute), ausstoss);
                     i++;
                 } else if (strecken.get(i).getZeitstempel().after(heute)) {
                     i++;
@@ -1095,7 +1095,7 @@ public class Fahrzeug implements Serializable {
             while (i < strecken.size()) {
                 vergleich.setTime(strecken.get(i).getZeitstempel());
                 if (vergleich.get(Calendar.WEEK_OF_MONTH) == heute.get(Calendar.WEEK_OF_MONTH) && vergleich.get(Calendar.MONTH) == heute.get(Calendar.MONTH) && vergleich.get(Calendar.YEAR) == heute.get(Calendar.YEAR)) {
-                    summeAusstoss += strecken.get(i).getCo2Ausstoss();
+                    summeAusstoss += strecken.get(i).getCo2Ausstoss() / 1000;
                     rueckgabe.replace(datum, summeAusstoss);
                     i++;
                 } else if (vergleich.after(heute)) {
