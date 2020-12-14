@@ -340,7 +340,13 @@ public class Fahrzeug implements Serializable {
                 // oder kein Tankvorgangelement mehr vorhanden
                 Date datum = aktuelleStrecke.getZeitstempel();
                 String strDistanz = dfDistanz.format(aktuelleStrecke.getDistanz());
+
                 String strStreckentyp = aktuelleStrecke.getStreckentyp().toString().toLowerCase();
+                // ß verwenden
+                if (strStreckentyp.equals("ausserorts")) {
+                    strStreckentyp = "außerorts";
+                }
+
                 String beschreibung = strDistanz + ", " + strStreckentyp;
                 ereignisse.add(new Ereignis(Ereignis.EreignisTyp.STRECKE, i, datum, beschreibung));
 
@@ -801,7 +807,7 @@ public class Fahrzeug implements Serializable {
 
             while (i < strecken.size()) {
                 if (formatter.format(strecken.get(i).getZeitstempel()).equals(formatter.format(heute))) {
-                    distanz += strecken.get(i).getCo2Ausstoss();
+                    distanz += strecken.get(i).getCo2Ausstoss() / 1000;
                     rueckgabe.replace(formatter.format(heute), distanz);
                     i++;
                 } else if (strecken.get(i).getZeitstempel().after(heute)) {
@@ -1148,7 +1154,7 @@ public class Fahrzeug implements Serializable {
             while (i < strecken.size()) {
                 vergleich.setTime(strecken.get(i).getZeitstempel());
                 if (vergleich.get(Calendar.MONTH) == heute.get(Calendar.MONTH) && vergleich.get(Calendar.YEAR) == heute.get(Calendar.YEAR)) {
-                    summeAusstoss += strecken.get(i).getCo2Ausstoss();
+                    summeAusstoss += strecken.get(i).getCo2Ausstoss() / 1000;
                     rueckgabe.replace(datum, summeAusstoss);
                     i++;
                 } else if (vergleich.after(heute)) {
