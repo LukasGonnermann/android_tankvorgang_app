@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +25,12 @@ import com.example.tankauswertung.MainActivity;
 import com.example.tankauswertung.NewStreckeActivity;
 import com.example.tankauswertung.NewTankvorgangActivity;
 import com.example.tankauswertung.R;
+import com.example.tankauswertung.Tankvorgang;
 import com.github.vipulasri.timelineview.TimelineView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.sql.Time;
 import java.util.ArrayList;
 
@@ -116,7 +119,6 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         timelineView.setMarker(drawable);
     }
 
-
     /**
      * data wrapper class
      */
@@ -141,6 +143,18 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 public void onClick(View view) {
                     // Hier biste richtig, Lukas
                     // Bild anzeigen lassen, falls Ereignis ein Tankvorgang ist
+                    Ereignis e = MainActivity.getGarage().getAusgewaehltesFahrzeug().getEreignisse().get(0);
+                    if (e.getEreignisTyp() == Ereignis.EreignisTyp.TANKVORGANG) {
+                        Tankvorgang t = MainActivity.getGarage().getAusgewaehltesFahrzeug().getTankvorgaenge().get(0);
+                        String img_path = t.getImg();
+                        if (img_path != null) {
+                            Intent intent = new Intent();
+                            intent.setAction(Intent.ACTION_VIEW);
+                            intent.setDataAndType(Uri.fromFile(new File(img_path)), "image/*");
+                            // TODO startActivity fixen
+                            // startActivity(intent);
+                        }
+                    }
                 }
             });
         }
