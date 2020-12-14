@@ -52,6 +52,7 @@ public class ForecastFragment extends Fragment {
 
     DecimalFormat dfTankvorgaenge = new DecimalFormat("#.#", new DecimalFormatSymbols(Locale.GERMAN));
     DecimalFormat dfVerbrauch = new DecimalFormat("#.## l", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfVerbrauchElektro = new DecimalFormat("#.## kWh", new DecimalFormatSymbols(Locale.GERMAN));
     DecimalFormat dfKosten = new DecimalFormat("#.## €", new DecimalFormatSymbols(Locale.GERMAN));
     DecimalFormat dfCo2 = new DecimalFormat("#.## kg", new DecimalFormatSymbols(Locale.GERMAN));
 
@@ -253,8 +254,11 @@ public class ForecastFragment extends Fragment {
             double kraftstoffkosten = streckenprognose.get("kraftstoffkosten");
             int anzahlNoetigerTankvorgaenge = streckenprognose.get("anzahlNoetigerTankvorgaenge").intValue();
             double co2Ausstoss = streckenprognose.get("co2Ausstoss");
+            if(!aktuellesFahrzeug.isElektro())
+                labelKraftstoffverbrauchWert.setText(dfVerbrauch.format(kraftstoffverbrauch));
+            else
+                labelKraftstoffverbrauchWert.setText(dfVerbrauchElektro.format(kraftstoffverbrauch));
 
-            labelKraftstoffverbrauchWert.setText(dfVerbrauch.format(kraftstoffverbrauch));
             labelAnzahlNoetigerTankvorgaengeWert.setText(dfTankvorgaenge.format(anzahlNoetigerTankvorgaenge));
             labelCo2AusstossWert.setText(dfCo2.format(co2Ausstoss));
 

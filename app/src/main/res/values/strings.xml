@@ -45,7 +45,7 @@
     <string name="verbrauch_kombiniert_kwh_100km">Anfangswert Verbrauch kombiniert (kWh&nbsp;/&nbsp;100 km)</string>
     <string name="kilometerstand_km">Kilometerstand (km)</string>
     <string name="tankstand_l">Tankstand (%)</string>
-    <string name="tankstand_kwh">Restladung (%)</string>
+    <string name="tankstand_kwh">Restladung</string>
     <string name="tankvolumen_l">Tankvolumen (l)</string>
     <string name="tankvolumen_kwh">Akkukapazität (kWh)</string>
     <!-- Schreibweise von Einheiten ohne Leerzeichen (nach DIN 5008) -->
