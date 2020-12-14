@@ -33,7 +33,6 @@ public class SettingsActivity extends AppCompatActivity {
         // zeigt den Zurück-Button an
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         Spinner spinner = findViewById(R.id.spinnerDarkMode);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(SettingsActivity.this,
                 android.R.layout.simple_spinner_item, items);
