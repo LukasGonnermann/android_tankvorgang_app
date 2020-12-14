@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavController navController;
     private AppBarConfiguration mAppBarConfiguration;
     static Garage garage;
+    static Settings einstellungen;
 
     // Activity request codes ("Which activity should be invoked?")
     final int LAUNCH_NEW_CAR_EDIT_CAR = 2;
