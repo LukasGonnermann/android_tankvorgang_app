@@ -360,7 +360,7 @@ public class Fahrzeug implements Serializable {
                 String strGetankteMenge = dfLiter.format(aktuellerTankvorgang.getGetankteMenge());
                 String strPreis = dfPreis.format(aktuellerTankvorgang.getPreis());
                 String beschreibung = strGetankteMenge + ", " + strPreis;
-                ereignisse.add(new Ereignis(Ereignis.EreignisTyp.TANKVORGANG, i, datum, beschreibung));
+                ereignisse.add(new Ereignis(Ereignis.EreignisTyp.TANKVORGANG, j, datum, beschreibung));
 
                 // j (Tankvorgänge) weiter iterieren
                 if (j + 1 >= tankvorgaenge.size()) {

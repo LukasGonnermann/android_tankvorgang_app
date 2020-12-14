@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -77,8 +78,27 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             setMarker(timelineViewHolder, R.drawable.marker_tankvorgang);
         }
 
+        timelineViewHolder.getCardView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Bild anzeigen lassen, falls Ereignis ein Tankvorgang ist
+                if (ereignis.getEreignisTyp() == Ereignis.EreignisTyp.TANKVORGANG) {
+                    Tankvorgang t = MainActivity.getGarage().getAusgewaehltesFahrzeug().getTankvorgaenge().get(ereignis.getIndex());
+                    String img_path = t.getImg();
+                    if (img_path != null) {
+                        Intent intent = new Intent();
+                        intent.setAction(Intent.ACTION_VIEW);
+                        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        intent.setDataAndType(Uri.fromFile(new File(img_path)), "image/*");
+                        ((Activity) context).startActivity(intent);
+                    }
+                }
+            }
+        });
+
         // nur aktuellstes Ereignis soll bearbeitet werden können
         if (position == 0) {
+
             timelineViewHolder.imageButtonEreignisBearbeiten.setVisibility(View.VISIBLE);
 
             timelineViewHolder.imageButtonEreignisBearbeiten.setOnClickListener(new View.OnClickListener() {
@@ -124,10 +144,11 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      */
     public static class TimelineViewHolder extends RecyclerView.ViewHolder {
 
-        TimelineView timelineView;
-        CardView cardView;
-        TextView textViewTimelineDatum, textViewTimelineBeschreibung;
-        ImageButton imageButtonEreignisBearbeiten;
+        private final TimelineView timelineView;
+        private final CardView cardView;
+        private final TextView textViewTimelineDatum;
+        private final TextView textViewTimelineBeschreibung;
+        private final ImageButton imageButtonEreignisBearbeiten;
 
         public TimelineViewHolder(View itemView, int viewType) {
             super(itemView);
@@ -137,30 +158,14 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             textViewTimelineBeschreibung = itemView.findViewById(R.id.textViewTimelineBeschreibung);
             imageButtonEreignisBearbeiten = itemView.findViewById(R.id.imageButtonEreignisBearbeiten);
             timelineView.initLine(viewType);
-
-            cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // Hier biste richtig, Lukas
-                    // Bild anzeigen lassen, falls Ereignis ein Tankvorgang ist
-                    Ereignis e = MainActivity.getGarage().getAusgewaehltesFahrzeug().getEreignisse().get(0);
-                    if (e.getEreignisTyp() == Ereignis.EreignisTyp.TANKVORGANG) {
-                        Tankvorgang t = MainActivity.getGarage().getAusgewaehltesFahrzeug().getTankvorgaenge().get(0);
-                        String img_path = t.getImg();
-                        if (img_path != null) {
-                            Intent intent = new Intent();
-                            intent.setAction(Intent.ACTION_VIEW);
-                            intent.setDataAndType(Uri.fromFile(new File(img_path)), "image/*");
-                            // TODO startActivity fixen
-                            // startActivity(intent);
-                        }
-                    }
-                }
-            });
         }
 
         public TimelineView getTimelineView() {
             return timelineView;
+        }
+
+        public CardView getCardView() {
+            return cardView;
         }
     }
 }
