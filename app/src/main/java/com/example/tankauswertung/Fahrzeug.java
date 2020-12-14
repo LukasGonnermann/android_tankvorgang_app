@@ -3,12 +3,15 @@ package com.example.tankauswertung;
 import com.example.tankauswertung.exceptions.FahrzeugWertException;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 
 /**
  * Klasse Fahrzeuge
@@ -303,6 +306,9 @@ public class Fahrzeug implements Serializable {
      * @return ArrayList<Ereignis>, Alle Ereignisse, sortiert nach Datum
      */
     public ArrayList<Ereignis> getEreignisse() {
+        DecimalFormat dfLiter = new DecimalFormat("#.# l", new DecimalFormatSymbols(Locale.GERMAN));
+        DecimalFormat dfPreis = new DecimalFormat("#.## €", new DecimalFormatSymbols(Locale.GERMAN));
+        DecimalFormat dfDistanz = new DecimalFormat("#.# km", new DecimalFormatSymbols(Locale.GERMAN));
 
         ArrayList<Ereignis> ereignisse = new ArrayList<>();
         int i = 0, j = 0;
@@ -333,8 +339,9 @@ public class Fahrzeug implements Serializable {
                 // aktuelles Streckenelement ist aktueller
                 // oder kein Tankvorgangelement mehr vorhanden
                 Date datum = aktuelleStrecke.getZeitstempel();
-                String beschreibung = Double.toString(aktuelleStrecke.getDistanz())
-                        + ", " + aktuelleStrecke.getStreckentyp().toString();
+                String strDistanz = dfDistanz.format(aktuelleStrecke.getDistanz());
+                String strStreckentyp = aktuelleStrecke.getStreckentyp().toString().toLowerCase();
+                String beschreibung = strDistanz + ", " + strStreckentyp;
                 ereignisse.add(new Ereignis(Ereignis.EreignisTyp.STRECKE, i, datum, beschreibung));
 
                 // i (Strecken) weiter iterieren
@@ -350,8 +357,9 @@ public class Fahrzeug implements Serializable {
             } else {
                 // keineStreckeMehr || (aktuelleStrecke != null && aktuelleStrecke.getZeitstempel().compareTo(aktuellerTankvorgang.getZeitstempel())) <= 0
                 Date datum = aktuellerTankvorgang.getZeitstempel();
-                String beschreibung = Double.toString(aktuellerTankvorgang.getGetankteMenge())
-                        + ", " + Double.toString(aktuellerTankvorgang.getPreis());
+                String strGetankteMenge = dfLiter.format(aktuellerTankvorgang.getGetankteMenge());
+                String strPreis = dfPreis.format(aktuellerTankvorgang.getPreis());
+                String beschreibung = strGetankteMenge + ", " + strPreis;
                 ereignisse.add(new Ereignis(Ereignis.EreignisTyp.TANKVORGANG, i, datum, beschreibung));
 
                 // j (Tankvorgänge) weiter iterieren
