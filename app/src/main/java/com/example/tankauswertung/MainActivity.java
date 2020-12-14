@@ -155,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (garage.isEmpty()) {
             botNavView.setVisibility(View.INVISIBLE);
+            navController.navigate(R.id.navigation_dashboard);
 
         } else {
 
