@@ -1,4 +1,4 @@
-package com.example.tankauswertung.ui.forecast;
+package com.example.tankauswertung.ui.stats;
 
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
@@ -8,7 +8,7 @@ import java.text.DecimalFormat;
  * Erbende Klasse von ValueFormatter
  * Spezialisierung des gewuenschten Dezimal-Formats der Saeulendiagramme
  */
-public class ForecastValueFormatter extends ValueFormatter {
+public class StatsValueFormatter extends ValueFormatter {
 
     /**
      * Format-Vorlage fuer Dezimalzahlen
