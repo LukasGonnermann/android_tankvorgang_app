@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:textAlignment="center"
                 android:layout_height="wrap_content"
-                android:text="@string/tankstand_l"
+                android:text="@string/tankstand"
                 android:layout_margin="10dp"
                 android:textSize="20sp" />
 
@@ -143,7 +143,7 @@
                         android:layout_margin="10dp"
                         android:textSize="18sp"
                         android:gravity="center"
-                        android:text="@string/kilometerstand_km"/>
+                        android:text="@string/kilometerstand"/>
 
                     <!-- Verbrauch Label -->
 
@@ -155,7 +155,7 @@
                         android:textSize="18sp"
                         android:layout_margin="10dp"
                         android:gravity="center"
-                        android:text="@string/durchschnitt_verbrauch_l_100km"/>
+                        android:text="@string/verbrauch_je_100_km"/>
 
                 </TableRow>
 
@@ -206,7 +206,7 @@
                         android:textSize="18sp"
                         android:gravity="center"
                         android:layout_margin="10dp"
-                        android:text="@string/reichweite_km" />
+                        android:text="@string/reichweite" />
 
                     <!-- CO2-Ausstoß Label -->
 
@@ -218,7 +218,7 @@
                         android:textSize="18sp"
                         android:gravity="center"
                         android:layout_margin="10dp"
-                        android:text="@string/co2_ausstoss_kg" />
+                        android:text="@string/co2_ausstoss" />
 
                 </TableRow>
 

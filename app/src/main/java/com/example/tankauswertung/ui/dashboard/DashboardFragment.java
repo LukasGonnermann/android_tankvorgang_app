@@ -21,6 +21,10 @@ import com.example.tankauswertung.MainActivity;
 
 import com.example.tankauswertung.R;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+
 public class DashboardFragment extends Fragment {
 
     private View root;
@@ -44,6 +48,11 @@ public class DashboardFragment extends Fragment {
     TextView textViewReichweite;
     TextView textViewCo2;
 
+    DecimalFormat dfProzent = new DecimalFormat("# '%'", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfKmStand = new DecimalFormat("# km", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfVerbrauch = new DecimalFormat("#.# l", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfReichweite = new DecimalFormat("#.# km", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfCo2 = new DecimalFormat("#.# kg", new DecimalFormatSymbols(Locale.GERMAN));
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -95,21 +104,21 @@ public class DashboardFragment extends Fragment {
             // anzuzeigende Werte setzen
 
             textViewName.setText(aktuellesFahrzeug.getName());
-            textViewTankstand.setText(String.valueOf(aktuellesFahrzeug.getTankstand()));
+            textViewTankstand.setText(dfProzent.format(aktuellesFahrzeug.getTankstand()));
             progressBarTankstand.setProgress((int) aktuellesFahrzeug.getTankstand());
-            textViewKilometerstand.setText(String.valueOf(aktuellesFahrzeug.getKmStand()));
+            textViewKilometerstand.setText(dfKmStand.format(aktuellesFahrzeug.getKmStand()));
 
-            textViewVerbrauch.setText(String.valueOf(aktuellesFahrzeug.getVerbrauchDurchschnittlich()));
+            textViewVerbrauch.setText(dfVerbrauch.format(aktuellesFahrzeug.getVerbrauchDurchschnittlich()));
 
             double reichweite = aktuellesFahrzeug.getReichweite();
             if (reichweite == -1) {
                 textViewReichweite.setText(R.string.idle);
             } else {
-                textViewReichweite.setText(String.valueOf(reichweite));
+                textViewReichweite.setText(dfReichweite.format(reichweite));
             }
 
             if (!aktuellesFahrzeug.isElektro()) {
-                textViewCo2.setText(String.valueOf(aktuellesFahrzeug.getCo2AusstossGesamtKg()));
+                textViewCo2.setText(dfCo2.format(aktuellesFahrzeug.getCo2AusstossGesamtKg()));
             }
         }
     }

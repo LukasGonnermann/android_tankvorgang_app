@@ -112,4 +112,9 @@
     <string name="tank_voll_msg_elektro">Ihr Akku ist bereits voll. Haben Sie eventuell vergessen, eine Strecke hinzuzufügen?</string>
     <string name="durchschnitt_verbrauch_l_100km">∅-Verbrauch (l&nbsp;/&nbsp;100 km)</string>
     <string name="durchschnitt_verbrauch_kwh_100km">∅-Verbrauch (kWh&nbsp;/&nbsp;100 km)</string>
+    <string name="kilometerstand">Kilometerstand</string>
+    <string name="verbrauch_je_100_km">∅-Verbrauch\n(je 100 km)</string>
+    <string name="reichweite">Reichweite</string>
+    <string name="co2_ausstoss">CO2-Ausstoß</string>
+    <string name="tankstand">Tankstand</string>
 </resources>
