@@ -119,4 +119,5 @@
     <string name="tankstand">Tankstand</string>
     <string name="kraftstoffverbrauch">Kraftstoffverbrauch</string>
     <string name="kraftstoffkosten">Kraftstoffkosten</string>
+    <string name="tankvorgang_bild_entfernen">Bild entfernen</string>
 </resources>
