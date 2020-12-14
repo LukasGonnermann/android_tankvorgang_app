@@ -7,15 +7,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 
 public class SettingsActivity extends AppCompatActivity {
 
     // Auswahlmoeglichkeiten im Menue
-    private static final String[] items = {"Hell", "Dunkel", "Systemeinstellung folgen"};
+    private static final String[] items = {"Systemeinstellung folgen", "Hell", "Dunkel"};
     // Speicher der aktuell ausgewaehlten Option
-    int selectedItem = 0;
+    int selectedItem;
+    
+    Settings settings;
 
     /**
      * ausgeführt, sobald die Aktivität gestartet wird
@@ -39,13 +42,48 @@ public class SettingsActivity extends AppCompatActivity {
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        
+        settings = MainActivity.getSettings();
+
+        switch (settings.getDarkModeStatus()) {
+            case AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM:
+            default:
+                selectedItem = 0;
+                break;
+            case AppCompatDelegate.MODE_NIGHT_NO:
+                selectedItem = 1;
+                break;
+            case AppCompatDelegate.MODE_NIGHT_YES:
+                selectedItem = 2;
+                break;
+        }
+        
         spinner.setSelection(selectedItem, true);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                MainActivity.steuereNachtDesign(position);
-                selectedItem = position;
+            public void onItemSelected(AdapterView<?> adapterView, View view, int selectedItem, long l) {
+                
+                int darkModeStatus;
+
+                switch (selectedItem) {
+                    case 0:
+                    default:
+                        darkModeStatus = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+                        break;
+                    case 1:
+                        darkModeStatus = AppCompatDelegate.MODE_NIGHT_NO;
+                        break;
+                    case 2:
+                        darkModeStatus = AppCompatDelegate.MODE_NIGHT_YES;
+                        break;
+                }
+                
+
+                MainActivity.steuereNachtDesign(darkModeStatus);
+                settings.setDarkModeStatus(darkModeStatus);
+                settings.save(getApplicationContext());
+                SettingsActivity.this.selectedItem = selectedItem;
             }
 
             @Override
@@ -63,5 +101,4 @@ public class SettingsActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
-
 }

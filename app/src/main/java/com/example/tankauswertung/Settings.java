@@ -2,6 +2,8 @@ package com.example.tankauswertung;
 
 import android.content.Context;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -11,14 +13,11 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class Settings implements Serializable {
-    /**
-     * Enum DarkModeStatus umfasst die möglichen Zustände der Einstellung zum Darkmode
-     */
-    public enum DarkModeStatus {AN, AUS, SYSTEM};
+
     /**
      * Variable, welche die Darkmodeeinstellung speichert
      */
-    private DarkModeStatus darkModeSafe;
+    private int darkModeStatus;
     /**
      *
      */
@@ -28,20 +27,20 @@ public class Settings implements Serializable {
      * Konstruktor der Klasse, setzt Standardmaessig die Darkmodesettings auf SYSTEM
      */
     public Settings(){
-        darkModeSafe = DarkModeStatus.SYSTEM;
+        darkModeStatus = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
     }
 
     /**
      * Getter fuer die Darkmodesettings
      * @return enum DarkModeStatus, Aktuelle Darkmodeeinstellung
      */
-    public DarkModeStatus getDarkModeSafe() { return darkModeSafe; }
+    public int getDarkModeStatus() { return darkModeStatus; }
 
     /**
      * Setter fuer die Darkmodesetting Variable
-     * @param darkModeSafe enum DarkModeStatus, Inputwert, auf welchen die Darkmodeeinstellung gesetzt wird
+     * @param darkModeStatus enum DarkModeStatus, Inputwert, auf welchen die Darkmodeeinstellung gesetzt wird
      */
-    public void setDarkModeSafe(DarkModeStatus darkModeSafe) { this.darkModeSafe = darkModeSafe; }
+    public void setDarkModeStatus(int darkModeStatus) { this.darkModeStatus = darkModeStatus; }
 
     public void load(Context context) {
         try {
@@ -50,7 +49,7 @@ public class Settings implements Serializable {
                 ObjectInputStream os = new ObjectInputStream(fis);
                 Settings importedSettings = (Settings) os.readObject();
 
-                this.darkModeSafe = importedSettings.getDarkModeSafe();
+                this.darkModeStatus = importedSettings.getDarkModeStatus();
                 // Bei Settings Erweiterungen hier Attribute hinzufügen
 
             } catch (IOException e) {

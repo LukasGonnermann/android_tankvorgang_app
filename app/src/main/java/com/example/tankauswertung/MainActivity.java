@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavController navController;
     private AppBarConfiguration mAppBarConfiguration;
     static Garage garage;
-    static Settings einstellungen;
+    static Settings settings;
 
     // Activity request codes ("Which activity should be invoked?")
     final int LAUNCH_NEW_CAR_EDIT_CAR = 2;
@@ -86,11 +86,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // lade Garage
         // da getGarage() static ist, darf kein neues Garage-Objekt erstellt werden, wenn schon eines erstellt wurde
-        if (garage == null) {
+        if (!appStarted) {
             garage = new Garage();
             garage.load(getApplicationContext());
+            settings = new Settings();
+            settings.load(getApplicationContext());
+            steuereNachtDesign(settings.getDarkModeStatus());
         }
-
     }
 
     /**
@@ -117,29 +119,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /**
+     * Gibt die aktuellen Einstellungen zurück
+     *
+     * @return aktuelle Einstellungen
+     */
+    public static Settings getSettings() {
+        return settings;
+    }
+
+    /**
      * Steuert das Nachtdesign
      *
-     * @param aktivieren übergibt den ausgwählten Designmodus
+     * @param darkModeStatus übergibt den ausgwählten Designmodus
      */
-    public static void steuereNachtDesign(int aktivieren) {
-        switch (aktivieren) {
-            // Tagdesign
-            case 0: {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                break;
-            }
-            // Nachtdesign
-            case 1: {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                break;
-            }
-            // System-Design erstmal nicht im Design implementiert, da switch verwendet (siehe fragment_settings)
-            case 2: {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-                break;
-            }
-        }
-
+    public static void steuereNachtDesign(int darkModeStatus) {
+        AppCompatDelegate.setDefaultNightMode(darkModeStatus);
     }
 
     // --- non-static Methoden
