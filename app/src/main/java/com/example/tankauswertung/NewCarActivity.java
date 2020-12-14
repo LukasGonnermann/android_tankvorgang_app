@@ -24,7 +24,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.tankauswertung.exceptions.GarageVollException;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 // Aktivität zum Hinzufügen und zum Ändern (anderer Action-Code)
@@ -75,6 +78,9 @@ public class NewCarActivity extends AppCompatActivity {
      */
     boolean aendern = false;
     boolean hinweis_angezeigt = false;  // gibt an, ob der Hinweis zum E-Auto schon einmal angezeigt wurde
+
+    // Decimal Formatter
+    DecimalFormat dfVerbrauch = new DecimalFormat("#.0", new DecimalFormatSymbols(Locale.GERMAN));
 
 
     /**
@@ -516,9 +522,9 @@ public class NewCarActivity extends AppCompatActivity {
             seekBarVerbrauchAusserorts.setProgress((int) aktuellesFahrzeug.getVerbrauchAusserorts());
             seekBarVerbrauchKombiniert.setProgress((int) aktuellesFahrzeug.getVerbrauchKombiniert());
              */
-            editTextVerbrauchInnerortsStand.setText(Double.toString(aktuellesFahrzeug.getVerbrauchInnerortsAnfangswert()));
-            editTextVerbrauchAusserortsStand.setText(Double.toString(aktuellesFahrzeug.getVerbrauchAusserortsAnfangswert()));
-            editTextVerbrauchKombiniertStand.setText(Double.toString(aktuellesFahrzeug.getVerbrauchKombiniertAnfangswert()));
+            editTextVerbrauchInnerortsStand.setText(dfVerbrauch.format(aktuellesFahrzeug.getVerbrauchInnerortsAnfangswert()));
+            editTextVerbrauchAusserortsStand.setText(dfVerbrauch.format(aktuellesFahrzeug.getVerbrauchAusserortsAnfangswert()));
+            editTextVerbrauchKombiniertStand.setText(dfVerbrauch.format(aktuellesFahrzeug.getVerbrauchKombiniertAnfangswert()));
             seekBarAktuellerTankstand.setProgress((int) aktuellesFahrzeug.getTankstand());
 
             // beim Ändern eines Fahrzeugs, welches schon Strecken/Tankvorgänge gespeichert hat,
