@@ -66,6 +66,9 @@ public class StatsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        Garage garage = MainActivity.getGarage();
+        Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
+
         View root = inflater.inflate(R.layout.fragment_stats, container, false);
         diagramm = root.findViewById(R.id.fragment_verticalbarchart_chart);
 
@@ -200,7 +203,7 @@ public class StatsFragment extends Fragment {
         da ja das Anfangsdatum des Zeitraums uebergeben wird*/
         Date dateEndeZeitraumende = null;
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yy");
         try {
             dateZeitraumende = formatter.parse(zeitraumende);
             dateZeitraumbeginn = formatter.parse(zeitraumbeginn);

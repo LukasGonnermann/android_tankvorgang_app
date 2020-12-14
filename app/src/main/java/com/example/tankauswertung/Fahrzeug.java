@@ -824,19 +824,67 @@ public class Fahrzeug implements Serializable {
      */
     public LinkedHashMap<String, Double> getMonatTreibstoffStatistik(int verschiebung) {
         LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
-        double summe;
-        for (int i = 0; i < 4; i++) {
-            summe = 0;
-            LinkedHashMap<String, Double> eineWoche = getWocheTreibstoffStatistik(-i + (verschiebung * 4));
-            if (!eineWoche.isEmpty()) {
-                for (double d : eineWoche.values()) {
-                    summe += d;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        Calendar heute = Calendar.getInstance();
+        Calendar vergleich = Calendar.getInstance();
+        Calendar fzZeitstempel = Calendar.getInstance();
+        fzZeitstempel.setTime(this.getZeitstempel());
+        // Uhrzeit auf 0 setzen, damit spaeter nur das Datum verglichen wird
+        fzZeitstempel.set(Calendar.HOUR_OF_DAY, 0);
+        fzZeitstempel.set(Calendar.MINUTE, 0);
+        fzZeitstempel.set(Calendar.SECOND, 0);
+        fzZeitstempel.set(Calendar.MILLISECOND, 0);
+
+        // Verschiebung des Enddatums
+        if (verschiebung != 0) {
+            heute.add(Calendar.MONTH, verschiebung);
+            heute.add(Calendar.WEEK_OF_MONTH, heute.getActualMaximum(Calendar.WEEK_OF_MONTH) - heute.get(Calendar.WEEK_OF_MONTH));
+        }
+
+        heute.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        if (heute.before(fzZeitstempel)) {
+            heute.setTime(fzZeitstempel.getTime());
+        }
+
+        int ersteWoche;
+        if (heute.get(Calendar.MONTH) == Calendar.JANUARY) {
+            ersteWoche = 0;
+        } else {
+            Calendar ersterTag = Calendar.getInstance();
+            ersterTag.setTime(heute.getTime());
+            ersterTag.set(Calendar.DAY_OF_MONTH, 1);
+            ersteWoche = ersterTag.get(Calendar.WEEK_OF_YEAR);
+        }
+
+        int letzteWoche = heute.get(Calendar.WEEK_OF_YEAR);
+        int anzahlWochen = letzteWoche - ersteWoche + 1;
+
+        int i = 0; // Strecken-Index
+        int j = 0; // Wochen-Index
+
+        while (j < anzahlWochen && (heute.after(fzZeitstempel) || heute.equals(fzZeitstempel))) {
+            double summeVerbrauch = 0;
+            String datum = String.valueOf(formatter.format(heute.getTime()));
+            rueckgabe.put(datum, summeVerbrauch);
+
+            while (i < strecken.size()) {
+                vergleich.setTime(strecken.get(i).getZeitstempel());
+                if (vergleich.get(Calendar.WEEK_OF_MONTH) == heute.get(Calendar.WEEK_OF_MONTH) && vergleich.get(Calendar.MONTH) == heute.get(Calendar.MONTH) && vergleich.get(Calendar.YEAR) == heute.get(Calendar.YEAR)) {
+                    summeVerbrauch += strecken.get(i).getVerbrauchterTreibstoff();
+                    rueckgabe.replace(datum, summeVerbrauch);
+                    i++;
+                } else if (vergleich.after(heute)) {
+                    i++;
+                } else {
+                    break;
                 }
-                String firstDate = (String) eineWoche.keySet().stream().toArray()[eineWoche.size() - 1];
-                rueckgabe.put(firstDate, summe);
-            } else {
-                break;
             }
+
+            heute.add(Calendar.WEEK_OF_MONTH, -1);
+            if (heute.before(fzZeitstempel) && heute.get(Calendar.WEEK_OF_MONTH) == fzZeitstempel.get(Calendar.WEEK_OF_MONTH)) {
+                heute.setTime(fzZeitstempel.getTime());
+            }
+            j++;
         }
         return rueckgabe;
     }
@@ -849,19 +897,67 @@ public class Fahrzeug implements Serializable {
      */
     public LinkedHashMap<String, Double> getMonatStreckenStatistik(int verschiebung) {
         LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
-        double summe;
-        for (int i = 0; i < 4; i++) {
-            summe = 0;
-            LinkedHashMap<String, Double> eineWoche = getWocheStreckenStatistik(-i + (verschiebung * 4));
-            if (!eineWoche.isEmpty()) {
-                for (double d : eineWoche.values()) {
-                    summe += d;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        Calendar heute = Calendar.getInstance();
+        Calendar vergleich = Calendar.getInstance();
+        Calendar fzZeitstempel = Calendar.getInstance();
+        fzZeitstempel.setTime(this.getZeitstempel());
+        // Uhrzeit auf 0 setzen, damit spaeter nur das Datum verglichen wird
+        fzZeitstempel.set(Calendar.HOUR_OF_DAY, 0);
+        fzZeitstempel.set(Calendar.MINUTE, 0);
+        fzZeitstempel.set(Calendar.SECOND, 0);
+        fzZeitstempel.set(Calendar.MILLISECOND, 0);
+
+        // Verschiebung des Enddatums
+        if (verschiebung != 0) {
+            heute.add(Calendar.MONTH, verschiebung);
+            heute.add(Calendar.WEEK_OF_MONTH, heute.getActualMaximum(Calendar.WEEK_OF_MONTH) - heute.get(Calendar.WEEK_OF_MONTH));
+        }
+
+        heute.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        if (heute.before(fzZeitstempel)) {
+            heute.setTime(fzZeitstempel.getTime());
+        }
+
+        int ersteWoche;
+        if (heute.get(Calendar.MONTH) == Calendar.JANUARY) {
+            ersteWoche = 0;
+        } else {
+            Calendar ersterTag = Calendar.getInstance();
+            ersterTag.setTime(heute.getTime());
+            ersterTag.set(Calendar.DAY_OF_MONTH, 1);
+            ersteWoche = ersterTag.get(Calendar.WEEK_OF_YEAR);
+        }
+
+        int letzteWoche = heute.get(Calendar.WEEK_OF_YEAR);
+        int anzahlWochen = letzteWoche - ersteWoche + 1;
+
+        int i = 0; // Strecken-Index
+        int j = 0; // Wochen-Index
+
+        while (j < anzahlWochen && (heute.after(fzZeitstempel) || heute.equals(fzZeitstempel))) {
+            double summeDistanz = 0;
+            String datum = String.valueOf(formatter.format(heute.getTime()));
+            rueckgabe.put(datum, summeDistanz);
+
+            while (i < strecken.size()) {
+                vergleich.setTime(strecken.get(i).getZeitstempel());
+                if (vergleich.get(Calendar.WEEK_OF_MONTH) == heute.get(Calendar.WEEK_OF_MONTH) && vergleich.get(Calendar.MONTH) == heute.get(Calendar.MONTH) && vergleich.get(Calendar.YEAR) == heute.get(Calendar.YEAR)) {
+                    summeDistanz += strecken.get(i).getDistanz();
+                    rueckgabe.replace(datum, summeDistanz);
+                    i++;
+                } else if (vergleich.after(heute)) {
+                    i++;
+                } else {
+                    break;
                 }
-                String firstDate = (String) eineWoche.keySet().stream().toArray()[eineWoche.size() - 1];
-                rueckgabe.put(firstDate, summe);
-            } else {
-                break;
             }
+
+            heute.add(Calendar.WEEK_OF_MONTH, -1);
+            if (heute.before(fzZeitstempel) && heute.get(Calendar.WEEK_OF_MONTH) == fzZeitstempel.get(Calendar.WEEK_OF_MONTH)) {
+                heute.setTime(fzZeitstempel.getTime());
+            }
+            j++;
         }
         return rueckgabe;
     }
@@ -874,19 +970,67 @@ public class Fahrzeug implements Serializable {
      */
     public LinkedHashMap<String, Double> getMonatTankkostenStatistik(int verschiebung) {
         LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
-        double summe;
-        for (int i = 0; i < 4; i++) {
-            summe = 0;
-            LinkedHashMap<String, Double> eineWoche = getWocheTankkostenStatistik(-i + (verschiebung * 4));
-            if (!eineWoche.isEmpty()) {
-                for (double d : eineWoche.values()) {
-                    summe += d;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        Calendar heute = Calendar.getInstance();
+        Calendar vergleich = Calendar.getInstance();
+        Calendar fzZeitstempel = Calendar.getInstance();
+        fzZeitstempel.setTime(this.getZeitstempel());
+        // Uhrzeit auf 0 setzen, damit spaeter nur das Datum verglichen wird
+        fzZeitstempel.set(Calendar.HOUR_OF_DAY, 0);
+        fzZeitstempel.set(Calendar.MINUTE, 0);
+        fzZeitstempel.set(Calendar.SECOND, 0);
+        fzZeitstempel.set(Calendar.MILLISECOND, 0);
+
+        // Verschiebung des Enddatums
+        if (verschiebung != 0) {
+            heute.add(Calendar.MONTH, verschiebung);
+            heute.add(Calendar.WEEK_OF_MONTH, heute.getActualMaximum(Calendar.WEEK_OF_MONTH) - heute.get(Calendar.WEEK_OF_MONTH));
+        }
+
+        heute.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        if (heute.before(fzZeitstempel)) {
+            heute.setTime(fzZeitstempel.getTime());
+        }
+
+        int ersteWoche;
+        if (heute.get(Calendar.MONTH) == Calendar.JANUARY) {
+            ersteWoche = 0;
+        } else {
+            Calendar ersterTag = Calendar.getInstance();
+            ersterTag.setTime(heute.getTime());
+            ersterTag.set(Calendar.DAY_OF_MONTH, 1);
+            ersteWoche = ersterTag.get(Calendar.WEEK_OF_YEAR);
+        }
+
+        int letzteWoche = heute.get(Calendar.WEEK_OF_YEAR);
+        int anzahlWochen = letzteWoche - ersteWoche + 1;
+
+        int i = 0; // Strecken-Index
+        int j = 0; // Wochen-Index
+
+        while (j < anzahlWochen && (heute.after(fzZeitstempel) || heute.equals(fzZeitstempel))) {
+            double summeKosten = 0;
+            String datum = String.valueOf(formatter.format(heute.getTime()));
+            rueckgabe.put(datum, summeKosten);
+
+            while (i < tankvorgaenge.size()) {
+                vergleich.setTime(tankvorgaenge.get(i).getZeitstempel());
+                if (vergleich.get(Calendar.WEEK_OF_MONTH) == heute.get(Calendar.WEEK_OF_MONTH) && vergleich.get(Calendar.MONTH) == heute.get(Calendar.MONTH) && vergleich.get(Calendar.YEAR) == heute.get(Calendar.YEAR)) {
+                    summeKosten += tankvorgaenge.get(i).getPreis();
+                    rueckgabe.replace(datum, summeKosten);
+                    i++;
+                } else if (vergleich.after(heute)) {
+                    i++;
+                } else {
+                    break;
                 }
-                String firstDate = (String) eineWoche.keySet().stream().toArray()[eineWoche.size() - 1];
-                rueckgabe.put(firstDate, summe);
-            } else {
-                break;
             }
+
+            heute.add(Calendar.WEEK_OF_MONTH, -1);
+            if (heute.before(fzZeitstempel) && heute.get(Calendar.WEEK_OF_MONTH) == fzZeitstempel.get(Calendar.WEEK_OF_MONTH)) {
+                heute.setTime(fzZeitstempel.getTime());
+            }
+            j++;
         }
         return rueckgabe;
     }
@@ -899,19 +1043,67 @@ public class Fahrzeug implements Serializable {
      */
     public LinkedHashMap<String, Double> getMonatCO2Statistik(int verschiebung) {
         LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
-        double summe;
-        for (int i = 0; i < 4; i++) {
-            summe = 0;
-            LinkedHashMap<String, Double> eineWoche = getWocheCO2Statistik(-i + (verschiebung * 4));
-            if (!eineWoche.isEmpty()) {
-                for (double d : eineWoche.values()) {
-                    summe += d;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        Calendar heute = Calendar.getInstance();
+        Calendar vergleich = Calendar.getInstance();
+        Calendar fzZeitstempel = Calendar.getInstance();
+        fzZeitstempel.setTime(this.getZeitstempel());
+        // Uhrzeit auf 0 setzen, damit spaeter nur das Datum verglichen wird
+        fzZeitstempel.set(Calendar.HOUR_OF_DAY, 0);
+        fzZeitstempel.set(Calendar.MINUTE, 0);
+        fzZeitstempel.set(Calendar.SECOND, 0);
+        fzZeitstempel.set(Calendar.MILLISECOND, 0);
+
+        // Verschiebung des Enddatums
+        if (verschiebung != 0) {
+            heute.add(Calendar.MONTH, verschiebung);
+            heute.add(Calendar.WEEK_OF_MONTH, heute.getActualMaximum(Calendar.WEEK_OF_MONTH) - heute.get(Calendar.WEEK_OF_MONTH));
+        }
+
+        heute.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        if (heute.before(fzZeitstempel)) {
+            heute.setTime(fzZeitstempel.getTime());
+        }
+
+        int ersteWoche;
+        if (heute.get(Calendar.MONTH) == Calendar.JANUARY) {
+            ersteWoche = 0;
+        } else {
+            Calendar ersterTag = Calendar.getInstance();
+            ersterTag.setTime(heute.getTime());
+            ersterTag.set(Calendar.DAY_OF_MONTH, 1);
+            ersteWoche = ersterTag.get(Calendar.WEEK_OF_YEAR);
+        }
+
+        int letzteWoche = heute.get(Calendar.WEEK_OF_YEAR);
+        int anzahlWochen = letzteWoche - ersteWoche + 1;
+
+        int i = 0; // Strecken-Index
+        int j = 0; // Wochen-Index
+
+        while (j < anzahlWochen && (heute.after(fzZeitstempel) || heute.equals(fzZeitstempel))) {
+            double summeAusstoss = 0;
+            String datum = String.valueOf(formatter.format(heute.getTime()));
+            rueckgabe.put(datum, summeAusstoss);
+
+            while (i < strecken.size()) {
+                vergleich.setTime(strecken.get(i).getZeitstempel());
+                if (vergleich.get(Calendar.WEEK_OF_MONTH) == heute.get(Calendar.WEEK_OF_MONTH) && vergleich.get(Calendar.MONTH) == heute.get(Calendar.MONTH) && vergleich.get(Calendar.YEAR) == heute.get(Calendar.YEAR)) {
+                    summeAusstoss += strecken.get(i).getCo2Ausstoss();
+                    rueckgabe.replace(datum, summeAusstoss);
+                    i++;
+                } else if (vergleich.after(heute)) {
+                    i++;
+                } else {
+                    break;
                 }
-                String firstDate = (String) eineWoche.keySet().stream().toArray()[eineWoche.size() - 1];
-                rueckgabe.put(firstDate, summe);
-            } else {
-                break;
             }
+
+            heute.add(Calendar.WEEK_OF_MONTH, -1);
+            if (heute.before(fzZeitstempel) && heute.get(Calendar.WEEK_OF_MONTH) == fzZeitstempel.get(Calendar.WEEK_OF_MONTH)) {
+                heute.setTime(fzZeitstempel.getTime());
+            }
+            j++;
         }
         return rueckgabe;
     }
@@ -929,6 +1121,7 @@ public class Fahrzeug implements Serializable {
         Calendar vergleich = Calendar.getInstance();
         Calendar fzZeitstempel = Calendar.getInstance();
         fzZeitstempel.setTime(this.getZeitstempel());
+        // Uhrzeit auf 0 setzen, damit spaeter nur das Datum verglichen wird
         fzZeitstempel.set(Calendar.HOUR_OF_DAY, 0);
         fzZeitstempel.set(Calendar.MINUTE, 0);
         fzZeitstempel.set(Calendar.SECOND, 0);
@@ -987,6 +1180,7 @@ public class Fahrzeug implements Serializable {
         Calendar vergleich = Calendar.getInstance();
         Calendar fzZeitstempel = Calendar.getInstance();
         fzZeitstempel.setTime(this.getZeitstempel());
+        // Uhrzeit auf 0 setzen, damit spaeter nur das Datum verglichen wird
         fzZeitstempel.set(Calendar.HOUR_OF_DAY, 0);
         fzZeitstempel.set(Calendar.MINUTE, 0);
         fzZeitstempel.set(Calendar.SECOND, 0);
@@ -1045,6 +1239,7 @@ public class Fahrzeug implements Serializable {
         Calendar vergleich = Calendar.getInstance();
         Calendar fzZeitstempel = Calendar.getInstance();
         fzZeitstempel.setTime(this.getZeitstempel());
+        // Uhrzeit auf 0 setzen, damit spaeter nur das Datum verglichen wird
         fzZeitstempel.set(Calendar.HOUR_OF_DAY, 0);
         fzZeitstempel.set(Calendar.MINUTE, 0);
         fzZeitstempel.set(Calendar.SECOND, 0);
@@ -1103,6 +1298,7 @@ public class Fahrzeug implements Serializable {
         Calendar vergleich = Calendar.getInstance();
         Calendar fzZeitstempel = Calendar.getInstance();
         fzZeitstempel.setTime(this.getZeitstempel());
+        // Uhrzeit auf 0 setzen, damit spaeter nur das Datum verglichen wird
         fzZeitstempel.set(Calendar.HOUR_OF_DAY, 0);
         fzZeitstempel.set(Calendar.MINUTE, 0);
         fzZeitstempel.set(Calendar.SECOND, 0);
@@ -1213,6 +1409,7 @@ public class Fahrzeug implements Serializable {
 
     /**
      * für das Dashboard
+     *
      * @return durchschnittlicher Verbrauch pro 100 km
      */
     public double getVerbrauchDurchschnittlich() {
@@ -1221,6 +1418,7 @@ public class Fahrzeug implements Serializable {
 
     /**
      * für das Dashboard
+     *
      * @return geschätzte verbleibende Reichweite auf Basis der durchschnittlichen Verbrauchs
      */
     public double getReichweite() {
@@ -1237,6 +1435,7 @@ public class Fahrzeug implements Serializable {
 
     /**
      * für das Dashboard
+     *
      * @return bisher insgesamt ausgestoßene Emissionen in kg
      */
     public double getCo2AusstossGesamtKg() {
