@@ -202,6 +202,9 @@ public class NewTankvorgangActivity extends AppCompatActivity {
                 this.imageViewTankvorgangBeleg.setImageURI(imageURI);
                 this.imageViewTankvorgangBeleg.setVisibility(View.VISIBLE);
             }
+            else {
+                this.imageViewTankvorgangBeleg.setVisibility(View.GONE);
+            }
 
             editTextGetankteMenge.setText(Double.toString(neuesterTankvorgang.getGetankteMenge()));
             editTextPreis.setText(Double.toString(neuesterTankvorgang.getPreis()));
