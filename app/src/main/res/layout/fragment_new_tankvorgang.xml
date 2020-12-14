@@ -69,13 +69,13 @@
                 android:id="@+id/buttonTankvorgangBildLoeschen"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:text="@string/tankvorgang_bild_entfernen" />
 
             <Button
                 android:id="@+id/buttonTankvorgangBelegHinzufuegen"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:text="@string/tankvorgang_bild_aufnehmen" />
 
 
