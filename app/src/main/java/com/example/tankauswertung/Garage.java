@@ -218,7 +218,7 @@ public class Garage {
             }
 
         } catch (FileNotFoundException e) {
-            System.out.println("Datei " + fileName + " konnte nicht geoeffnet werden!");
+            System.out.println("Datei " + fileName +" konnte nicht geoeffnet werden!");
             e.printStackTrace();
         }
     }
@@ -226,6 +226,7 @@ public class Garage {
     /**
      * Laedt Fahrzeuge als ArrayList aus Fahrzeugen
      * Context uebergeben durch z.B. getApplicationContext(), getContext(), getBaseContext or this
+     *
      */
     public void load(Context context) {
         try {
@@ -244,7 +245,6 @@ public class Garage {
         } catch (FileNotFoundException e) {
             System.err.println("File not found:" + fileName);
         }
-
         anzFahrzeuge = fahrzeuge.size();
     }
 
