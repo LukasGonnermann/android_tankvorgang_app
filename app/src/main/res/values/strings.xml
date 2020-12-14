@@ -117,4 +117,6 @@
     <string name="reichweite">Reichweite</string>
     <string name="co2_ausstoss">CO2-Ausstoß</string>
     <string name="tankstand">Tankstand</string>
+    <string name="kraftstoffverbrauch">Kraftstoffverbrauch</string>
+    <string name="kraftstoffkosten">Kraftstoffkosten</string>
 </resources>

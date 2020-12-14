@@ -50,7 +50,10 @@ public class ForecastFragment extends Fragment {
     TextView labelAnzahlNoetigerTankvorgaengeWert;
     TextView labelCo2AusstossWert;
 
-    DecimalFormat df = new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfTankvorgaenge = new DecimalFormat("#.#", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfVerbrauch = new DecimalFormat("#.## l", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfKosten = new DecimalFormat("#.## €", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfCo2 = new DecimalFormat("#.## kg", new DecimalFormatSymbols(Locale.GERMAN));
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -251,14 +254,14 @@ public class ForecastFragment extends Fragment {
             int anzahlNoetigerTankvorgaenge = streckenprognose.get("anzahlNoetigerTankvorgaenge").intValue();
             double co2Ausstoss = streckenprognose.get("co2Ausstoss");
 
-            labelKraftstoffverbrauchWert.setText(df.format(kraftstoffverbrauch));
-            labelAnzahlNoetigerTankvorgaengeWert.setText(df.format(anzahlNoetigerTankvorgaenge));
-            labelCo2AusstossWert.setText(df.format(co2Ausstoss));
+            labelKraftstoffverbrauchWert.setText(dfVerbrauch.format(kraftstoffverbrauch));
+            labelAnzahlNoetigerTankvorgaengeWert.setText(dfTankvorgaenge.format(anzahlNoetigerTankvorgaenge));
+            labelCo2AusstossWert.setText(dfCo2.format(co2Ausstoss));
 
             if (kraftstoffkosten == -1) {
                 labelKraftstoffkostenWert.setText(R.string.idle);
             } else {
-                labelKraftstoffkostenWert.setText(df.format(kraftstoffkosten));
+                labelKraftstoffkostenWert.setText(dfKosten.format(kraftstoffkosten));
             }
         } else {
             labelKraftstoffverbrauchWert.setText(R.string.idle);

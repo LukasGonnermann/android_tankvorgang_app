@@ -170,7 +170,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="@string/kraftstoffverbrauch_l" />
+                android:text="@string/kraftstoffverbrauch" />
 
             <TextView
                 android:id="@+id/labelKraftstoffverbrauchWert"
@@ -187,7 +187,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="@string/kraftstoffkosten_euro" />
+                android:text="@string/kraftstoffkosten" />
 
             <TextView
                 android:id="@+id/labelKraftstoffkostenWert"
@@ -221,7 +221,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="@string/co2_ausstoss_kg" />
+                android:text="@string/co2_ausstoss" />
 
             <TextView
                 android:id="@+id/labelKalkulationCo2AusstossWert"
