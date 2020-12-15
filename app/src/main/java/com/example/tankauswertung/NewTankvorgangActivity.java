@@ -55,10 +55,12 @@ public class NewTankvorgangActivity extends AppCompatActivity {
     Intent intent;
     Garage garage;
 
+    InputParser inputParser = new InputParser();
+
     private static final int READ_WRITE_PERMISSION_CODE = 200;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    private String tankvorgang_bild_path = null;
-    private String create_image_file_path = null;
+    private String tankvorgangBildPath = null;
+    private String createImageFilePath = null;
 
     /**
      * ausgeführt, sobald die Aktivität gestartet wird
@@ -102,7 +104,6 @@ public class NewTankvorgangActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
 
                 Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
-                Editable getankteMengeText = editTextGetankteMenge.getText();
                 double alterTankstand;
 
                 if (intent.getAction().equals(TimelineFragment.ACTION_NEW_TANKVORGANG)) {
@@ -114,29 +115,34 @@ public class NewTankvorgangActivity extends AppCompatActivity {
                 }
                 double altesRestvolumen = aktuellesFahrzeug.getTankgroesse() - alterTankstand;
 
-                if (TextUtils.isEmpty(getankteMengeText)) {
+                String string = editable.toString();
+                double parsedDouble = inputParser.parse(string);
+                korrekteEinzeleingaben.put("menge", false);
+
+                if (string.isEmpty()) {
 
                     if (!aktuellesFahrzeug.isElektro()) {
-                        editTextGetankteMenge.setError("Bitte geben Sie die getankte Menge an.");
+                        editTextGetankteMenge.setError("Bitte geben Sie die getankte Menge ein.");
                     } else {
-                        editTextGetankteMenge.setError("Bitte geben Sie die geladene Menge an.");
+                        editTextGetankteMenge.setError("Bitte geben Sie die geladene Menge ein.");
                     }
-                    korrekteEinzeleingaben.put("menge", false);
 
-                } else if (Double.parseDouble(getankteMengeText.toString()) > altesRestvolumen) {
+                } else if (!inputParser.isValid()) {
+                    editTextGetankteMenge.setError("Bitte geben Sie einen gültigen Wert ein.");
+
+                } else if (parsedDouble > altesRestvolumen) {
 
                     if (!aktuellesFahrzeug.isElektro()) {
                         editTextGetankteMenge.setError(
-                                "Bitte geben Sie eine Tankmenge an, die kleiner als das restliche " +
+                                "Bitte geben Sie eine Tankmenge ein, die kleiner als das restliche " +
                                         "Volumen Ihres Tanks (" +
                                         altesRestvolumen + " l) ist.");
                     } else {
                         editTextGetankteMenge.setError(
-                                "Bitte geben Sie eine Lademenge an, die kleiner als die " +
+                                "Bitte geben Sie eine Lademenge ein, die kleiner als die " +
                                         "restliche Kapazität Ihres Akkus (" +
                                         altesRestvolumen + " kWh) ist.");
                     }
-                    korrekteEinzeleingaben.put("menge", false);
 
                 } else {
                     korrekteEinzeleingaben.put("menge", true);
@@ -159,14 +165,20 @@ public class NewTankvorgangActivity extends AppCompatActivity {
 
                 Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
 
-                if (TextUtils.isEmpty(editTextPreis.getText())) {
+                String string = editable.toString();
+                double parsedDouble = inputParser.parse(string);
+                korrekteEinzeleingaben.put("preis", false);
+
+                if (string.isEmpty()) {
 
                     if (!aktuellesFahrzeug.isElektro()) {
-                        editTextPreis.setError("Bitte geben Sie den Preis für den Tankvorgang an.");
+                        editTextPreis.setError("Bitte geben Sie den Preis für den Tankvorgang ein.");
                     } else {
-                        editTextPreis.setError("Bitte geben Sie den Preis für den Ladevorgang an.");
+                        editTextPreis.setError("Bitte geben Sie den Preis für den Ladevorgang ein.");
                     }
-                    korrekteEinzeleingaben.put("preis", false);
+
+                } else if (!inputParser.isValid()) {
+                    editTextPreis.setError("Bitte geben Sie einen gültigen Wert ein..");
 
                 } else {
                     korrekteEinzeleingaben.put("preis", true);
@@ -191,10 +203,10 @@ public class NewTankvorgangActivity extends AppCompatActivity {
 
             Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
             Tankvorgang neuesterTankvorgang = aktuellesFahrzeug.getTankvorgaenge().get(0);
-            tankvorgang_bild_path = neuesterTankvorgang.getImg();
+            tankvorgangBildPath = neuesterTankvorgang.getImg();
             // Falls kein Bild aufgenommen wurde wird kein Bild angezeigt
-            if (tankvorgang_bild_path != null) {
-                Uri imageURI = Uri.fromFile(new File(tankvorgang_bild_path));
+            if (tankvorgangBildPath != null) {
+                Uri imageURI = Uri.fromFile(new File(tankvorgangBildPath));
                 this.imageViewTankvorgangBeleg.setImageURI(imageURI);
                 this.imageViewTankvorgangBeleg.setVisibility(View.VISIBLE);
                 this.buttonTankvorgangBildLoeschen.setVisibility(View.VISIBLE);
@@ -213,12 +225,12 @@ public class NewTankvorgangActivity extends AppCompatActivity {
 
         // --- OnClickListener für Bild-löschen-Button
         buttonTankvorgangBildLoeschen.setOnClickListener(v -> {
-            File f = new File(tankvorgang_bild_path);
+            File f = new File(tankvorgangBildPath);
             if (f.delete()) {
                 imageViewTankvorgangBeleg.setImageURI(null);
                 imageViewTankvorgangBeleg.setVisibility(View.GONE);
                 buttonTankvorgangBildLoeschen.setVisibility(View.GONE);
-                this.tankvorgang_bild_path = null;
+                this.tankvorgangBildPath = null;
             }
             else {
                 Toast.makeText(this, "Bild konnte nicht gelöscht werden", Toast.LENGTH_LONG).show();
@@ -267,7 +279,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
                 storageDir      /* directory */
         );
         // Save a file: path for use with ACTION_VIEW intents
-        create_image_file_path = image.getAbsolutePath();
+        createImageFilePath = image.getAbsolutePath();
         return image;
     }
 
@@ -276,14 +288,14 @@ public class NewTankvorgangActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             // (Wenn existiert) Existierendes Bild löschen
-            if (tankvorgang_bild_path != null) {
-                File f = new File(tankvorgang_bild_path);
+            if (tankvorgangBildPath != null) {
+                File f = new File(tankvorgangBildPath);
                 if (!f.delete()) {
                     Toast.makeText(this, "Altes Bild konnte nicht gelöscht werden", Toast.LENGTH_LONG).show();
                 }
             }
-            tankvorgang_bild_path = create_image_file_path;
-            Uri imageURI = Uri.fromFile(new File(tankvorgang_bild_path));
+            tankvorgangBildPath = createImageFilePath;
+            Uri imageURI = Uri.fromFile(new File(tankvorgangBildPath));
             imageViewTankvorgangBeleg.setImageURI(imageURI);
             imageViewTankvorgangBeleg.setVisibility(View.VISIBLE);
             buttonTankvorgangBildLoeschen.setVisibility(View.VISIBLE);
@@ -312,9 +324,9 @@ public class NewTankvorgangActivity extends AppCompatActivity {
         if (korrekteEingabe) {  // korrekte Eingaben getätigt
 
             // Parsing
-            double getankteMenge = Double.parseDouble(editTextGetankteMenge.getText().toString());
-            double preis = Double.parseDouble(editTextPreis.getText().toString());
-            String bildPfad = this.tankvorgang_bild_path;
+            double getankteMenge = inputParser.parse(editTextGetankteMenge.getText().toString());
+            double preis = inputParser.parse(editTextPreis.getText().toString());
+            String bildPfad = this.tankvorgangBildPath;
 
             if (intent.getAction().equals(TimelineFragment.ACTION_NEW_TANKVORGANG)) {  // Tankvorgang hinzufügen
 

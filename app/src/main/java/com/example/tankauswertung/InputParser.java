@@ -6,8 +6,8 @@ import java.util.Locale;
 
 public class InputParser {
 
+    private final NumberFormat numberFormat = NumberFormat.getInstance(Locale.GERMAN);
     enum Validity {VALID, INVALID, UNDEFINED};
-    NumberFormat numberFormat = NumberFormat.getInstance(Locale.GERMAN);
     Validity valid;
 
     public InputParser() {

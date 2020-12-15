@@ -84,7 +84,6 @@ public class NewCarActivity extends AppCompatActivity {
 
     InputParser inputParser = new InputParser();
 
-
     /**
      * ausgeführt, sobald die Aktivität gestartet wird
      *

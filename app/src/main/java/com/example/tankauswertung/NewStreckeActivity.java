@@ -43,6 +43,8 @@ public class NewStreckeActivity extends AppCompatActivity {
     Intent intent;
     Garage garage;
 
+    InputParser inputParser = new InputParser();
+
     /**
      * ausgeführt, sobald die Aktivität gestartet wird
      *
@@ -87,7 +89,6 @@ public class NewStreckeActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
 
                 Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();
-                Editable kilometerStandText = editTextKilometerstand.getText();
                 double alterKilometerstand;
 
                 if (intent.getAction().equals(TimelineFragment.ACTION_NEW_STRECKE)) {
@@ -97,18 +98,23 @@ public class NewStreckeActivity extends AppCompatActivity {
                     alterKilometerstand = aktuellesFahrzeug.getKmStand() - neuesteStrecke.getDistanz();
                 }
 
-                if (TextUtils.isEmpty(kilometerStandText)) {
+                String string = editable.toString();
+                double parsedDouble = inputParser.parse(string);
 
-                    editTextKilometerstand.setError("Bitte geben Sie den aktuellen Kilometerstand Ihres Fahrzeugs an.");
-                    korrekteEinzeleingaben.put("kilometerstand", false);
+                korrekteEinzeleingaben.put("kilometerstand", false);
 
-                } else if (Double.parseDouble(kilometerStandText.toString()) < alterKilometerstand) {
+                if (string.isEmpty()) {
+                    editTextKilometerstand.setError("Bitte geben Sie den aktuellen Kilometerstand Ihres Fahrzeugs ein.");
+
+                } else if (!inputParser.isValid()) {
+                    editTextKilometerstand.setError("Bitte geben Sie einen gültigen Wert ein.");
+
+                } else if (parsedDouble < alterKilometerstand) {
 
                     editTextKilometerstand.setError(
                             "Bitte geben Sie einen Kilometerstand an, der größer oder gleich dem " +
                             "letzten Kilometerstand Ihres Fahrzeugs (" +
-                            alterKilometerstand +  ") ist.");
-                    korrekteEinzeleingaben.put("kilometerstand", false);
+                            alterKilometerstand +  " km) ist.");
 
                 } else {
                     korrekteEinzeleingaben.put("kilometerstand", true);
@@ -207,7 +213,7 @@ public class NewStreckeActivity extends AppCompatActivity {
         if (korrekteEingabe) {  // korrekte Eingaben getätigt
 
             // Parsing
-            double kilometerstand = Double.parseDouble(editTextKilometerstand.getText().toString());
+            double kilometerstand = inputParser.parse(editTextKilometerstand.getText().toString());
             int aktuellerTankstandProzent = seekBarAktuellerTankstand.getProgress();
             Strecke.Streckentyp streckentyp;
 
