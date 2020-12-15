@@ -947,6 +947,7 @@ public class Fahrzeug implements Serializable {
         LinkedHashMap<String, Double> rueckgabe = new LinkedHashMap<>();
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         Calendar heute = Calendar.getInstance();
+        int startMonat = heute.get(Calendar.MONTH);
         Calendar vergleich = Calendar.getInstance();
         Calendar fzZeitstempel = Calendar.getInstance();
         fzZeitstempel.setTime(this.getZeitstempel());
@@ -962,18 +963,18 @@ public class Fahrzeug implements Serializable {
             heute.add(Calendar.WEEK_OF_MONTH, heute.getActualMaximum(Calendar.WEEK_OF_MONTH) - heute.get(Calendar.WEEK_OF_MONTH));
         }
 
-        heute.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        heute.add(Calendar.DAY_OF_WEEK, -(heute.get(Calendar.DAY_OF_WEEK) - Calendar.MONDAY));
         if (heute.before(fzZeitstempel)) {
             heute.setTime(fzZeitstempel.getTime());
         }
 
         int ersteWoche;
-        if (heute.get(Calendar.MONTH) == Calendar.JANUARY) {
+        if (startMonat == Calendar.JANUARY) {
             ersteWoche = 0;
         } else {
             Calendar ersterTag = Calendar.getInstance();
             ersterTag.setTime(heute.getTime());
-            ersterTag.set(Calendar.DAY_OF_MONTH, 1);
+            ersterTag.set(Calendar.WEEK_OF_MONTH, ersterTag.getActualMinimum(Calendar.WEEK_OF_MONTH));
             ersteWoche = ersterTag.get(Calendar.WEEK_OF_YEAR);
         }
 
@@ -990,7 +991,7 @@ public class Fahrzeug implements Serializable {
 
             while (i < strecken.size()) {
                 vergleich.setTime(strecken.get(i).getZeitstempel());
-                if (vergleich.get(Calendar.WEEK_OF_MONTH) == heute.get(Calendar.WEEK_OF_MONTH) && vergleich.get(Calendar.MONTH) == heute.get(Calendar.MONTH) && vergleich.get(Calendar.YEAR) == heute.get(Calendar.YEAR)) {
+                if (vergleich.get(Calendar.WEEK_OF_YEAR) == heute.get(Calendar.WEEK_OF_YEAR) && vergleich.get(Calendar.MONTH) == startMonat && vergleich.get(Calendar.YEAR) == heute.get(Calendar.YEAR)) {
                     summeDistanz += strecken.get(i).getDistanz();
                     rueckgabe.replace(datum, summeDistanz);
                     i++;
@@ -1001,8 +1002,8 @@ public class Fahrzeug implements Serializable {
                 }
             }
 
-            heute.add(Calendar.WEEK_OF_MONTH, -1);
-            if (heute.before(fzZeitstempel) && heute.get(Calendar.WEEK_OF_MONTH) == fzZeitstempel.get(Calendar.WEEK_OF_MONTH)) {
+            heute.add(Calendar.WEEK_OF_YEAR, -1);
+            if (heute.before(fzZeitstempel) && heute.get(Calendar.WEEK_OF_YEAR) == fzZeitstempel.get(Calendar.WEEK_OF_YEAR)) {
                 heute.setTime(fzZeitstempel.getTime());
             }
             j++;
