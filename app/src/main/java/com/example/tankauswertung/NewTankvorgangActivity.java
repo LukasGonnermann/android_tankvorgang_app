@@ -10,7 +10,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -60,8 +59,8 @@ public class NewTankvorgangActivity extends AppCompatActivity {
     InputParser inputParser = new InputParser();
 
     // Decimal Formatter
-    DecimalFormat getDfGeladeneMengeErrorLiter = new DecimalFormat("#.##\u00A0l", new DecimalFormatSymbols(Locale.GERMAN));
-    DecimalFormat getDfGeladeneMengeErrorKwh = new DecimalFormat("#.##\u00A0kWh", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfGeladeneMengeErrorLiter = new DecimalFormat("#.##\u00A0l", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfGeladeneMengeErrorKwh = new DecimalFormat("#.##\u00A0kWh", new DecimalFormatSymbols(Locale.GERMAN));
     DecimalFormat dfGeladeneMenge = new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.GERMAN));
     DecimalFormat dfPreis = new DecimalFormat("#.00", new DecimalFormatSymbols(Locale.GERMAN));
 
@@ -144,12 +143,12 @@ public class NewTankvorgangActivity extends AppCompatActivity {
                         editTextGetankteMenge.setError(
                                 "Bitte geben Sie eine Tankmenge ein, die kleiner als das restliche " +
                                         "Volumen Ihres Tanks (" +
-                                        getDfGeladeneMengeErrorLiter.format(altesRestvolumen) + ") ist.");
+                                        dfGeladeneMengeErrorLiter.format(altesRestvolumen) + ") ist.");
                     } else {
                         editTextGetankteMenge.setError(
                                 "Bitte geben Sie eine Lademenge ein, die kleiner als die " +
                                         "restliche Kapazität Ihres Akkus (" +
-                                        getDfGeladeneMengeErrorKwh.format(altesRestvolumen) + ") ist.");
+                                        dfGeladeneMengeErrorKwh.format(altesRestvolumen) + ") ist.");
                     }
 
                 } else {
