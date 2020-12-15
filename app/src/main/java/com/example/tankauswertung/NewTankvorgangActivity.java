@@ -32,9 +32,12 @@ import com.example.tankauswertung.ui.timeline.TimelineFragment;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class NewTankvorgangActivity extends AppCompatActivity {
@@ -56,6 +59,12 @@ public class NewTankvorgangActivity extends AppCompatActivity {
     Garage garage;
 
     InputParser inputParser = new InputParser();
+
+    // Decimal Formatter
+    DecimalFormat getDfGeladeneMengeErrorLiter = new DecimalFormat("#.## l", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat getDfGeladeneMengeErrorKwh = new DecimalFormat("#.## kWh", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfGeladeneMenge = new DecimalFormat("#.#", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfPreis = new DecimalFormat("#.00", new DecimalFormatSymbols(Locale.GERMAN));
 
     private static final int READ_WRITE_PERMISSION_CODE = 200;
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -136,12 +145,12 @@ public class NewTankvorgangActivity extends AppCompatActivity {
                         editTextGetankteMenge.setError(
                                 "Bitte geben Sie eine Tankmenge ein, die kleiner als das restliche " +
                                         "Volumen Ihres Tanks (" +
-                                        altesRestvolumen + " l) ist.");
+                                        getDfGeladeneMengeErrorLiter.format(altesRestvolumen) + ") ist.");
                     } else {
                         editTextGetankteMenge.setError(
                                 "Bitte geben Sie eine Lademenge ein, die kleiner als die " +
                                         "restliche Kapazität Ihres Akkus (" +
-                                        altesRestvolumen + " kWh) ist.");
+                                        getDfGeladeneMengeErrorKwh.format(altesRestvolumen) + ") ist.");
                     }
 
                 } else {
@@ -216,8 +225,8 @@ public class NewTankvorgangActivity extends AppCompatActivity {
                 this.buttonTankvorgangBildLoeschen.setVisibility(View.GONE);
             }
 
-            editTextGetankteMenge.setText(Double.toString(neuesterTankvorgang.getGetankteMenge()));
-            editTextPreis.setText(Double.toString(neuesterTankvorgang.getPreis()));
+            editTextGetankteMenge.setText(dfGeladeneMenge.format(neuesterTankvorgang.getGetankteMenge()));
+            editTextPreis.setText(dfPreis.format(neuesterTankvorgang.getPreis()));
         }
 
         // --- OnClickListener für Bild-aufnehmen-Button

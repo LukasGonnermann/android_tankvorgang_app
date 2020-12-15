@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +19,10 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.tankauswertung.exceptions.FahrzeugWertException;
 import com.example.tankauswertung.ui.timeline.TimelineFragment;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class NewStreckeActivity extends AppCompatActivity {
@@ -44,6 +46,10 @@ public class NewStreckeActivity extends AppCompatActivity {
     Garage garage;
 
     InputParser inputParser = new InputParser();
+
+    // Decimal Formatter
+    DecimalFormat dfKmstandError = new DecimalFormat("###,###.# km", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfKmstandEditText = new DecimalFormat("#.#", new DecimalFormatSymbols(Locale.GERMAN));
 
     /**
      * ausgeführt, sobald die Aktivität gestartet wird
@@ -114,7 +120,7 @@ public class NewStreckeActivity extends AppCompatActivity {
                     editTextKilometerstand.setError(
                             "Bitte geben Sie einen Kilometerstand ein, der größer oder gleich dem " +
                             "letzten Kilometerstand Ihres Fahrzeugs (" +
-                            alterKilometerstand +  " km) ist.");
+                            dfKmstandError.format(alterKilometerstand) +  ") ist.");
 
                 } else {
                     korrekteEinzeleingaben.put("kilometerstand", true);
@@ -163,7 +169,7 @@ public class NewStreckeActivity extends AppCompatActivity {
 
         if (intent.getAction().equals(TimelineFragment.ACTION_NEW_STRECKE)) {
 
-            editTextKilometerstand.setText(Double.toString(
+            editTextKilometerstand.setText(dfKmstandEditText.format(
                     aktuellesFahrzeug.getKmStand()
             ));
 
@@ -175,7 +181,7 @@ public class NewStreckeActivity extends AppCompatActivity {
 
             Strecke neuesteStrecke = aktuellesFahrzeug.getStrecken().get(0);
 
-            editTextKilometerstand.setText(Double.toString(
+            editTextKilometerstand.setText(dfKmstandEditText.format(
                     aktuellesFahrzeug.getKmStand()
             ));
             seekBarAktuellerTankstand.setProgress((int) (neuesteStrecke.getTankstand() / aktuellesFahrzeug.getTankgroesse() * 100));

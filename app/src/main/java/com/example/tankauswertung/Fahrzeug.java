@@ -306,9 +306,11 @@ public class Fahrzeug implements Serializable {
      * @return ArrayList<Ereignis>, Alle Ereignisse, sortiert nach Datum
      */
     public ArrayList<Ereignis> getEreignisse() {
+
         DecimalFormat dfLiter = new DecimalFormat("#.##\u00A0l", new DecimalFormatSymbols(Locale.GERMAN));
         DecimalFormat dfKwh = new DecimalFormat("#.##\u00A0kWh", new DecimalFormatSymbols(Locale.GERMAN));
-        DecimalFormat dfPreis = new DecimalFormat("#.##\u00A0€", new DecimalFormatSymbols(Locale.GERMAN));
+        DecimalFormat dfPreisNachkommastellen = new DecimalFormat("#.00\u00A0€", new DecimalFormatSymbols(Locale.GERMAN));
+        DecimalFormat dfPreisGlatt = new DecimalFormat("#.##\u00A0€", new DecimalFormatSymbols(Locale.GERMAN));
         DecimalFormat dfDistanz = new DecimalFormat("#.#\u00A0km", new DecimalFormatSymbols(Locale.GERMAN));
 
         ArrayList<Ereignis> ereignisse = new ArrayList<>();
@@ -365,12 +367,18 @@ public class Fahrzeug implements Serializable {
                 // keineStreckeMehr || (aktuelleStrecke != null && aktuelleStrecke.getZeitstempel().compareTo(aktuellerTankvorgang.getZeitstempel())) <= 0
                 Date datum = aktuellerTankvorgang.getZeitstempel();
                 String strGetankteMenge;
+                String strPreis;
                 if (this.isElektro()) {
                     strGetankteMenge = dfKwh.format(aktuellerTankvorgang.getGetankteMenge());
                 } else {
                     strGetankteMenge = dfLiter.format(aktuellerTankvorgang.getGetankteMenge());
                 }
-                String strPreis = dfPreis.format(aktuellerTankvorgang.getPreis());
+                if (aktuellerTankvorgang.getPreis() % 1 == 0) {
+                    strPreis = dfPreisGlatt.format(aktuellerTankvorgang.getPreis());
+                } else {
+                    strPreis = dfPreisNachkommastellen.format(aktuellerTankvorgang.getPreis());
+                }
+
                 String beschreibung = strGetankteMenge + " · " + strPreis;
                 ereignisse.add(new Ereignis(Ereignis.EreignisTyp.TANKVORGANG, j, datum, beschreibung));
 
