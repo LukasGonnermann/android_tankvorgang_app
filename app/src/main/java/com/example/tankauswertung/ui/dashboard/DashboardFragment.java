@@ -1,6 +1,6 @@
 package com.example.tankauswertung.ui.dashboard;
 
-
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import androidx.fragment.app.Fragment;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
 
 import com.example.tankauswertung.Fahrzeug;
@@ -108,8 +109,6 @@ public class DashboardFragment extends Fragment {
             // anzuzeigende Werte setzen
 
             textViewName.setText(aktuellesFahrzeug.getName());
-            textViewTankstand.setText(dfProzent.format(aktuellesFahrzeug.getTankstand()));
-            progressBarTankstand.setProgress((int) aktuellesFahrzeug.getTankstand());
             textViewKilometerstand.setText(dfKmStand.format(aktuellesFahrzeug.getKmStand()));
 
             double reichweite = aktuellesFahrzeug.getReichweite();
@@ -122,6 +121,31 @@ public class DashboardFragment extends Fragment {
             if (!aktuellesFahrzeug.isElektro()) {
                 textViewCo2.setText(dfCo2.format(aktuellesFahrzeug.getCo2AusstossGesamtKg()));
             }
+
+            animiereTankstand((int) aktuellesFahrzeug.getTankstand());
         }
+    }
+
+    private void animiereTankstand(int tankstand) {
+
+        final int DURATION_MS = 20 * tankstand;
+
+        // damit es smoother wird
+        progressBarTankstand.setMax(10000);
+        progressBarTankstand.setProgress(0);
+
+        ValueAnimator animator = ValueAnimator.ofInt(0, tankstand * 100);
+        animator.setDuration(DURATION_MS);
+        animator.setInterpolator(new FastOutSlowInInterpolator());
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                textViewTankstand.setText(dfProzent.format((int) valueAnimator.getAnimatedValue() / 100));
+                progressBarTankstand.setProgress((int) valueAnimator.getAnimatedValue());
+            }
+        });
+
+        animator.start();
     }
 }
