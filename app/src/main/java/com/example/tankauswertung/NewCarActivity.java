@@ -82,6 +82,8 @@ public class NewCarActivity extends AppCompatActivity {
     // Decimal Formatter
     DecimalFormat dfVerbrauch = new DecimalFormat("#.0", new DecimalFormatSymbols(Locale.GERMAN));
 
+    InputParser inputParser = new InputParser();
+
 
     /**
      * ausgeführt, sobald die Aktivität gestartet wird
@@ -218,9 +220,16 @@ public class NewCarActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (TextUtils.isEmpty(editTextCo2.getText())) {
-                    editTextCo2.setError("Bitte geben Sie einen CO2-Ausstoß an.");
-                    korrekteEinzeleingaben.put("co2", false);
+
+                String string = editable.toString();
+                double parsedDouble = inputParser.parse(string);
+
+                korrekteEinzeleingaben.put("co2", false);
+
+                if (string.isEmpty()) {
+                    editTextCo2.setError("Bitte geben Sie den CO2-Ausstoß Ihres Fahrzeugs ein.");
+                } else if (!inputParser.isValid()) {
+                    editTextCo2.setError("Bitte geben Sie einen gültigen Wert ein.");
                 } else {
                     korrekteEinzeleingaben.put("co2", true);
                 }
@@ -239,9 +248,16 @@ public class NewCarActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (TextUtils.isEmpty(editTextKilometerstand.getText())) {
-                    editTextKilometerstand.setError("Bitte geben Sie den aktuellen Kilometerstand Ihres Fahrzeugs an.");
-                    korrekteEinzeleingaben.put("kilometerstand", false);
+
+                String string = editable.toString();
+                double parsedDouble = inputParser.parse(string);
+
+                korrekteEinzeleingaben.put("kilometerstand", false);
+
+                if (string.isEmpty()) {
+                    editTextKilometerstand.setError("Bitte geben Sie den aktuellen Kilometerstand Ihres Fahrzeugs ein.");
+                } else if (!inputParser.isValid()) {
+                    editTextKilometerstand.setError("Bitte geben Sie einen gültigen Wert ein.");
                 } else {
                     korrekteEinzeleingaben.put("kilometerstand", true);
                 }
@@ -260,23 +276,31 @@ public class NewCarActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (TextUtils.isEmpty(editTextTankvolumen.getText())) {
+
+                String string = editable.toString();
+                double parsedDouble = inputParser.parse(string);
+
+                korrekteEinzeleingaben.put("tankvolumen", false);
+
+                if (string.isEmpty()) {
 
                     if (checkBoxElektro.isChecked()) {
-                        editTextTankvolumen.setError("Bitte geben Sie die Akkukapazität Ihres Fahrzeugs an.");
+                        editTextTankvolumen.setError("Bitte geben Sie die Akkukapazität Ihres Fahrzeugs ein.");
                     } else {
-                        editTextTankvolumen.setError("Bitte geben Sie das Tankvolumen Ihres Fahrzeugs an.");
+                        editTextTankvolumen.setError("Bitte geben Sie das Tankvolumen Ihres Fahrzeugs ein.");
                     }
-                    korrekteEinzeleingaben.put("tankvolumen", false);
 
-                } else if (Double.parseDouble(editTextTankvolumen.getText().toString()) < 1) {
+                } else if (!inputParser.isValid()) {
+
+                    editTextTankvolumen.setError("Bitte geben Sie einen gültigen Wert ein.");
+
+                } else if (parsedDouble < 1) {
 
                     if (checkBoxElektro.isChecked()) {
                         editTextTankvolumen.setError("Bitte Sie eine Akkukapazität größer oder gleich 1 kWh ein.");
                     } else {
                         editTextTankvolumen.setError("Bitte Sie ein Tankvolumen größer oder gleich 1 Liter ein.");
                     }
-                    korrekteEinzeleingaben.put("tankvolumen", false);
 
                 } else {
                     korrekteEinzeleingaben.put("tankvolumen", true);
@@ -288,124 +312,102 @@ public class NewCarActivity extends AppCompatActivity {
         editTextVerbrauchInnerortsStand.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                Editable verbrauchInnerortsStand = editTextVerbrauchInnerortsStand.getText();
-                int verbrauchInnerortsStand_int = 0;
-                try {
-                    verbrauchInnerortsStand_int = (int) Double.parseDouble(verbrauchInnerortsStand.toString());
+            public void afterTextChanged(Editable editable) {
 
-                    if (TextUtils.isEmpty(verbrauchInnerortsStand)) {
-                        //editTextVerbrauchInnerortsStand.setError("Eingabe darf nicht leer sein");
-                        korrekteEinzeleingaben.put("verbrauch_innerorts", false);
+                String string = editable.toString();
+                double parsedDouble = inputParser.parse(string);
+                int verbrauchStandInt = (int) parsedDouble;
 
-                    } else if (verbrauchInnerortsStand_int < seekBarVerbrauchInnerorts.getMin() || verbrauchInnerortsStand_int > seekBarVerbrauchInnerorts.getMax()) {
-                        editTextVerbrauchInnerortsStand.setError("Ihre Eingabe ist außerhalb des zulässigen Bereichs.");
-                        korrekteEinzeleingaben.put("verbrauch_innerorts", false);
-                    } else {
-                        editTextVerbrauchInnerortsStand.setSelection(verbrauchInnerortsStand.length());
-                        seekBarVerbrauchInnerorts.setProgress((int) Double.parseDouble(verbrauchInnerortsStand.toString()));
-                        korrekteEinzeleingaben.put("verbrauch_innerorts", true);
-                    }
-                } catch (NumberFormatException e) {
+                korrekteEinzeleingaben.put("verbrauch_innerorts", false);
+
+                if (string.isEmpty()) {
+                    editTextVerbrauchInnerortsStand.setError("Bitte geben Sie einen Verbrauch ein.");
+                } else if (!inputParser.isValid()) {
                     editTextVerbrauchInnerortsStand.setError("Bitte geben Sie einen gültigen Wert ein.");
-                    e.printStackTrace();
+                } else if (verbrauchStandInt < seekBarVerbrauchInnerorts.getMin() || verbrauchStandInt > seekBarVerbrauchInnerorts.getMax()) {
+                    editTextVerbrauchInnerortsStand.setError("Ihre Eingabe ist außerhalb des zulässigen Bereichs.");
+                } else {
+                    editTextVerbrauchInnerortsStand.setSelection(editable.length());
+                    seekBarVerbrauchInnerorts.setProgress(verbrauchStandInt);
+                    korrekteEinzeleingaben.put("verbrauch_innerorts", true);
                 }
-
-
                 updateKorrekteEingabe();
-
             }
         });
 
         editTextVerbrauchAusserortsStand.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                Editable verbrauchAusserortsStand = editTextVerbrauchAusserortsStand.getText();
-                int verbrauchAusserortsStand_int = 0;
-                try {
-                    verbrauchAusserortsStand_int = (int) Double.parseDouble(verbrauchAusserortsStand.toString());
+            public void afterTextChanged(Editable editable) {
 
-                    if (TextUtils.isEmpty(verbrauchAusserortsStand)) {
-                        //editTextVerbrauchAusserortsStand.setError("Eingabe darf nicht leer sein");
-                        korrekteEinzeleingaben.put("verbrauch_au_erorts", false);
-                    } else if (verbrauchAusserortsStand_int < seekBarVerbrauchAusserorts.getMin() || verbrauchAusserortsStand_int > seekBarVerbrauchAusserorts.getMax()) {
-                        editTextVerbrauchAusserortsStand.setError("Ihre Eingabe ist außerhalb des zulässigen Bereichs.");
-                        korrekteEinzeleingaben.put("verbrauch_au_erorts", false);
-                    } else {
-                        editTextVerbrauchAusserortsStand.setSelection(verbrauchAusserortsStand.length());
-                        seekBarVerbrauchAusserorts.setProgress((int) Double.parseDouble(verbrauchAusserortsStand.toString()));
-                        korrekteEinzeleingaben.put("verbrauch_au_erorts", true);
-                    }
-                } catch (NumberFormatException e) {
+                String string = editable.toString();
+                double parsedDouble = inputParser.parse(string);
+                int verbrauchStandInt = (int) parsedDouble;
+
+                korrekteEinzeleingaben.put("verbrauch_au_erorts", false);
+
+                if (string.isEmpty()) {
+                    editTextVerbrauchAusserortsStand.setError("Bitte geben Sie einen Verbrauch ein.");
+                } else if (!inputParser.isValid()) {
                     editTextVerbrauchAusserortsStand.setError("Bitte geben Sie einen gültigen Wert ein.");
-                    e.printStackTrace();
+                } else if (verbrauchStandInt < seekBarVerbrauchAusserorts.getMin() || verbrauchStandInt > seekBarVerbrauchAusserorts.getMax()) {
+                    editTextVerbrauchAusserortsStand.setError("Ihre Eingabe ist außerhalb des zulässigen Bereichs.");
+                } else {
+                    editTextVerbrauchAusserortsStand.setSelection(editable.length());
+                    seekBarVerbrauchAusserorts.setProgress(verbrauchStandInt);
+                    korrekteEinzeleingaben.put("verbrauch_au_erorts", true);
                 }
-
                 updateKorrekteEingabe();
-
             }
         });
 
         editTextVerbrauchKombiniertStand.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                Editable verbrauchKombiniertStand = editTextVerbrauchKombiniertStand.getText();
-                int verbrauchKombiniertStand_int;
+            public void afterTextChanged(Editable editable) {
+                String string = editable.toString();
+                double parsedDouble = inputParser.parse(string);
+                int verbrauchStandInt = (int) parsedDouble;
 
-                try {
-                    verbrauchKombiniertStand_int = (int) Double.parseDouble(verbrauchKombiniertStand.toString());
+                korrekteEinzeleingaben.put("verbrauch_kombiniert", false);
 
-                    if (TextUtils.isEmpty(verbrauchKombiniertStand)) {
-                        // editTextVerbrauchKombiniertStand.setError("Eingabe darf nicht leer sein");
-                        korrekteEinzeleingaben.put("verbrauch_kombiniert", false);
-                    } else if (verbrauchKombiniertStand_int < seekBarVerbrauchKombiniert.getMin() || verbrauchKombiniertStand_int > seekBarVerbrauchKombiniert.getMax()) {
-                        editTextVerbrauchKombiniertStand.setError("Ihre Eingabe ist außerhalb des zulässigen Bereichs.");
-                        korrekteEinzeleingaben.put("verbrauch_kombiniert", false);
-                    } else {
-                        editTextVerbrauchKombiniertStand.setSelection(verbrauchKombiniertStand.length());
-                        seekBarVerbrauchKombiniert.setProgress((int) Double.parseDouble(verbrauchKombiniertStand.toString()));
-                        korrekteEinzeleingaben.put("verbrauch_kombiniert", true);
-                    }
-                } catch (NumberFormatException e) {
+                if (string.isEmpty()) {
+                    editTextVerbrauchKombiniertStand.setError("Bitte geben Sie einen Verbrauch ein.");
+                } else if (!inputParser.isValid()) {
                     editTextVerbrauchKombiniertStand.setError("Bitte geben Sie einen gültigen Wert ein.");
-                    e.printStackTrace();
+                } else if (verbrauchStandInt < seekBarVerbrauchKombiniert.getMin() || verbrauchStandInt > seekBarVerbrauchKombiniert.getMax()) {
+                    editTextVerbrauchKombiniertStand.setError("Ihre Eingabe ist außerhalb des zulässigen Bereichs.");
+                } else {
+                    editTextVerbrauchKombiniertStand.setSelection(editable.length());
+                    seekBarVerbrauchKombiniert.setProgress(verbrauchStandInt);
+                    korrekteEinzeleingaben.put("verbrauch_kombiniert", true);
                 }
 
                 if (!aendern) {
-                    aendern = true; // damit editTexts sich wieder der seekBar anpassen
+                    aendern = true;  // damit editTexts sich wieder der seekBar anpassen
                 }
-
                 updateKorrekteEingabe();
-
             }
         });
 
@@ -573,17 +575,17 @@ public class NewCarActivity extends AppCompatActivity {
 
             // Parsing
             String name = editTextName.getText().toString();
-            double co2 = Double.parseDouble(editTextCo2.getText().toString());
-            double kilometerstand = Double.parseDouble(editTextKilometerstand.getText().toString());
-            double tankvolumen = Double.parseDouble(editTextTankvolumen.getText().toString());
-            /*Werte werden nun aus den editTexts gelesen
+            double co2 = inputParser.parse(editTextCo2.getText().toString());
+            double kilometerstand = inputParser.parse(editTextKilometerstand.getText().toString());
+            double tankvolumen = inputParser.parse(editTextTankvolumen.getText().toString());
+            /* Werte werden nun aus den editTexts gelesen
             int verbrauchInnerorts = seekBarVerbrauchInnerorts.getProgress();
             int verbrauchAusserorts = seekBarVerbrauchAusserorts.getProgress();
             int verbrauchKombiniert = seekBarVerbrauchKombiniert.getProgress();
             */
-            double verbrauchInnerorts = Double.parseDouble(editTextVerbrauchInnerortsStand.getText().toString());
-            double verbrauchAusserorts = Double.parseDouble(editTextVerbrauchAusserortsStand.getText().toString());
-            double verbrauchKombiniert = Double.parseDouble(editTextVerbrauchKombiniertStand.getText().toString());
+            double verbrauchInnerorts = inputParser.parse(editTextVerbrauchInnerortsStand.getText().toString());
+            double verbrauchAusserorts = inputParser.parse(editTextVerbrauchAusserortsStand.getText().toString());
+            double verbrauchKombiniert = inputParser.parse(editTextVerbrauchKombiniertStand.getText().toString());
 
             int aktuellerTankstand = seekBarAktuellerTankstand.getProgress();
             boolean ist_elektro = checkBoxElektro.isChecked();
