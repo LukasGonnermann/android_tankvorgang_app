@@ -80,7 +80,7 @@ public class NewCarActivity extends AppCompatActivity {
     boolean hinweis_angezeigt = false;  // gibt an, ob der Hinweis zum E-Auto schon einmal angezeigt wurde
 
     // Decimal Formatter
-    DecimalFormat dfVerbrauch = new DecimalFormat("#.0", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfAllgemein = new DecimalFormat("#.#", new DecimalFormatSymbols(Locale.GERMAN));
 
     InputParser inputParser = new InputParser();
 
@@ -513,9 +513,9 @@ public class NewCarActivity extends AppCompatActivity {
 
             checkBoxElektro.setChecked(aktuellesFahrzeug.isElektro());
             editTextName.setText(aktuellesFahrzeug.getName());
-            editTextCo2.setText(Double.toString(aktuellesFahrzeug.getCo2Ausstoss()));
-            editTextKilometerstand.setText(Double.toString(aktuellesFahrzeug.getKmStand()));
-            editTextTankvolumen.setText(Double.toString(aktuellesFahrzeug.getTankgroesse()));
+            editTextCo2.setText(dfAllgemein.format(aktuellesFahrzeug.getCo2Ausstoss()));
+            editTextKilometerstand.setText(dfAllgemein.format(aktuellesFahrzeug.getKmStand()));
+            editTextTankvolumen.setText(dfAllgemein.format(aktuellesFahrzeug.getTankgroesse()));
 
             // Verbrauch dann zumindest auf 1/5-tel-Liter-Genauigkeit angeben können
             // dafür gerne auch max-Werte anpassen (50 Liter pro 100 km doch recht unrealistisch)
@@ -524,9 +524,9 @@ public class NewCarActivity extends AppCompatActivity {
             seekBarVerbrauchAusserorts.setProgress((int) aktuellesFahrzeug.getVerbrauchAusserorts());
             seekBarVerbrauchKombiniert.setProgress((int) aktuellesFahrzeug.getVerbrauchKombiniert());
              */
-            editTextVerbrauchInnerortsStand.setText(dfVerbrauch.format(aktuellesFahrzeug.getVerbrauchInnerortsAnfangswert()));
-            editTextVerbrauchAusserortsStand.setText(dfVerbrauch.format(aktuellesFahrzeug.getVerbrauchAusserortsAnfangswert()));
-            editTextVerbrauchKombiniertStand.setText(dfVerbrauch.format(aktuellesFahrzeug.getVerbrauchKombiniertAnfangswert()));
+            editTextVerbrauchInnerortsStand.setText(dfAllgemein.format(aktuellesFahrzeug.getVerbrauchInnerortsAnfangswert()));
+            editTextVerbrauchAusserortsStand.setText(dfAllgemein.format(aktuellesFahrzeug.getVerbrauchAusserortsAnfangswert()));
+            editTextVerbrauchKombiniertStand.setText(dfAllgemein.format(aktuellesFahrzeug.getVerbrauchKombiniertAnfangswert()));
             seekBarAktuellerTankstand.setProgress((int) aktuellesFahrzeug.getTankstand());
 
             // beim Ändern eines Fahrzeugs, welches schon Strecken/Tankvorgänge gespeichert hat,
