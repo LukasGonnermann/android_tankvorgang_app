@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -86,11 +87,16 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     Tankvorgang t = MainActivity.getGarage().getAusgewaehltesFahrzeug().getTankvorgaenge().get(ereignis.getIndex());
                     String img_path = t.getImg();
                     if (img_path != null) {
+                        File img_file = new File(img_path);
+                        Uri fileProviderImageUri = FileProvider.getUriForFile(((Activity) context), "com.example.android.fileprovider",img_file);
                         Intent intent = new Intent();
                         intent.setAction(Intent.ACTION_VIEW);
                         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        intent.setDataAndType(Uri.fromFile(new File(img_path)), "image/*");
+                        intent.setData(fileProviderImageUri);
                         ((Activity) context).startActivity(intent);
+                    }
+                    else {
+                        Toast.makeText(((Activity) context), "Für diesen Tankvorgang ist kein Bild des Belegs vorhanden", Toast.LENGTH_LONG).show();
                     }
                 }
             }
