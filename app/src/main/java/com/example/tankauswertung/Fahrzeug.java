@@ -682,12 +682,19 @@ public class Fahrzeug implements Serializable {
         Date heute = new Date();
         heute.setTime(heute.getTime() + delta);
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        Calendar fzZeitstempel = Calendar.getInstance();
+        fzZeitstempel.setTime(this.getZeitstempel());
+        // Uhrzeit auf 0 setzen, damit spaeter nur das Datum verglichen wird
+        fzZeitstempel.set(Calendar.HOUR_OF_DAY, 0);
+        fzZeitstempel.set(Calendar.MINUTE, 0);
+        fzZeitstempel.set(Calendar.SECOND, 0);
+        fzZeitstempel.set(Calendar.MILLISECOND, 0);
 
         int i = 0;
         int j = 0;
         double distanz;
 
-        while (j < 7 && heute.after(this.getZeitstempel())) {
+        while (j < 7 && heute.after(fzZeitstempel.getTime())) {
             distanz = 0;
             rueckgabe.put(formatter.format(heute), distanz);
 
@@ -720,12 +727,19 @@ public class Fahrzeug implements Serializable {
         Date heute = new Date();
         heute.setTime(heute.getTime() + delta);
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        Calendar fzZeitstempel = Calendar.getInstance();
+        fzZeitstempel.setTime(this.getZeitstempel());
+        // Uhrzeit auf 0 setzen, damit spaeter nur das Datum verglichen wird
+        fzZeitstempel.set(Calendar.HOUR_OF_DAY, 0);
+        fzZeitstempel.set(Calendar.MINUTE, 0);
+        fzZeitstempel.set(Calendar.SECOND, 0);
+        fzZeitstempel.set(Calendar.MILLISECOND, 0);
 
         int i = 0;
         int j = 0;
         double verbrauch;
 
-        while (j < 7 && heute.after(this.getZeitstempel())) {
+        while (j < 7 && heute.after(fzZeitstempel.getTime())) {
             verbrauch = 0;
             rueckgabe.put(formatter.format(heute), verbrauch);
 
@@ -758,12 +772,19 @@ public class Fahrzeug implements Serializable {
         Date heute = new Date();
         heute.setTime(heute.getTime() + delta);
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        Calendar fzZeitstempel = Calendar.getInstance();
+        fzZeitstempel.setTime(this.getZeitstempel());
+        // Uhrzeit auf 0 setzen, damit spaeter nur das Datum verglichen wird
+        fzZeitstempel.set(Calendar.HOUR_OF_DAY, 0);
+        fzZeitstempel.set(Calendar.MINUTE, 0);
+        fzZeitstempel.set(Calendar.SECOND, 0);
+        fzZeitstempel.set(Calendar.MILLISECOND, 0);
 
         int i = 0;
         int j = 0;
         double kosten;
 
-        while (j < 7 && heute.after(this.getZeitstempel())) {
+        while (j < 7 && heute.after(fzZeitstempel.getTime())) {
             kosten = 0;
             rueckgabe.put(formatter.format(heute), kosten);
 
@@ -796,12 +817,19 @@ public class Fahrzeug implements Serializable {
         Date heute = new Date();
         heute.setTime(heute.getTime() + delta);
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        Calendar fzZeitstempel = Calendar.getInstance();
+        fzZeitstempel.setTime(this.getZeitstempel());
+        // Uhrzeit auf 0 setzen, damit spaeter nur das Datum verglichen wird
+        fzZeitstempel.set(Calendar.HOUR_OF_DAY, 0);
+        fzZeitstempel.set(Calendar.MINUTE, 0);
+        fzZeitstempel.set(Calendar.SECOND, 0);
+        fzZeitstempel.set(Calendar.MILLISECOND, 0);
 
         int i = 0;
         int j = 0;
         double ausstoss;
 
-        while (j < 7 && heute.after(this.getZeitstempel())) {
+        while (j < 7 && heute.after(fzZeitstempel.getTime())) {
             ausstoss = 0;
             rueckgabe.put(formatter.format(heute), ausstoss);
 
