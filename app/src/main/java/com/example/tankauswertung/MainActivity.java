@@ -50,9 +50,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // eine Liste an Möglichkeiten, wer die Methode "garageGeaendert()" aufgerufen hat
     private enum GarageGeaendertCaller {
-        APP_START, FAHRZEUG_HINZUGEFUEGT, FAHRZEUG_GELOESCHT, FAHRZEUG_GEAENDERT
+        ACTIVITY_START, FAHRZEUG_HINZUGEFUEGT, FAHRZEUG_GELOESCHT, FAHRZEUG_GEAENDERT
     }
-    boolean appStarted = false;
+    boolean activityStarted = false;
 
     /**
      * ausgeführt, sobald die App gestartet wird
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // lade Garage
         // da getGarage() static ist, darf kein neues Garage-Objekt erstellt werden, wenn schon eines erstellt wurde
-        if (!appStarted) {
+        if (!activityStarted) {
             garage = new Garage();
             garage.load(getApplicationContext());
             settings = new Settings();
@@ -101,8 +101,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStart() {
         super.onStart();
-        if (!appStarted) {
-            appStarted = true;
+        if (!activityStarted) {
+            activityStarted = true;
             ladeUi();
         }
     }
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     private void ladeUi() {
         // lade Garage
-        garageGeaendert(GarageGeaendertCaller.APP_START);
+        garageGeaendert(GarageGeaendertCaller.ACTIVITY_START);
     }
 
     /**
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else {
 
-            if (caller == GarageGeaendertCaller.APP_START
+            if (caller == GarageGeaendertCaller.ACTIVITY_START
              || caller == GarageGeaendertCaller.FAHRZEUG_GELOESCHT) {  // bei Start der App und nach Löschen immer erstes Fahrzeug nehmen
 
                 try {
@@ -167,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } catch (GarageNullPointerException e) {
                     e.printStackTrace();
                 }
+                navController.navigate(R.id.navigation_dashboard);
 
             } else if (caller == GarageGeaendertCaller.FAHRZEUG_HINZUGEFUEGT) {  // nach Hinzufügen immer das neueste/letzte Fahrzeug nehmen
 
@@ -399,6 +400,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+        super.onActivityResult(requestCode, resultCode, intent);
 
         // Auto hinzugefügt oder geändert
         if (requestCode == LAUNCH_NEW_CAR_EDIT_CAR) {
