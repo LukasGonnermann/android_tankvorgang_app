@@ -43,7 +43,6 @@ public class NewTankvorgangActivity extends AppCompatActivity {
     Map<String, Boolean> korrekteEinzeleingaben = new HashMap<String, Boolean>() {{
         put("menge", true);
         put("preis", true);
-        // Bild nicht zwingend notwendig
     }};
 
     // UI-Elemente
@@ -90,7 +89,6 @@ public class NewTankvorgangActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // --- EditText Listener (inkl. Fehlerüberprüfung)
-
         editTextGetankteMenge.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -184,9 +182,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
         }
 
         // --- Default-Werte setzen
-
         if (intent.getAction().equals(TimelineFragment.ACTION_EDIT_TANKVORGANG)) {
-
             if (!garage.getAusgewaehltesFahrzeug().isElektro()) {
                 setTitle(R.string.edit_tankvorgang);  // Titel "Tankvorgang bearbeiten" setzen
             } else {
@@ -201,9 +197,11 @@ public class NewTankvorgangActivity extends AppCompatActivity {
                 Uri imageURI = Uri.fromFile(new File(tankvorgang_bild_path));
                 this.imageViewTankvorgangBeleg.setImageURI(imageURI);
                 this.imageViewTankvorgangBeleg.setVisibility(View.VISIBLE);
+                this.buttonTankvorgangBildLoeschen.setVisibility(View.VISIBLE);
             }
             else {
                 this.imageViewTankvorgangBeleg.setVisibility(View.GONE);
+                this.buttonTankvorgangBildLoeschen.setVisibility(View.GONE);
             }
 
             editTextGetankteMenge.setText(Double.toString(neuesterTankvorgang.getGetankteMenge()));
@@ -220,6 +218,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
                 imageViewTankvorgangBeleg.setImageURI(null);
                 imageViewTankvorgangBeleg.setVisibility(View.GONE);
                 buttonTankvorgangBildLoeschen.setVisibility(View.GONE);
+                this.tankvorgang_bild_path = null;
             }
             else {
                 Toast.makeText(this, "Bild konnte nicht gelöscht werden", Toast.LENGTH_LONG).show();
@@ -267,7 +266,6 @@ public class NewTankvorgangActivity extends AppCompatActivity {
                 ".jpg",   /* suffix */
                 storageDir      /* directory */
         );
-
         // Save a file: path for use with ACTION_VIEW intents
         create_image_file_path = image.getAbsolutePath();
         return image;
