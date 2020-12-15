@@ -1,4 +1,3 @@
-
 package com.example.tankauswertung;
 
 import android.annotation.SuppressLint;
@@ -61,9 +60,9 @@ public class NewTankvorgangActivity extends AppCompatActivity {
     InputParser inputParser = new InputParser();
 
     // Decimal Formatter
-    DecimalFormat getDfGeladeneMengeErrorLiter = new DecimalFormat("#.## l", new DecimalFormatSymbols(Locale.GERMAN));
-    DecimalFormat getDfGeladeneMengeErrorKwh = new DecimalFormat("#.## kWh", new DecimalFormatSymbols(Locale.GERMAN));
-    DecimalFormat dfGeladeneMenge = new DecimalFormat("#.#", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat getDfGeladeneMengeErrorLiter = new DecimalFormat("#.##\u00A0l", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat getDfGeladeneMengeErrorKwh = new DecimalFormat("#.##\u00A0kWh", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfGeladeneMenge = new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.GERMAN));
     DecimalFormat dfPreis = new DecimalFormat("#.00", new DecimalFormatSymbols(Locale.GERMAN));
 
     private static final int READ_WRITE_PERMISSION_CODE = 200;

@@ -48,7 +48,7 @@ public class NewStreckeActivity extends AppCompatActivity {
     InputParser inputParser = new InputParser();
 
     // Decimal Formatter
-    DecimalFormat dfKmstandError = new DecimalFormat("###,###.# km", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfKmstandError = new DecimalFormat("###,###.#\u00A0km", new DecimalFormatSymbols(Locale.GERMAN));
     DecimalFormat dfKmstandEditText = new DecimalFormat("#.#", new DecimalFormatSymbols(Locale.GERMAN));
 
     /**
