@@ -308,7 +308,8 @@ public class Fahrzeug implements Serializable {
     public ArrayList<Ereignis> getEreignisse() {
         DecimalFormat dfLiter = new DecimalFormat("#.# l", new DecimalFormatSymbols(Locale.GERMAN));
         DecimalFormat dfKwh = new DecimalFormat("#.# kWh", new DecimalFormatSymbols(Locale.GERMAN));
-        DecimalFormat dfPreis = new DecimalFormat("#.## €", new DecimalFormatSymbols(Locale.GERMAN));
+        DecimalFormat dfPreisNachkommastellen = new DecimalFormat("#.00 €", new DecimalFormatSymbols(Locale.GERMAN));
+        DecimalFormat dfPreisGlatt = new DecimalFormat("#.## €", new DecimalFormatSymbols(Locale.GERMAN));
         DecimalFormat dfDistanz = new DecimalFormat("#.# km", new DecimalFormatSymbols(Locale.GERMAN));
 
         ArrayList<Ereignis> ereignisse = new ArrayList<>();
@@ -365,12 +366,18 @@ public class Fahrzeug implements Serializable {
                 // keineStreckeMehr || (aktuelleStrecke != null && aktuelleStrecke.getZeitstempel().compareTo(aktuellerTankvorgang.getZeitstempel())) <= 0
                 Date datum = aktuellerTankvorgang.getZeitstempel();
                 String strGetankteMenge;
+                String strPreis;
                 if (this.isElektro()) {
                     strGetankteMenge = dfKwh.format(aktuellerTankvorgang.getGetankteMenge());
                 } else {
                     strGetankteMenge = dfLiter.format(aktuellerTankvorgang.getGetankteMenge());
                 }
-                String strPreis = dfPreis.format(aktuellerTankvorgang.getPreis());
+                if (aktuellerTankvorgang.getPreis() % 1 == 0) {
+                    strPreis = dfPreisGlatt.format(aktuellerTankvorgang.getPreis());
+                } else {
+                    strPreis = dfPreisNachkommastellen.format(aktuellerTankvorgang.getPreis());
+                }
+
                 String beschreibung = strGetankteMenge + ", " + strPreis;
                 ereignisse.add(new Ereignis(Ereignis.EreignisTyp.TANKVORGANG, j, datum, beschreibung));
 
