@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.tankauswertung.Fahrzeug;
 import com.example.tankauswertung.Garage;
+import com.example.tankauswertung.InputParser;
 import com.example.tankauswertung.MainActivity;
 import com.example.tankauswertung.R;
 
@@ -55,6 +56,8 @@ public class ForecastFragment extends Fragment {
     DecimalFormat dfVerbrauchElektro = new DecimalFormat("#.## kWh", new DecimalFormatSymbols(Locale.GERMAN));
     DecimalFormat dfKosten = new DecimalFormat("#.## €", new DecimalFormatSymbols(Locale.GERMAN));
     DecimalFormat dfCo2 = new DecimalFormat("#.## kg", new DecimalFormatSymbols(Locale.GERMAN));
+
+    InputParser inputParser = new InputParser();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -113,12 +116,18 @@ public class ForecastFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (TextUtils.isEmpty(editTextStreckenlaenge.getText())) {
+
+                String string = editable.toString();
+                double parsedDouble = inputParser.parse(string);
+
+                korrekteEingabe = false;
+
+                if (string.isEmpty()) {
                     editTextStreckenlaenge.setError("Bitte geben Sie eine Streckenlänge ein.");
-                    korrekteEingabe = false;
-                } else if (Double.parseDouble(editTextStreckenlaenge.getText().toString()) <= 0) {
-                    editTextStreckenlaenge.setError("Bitte geben Sie eine Streckenlänge größer oder gleich 0 km ein.");
-                    korrekteEingabe = false;
+                } else if (!inputParser.isValid()) {
+                    editTextStreckenlaenge.setError("Bitte geben Sie einen gültigen Wert ein.");
+                } else if (parsedDouble <= 0) {
+                    editTextStreckenlaenge.setError("Bitte geben Sie eine Streckenlänge größer 0 km ein.");
                 } else {
                     korrekteEingabe = true;
                 }
@@ -244,7 +253,7 @@ public class ForecastFragment extends Fragment {
         if (korrekteEingabe) {
 
             HashMap<String, Double> streckenprognose = aktuellesFahrzeug.getStreckenprognose(
-                    Double.parseDouble(editTextStreckenlaenge.getText().toString()),
+                    inputParser.parse(editTextStreckenlaenge.getText().toString()),
                     seekBarInnerorts.getProgress(),
                     seekBarAusserorts.getProgress(),
                     seekBarKombiniert.getProgress()
