@@ -88,15 +88,15 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     String img_path = t.getImg();
                     if (img_path != null) {
                         File img_file = new File(img_path);
-                        Uri fileProviderImageUri = FileProvider.getUriForFile(((Activity) context), "com.example.android.fileprovider",img_file);
+                        Uri fileProviderImageUri = FileProvider.getUriForFile(context, "com.example.android.fileprovider",img_file);
                         Intent intent = new Intent();
                         intent.setAction(Intent.ACTION_VIEW);
                         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         intent.setData(fileProviderImageUri);
-                        ((Activity) context).startActivity(intent);
+                        context.startActivity(intent);
                     }
                     else {
-                        Toast.makeText(((Activity) context), "Für diesen Tankvorgang ist kein Bild des Belegs vorhanden", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Kein Bild für diesen Tankvorgang hinterlegt", Toast.LENGTH_LONG).show();
                     }
                 }
             }

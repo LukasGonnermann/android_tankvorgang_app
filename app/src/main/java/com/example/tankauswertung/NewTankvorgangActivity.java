@@ -248,7 +248,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
                 try {
                     photoFile = createImageFile();
                 } catch (IOException e) {
-                    Toast.makeText(this, "Erstellen der Fotodatei fehlgeschlagen", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Erstellen der Bilddatei fehlgeschlagen", Toast.LENGTH_LONG).show();
                 }
                 if (photoFile != null) {
                     Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.fileprovider", photoFile);
@@ -291,7 +291,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
             if (tankvorgangBildPath != null) {
                 File f = new File(tankvorgangBildPath);
                 if (!f.delete()) {
-                    Toast.makeText(this, "Altes Bild konnte nicht gelöscht werden", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Bild konnte nicht gelöscht werden", Toast.LENGTH_LONG).show();
                 }
             }
             tankvorgangBildPath = createImageFilePath;
