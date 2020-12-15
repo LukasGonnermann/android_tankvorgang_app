@@ -309,8 +309,8 @@ public class Fahrzeug implements Serializable {
 
         DecimalFormat dfLiter = new DecimalFormat("#.##\u00A0l", new DecimalFormatSymbols(Locale.GERMAN));
         DecimalFormat dfKwh = new DecimalFormat("#.##\u00A0kWh", new DecimalFormatSymbols(Locale.GERMAN));
-        DecimalFormat dfPreisNachkommastellen = new DecimalFormat("#.00\u00A0€", new DecimalFormatSymbols(Locale.GERMAN));
-        DecimalFormat dfPreisGlatt = new DecimalFormat("#.##\u00A0€", new DecimalFormatSymbols(Locale.GERMAN));
+        DecimalFormat dfPreisNachkommastellen = new DecimalFormat("0.00\u00A0€", new DecimalFormatSymbols(Locale.GERMAN));
+        DecimalFormat dfPreisGlatt = new DecimalFormat("0.##\u00A0€", new DecimalFormatSymbols(Locale.GERMAN));
         DecimalFormat dfDistanz = new DecimalFormat("#.#\u00A0km", new DecimalFormatSymbols(Locale.GERMAN));
 
         ArrayList<Ereignis> ereignisse = new ArrayList<>();

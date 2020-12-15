@@ -53,7 +53,7 @@ public class ForecastFragment extends Fragment {
     DecimalFormat dfTankvorgaenge = new DecimalFormat("#.#", new DecimalFormatSymbols(Locale.GERMAN));
     DecimalFormat dfVerbrauch = new DecimalFormat("#.## l", new DecimalFormatSymbols(Locale.GERMAN));
     DecimalFormat dfVerbrauchElektro = new DecimalFormat("#.## kWh", new DecimalFormatSymbols(Locale.GERMAN));
-    DecimalFormat dfKosten = new DecimalFormat("#.## €", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfKosten = new DecimalFormat("0.00 €", new DecimalFormatSymbols(Locale.GERMAN));
     DecimalFormat dfCo2 = new DecimalFormat("#.## kg", new DecimalFormatSymbols(Locale.GERMAN));
 
     InputParser inputParser = new InputParser();
