@@ -98,8 +98,8 @@ public class ForecastFragment extends Fragment {
 
         // Elektromodifikationen
         if (aktuellesFahrzeug.isElektro()) {
-            labelKraftstoffverbrauchTitel.setText(R.string.kraftstoffverbrauch_kwh);
-            labelKraftstoffkostenTitel.setText(R.string.kraftstoffkosten_euro_elektro);
+            labelKraftstoffverbrauchTitel.setText(R.string.energieverbrauch);
+            labelKraftstoffkostenTitel.setText(R.string.stromkosten);
             labelAnzahlNoetigerTankvorgaengeTitel.setText(R.string.anzahl_noetige_tankvorgaenge_elektro);
         }
 

@@ -120,4 +120,6 @@
     <string name="kraftstoffverbrauch">Kraftstoffverbrauch</string>
     <string name="kraftstoffkosten">Kraftstoffkosten</string>
     <string name="tankvorgang_bild_entfernen">Bild entfernen</string>
+    <string name="energieverbrauch">Energieverbrauch</string>
+    <string name="stromkosten">Stromkosten</string>
 </resources>

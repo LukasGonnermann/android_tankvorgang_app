@@ -307,6 +307,7 @@ public class Fahrzeug implements Serializable {
      */
     public ArrayList<Ereignis> getEreignisse() {
         DecimalFormat dfLiter = new DecimalFormat("#.# l", new DecimalFormatSymbols(Locale.GERMAN));
+        DecimalFormat dfKwh = new DecimalFormat("#.# kWh", new DecimalFormatSymbols(Locale.GERMAN));
         DecimalFormat dfPreis = new DecimalFormat("#.## €", new DecimalFormatSymbols(Locale.GERMAN));
         DecimalFormat dfDistanz = new DecimalFormat("#.# km", new DecimalFormatSymbols(Locale.GERMAN));
 
@@ -363,7 +364,12 @@ public class Fahrzeug implements Serializable {
             } else {
                 // keineStreckeMehr || (aktuelleStrecke != null && aktuelleStrecke.getZeitstempel().compareTo(aktuellerTankvorgang.getZeitstempel())) <= 0
                 Date datum = aktuellerTankvorgang.getZeitstempel();
-                String strGetankteMenge = dfLiter.format(aktuellerTankvorgang.getGetankteMenge());
+                String strGetankteMenge;
+                if (this.isElektro()) {
+                    strGetankteMenge = dfKwh.format(aktuellerTankvorgang.getGetankteMenge());
+                } else {
+                    strGetankteMenge = dfLiter.format(aktuellerTankvorgang.getGetankteMenge());
+                }
                 String strPreis = dfPreis.format(aktuellerTankvorgang.getPreis());
                 String beschreibung = strGetankteMenge + ", " + strPreis;
                 ereignisse.add(new Ereignis(Ereignis.EreignisTyp.TANKVORGANG, j, datum, beschreibung));

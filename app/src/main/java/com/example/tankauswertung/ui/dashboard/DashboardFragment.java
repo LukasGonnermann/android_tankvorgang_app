@@ -51,6 +51,7 @@ public class DashboardFragment extends Fragment {
     DecimalFormat dfProzent = new DecimalFormat("# '%'", new DecimalFormatSymbols(Locale.GERMAN));
     DecimalFormat dfKmStand = new DecimalFormat("# km", new DecimalFormatSymbols(Locale.GERMAN));
     DecimalFormat dfVerbrauch = new DecimalFormat("#.# l", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfVerbrauchElektro = new DecimalFormat("#.# kWh", new DecimalFormatSymbols(Locale.GERMAN));
     DecimalFormat dfReichweite = new DecimalFormat("#.# km", new DecimalFormatSymbols(Locale.GERMAN));
     DecimalFormat dfCo2 = new DecimalFormat("#.# kg", new DecimalFormatSymbols(Locale.GERMAN));
 
@@ -98,7 +99,10 @@ public class DashboardFragment extends Fragment {
             // Label für Tankstand und Verbrauch bei Elektroauto ändern
             if (aktuellesFahrzeug.isElektro()) {
                 labelTankstand.setText(R.string.tankstand_kwh);
-                labelVerbrauch.setText(R.string.durchschnitt_verbrauch_kwh_100km);
+
+                textViewVerbrauch.setText(dfVerbrauchElektro.format(aktuellesFahrzeug.getVerbrauchDurchschnittlich()));
+            } else {
+                textViewVerbrauch.setText(dfVerbrauch.format(aktuellesFahrzeug.getVerbrauchDurchschnittlich()));
             }
 
             // anzuzeigende Werte setzen
@@ -107,8 +111,6 @@ public class DashboardFragment extends Fragment {
             textViewTankstand.setText(dfProzent.format(aktuellesFahrzeug.getTankstand()));
             progressBarTankstand.setProgress((int) aktuellesFahrzeug.getTankstand());
             textViewKilometerstand.setText(dfKmStand.format(aktuellesFahrzeug.getKmStand()));
-
-            textViewVerbrauch.setText(dfVerbrauch.format(aktuellesFahrzeug.getVerbrauchDurchschnittlich()));
 
             double reichweite = aktuellesFahrzeug.getReichweite();
             if (reichweite == -1) {
