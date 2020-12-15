@@ -89,8 +89,8 @@
     <string name="kraftstoffverbrauch_kwh">Energieverbrauch (kWh)</string>
     <string name="kraftstoffkosten_euro">Kraftstoffkosten (€)</string>
     <string name="kraftstoffkosten_euro_elektro">Stromkosten (€)</string>
-    <string name="anzahl_noetiger_tankvorgaenge">Anzahl nötiger Tankvorgänge</string>
-    <string name="anzahl_noetige_tankvorgaenge_elektro">Anzahl nötiger Ladevorgänge</string>
+    <string name="noetige_tankvorgaenge">Nötige Tankvorgänge</string>
+    <string name="noetige_tankvorgaenge_elektro">Nötige Ladevorgänge</string>
     <string name="co2_ausstoss_g">CO2-Ausstoß (kg)</string>
     <string name="co2_ausstoss_kg">CO2-Ausstoß (kg)</string>
     <string name="idle">—</string>

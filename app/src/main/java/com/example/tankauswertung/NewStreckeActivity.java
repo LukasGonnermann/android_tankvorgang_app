@@ -112,7 +112,7 @@ public class NewStreckeActivity extends AppCompatActivity {
                 } else if (parsedDouble < alterKilometerstand) {
 
                     editTextKilometerstand.setError(
-                            "Bitte geben Sie einen Kilometerstand an, der größer oder gleich dem " +
+                            "Bitte geben Sie einen Kilometerstand ein, der größer oder gleich dem " +
                             "letzten Kilometerstand Ihres Fahrzeugs (" +
                             alterKilometerstand +  " km) ist.");
 

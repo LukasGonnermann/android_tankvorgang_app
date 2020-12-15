@@ -2,7 +2,6 @@ package com.example.tankauswertung.ui.forecast;
 
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,7 +99,7 @@ public class ForecastFragment extends Fragment {
         if (aktuellesFahrzeug.isElektro()) {
             labelKraftstoffverbrauchTitel.setText(R.string.energieverbrauch);
             labelKraftstoffkostenTitel.setText(R.string.stromkosten);
-            labelAnzahlNoetigerTankvorgaengeTitel.setText(R.string.anzahl_noetige_tankvorgaenge_elektro);
+            labelAnzahlNoetigerTankvorgaengeTitel.setText(R.string.noetige_tankvorgaenge_elektro);
         }
 
         // --- input listener
@@ -263,13 +262,16 @@ public class ForecastFragment extends Fragment {
             double kraftstoffkosten = streckenprognose.get("kraftstoffkosten");
             int anzahlNoetigerTankvorgaenge = streckenprognose.get("anzahlNoetigerTankvorgaenge").intValue();
             double co2Ausstoss = streckenprognose.get("co2Ausstoss");
-            if(!aktuellesFahrzeug.isElektro())
+
+            if (!aktuellesFahrzeug.isElektro()) {
+                labelCo2AusstossWert.setText(dfCo2.format(co2Ausstoss));
                 labelKraftstoffverbrauchWert.setText(dfVerbrauch.format(kraftstoffverbrauch));
-            else
+            } else {
                 labelKraftstoffverbrauchWert.setText(dfVerbrauchElektro.format(kraftstoffverbrauch));
+                labelCo2AusstossWert.setText(R.string.idle);
+            }
 
             labelAnzahlNoetigerTankvorgaengeWert.setText(dfTankvorgaenge.format(anzahlNoetigerTankvorgaenge));
-            labelCo2AusstossWert.setText(dfCo2.format(co2Ausstoss));
 
             if (kraftstoffkosten == -1) {
                 labelKraftstoffkostenWert.setText(R.string.idle);
