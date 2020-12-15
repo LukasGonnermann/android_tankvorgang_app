@@ -92,16 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             settings = new Settings();
             settings.load(getApplicationContext());
             steuereNachtDesign(settings.getDarkModeStatus());
-        }
-    }
 
-    /**
-     * ACHTUNG: wird nach jeder geschlossenen Aktivität ausgeführt
-     */
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (!activityStarted) {
             activityStarted = true;
             ladeUi();
         }
@@ -151,7 +142,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     private void garageGeaendert(GarageGeaendertCaller caller) {
 
-        garage.save(getApplicationContext());
+        if (caller != GarageGeaendertCaller.ACTIVITY_START) {
+            garage.save(getApplicationContext());
+        }
 
         if (garage.isEmpty()) {
             botNavView.setVisibility(View.INVISIBLE);

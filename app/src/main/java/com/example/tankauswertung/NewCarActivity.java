@@ -80,7 +80,7 @@ public class NewCarActivity extends AppCompatActivity {
     boolean hinweis_angezeigt = false;  // gibt an, ob der Hinweis zum E-Auto schon einmal angezeigt wurde
 
     // Decimal Formatter
-    DecimalFormat dfAllgemein = new DecimalFormat("#.#", new DecimalFormatSymbols(Locale.GERMAN));
+    DecimalFormat dfAllgemein = new DecimalFormat("#.##", new DecimalFormatSymbols(Locale.GERMAN));
 
     InputParser inputParser = new InputParser();
 
@@ -165,6 +165,7 @@ public class NewCarActivity extends AppCompatActivity {
                     seekBarVerbrauchAusserorts.setMax(50);
                     seekBarVerbrauchInnerorts.setMax(50);
                     seekBarVerbrauchKombiniert.setMax(50);
+                    editTextCo2.setText(R.string.zero_number);
                     hinweis_angezeigt = true;
                     labelVerbrauchInnerortsTitel.setText(R.string.verbrauch_innerorts_kwh_100km);
                     labelVerbrauchAusserortsTitel.setText(R.string.verbrauch_au_erorts_kwh_100km);
