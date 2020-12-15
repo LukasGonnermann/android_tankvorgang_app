@@ -63,25 +63,43 @@
 
             <ImageView
                 android:id="@+id/imageViewTankvorgangBeleg"
-                android:layout_width="150dp"
-                android:layout_height="200dp"
-                tools:srcCompat="@tools:sample/backgrounds/scenic"
+                android:layout_width="200dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
                 android:visibility="gone"
+                tools:srcCompat="@tools:sample/backgrounds/scenic"
                 android:contentDescription="@string/bild_des_tankbelegs" />
 
-            <Button
-                android:id="@+id/buttonTankvorgangBildLoeschen"
-                android:layout_width="200dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:text="@string/tankvorgang_bild_entfernen" />
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/buttonTankvorgangBelegHinzufuegen"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:text="@string/tankvorgang_bild_aufnehmen" />
+                <ImageButton
+                    android:id="@+id/buttonTankvorgangBildHinzufuegen"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="10dp"
+                    android:visibility="visible"
+                    app:srcCompat="@drawable/ic_baseline_camera_alt_36"
+                    android:background="#00FFFFFF"
+                    style="@style/Theme.Tankauswertung.ImageButton" />
 
+                <ImageButton
+                    android:id="@+id/buttonTankvorgangBildLoeschen"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/tankvorgang_bild_aufnehmen"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/ic_baseline_delete_forever_40"
+                    android:background="#00FFFFFF"
+                    style="@style/Theme.Tankauswertung.ImageButton" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

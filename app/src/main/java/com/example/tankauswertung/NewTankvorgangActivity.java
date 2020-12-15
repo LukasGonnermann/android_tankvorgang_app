@@ -8,12 +8,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.Manifest;
@@ -49,8 +49,8 @@ public class NewTankvorgangActivity extends AppCompatActivity {
     EditText editTextGetankteMenge;
     EditText editTextPreis;
     ImageView imageViewTankvorgangBeleg;
-    Button buttonTankvorgangBildAufnehmen;
-    Button buttonTankvorgangBildLoeschen;
+    ImageButton buttonTankvorgangBildAufnehmen;
+    ImageButton buttonTankvorgangBildLoeschen;
 
     Intent intent;
     Garage garage;
@@ -83,7 +83,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
         editTextGetankteMenge = findViewById(R.id.editTextGetankteMenge);
         editTextPreis = findViewById(R.id.editTextPreis);
         imageViewTankvorgangBeleg = findViewById(R.id.imageViewTankvorgangBeleg);
-        buttonTankvorgangBildAufnehmen = findViewById(R.id.buttonTankvorgangBelegHinzufuegen);
+        buttonTankvorgangBildAufnehmen = findViewById(R.id.buttonTankvorgangBildHinzufuegen);
         buttonTankvorgangBildLoeschen = findViewById(R.id.buttonTankvorgangBildLoeschen);
         TextView labelGetankteMengeTitel = findViewById(R.id.labelGetankteMengeTitel);
 
