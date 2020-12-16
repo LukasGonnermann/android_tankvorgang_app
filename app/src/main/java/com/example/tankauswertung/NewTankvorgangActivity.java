@@ -246,6 +246,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
     }
 
     private void dispatchTakePictureIntent() {
+
         // check permissions
         if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED ||
                 checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {

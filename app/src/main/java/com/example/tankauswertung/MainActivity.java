@@ -328,8 +328,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String name = garage.getAusgewaehltesFahrzeug().getName();
                 AlertDialog dialogEntfernBestaetigung = new AlertDialog.Builder(MainActivity.this)
                         .setTitle(R.string.remove_car)
-                        .setMessage("Sind Sie sich sicher, dass Sie das Fahrzeug \"" + name + "\" entfernen wollen?")
-                        .setIcon(R.drawable.ic_baseline_delete_24)
+                        .setMessage("Sind Sie sicher, dass Sie das Fahrzeug \"" + name + "\" entfernen wollen?")
+                        .setIcon(R.drawable.ic_baseline_warning_24)
 
                         .setPositiveButton("Entfernen", new DialogInterface.OnClickListener() {
                             @Override
