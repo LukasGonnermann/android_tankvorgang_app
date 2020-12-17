@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.VectorDrawable;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tankauswertung.Ereignis;
-import com.example.tankauswertung.Garage;
 import com.example.tankauswertung.MainActivity;
 import com.example.tankauswertung.NewStreckeActivity;
 import com.example.tankauswertung.NewTankvorgangActivity;
@@ -33,7 +29,6 @@ import com.github.vipulasri.timelineview.TimelineView;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.sql.Time;
 import java.util.ArrayList;
 
 public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -92,7 +87,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         Intent intent = new Intent();
                         intent.setAction(Intent.ACTION_VIEW);
                         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        intent.setData(fileProviderImageUri);
+                        intent.setDataAndType(fileProviderImageUri, "image/*");
                         context.startActivity(intent);
                     }
                     else {
@@ -174,4 +169,5 @@ public class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return cardView;
         }
     }
+
 }
