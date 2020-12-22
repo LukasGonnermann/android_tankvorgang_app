@@ -18,6 +18,7 @@ import static org.junit.Assert.*;
  * in den unterschiedlichen Intervallen
  */
 public class FahrzeugStatistikTest {
+    // Datum speichern, an dem die Strecken hinzugefügt wurden
     Date heute = new Date();
     transient SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
 
@@ -51,10 +52,25 @@ public class FahrzeugStatistikTest {
         // Verbrauch in Monatsstatistik pruefen
         LinkedHashMap ergebnisMonat = f.getMonatStreckenStatistik(0);
 
+        assertEquals(ergebnisMonat.get(formatter.format(heute)), distanz);
+        keys = ergebnisMonat.keySet();
+        for (String key : keys) {
+            if (!key.equals(formatter.format(heute))) {
+                assertEquals(ergebnisMonat.get(key), 0.0);
+            }
+        }
 
         // Jahr
         // Verbrauch in Jahresstatistik pruefen
         LinkedHashMap ergebnisJahr = f.getJahrStreckenStatistik(0);
+
+        assertEquals(ergebnisJahr.get(formatter.format(heute)), distanz);
+        keys = ergebnisJahr.keySet();
+        for (String key : keys) {
+            if (!key.equals(formatter.format(heute))) {
+                assertEquals(ergebnisMonat.get(key), 0.0);
+            }
+        }
     }
 
     /**
@@ -92,10 +108,26 @@ public class FahrzeugStatistikTest {
         // Verbrauch in Monatsstatistik pruefen
         LinkedHashMap ergebnisMonat = f.getMonatTreibstoffStatistik(0);
 
+        assertEquals(ergebnisMonat.get(formatter.format(heute)), verbrauch);
+        keys = ergebnisMonat.keySet();
+        for (String key : keys) {
+            if (!key.equals(formatter.format(heute))) {
+                assertEquals(ergebnisMonat.get(key), 0.0);
+            }
+        }
+
 
         // Jahr
         // Verbrauch in Jahresstatistik pruefen
         LinkedHashMap ergebnisJahr = f.getJahrTreibstoffStatistik(0);
+
+        assertEquals(ergebnisJahr.get(formatter.format(heute)), verbrauch);
+        keys = ergebnisMonat.keySet();
+        for (String key : keys) {
+            if (!key.equals(formatter.format(heute))) {
+                assertEquals(ergebnisMonat.get(key), 0.0);
+            }
+        }
     }
 
     /**
@@ -114,7 +146,7 @@ public class FahrzeugStatistikTest {
         double ausstoss = 0;
         ArrayList<Strecke> strecken = f.getStrecken();
         for (Strecke item : strecken) {
-            ausstoss += item.getCo2Ausstoss();
+            ausstoss += item.getCo2Ausstoss() / 1000;
         }
 
         // Woche
@@ -133,10 +165,26 @@ public class FahrzeugStatistikTest {
         // Verbrauch in Monatsstatistik pruefen
         LinkedHashMap ergebnisMonat = f.getMonatCO2Statistik(0);
 
+        assertEquals(ergebnisMonat.get(formatter.format(heute)), ausstoss);
+        keys = ergebnisMonat.keySet();
+        for (String key : keys) {
+            if (!key.equals(formatter.format(heute))) {
+                assertEquals(ergebnisMonat.get(key), 0.0);
+            }
+        }
+
 
         // Jahr
         // Verbrauch in Jahresstatistik pruefen
         LinkedHashMap ergebnisJahr = f.getJahrCO2Statistik(0);
+
+        assertEquals(ergebnisJahr.get(formatter.format(heute)), ausstoss);
+        keys = ergebnisJahr.keySet();
+        for (String key : keys) {
+            if (!key.equals(formatter.format(heute))) {
+                assertEquals(ergebnisJahr.get(key), 0.0);
+            }
+        }
     }
 
     /**
@@ -178,10 +226,26 @@ public class FahrzeugStatistikTest {
         // Verbrauch in Monatsstatistik pruefen
         LinkedHashMap ergebnisMonat = f.getMonatTankkostenStatistik(0);
 
+        assertEquals(ergebnisMonat.get(formatter.format(heute)), kosten);
+        keys = ergebnisMonat.keySet();
+        for (String key : keys) {
+            if (!key.equals(formatter.format(heute))) {
+                assertEquals(ergebnisMonat.get(key), 0.0);
+            }
+        }
+
 
         // Jahr
         // Verbrauch in Jahresstatistik pruefen
         LinkedHashMap ergebnisJahr = f.getJahrTankkostenStatistik(0);
+
+        assertEquals(ergebnisJahr.get(formatter.format(heute)), kosten);
+        keys = ergebnisJahr.keySet();
+        for (String key : keys) {
+            if (!key.equals(formatter.format(heute))) {
+                assertEquals(ergebnisJahr.get(key), 0.0);
+            }
+        }
 
     }
 }
