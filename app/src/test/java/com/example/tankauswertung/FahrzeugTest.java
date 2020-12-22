@@ -117,17 +117,17 @@ public class FahrzeugTest {
         // Strecke S3 an Index 0 der Liste
         assertEquals(fahrzeugstrecken.get(0).getDistanz(), 27810 - 27794, 0);
         assertEquals(fahrzeugstrecken.get(0).getStreckentyp(), Strecke.Streckentyp.AUSSERORTS);
-        assertEquals(fahrzeugstrecken.get(0).getTankstand(), 10, 0);
+        assertEquals(fahrzeugstrecken.get(0).getTankstand(), 4.5, 0.001);
 
         // Strecke S2 an Index 1 der Liste
         assertEquals(fahrzeugstrecken.get(1).getDistanz(), 27794 - 27758, 0);
         assertEquals(fahrzeugstrecken.get(1).getStreckentyp(), Strecke.Streckentyp.INNERORTS);
-        assertEquals(fahrzeugstrecken.get(1).getTankstand(), 12, 0);
+        assertEquals(fahrzeugstrecken.get(1).getTankstand(), 5.4, 0.001);
 
         // Strecke S1 an Index 2 der Liste
         assertEquals(fahrzeugstrecken.get(2).getDistanz(), 27758 - 27728, 0);
         assertEquals(fahrzeugstrecken.get(2).getStreckentyp(), Strecke.Streckentyp.KOMBINIERT);
-        assertEquals(fahrzeugstrecken.get(2).getTankstand(), 34, 0);
+        assertEquals(fahrzeugstrecken.get(2).getTankstand(), 15.3, 0.001);
     }
 
     /**
