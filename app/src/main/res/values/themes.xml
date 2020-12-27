@@ -48,6 +48,11 @@
         <item name="android:backgroundTint">?attr/colorPrimary</item>
     </style>
 
+    <style name="Theme.Tankauswertung.ButtonTransparent" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/black_light</item>
+    </style>
+
     <style name="Theme.Tankauswertung.ImageButton" parent="Widget.AppCompat.ImageButton">
         <item name="android:backgroundTint">@color/white_darker</item>
         <item name="android:tint">@color/blackblue_light</item>

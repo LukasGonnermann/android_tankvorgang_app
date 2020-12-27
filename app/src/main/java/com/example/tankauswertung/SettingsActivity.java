@@ -1,15 +1,19 @@
 package com.example.tankauswertung;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+
+import com.mikepenz.aboutlibraries.LibsBuilder;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -38,6 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Spinner spinner = findViewById(R.id.spinnerDarkMode);
+        Button buttonLizenzen = findViewById(R.id.buttonLizenzen);
 
         // falls Android-Version < 9.0 (Pie), ist MODE_NIGHT_FOLLOW_SYSTEM nicht verfügbar
         if (Build.VERSION.SDK_INT < 28) {
@@ -110,6 +115,17 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 // wird nicht benoetigt, muss aber ueberschrieben werden
+            }
+        });
+
+        buttonLizenzen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new LibsBuilder()
+                        .withAboutIconShown(false)
+                        .withAboutVersionShown(false)
+                        .withActivityTitle("Lizenzen")
+                        .start(getApplicationContext());
             }
         });
     }
