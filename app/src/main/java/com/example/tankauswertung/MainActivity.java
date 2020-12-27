@@ -91,7 +91,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             garage.load(getApplicationContext());
             settings = new Settings();
             settings.load(getApplicationContext());
-            steuereNachtDesign(settings.getDarkModeStatus());
+
+            steuereDarkMode(settings.getDarkModeStatus());
 
             activityStarted = true;
             ladeUi();
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      *
      * @param darkModeStatus übergibt den ausgwählten Designmodus
      */
-    public static void steuereNachtDesign(int darkModeStatus) {
+    public static void steuereDarkMode(int darkModeStatus) {
         AppCompatDelegate.setDefaultNightMode(darkModeStatus);
     }
 

@@ -1,5 +1,6 @@
 package com.example.tankauswertung;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,7 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 public class SettingsActivity extends AppCompatActivity {
 
     // Auswahlmoeglichkeiten im Menue
-    private static final String[] items = {"Systemeinstellung folgen", "Hell", "Dunkel"};
+    private static String[] items = {"Systemeinstellung folgen", "Hell", "Dunkel"};
     // Speicher der aktuell ausgewaehlten Option
     int selectedItem;
     
@@ -37,6 +38,12 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Spinner spinner = findViewById(R.id.spinnerDarkMode);
+
+        // falls Android-Version < 9.0 (Pie), ist MODE_NIGHT_FOLLOW_SYSTEM nicht verfügbar
+        if (Build.VERSION.SDK_INT < 28) {
+            items = new String[]{"Hell", "Dunkel"};
+        }
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(SettingsActivity.this,
                 android.R.layout.simple_spinner_item, items);
 
@@ -46,16 +53,23 @@ public class SettingsActivity extends AppCompatActivity {
         settings = MainActivity.getSettings();
 
         switch (settings.getDarkModeStatus()) {
-            case AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM:
-            default:
+            case AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM: {
                 selectedItem = 0;
                 break;
-            case AppCompatDelegate.MODE_NIGHT_NO:
+            }
+            case AppCompatDelegate.MODE_NIGHT_NO: {
                 selectedItem = 1;
                 break;
-            case AppCompatDelegate.MODE_NIGHT_YES:
+            }
+            case AppCompatDelegate.MODE_NIGHT_YES: {
                 selectedItem = 2;
                 break;
+            }
+        }
+
+        // da MODE_NIGHT_FOLLOW_SYSTEM nicht verfügbar, siehe Aufbau der Arrays "items"
+        if (Build.VERSION.SDK_INT < 28) {
+            selectedItem--;
         }
         
         spinner.setSelection(selectedItem, true);
@@ -69,18 +83,25 @@ public class SettingsActivity extends AppCompatActivity {
                 switch (selectedItem) {
                     case 0:
                     default:
-                        darkModeStatus = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+                        if (Build.VERSION.SDK_INT < 28) {
+                            darkModeStatus = AppCompatDelegate.MODE_NIGHT_NO;
+                        } else {
+                            darkModeStatus = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+                        }
                         break;
                     case 1:
-                        darkModeStatus = AppCompatDelegate.MODE_NIGHT_NO;
+                        if (Build.VERSION.SDK_INT < 28) {
+                            darkModeStatus = AppCompatDelegate.MODE_NIGHT_YES;
+                        } else {
+                            darkModeStatus = AppCompatDelegate.MODE_NIGHT_NO;
+                        }
                         break;
                     case 2:
                         darkModeStatus = AppCompatDelegate.MODE_NIGHT_YES;
                         break;
                 }
-                
 
-                MainActivity.steuereNachtDesign(darkModeStatus);
+                MainActivity.steuereDarkMode(darkModeStatus);
                 settings.setDarkModeStatus(darkModeStatus);
                 settings.save(getApplicationContext());
                 SettingsActivity.this.selectedItem = selectedItem;

@@ -1,6 +1,7 @@
 package com.example.tankauswertung;
 
 import android.content.Context;
+import android.os.Build;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -49,8 +50,15 @@ public class Settings implements Serializable {
                 ObjectInputStream os = new ObjectInputStream(fis);
                 Settings importedSettings = (Settings) os.readObject();
 
-                this.darkModeStatus = importedSettings.getDarkModeStatus();
-                // Bei Settings Erweiterungen hier Attribute hinzufügen
+                darkModeStatus = importedSettings.getDarkModeStatus();
+
+                // falls Android-Version < 9.0 (Pie), ist MODE_NIGHT_FOLLOW_SYSTEM nicht verfügbar
+                if (Build.VERSION.SDK_INT < 28
+                        && darkModeStatus == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
+                    darkModeStatus = AppCompatDelegate.MODE_NIGHT_NO;
+                }
+
+                // bei Erweiterungen der Settings hier Attribute hinzufügen
 
             } catch (IOException e) {
                 System.err.println("An IO error occured");
