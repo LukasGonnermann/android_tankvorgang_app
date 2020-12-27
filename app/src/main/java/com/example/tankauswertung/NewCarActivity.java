@@ -176,6 +176,9 @@ public class NewCarActivity extends AppCompatActivity {
 
                 // ist Verbrenner
                 } else {
+                    seekBarVerbrauchAusserorts.setMax(30);
+                    seekBarVerbrauchInnerorts.setMax(30);
+                    seekBarVerbrauchKombiniert.setMax(30);
                     labelVerbrauchInnerortsTitel.setText(R.string.verbrauch_innerorts_l_100km);
                     labelVerbrauchAusserortsTitel.setText(R.string.verbrauch_au_erorts_l_100km);
                     labelVerbrauchKombiniertTitel.setText(R.string.verbrauch_kombiniert_l_100km);
