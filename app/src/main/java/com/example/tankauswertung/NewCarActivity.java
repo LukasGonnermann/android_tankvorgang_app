@@ -171,7 +171,7 @@ public class NewCarActivity extends AppCompatActivity {
                     labelVerbrauchAusserortsTitel.setText(R.string.verbrauch_au_erorts_kwh_100km);
                     labelVerbrauchKombiniertTitel.setText(R.string.verbrauch_kombiniert_kwh_100km);
                     labelTankvolumen.setText(R.string.tankvolumen_kwh);
-                    labelAktuellerTankstandTitel.setText(R.string.tankstand_kwh);
+                    labelAktuellerTankstandTitel.setText(R.string.restladung_prozent);
                     editTextCo2.setEnabled(false);
 
                 // ist Verbrenner
@@ -180,7 +180,7 @@ public class NewCarActivity extends AppCompatActivity {
                     labelVerbrauchAusserortsTitel.setText(R.string.verbrauch_au_erorts_l_100km);
                     labelVerbrauchKombiniertTitel.setText(R.string.verbrauch_kombiniert_l_100km);
                     labelTankvolumen.setText(R.string.tankvolumen_l);
-                    labelAktuellerTankstandTitel.setText(R.string.tankstand_l);
+                    labelAktuellerTankstandTitel.setText(R.string.tankstand_prozent);
                     editTextCo2.setEnabled(true);
                 }
             }

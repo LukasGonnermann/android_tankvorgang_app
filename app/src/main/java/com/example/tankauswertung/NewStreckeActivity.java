@@ -148,7 +148,7 @@ public class NewStreckeActivity extends AppCompatActivity {
 
         // Label für Elektroauto ändern
         if (garage.getAusgewaehltesFahrzeug().isElektro()) {
-            labelAktuellerTankstandTitel.setText(R.string.tankstand_kwh);
+            labelAktuellerTankstandTitel.setText(R.string.restladung_prozent);
         }
 
         Fahrzeug aktuellesFahrzeug = garage.getAusgewaehltesFahrzeug();

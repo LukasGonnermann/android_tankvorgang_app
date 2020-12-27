@@ -99,7 +99,7 @@ public class DashboardFragment extends Fragment {
 
             // Label für Tankstand und Verbrauch bei Elektroauto ändern
             if (aktuellesFahrzeug.isElektro()) {
-                labelTankstand.setText(R.string.tankstand_kwh);
+                labelTankstand.setText(R.string.restladung);
 
                 textViewVerbrauch.setText(dfVerbrauchElektro.format(aktuellesFahrzeug.getVerbrauchDurchschnittlich()));
             } else {
