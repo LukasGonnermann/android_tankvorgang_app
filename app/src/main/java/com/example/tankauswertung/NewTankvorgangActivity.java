@@ -21,6 +21,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
@@ -68,6 +69,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private String tankvorgangBildPath = null;
     private String createImageFilePath = null;
+    private String zuLoeschendesBild = null;
 
     /**
      * ausgeführt, sobald die Aktivität gestartet wird
@@ -232,40 +234,16 @@ public class NewTankvorgangActivity extends AppCompatActivity {
 
         // --- OnClickListener für Bild-löschen-Button
         buttonTankvorgangBildLoeschen.setOnClickListener(v -> {
-            File f = new File(tankvorgangBildPath);
-            if (f.delete()) {
-                imageViewTankvorgangBeleg.setImageURI(null);
-                imageViewTankvorgangBeleg.setVisibility(View.GONE);
-                buttonTankvorgangBildLoeschen.setVisibility(View.GONE);
-                this.tankvorgangBildPath = null;
-            }
-            else {
-                Toast.makeText(this, "Bild konnte nicht gelöscht werden", Toast.LENGTH_LONG).show();
-            }
+            zuLoeschendesBild = this.tankvorgangBildPath;
+            imageViewTankvorgangBeleg.setImageURI(null);
+            imageViewTankvorgangBeleg.setVisibility(View.GONE);
+            buttonTankvorgangBildLoeschen.setVisibility(View.GONE);
         });
     }
 
     private void dispatchTakePictureIntent() {
-
-        // check permissions
-        if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED ||
-                checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                } catch (IOException e) {
-                    Toast.makeText(this, "Erstellen der Bilddatei fehlgeschlagen", Toast.LENGTH_LONG).show();
-                }
-                if (photoFile != null) {
-                    Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.fileprovider", photoFile);
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                }
-            } else {
-                Toast.makeText(this, "Aktivität konnte nicht resolved werden", Toast.LENGTH_LONG).show();
-            }
+        if (checkPicturePermissions()) {
+            takePictureIntent();
         } else {
             // Dialog welcher Permissions beschreibt (wird nicht immer ausgeführt)
             if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -276,6 +254,39 @@ public class NewTankvorgangActivity extends AppCompatActivity {
         }
     }
 
+    private void takePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException e) {
+                Toast.makeText(this, "Erstellen der Bilddatei fehlgeschlagen", Toast.LENGTH_LONG).show();
+            }
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.fileprovider", photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        } else {
+            Toast.makeText(this, "Aktivität konnte nicht resolved werden", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * Gibt true zurück wenn nötigen Permissions für den External Storage gegeben wurden
+     * @return permission status
+     */
+    private boolean checkPicturePermissions() {
+        return checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED ||
+                checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    /**
+     * Erstellt eine JPEG Datei welche die Kamera zum speichern der Bilder nutzt
+     * @return image File
+     * @throws IOException
+     */
     private File createImageFile() throws IOException {
         // Create an image file name
         @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -310,6 +321,15 @@ public class NewTankvorgangActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // Wenn Permissions gegeben wurden wird Kamera aufgerufen
+        if (checkPicturePermissions()) {
+            takePictureIntent();
+        }
+    }
+
     /**
      * aktualisiert die Variable korrekteEingabe auf Basis der Korrektheit der Einzeleingaben
      */
@@ -334,7 +354,16 @@ public class NewTankvorgangActivity extends AppCompatActivity {
             // Parsing
             double getankteMenge = inputParser.parse(editTextGetankteMenge.getText().toString());
             double preis = inputParser.parse(editTextPreis.getText().toString());
-            String bildPfad = this.tankvorgangBildPath;
+            String bildPfad = null;
+            if (zuLoeschendesBild == null) {
+                bildPfad = this.tankvorgangBildPath;
+            }
+            else {
+                File f = new File(zuLoeschendesBild);
+                if (!f.delete()) {
+                    Toast.makeText(this, "Bild konnte nicht gelöscht werden", Toast.LENGTH_LONG).show();
+                }
+            }
 
             if (intent.getAction().equals(TimelineFragment.ACTION_NEW_TANKVORGANG)) {  // Tankvorgang hinzufügen
 
@@ -360,6 +389,8 @@ public class NewTankvorgangActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 neuesterTankvorgang.tankvorgangBearbeiten(getankteMenge, preis, bildPfad);
+
+
             }
         }
 
