@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -68,8 +69,9 @@ public class NewTankvorgangActivity extends AppCompatActivity {
     private static final int READ_WRITE_PERMISSION_CODE = 200;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private String tankvorgangBildPath = null;
-    private String createImageFilePath = null;
-    private String zuLoeschendesBild = null;
+    // Variable welche temporär den Pfad zu neu erstellten Bildern enthaelt
+    private String tmpBildPath = null;
+    private ArrayList<String> zuLoeschendeBilder = new ArrayList<>();
 
     /**
      * ausgeführt, sobald die Aktivität gestartet wird
@@ -120,7 +122,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
                 } else {
                     Tankvorgang neuesterTankvorgang = aktuellesFahrzeug.getTankvorgaenge().get(0);
                     alterTankstand = aktuellesFahrzeug.getTankstand() / 100 * aktuellesFahrzeug.getTankgroesse() -
-                        neuesterTankvorgang.getGetankteMenge();
+                            neuesterTankvorgang.getGetankteMenge();
                 }
                 double altesRestvolumen = aktuellesFahrzeug.getTankgroesse() - alterTankstand;
 
@@ -219,8 +221,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
                 this.imageViewTankvorgangBeleg.setImageURI(imageURI);
                 this.imageViewTankvorgangBeleg.setVisibility(View.VISIBLE);
                 this.buttonTankvorgangBildLoeschen.setVisibility(View.VISIBLE);
-            }
-            else {
+            } else {
                 this.imageViewTankvorgangBeleg.setVisibility(View.GONE);
                 this.buttonTankvorgangBildLoeschen.setVisibility(View.GONE);
             }
@@ -234,7 +235,8 @@ public class NewTankvorgangActivity extends AppCompatActivity {
 
         // --- OnClickListener für Bild-löschen-Button
         buttonTankvorgangBildLoeschen.setOnClickListener(v -> {
-            zuLoeschendesBild = this.tankvorgangBildPath;
+            zuLoeschendeBilder.add(tankvorgangBildPath);
+            this.tankvorgangBildPath = null;
             imageViewTankvorgangBeleg.setImageURI(null);
             imageViewTankvorgangBeleg.setVisibility(View.GONE);
             buttonTankvorgangBildLoeschen.setVisibility(View.GONE);
@@ -249,7 +251,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
             if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 Toast.makeText(this, "Berechtigungen zum Schreiben/Lesen von Bildern benötigt", Toast.LENGTH_LONG).show();
             }
-            // Get RW permissions
+            // Get RW permissions (siehe callback auf -> onRequestPermissionResults())
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, READ_WRITE_PERMISSION_CODE);
         }
     }
@@ -275,6 +277,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
 
     /**
      * Gibt true zurück wenn nötigen Permissions für den External Storage gegeben wurden
+     *
      * @return permission status
      */
     private boolean checkPicturePermissions() {
@@ -284,6 +287,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
 
     /**
      * Erstellt eine JPEG Datei welche die Kamera zum speichern der Bilder nutzt
+     *
      * @return image File
      * @throws IOException
      */
@@ -298,7 +302,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
                 storageDir      /* directory */
         );
         // Save a file: path for use with ACTION_VIEW intents
-        createImageFilePath = image.getAbsolutePath();
+        tmpBildPath = image.getAbsolutePath();
         return image;
     }
 
@@ -306,21 +310,32 @@ public class NewTankvorgangActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            // (Wenn existiert) Existierendes Bild löschen
+            // (Wenn existiert) Existierendes Bild in die löschen Queue einreihen
             if (tankvorgangBildPath != null) {
-                File f = new File(tankvorgangBildPath);
-                if (!f.delete()) {
-                    Toast.makeText(this, "Bild konnte nicht gelöscht werden", Toast.LENGTH_LONG).show();
-                }
+                zuLoeschendeBilder.add(tankvorgangBildPath);
             }
-            tankvorgangBildPath = createImageFilePath;
+            tankvorgangBildPath = tmpBildPath;
             Uri imageURI = Uri.fromFile(new File(tankvorgangBildPath));
             imageViewTankvorgangBeleg.setImageURI(imageURI);
             imageViewTankvorgangBeleg.setVisibility(View.VISIBLE);
             buttonTankvorgangBildLoeschen.setVisibility(View.VISIBLE);
         }
+        // tmp image file cleanup
+        else {
+            File file = new File(tmpBildPath);
+            if (!file.delete()) {
+                System.out.println("Datei konnte nicht gelöscht werden");
+            }
+        }
     }
 
+    /**
+     * Wenn Permissions gegeben wurden wird die Kamera aufgerufen
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -354,16 +369,7 @@ public class NewTankvorgangActivity extends AppCompatActivity {
             // Parsing
             double getankteMenge = inputParser.parse(editTextGetankteMenge.getText().toString());
             double preis = inputParser.parse(editTextPreis.getText().toString());
-            String bildPfad = null;
-            if (zuLoeschendesBild == null) {
-                bildPfad = this.tankvorgangBildPath;
-            }
-            else {
-                File f = new File(zuLoeschendesBild);
-                if (!f.delete()) {
-                    Toast.makeText(this, "Bild konnte nicht gelöscht werden", Toast.LENGTH_LONG).show();
-                }
-            }
+            String bildPfad = tankvorgangBildPath;
 
             if (intent.getAction().equals(TimelineFragment.ACTION_NEW_TANKVORGANG)) {  // Tankvorgang hinzufügen
 
@@ -389,9 +395,17 @@ public class NewTankvorgangActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 neuesterTankvorgang.tankvorgangBearbeiten(getankteMenge, preis, bildPfad);
-
-
             }
+            // Alte Bilder löschen
+
+            for (int i = 0; i < this.zuLoeschendeBilder.size(); i++) {
+                String imgPath = this.zuLoeschendeBilder.get(i);
+                File file = new File(imgPath);
+                if (!file.delete()) {
+                    System.out.println("Ein Fehler ist aufgetreten");
+                }
+            }
+
         }
 
         // result setzen
@@ -450,6 +464,13 @@ public class NewTankvorgangActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (tmpBildPath != null) {
+            // tmp Bild löschen
+            File file = new File(tmpBildPath);
+            if (!file.delete()) {
+                System.out.println("Fehler aufgetreten");
+            }
+        }
         setResult(Activity.RESULT_CANCELED, intent);
         super.onBackPressed();
     }
