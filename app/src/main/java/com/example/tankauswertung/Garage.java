@@ -162,6 +162,15 @@ public class Garage {
     public void fahrzeugLoeschen(int key) throws GarageLeerException {
         if (!fahrzeuge.isEmpty()) {
             if (fahrzeuge.get(key) != null) {
+                Fahrzeug f = fahrzeuge.get(key);
+                ArrayList<Tankvorgang> tankvorgaenge = f.getTankvorgaenge();
+                for (int i = 0; i < tankvorgaenge.size(); i++) {
+                    Tankvorgang t = tankvorgaenge.get(i);
+                    File file = new File(t.getImg());
+                    if (!file.delete()) {
+                        System.out.println("Bild: \"" + t.getImg() + "\" konnte nicht geloescht werden" );
+                    }
+                }
                 fahrzeuge.remove(key);
                 anzFahrzeuge--;
             }
