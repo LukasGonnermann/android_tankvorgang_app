@@ -464,9 +464,15 @@ public class NewTankvorgangActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (tmpBildPath != null) {
-            // tmp Bild löschen
-            File file = new File(tmpBildPath);
+
+        for (int i = 1; i < zuLoeschendeBilder.size(); i++) {
+            File file = new File(zuLoeschendeBilder.get(i));
+            if (!file.delete()) {
+                System.out.println("Fehler aufgetreten");
+            }
+        }
+        if (this.tmpBildPath != null) {
+            File file = new File(this.tmpBildPath);
             if (!file.delete()) {
                 System.out.println("Fehler aufgetreten");
             }
