@@ -905,6 +905,9 @@ public class Fahrzeug implements Serializable {
         }
 
         int letzteWoche = heute.get(Calendar.WEEK_OF_YEAR);
+        if (letzteWoche == 1) {
+            letzteWoche = 52;
+        }
         int anzahlWochen = letzteWoche - ersteWoche + 1;
 
         int i = 0; // Strecken-Index
@@ -978,6 +981,9 @@ public class Fahrzeug implements Serializable {
         }
 
         int letzteWoche = heute.get(Calendar.WEEK_OF_YEAR);
+        if (letzteWoche == 1) {
+            letzteWoche = 52;
+        }
         int anzahlWochen = letzteWoche - ersteWoche + 1;
 
         int i = 0; // Strecken-Index
@@ -1051,6 +1057,9 @@ public class Fahrzeug implements Serializable {
         }
 
         int letzteWoche = heute.get(Calendar.WEEK_OF_YEAR);
+        if (letzteWoche == 1) {
+            letzteWoche = 52;
+        }
         int anzahlWochen = letzteWoche - ersteWoche + 1;
 
         int i = 0; // Strecken-Index
@@ -1124,6 +1133,9 @@ public class Fahrzeug implements Serializable {
         }
 
         int letzteWoche = heute.get(Calendar.WEEK_OF_YEAR);
+        if (letzteWoche == 1) {
+            letzteWoche = 52;
+        }
         int anzahlWochen = letzteWoche - ersteWoche + 1;
 
         int i = 0; // Strecken-Index
